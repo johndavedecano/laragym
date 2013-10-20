@@ -3,9 +3,14 @@ PHPLaravelGymManagementSystem
 
 A simple and easy to install gym management system which includes package management,members managements,services and activities
 
+System Requirements
+=============================
+PHP 5.3.7+
+MYSQL 5+
+
 Installation
 =============================
-1. Upload everything to your servers home then point your document root to public folder.
+1. Upload everything to your server at /home/username/.... then point your document root to /home/user/public folder instead of public_html. 
 2. Make sure you have correct chmods to the cache and upload folders.
 3. Edit configs/database.php with your database settings. RUN the SQL Dump 
 4. Admin Logins are admin@admin.com | password
