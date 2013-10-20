@@ -1,0 +1,71 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+  background-image:url('../img/bg.png');
+}
+.centered{
+    float: none;
+    margin: 0 auto;
+}
+#wrapper {
+    padding-top:15px;
+}
+#latest-activities { min-height:700px;}
+.panel-controls {
+    
+    
+}
+.panel-controls a {
+    text-decoration: none;
+}
+.panel-title { display:inline;}
+.form-actions {
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    background-color:#f5f5f5;
+    padding:10px;
+}
+.uploader_text {
+    display:block;
+    line-height: 30px;
+    margin-left: 5px;
+    float: left;
+    font-size:11px;
+}
+.uploader {
+    width: 86px;
+    height: 31px;
+    overflow: hidden;
+    float:left;
+}
+.uploader:focus {
+    outline:none;
+}
+.uploader::-webkit-file-upload-uploader {
+  visibility: hidden;
+}
+.uploader:before {
+  content: 'Select File';
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+.uploader:hover:before {
+  border-color: black;
+}
+.uploader:active:before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+.package-price,.package-service,.package-cycle,.package-save {
+    display:none;
+}
