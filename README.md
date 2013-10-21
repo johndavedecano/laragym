@@ -34,4 +34,3 @@ HELPERS
 =============================
 Setting::value($setting_name) - returns setting value.
 Setting::value('currency'); currency e.g $
-
