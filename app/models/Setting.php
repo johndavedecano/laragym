@@ -19,8 +19,8 @@ class Setting extends Eloquent
     */
     public static function rule($name = '')
     {
-        $setting = Setting::where('name','=',$name)->first()[0];
-        if(is_object($setting))
+        $setting = Setting::where('name','=',$name)->first();
+        if(is_object($setting[0]))
         {
             return $setting->rule;
         }else { return false; }

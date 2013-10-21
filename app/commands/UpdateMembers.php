@@ -39,6 +39,34 @@ class UpdateMembers extends Command {
 	{
 		DB::table('members_packages')->whereRaw("UNIX_TIMESTAMP(expiration) <= ".strtotime("NOW"))->update(array('status' => 0));
         echo "Membership packages has been updated.";
+        
+        // SENDS EMAIL TO THE MEMBERS WITH EXPIRED PACKAGES
+        if(Setting::value('email_users_expire') == 'yes')
+        {
+            // FIND THE MEMBERS
+            $packages =  Memberpackage::where('status','=',0)->where('expiration','=',date("Y-m-d 00:00:00"))->get();
+            
+            foreach($packages as $package)
+            {
+                if($package->member->email != ''){
+                    
+                    $data = array(
+                        'package' => $package->package->service->name,
+                        'date' => date("F j,Y",strtotime($package->expiration)),
+                        'name' => $package->member->first_name
+                    );
+                    
+                    Mail::queue('emails.expired', $data, function($message) use ($package)
+                    {
+                        $message->to($package->member->email,$package->member->first_name)->subject('You package has expired.');
+                        
+                    });
+                    
+                }else{
+                    // SEND THROUGH SMS INSTEAD ( FUTURE FEATURE)
+                }
+            }
+        }
 	}
 
 }
