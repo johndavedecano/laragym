@@ -3,6 +3,8 @@ PHPLaravelGymManagementSystem
 
 A simple and easy to install gym management system which includes package management,members managements,services and activities
 
+![My Image](http://designweaponry.com/images/2013-10-21_012752.jpg)
+
 System Requirements
 =============================
 1. PHP 5.3.7
