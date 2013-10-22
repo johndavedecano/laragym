@@ -9,6 +9,15 @@ class BaseController extends Controller {
 	 */
     public $data = array();
     
+    public function __construct()
+    {
+        if (Sentry::check())
+        {
+            // User is not logged in, or is not activated
+             $this->data['admin'] = Sentry::getUser();
+        }
+    }
+    
 	protected function setupLayout()
 	{
 		if ( ! is_null($this->layout))

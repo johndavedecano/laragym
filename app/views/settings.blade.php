@@ -4,11 +4,12 @@
 <div class="row-fluid">
 
 <div class="col-lg-12">
+
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">General Settings</h3>
+        <h3 class="panel-title">Admin Login Information</h3>
       </div>
-      <div class="panel-body" id="latest-activities">
+      <div class="panel-body">
       
         @if(Session::has('error'))
             <div class="alert alert-danger">{{ Session::get('error') }}</div>
@@ -26,6 +27,36 @@
               @endforeach
             </div><!--alert-->
        @endif
+       
+        <form role="form"  action="settings/admin" method="POST" ng-non-bindable>
+        <!--- CONTENT STARTS HERE-->
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" value="{{ $admin->email }}" class="form-control">
+           </div>
+            <div class="form-group">
+                <label>New Password</label>
+                <input type="password" name="password" value="" class="form-control">
+           </div>
+            <div class="form-group">
+                <label>Password Confirmation</label>
+                <input type="password" name="password_confirmation" value="" class="form-control">
+           </div>
+        <!--- CONTENT ENDS HERE-->
+        </div>
+        <div style="clear: both;"></div>
+          <div class="form-actions row-fluid">
+            <button type="submit" class="btn btn-primary btn-lg pull-right">Update Settings</button>
+            <div style="clear: both;"></div>
+          </div>  
+        </form>
+      </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">General Settings</h3>
+      </div>
+      <div class="panel-body" id="latest-activities">
        
         <form role="form" enctype="multipart/form-data" method="POST" ng-non-bindable>
         <!--- CONTENT STARTS HERE-->
@@ -72,6 +103,7 @@
           </div>  
         </form>
       </div>
+      
     </div>
 </div>
 
