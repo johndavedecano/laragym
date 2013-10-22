@@ -7,7 +7,7 @@ A simple and easy to install gym management system which includes package manage
 
 System Requirements
 =============================
-1. PHP 5.3.7
+1. PHP 5.3.7+
 2. MYSQL 5+
 
 Installation
@@ -34,4 +34,3 @@ HELPERS
 =============================
 Setting::value($setting_name) - returns setting value.
 Setting::value('currency'); currency e.g $
-
