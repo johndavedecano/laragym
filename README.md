@@ -17,10 +17,8 @@ Installation
 3. Edit the database.php,app.php and mail.php
 3. Run php artisan migrate 
 4. Create the admin account by running this query through phpmyadmin or mysql client.
-`````
-INSERT INTO `users` (`id`, `email`, `password`, `permissions`, `activated`, `activation_code`, `activated_at`, `last_login`, `persist_code`, `reset_password_code`, `first_name`, `last_name`, `created_at`, `updated_at`) 
-VALUES (1, 'admin@admin.com', '$2y$10$AzJrqIO1NK3y4YGFQgYJuu3tOdpQam/ZLzSg3Y49sstBDy7qGc0rG', '{"superuser":1}', 1, NULL, NULL, '2013-10-20 16:24:54', '$2y$10$fF9X.XYeXzYs9Vz0ugYMOuV2FJCFCFZBLgRRj.p.RCKFY7DQMuNuO', NULL, 'password', NULL, '2013-10-08 12:57:01', '2013-10-22 14:57:37');
-`````
+```INSERT INTO `users` (`id`, `email`, `password`, `permissions`, `activated`, `activation_code`, `activated_at`, `last_login`, `persist_code`, `reset_password_code`, `first_name`, `last_name`, `created_at`, `updated_at`) ```
+```VALUES (1, 'admin@admin.com', '$2y$10$AzJrqIO1NK3y4YGFQgYJuu3tOdpQam/ZLzSg3Y49sstBDy7qGc0rG', '{"superuser":1}', 1, NULL, NULL, '2013-10-20 16:24:54', '$2y$10$fF9X.XYeXzYs9Vz0ugYMOuV2FJCFCFZBLgRRj.p.RCKFY7DQMuNuO', NULL, 'password', NULL, '2013-10-08 12:57:01', '2013-10-22 14:57:37');```
 5. The logins are admin@admin.com | password 
 6. Run composer install
 
