@@ -12,6 +12,7 @@ class AuthController extends BaseController {
     }
     
     public function login_post(){
+       
        if(!Request::ajax()){
             
             App::abort('401');
@@ -67,5 +68,12 @@ class AuthController extends BaseController {
         $response = Response::make(json_encode($data),200);
         $response->header('Content-Type', 'text/json');
         return $response;
+    }
+    
+    public function logout()
+    {
+        Sentry::logout();
+        
+        return Redirect::to('auth/login')->with('success','Successfully logged out.');
     }
 }
