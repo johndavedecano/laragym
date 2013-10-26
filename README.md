@@ -12,8 +12,9 @@ System Requirements
 
 Installation
 =============================
-1. Upload everything to your server at /home/username/.... then point your document root to /home/user/public folder instead of public_html. 
-2. CHMOD the upload folders to 775 or 777.
+1. Upload everything to your server at /home/username/....
+2. Point your document root to /home/username/public folder instead of public_html. 
+2. Make upload and cache folder writable.
 3. Edit the database.php,app.php and mail.php
 3. Run php artisan migrate 
 4. Create the admin account by running this query through phpmyadmin or mysql client.
