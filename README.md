@@ -30,6 +30,23 @@ CRON JOBS
 Before setting up your cron jobs make sure you first set the php default timezone by editing start/globa.php 
 Put date_default_timezone_set("Asia/Bangkok"); on the first line and change the Asia/Bangkok" to your own timezone.
 
+Alternatively, you can also set your default timezone from the configs/app.php
+
+```
+	/*
+	|--------------------------------------------------------------------------
+	| Application Timezone
+	|--------------------------------------------------------------------------
+	|
+	| Here you may specify the default timezone for your application, which
+	| will be used by the PHP date and date-time functions. We have gone
+	| ahead and set this to a sensible default for you out of the box.
+	|
+	*/
+
+	'timezone' => 'UTC',
+```
+
 1. Go to your web hosting and create a new cron job
 2. Add php artisan command:update_members
 3. If you want to email members when their package expires edit the file commands/UpdateMembers.php and just add
