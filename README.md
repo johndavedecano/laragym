@@ -48,7 +48,7 @@ Alternatively, you can also set your default timezone from the configs/app.php
 ```
 
 1. Go to your web hosting and create a new cron job
-2. Add php artisan command:update_members
+2. Add path/to/php artisan command:update_members
 3. If you want to email members when their package expires edit the file commands/UpdateMembers.php and just add
 your own mysql queries and mailing functions. Since the system is using laravel, you can use the framework's builtin
 libraries. http://laravel.com/docs/mail
