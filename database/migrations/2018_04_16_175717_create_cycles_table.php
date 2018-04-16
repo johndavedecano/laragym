@@ -15,8 +15,8 @@ class CreateCyclesTable extends Migration
     {
         Schema::create('cycles', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->boolean('is_archived', false);
+            $table->string('name')->nullable();
+            $table->boolean('is_archived')->default(false);
             $table->string('description');
             $table->timestamps();
         });

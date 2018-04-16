@@ -18,8 +18,8 @@ class CreatePackagesTable extends Migration
             $table->integer('service_id')->unsigned();
             $table->integer('cycle_id')->unsigned();
             $table->decimal('amount', 8, 2);
-            $table->string('name');
-            $table->boolean('is_archived', false);
+            $table->string('name')->nullable();
+            $table->boolean('is_archived')->default(false);
             $table->timestamps();
         });
     }

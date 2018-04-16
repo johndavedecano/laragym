@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -19,8 +20,8 @@ class CreateSubscriptionsTable extends Migration
             $table->integer('package_id')->unsigned();
             $table->integer('service_id')->unsigned();
             $table->integer('cycle_id')->unsigned();
-            $table->date('expires_at');
-            $table->date('suspended_at');
+            $table->timestamp('expires_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('suspended_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });
     }
