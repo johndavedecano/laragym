@@ -3,13 +3,13 @@
 namespace App\Api\V1\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Cycle;
-use App\Http\Resources\CycleResource;
+use App\Models\Service;
+use App\Http\Resources\ServiceResource;
 use App\Api\V1\Requests\CommonRequest as Request;
 
-class CycleController extends Controller
+class ServiceController extends Controller
 {
-    public function __construct(Cycle $model)
+    public function __construct(Service $model)
     {
         $this->model = $model;
     }
@@ -21,7 +21,7 @@ class CycleController extends Controller
      */
     public function index()
     {
-        return CycleResource::collection(Cycle::all());
+        return ServiceResource::collection(Service::all());
     }
 
     /**
@@ -38,7 +38,7 @@ class CycleController extends Controller
             'is_archived' => $request->get('is_archived', false)
         ]);
 
-        return new CycleResource($model);
+        return new ServiceResource($model);
     }
 
     /**
@@ -49,7 +49,7 @@ class CycleController extends Controller
      */
     public function show($id)
     {
-        return new CycleResource($this->model->findOrFail($id));
+        return new ServiceResource($this->model->findOrFail($id));
     }
 
 
@@ -70,7 +70,7 @@ class CycleController extends Controller
             'is_archived' => $request->get('is_archived', false)
         ]);
 
-        return new CycleResource($model);
+        return new ServiceResource($model);
     }
 
     /**
@@ -85,6 +85,6 @@ class CycleController extends Controller
 
         $model->delete();
 
-        return new CycleResource($model);
+        return new ServiceResource($model);
     }
 }

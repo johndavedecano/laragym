@@ -3,13 +3,13 @@
 namespace App\Api\V1\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Cycle;
-use App\Http\Resources\CycleResource;
+use App\Models\Package;
+use App\Http\Resources\PackageResource;
 use App\Api\V1\Requests\CommonRequest as Request;
 
-class CycleController extends Controller
+class PackageController extends Controller
 {
-    public function __construct(Cycle $model)
+    public function __construct(Package $model)
     {
         $this->model = $model;
     }
@@ -21,7 +21,7 @@ class CycleController extends Controller
      */
     public function index()
     {
-        return CycleResource::collection(Cycle::all());
+        return PackageResource::collection(Package::paginate());
     }
 
     /**
@@ -33,12 +33,14 @@ class CycleController extends Controller
     public function store(Request $request)
     {
         $model = $this->model->create([
-            'name' => $request->get('name'),
-            'description' => $request->get('description'), 
-            'is_archived' => $request->get('is_archived', false)
+            'amount'      => $request->get('amount'),
+            'cycle_id'    => $request->get('cycle_id'),
+            'is_archived' => $request->get('is_archived', false),
+            'name'        => $request->get('name'),
+            'service_id'  => $request->get('service_id'),
         ]);
 
-        return new CycleResource($model);
+        return new PackageResource($model);
     }
 
     /**
@@ -49,7 +51,7 @@ class CycleController extends Controller
      */
     public function show($id)
     {
-        return new CycleResource($this->model->findOrFail($id));
+        return new PackageResource($this->model->findOrFail($id));
     }
 
 
@@ -65,12 +67,14 @@ class CycleController extends Controller
         $model = $this->model->findOrFail($id);
 
         $model->update([
-            'name' => $request->get('name'),
-            'description' => $request->get('description'), 
-            'is_archived' => $request->get('is_archived', false)
+            'amount'      => $request->get('amount'),
+            'cycle_id'    => $request->get('cycle_id'),
+            'is_archived' => $request->get('is_archived', false),
+            'name'        => $request->get('name'),
+            'service_id'  => $request->get('service_id'),
         ]);
 
-        return new CycleResource($model);
+        return new PackageResource($model);
     }
 
     /**
@@ -85,6 +89,6 @@ class CycleController extends Controller
 
         $model->delete();
 
-        return new CycleResource($model);
+        return new PackageResource($model);
     }
 }

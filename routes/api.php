@@ -18,6 +18,10 @@ $api->version('v1', function (Router $api) {
         $api->get('me', 'App\\Api\\V1\\Controllers\\UserController@me');
     });
 
+
+    $api->resource('cycles', 'App\\Api\\V1\\Controllers\\CycleController');
+    $api->resource('services', 'App\\Api\\V1\\Controllers\\ServiceController');
+
     $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
         $api->get('protected', function() {
             return response()->json([
