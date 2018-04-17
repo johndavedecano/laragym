@@ -30,14 +30,17 @@ use App\Models\HasPackage;
 class Subscription extends Eloquent
 {
     use HasService;
+
     use HasCycle;
+    
     use HasPackage;
 
     protected $casts = [
         'user_id' => 'int',
         'package_id' => 'int',
         'service_id' => 'int',
-        'cycle_id' => 'int'
+        'cycle_id' => 'int',
+        'interval' => 'int'
     ];
 
     protected $dates = [
@@ -51,6 +54,7 @@ class Subscription extends Eloquent
         'service_id',
         'cycle_id',
         'expires_at',
-        'suspended_at'
+        'suspended_at',
+        'interval'
     ];
 }

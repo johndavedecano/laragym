@@ -21,6 +21,7 @@ $api->version('v1', function (Router $api) {
 
     $api->resource('cycles', 'App\\Api\\V1\\Controllers\\CycleController');
     $api->resource('services', 'App\\Api\\V1\\Controllers\\ServiceController');
+    $api->resource('packages', 'App\\Api\\V1\\Controllers\\PackageController');
 
     $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
         $api->get('protected', function() {

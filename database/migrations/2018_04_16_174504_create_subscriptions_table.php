@@ -20,6 +20,7 @@ class CreateSubscriptionsTable extends Migration
             $table->integer('package_id')->unsigned();
             $table->integer('service_id')->unsigned();
             $table->integer('cycle_id')->unsigned();
+            $table->integer('interval')->unsigned()->default(1);
             $table->timestamp('expires_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('suspended_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();

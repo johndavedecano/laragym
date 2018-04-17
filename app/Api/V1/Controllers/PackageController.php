@@ -5,7 +5,7 @@ namespace App\Api\V1\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Package;
 use App\Http\Resources\PackageResource;
-use App\Api\V1\Requests\CommonRequest as Request;
+use App\Api\V1\Requests\PackageRequest as Request;
 
 class PackageController extends Controller
 {

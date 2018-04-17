@@ -10,6 +10,7 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 use App\Models\HasService;
 use App\Models\HasCycle;
+use App\Models\HasSubscriptions;
 
 /**
  * Class Package
@@ -29,6 +30,7 @@ class Package extends Eloquent
 {
 	use HasService;
 	use HasCycle;
+	use HasSubscriptions;
 
 	protected $casts = [
 		'service_id' => 'int',
