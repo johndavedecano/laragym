@@ -35,6 +35,8 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('create', User::class);
+
         return UserResource::collection(
             $this->model->orderBy('name', 'DESC')->paginate()
         );
@@ -48,6 +50,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', User::class);
+
         $model = $this->model->create([
             'name' => $request->get('name', ''),
             'email' => $request->get('email', ''),
@@ -73,7 +77,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return new UserResource($this->model->findOrFail($id));
+        $model = $this->model->findOrFail($id);
+
+        $this->authorize('view', $model);
+
+        return new UserResource($model);
     }
 
     /**
@@ -86,6 +94,8 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $model = $this->model->findOrFail($id);
+
+        $this->authorize('update', $model);
 
         $model->update([
             'name' => $request->get('name', ''),
@@ -119,6 +129,8 @@ class UserController extends Controller
     public function destroy($id)
     {
         $model = $this->model->findOrFail($id);
+
+        $this->authorize('delete', $model);
 
         $model->delete();
 

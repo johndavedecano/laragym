@@ -4,11 +4,13 @@ namespace App\Policies;
 
 use App\User;
 use App\Cycle;
+use App\Policies\HasAdmin;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CyclePolicy
 {
     use HandlesAuthorization;
+    use HasAdmin;
 
     /**
      * Determine whether the user can view the cycle.
@@ -19,7 +21,7 @@ class CyclePolicy
      */
     public function view(User $user, Cycle $cycle)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +32,7 @@ class CyclePolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->is_admin;
     }
 
     /**
@@ -42,7 +44,7 @@ class CyclePolicy
      */
     public function update(User $user, Cycle $cycle)
     {
-        //
+        return $user->is_admin;
     }
 
     /**
@@ -54,6 +56,6 @@ class CyclePolicy
      */
     public function delete(User $user, Cycle $cycle)
     {
-        //
+        return $user->is_admin;
     }
 }

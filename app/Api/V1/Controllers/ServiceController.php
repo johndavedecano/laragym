@@ -21,6 +21,8 @@ class ServiceController extends Controller
      */
     public function index()
     {
+        $this->authorize('create', Service::class);
+
         return ServiceResource::collection($this->model->all());
     }
 
@@ -32,6 +34,8 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Service::class);
+
         $model = $this->model->create([
             'name' => $request->get('name'),
             'description' => $request->get('description'), 
@@ -49,7 +53,11 @@ class ServiceController extends Controller
      */
     public function show($id)
     {
-        return new ServiceResource($this->model->findOrFail($id));
+        $model = $this->model->findOrFail($id);
+
+        $this->authorize('view', $model);
+
+        return new ServiceResource($model);
     }
 
 
@@ -63,6 +71,8 @@ class ServiceController extends Controller
     public function update(Request $request, $id)
     {
         $model = $this->model->findOrFail($id);
+
+        $this->authorize('update', $model);
 
         $model->update([
             'name' => $request->get('name'),
@@ -82,6 +92,8 @@ class ServiceController extends Controller
     public function destroy($id)
     {
         $model = $this->model->findOrFail($id);
+
+        $this->authorize('delete', $model);
 
         $model->delete();
 

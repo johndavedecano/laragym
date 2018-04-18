@@ -4,11 +4,13 @@ namespace App\Policies;
 
 use App\User;
 use App\Subscription;
+use App\Policies\HasAdmin;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SubscriptionPolicy
 {
     use HandlesAuthorization;
+    use HasAdmin;
 
     /**
      * Determine whether the user can view the subscription.
@@ -19,7 +21,7 @@ class SubscriptionPolicy
      */
     public function view(User $user, Subscription $subscription)
     {
-        //
+        return $user->is_admin || $user->id === $subscription->user_id;
     }
 
     /**
@@ -30,7 +32,7 @@ class SubscriptionPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->is_admin;
     }
 
     /**
@@ -42,7 +44,7 @@ class SubscriptionPolicy
      */
     public function update(User $user, Subscription $subscription)
     {
-        //
+        return $user->is_admin;
     }
 
     /**
@@ -54,6 +56,6 @@ class SubscriptionPolicy
      */
     public function delete(User $user, Subscription $subscription)
     {
-        //
+        return $user->is_admin;
     }
 }

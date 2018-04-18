@@ -21,7 +21,15 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        return ActivityResource::collection($this->model->all());
+        $user = auth()->guard()->user();
+
+        if ($user->is_admin) {
+            return ActivityResource::collection($this->model->all());
+        }
+
+        return ActivityResource::collection(
+            $this->model->where('user_id', $user->id)->paginate()
+        );
     }
 
     /**
@@ -32,6 +40,8 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Activity::class);
+
         $model = $this->model->create([
             'name' => $request->get('name')
         ]);
@@ -47,7 +57,11 @@ class ActivityController extends Controller
      */
     public function show($id)
     {
-        return new ActivityResource($this->model->findOrFail($id));
+        $model = $this->model->findOrFail($id);
+
+        $this->authorize('view', $model);
+
+        return new ActivityResource($model);
     }
 
 
@@ -61,6 +75,8 @@ class ActivityController extends Controller
     public function update(Request $request, $id)
     {
         $model = $this->model->findOrFail($id);
+
+        $this->authorize('update', $model);
 
         $model->update([
             'name' => $request->get('name')
@@ -78,6 +94,8 @@ class ActivityController extends Controller
     public function destroy($id)
     {
         $model = $this->model->findOrFail($id);
+
+        $this->authorize('delete', $model);
 
         $model->delete();
 

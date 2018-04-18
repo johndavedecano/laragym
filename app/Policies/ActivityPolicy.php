@@ -4,11 +4,13 @@ namespace App\Policies;
 
 use App\User;
 use App\Activity;
+use App\Policies\HasAdmin;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ActivityPolicy
 {
     use HandlesAuthorization;
+    use HasAdmin;
 
     /**
      * Determine whether the user can view the activity.
@@ -19,7 +21,7 @@ class ActivityPolicy
      */
     public function view(User $user, Activity $activity)
     {
-        //
+        return $user->id === $activity->user_id;
     }
 
     /**
@@ -30,7 +32,7 @@ class ActivityPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -42,7 +44,7 @@ class ActivityPolicy
      */
     public function update(User $user, Activity $activity)
     {
-        //
+        return $user->id === $activity->user_id;
     }
 
     /**
@@ -54,6 +56,6 @@ class ActivityPolicy
      */
     public function delete(User $user, Activity $activity)
     {
-        //
+        return $user->id === $activity->user_id;
     }
 }

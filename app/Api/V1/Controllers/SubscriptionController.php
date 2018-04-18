@@ -21,6 +21,8 @@ class SubscriptionController extends Controller
      */
     public function index()
     {
+        $this->authorize('create', Subscription::class);
+
         return SubscriptionResource::collection($this->model->paginate());
     }
 
@@ -32,6 +34,8 @@ class SubscriptionController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Subscription::class);
+
         $model = $this->model->create([
             'package_id'   => $request->get('package_id'),
             'user_id'      => $request->get('user_id'),
@@ -53,7 +57,11 @@ class SubscriptionController extends Controller
      */
     public function show($id)
     {
-        return new SubscriptionResource($this->model->findOrFail($id));
+        $model = $this->model->findOrFail($id);
+
+        $this->authorize('view', $model);
+
+        return new SubscriptionResource($model);
     }
 
     /**
@@ -66,6 +74,8 @@ class SubscriptionController extends Controller
     public function update(Request $request, $id)
     {
         $model = $this->model->findOrFail($id);
+
+        $this->authorize('update', $model);
 
         $model->update([
             'package_id'   => $request->get('package_id'),
@@ -89,6 +99,8 @@ class SubscriptionController extends Controller
     public function destroy($id)
     {
         $model = $this->model->findOrFail($id);
+
+        $this->authorize('delete', $model);
 
         $model->delete();
 

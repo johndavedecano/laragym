@@ -21,6 +21,8 @@ class PackageController extends Controller
      */
     public function index()
     {
+        $this->authorize('create', Package::class);
+
         return PackageResource::collection($this->model->paginate());
     }
 
@@ -32,6 +34,8 @@ class PackageController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Package::class);
+
         $model = $this->model->create([
             'amount'      => $request->get('amount'),
             'cycle_id'    => $request->get('cycle_id'),
@@ -51,7 +55,11 @@ class PackageController extends Controller
      */
     public function show($id)
     {
-        return new PackageResource($this->model->findOrFail($id));
+        $model = $this->model->findOrFail($id);
+
+        $this->authorize('view', $model);
+
+        return new PackageResource($model);
     }
 
 
@@ -65,6 +73,8 @@ class PackageController extends Controller
     public function update(Request $request, $id)
     {
         $model = $this->model->findOrFail($id);
+
+        $this->authorize('update', $model);
 
         $model->update([
             'amount'      => $request->get('amount'),
@@ -86,6 +96,8 @@ class PackageController extends Controller
     public function destroy($id)
     {
         $model = $this->model->findOrFail($id);
+
+        $this->authorize('delete', $model);
 
         $model->delete();
 

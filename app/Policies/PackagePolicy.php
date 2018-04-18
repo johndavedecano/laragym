@@ -4,11 +4,13 @@ namespace App\Policies;
 
 use App\User;
 use App\Package;
+use App\Policies\HasAdmin;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PackagePolicy
 {
     use HandlesAuthorization;
+    use HasAdmin;
 
     /**
      * Determine whether the user can view the package.
@@ -19,7 +21,7 @@ class PackagePolicy
      */
     public function view(User $user, Package $package)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +32,7 @@ class PackagePolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->is_admin;
     }
 
     /**
@@ -42,7 +44,7 @@ class PackagePolicy
      */
     public function update(User $user, Package $package)
     {
-        //
+        return $user->is_admin;
     }
 
     /**
@@ -54,6 +56,6 @@ class PackagePolicy
      */
     public function delete(User $user, Package $package)
     {
-        //
+        return $user->is_admin;
     }
 }

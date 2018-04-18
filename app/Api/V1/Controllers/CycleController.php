@@ -32,6 +32,8 @@ class CycleController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Cycle::class);
+
         $model = $this->model->create([
             'name' => $request->get('name'),
             'description' => $request->get('description'), 
@@ -49,7 +51,11 @@ class CycleController extends Controller
      */
     public function show($id)
     {
-        return new CycleResource($this->model->findOrFail($id));
+        $model = $this->model->findOrFail($id);
+
+        $this->authorize('view', $model);
+
+        return new CycleResource($model);
     }
 
 
@@ -63,6 +69,8 @@ class CycleController extends Controller
     public function update(Request $request, $id)
     {
         $model = $this->model->findOrFail($id);
+
+        $this->authorize('update', $model);
 
         $model->update([
             'name' => $request->get('name'),
@@ -82,6 +90,8 @@ class CycleController extends Controller
     public function destroy($id)
     {
         $model = $this->model->findOrFail($id);
+
+        $this->authorize('delete', $model);
 
         $model->delete();
 

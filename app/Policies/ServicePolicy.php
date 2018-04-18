@@ -4,11 +4,13 @@ namespace App\Policies;
 
 use App\User;
 use App\Service;
+use App\Policies\HasAdmin;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ServicePolicy
 {
     use HandlesAuthorization;
+    use HasAdmin;
 
     /**
      * Determine whether the user can view the service.
@@ -19,7 +21,7 @@ class ServicePolicy
      */
     public function view(User $user, Service $service)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +32,7 @@ class ServicePolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->is_admin;
     }
 
     /**
@@ -42,7 +44,7 @@ class ServicePolicy
      */
     public function update(User $user, Service $service)
     {
-        //
+        return $user->is_admin;
     }
 
     /**
@@ -54,6 +56,6 @@ class ServicePolicy
      */
     public function delete(User $user, Service $service)
     {
-        //
+        return $user->is_admin;
     }
 }
