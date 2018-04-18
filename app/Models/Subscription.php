@@ -11,6 +11,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 use App\Models\HasService;
 use App\Models\HasCycle;
 use App\Models\HasPackage;
+use App\Models\HasUser;
 
 /**
  * Class Subscription
@@ -34,6 +35,8 @@ class Subscription extends Eloquent
     use HasCycle;
     
     use HasPackage;
+
+    use HasUser;
 
     protected $casts = [
         'user_id' => 'int',

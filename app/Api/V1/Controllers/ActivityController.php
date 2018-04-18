@@ -3,13 +3,13 @@
 namespace App\Api\V1\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Service;
-use App\Http\Resources\ServiceResource;
+use App\Models\Activity;
+use App\Http\Resources\ActivityResource;
 use App\Api\V1\Requests\CommonRequest as Request;
 
-class ServiceController extends Controller
+class ActivityController extends Controller
 {
-    public function __construct(Service $model)
+    public function __construct(Activity $model)
     {
         $this->model = $model;
     }
@@ -21,7 +21,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        return ServiceResource::collection($this->model->all());
+        return ActivityResource::collection($this->model->all());
     }
 
     /**
@@ -33,12 +33,10 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         $model = $this->model->create([
-            'name' => $request->get('name'),
-            'description' => $request->get('description'), 
-            'is_archived' => $request->get('is_archived', false)
+            'name' => $request->get('name')
         ]);
 
-        return new ServiceResource($model);
+        return new ActivityResource($model);
     }
 
     /**
@@ -49,7 +47,7 @@ class ServiceController extends Controller
      */
     public function show($id)
     {
-        return new ServiceResource($this->model->findOrFail($id));
+        return new ActivityResource($this->model->findOrFail($id));
     }
 
 
@@ -65,12 +63,10 @@ class ServiceController extends Controller
         $model = $this->model->findOrFail($id);
 
         $model->update([
-            'name' => $request->get('name'),
-            'description' => $request->get('description'), 
-            'is_archived' => $request->get('is_archived', false)
+            'name' => $request->get('name')
         ]);
 
-        return new ServiceResource($model);
+        return new ActivityResource($model);
     }
 
     /**
@@ -85,6 +81,6 @@ class ServiceController extends Controller
 
         $model->delete();
 
-        return new ServiceResource($model);
+        return new ActivityResource($model);
     }
 }

@@ -21,7 +21,7 @@ class PackageController extends Controller
      */
     public function index()
     {
-        return PackageResource::collection(Package::paginate());
+        return PackageResource::collection($this->model->paginate());
     }
 
     /**

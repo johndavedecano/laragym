@@ -2,10 +2,10 @@
 
 namespace App\Api\V1\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Subscription;
-use App\Http\Resources\SubscriptionResource;
 use App\Api\V1\Requests\SubscriptionRequest as Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\SubscriptionResource;
+use App\Models\Subscription;
 
 class SubscriptionController extends Controller
 {
@@ -21,7 +21,7 @@ class SubscriptionController extends Controller
      */
     public function index()
     {
-        return SubscriptionResource::collection(Subscription::paginate());
+        return SubscriptionResource::collection($this->model->paginate());
     }
 
     /**
@@ -55,7 +55,6 @@ class SubscriptionController extends Controller
     {
         return new SubscriptionResource($this->model->findOrFail($id));
     }
-
 
     /**
      * Update the specified resource in storage.

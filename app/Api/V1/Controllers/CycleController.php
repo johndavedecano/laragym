@@ -21,7 +21,7 @@ class CycleController extends Controller
      */
     public function index()
     {
-        return CycleResource::collection(Cycle::all());
+        return CycleResource::collection($this->model->all());
     }
 
     /**
