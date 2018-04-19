@@ -36,6 +36,7 @@ class CycleController extends Controller
 
         $model = $this->model->create([
             'name' => $request->get('name'),
+            'num_days' => $request->get('num_days'),
             'description' => $request->get('description'), 
             'is_archived' => $request->get('is_archived', false)
         ]);
@@ -74,6 +75,7 @@ class CycleController extends Controller
 
         $model->update([
             'name' => $request->get('name'),
+            'num_days' => $request->get('num_days'),
             'description' => $request->get('description'), 
             'is_archived' => $request->get('is_archived', false)
         ]);

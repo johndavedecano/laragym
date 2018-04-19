@@ -29,6 +29,7 @@ class Cycle extends Eloquent
 
 	protected $fillable = [
 		'name',
+		'num_days',
 		'is_archived',
 		'description'
 	];

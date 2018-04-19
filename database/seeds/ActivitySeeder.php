@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Activity;
 
 class ActivitySeeder extends Seeder
 {
@@ -11,6 +12,8 @@ class ActivitySeeder extends Seeder
      */
     public function run()
     {
-        //
+        Activity::truncate();
+
+        factory(App\Models\Activity::class, 10)->create(['user_id' => 1]);
     }
 }

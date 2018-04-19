@@ -16,6 +16,7 @@ class CreateCyclesTable extends Migration
         Schema::create('cycles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
+            $table->integer('num_days')->default(1);
             $table->boolean('is_archived')->default(false);
             $table->string('description')->nullable();
             $table->timestamps();
