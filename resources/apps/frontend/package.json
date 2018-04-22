@@ -213,7 +213,6 @@
     "compression": "1.6.2",
     "cross-env": "5.0.0",
     "express": "4.15.3",
-    "fontfaceobserver": "2.0.9",
     "history": "4.6.3",
     "hoist-non-react-statics": "2.1.1",
     "immutable": "3.8.1",
@@ -233,9 +232,7 @@
     "react-router-redux": "5.0.0-alpha.6",
     "redux": "3.6.0",
     "redux-immutable": "4.0.0",
-    "redux-saga": "0.15.3",
     "reselect": "3.0.1",
-    "sanitize.css": "4.1.0",
     "styled-components": "2.0.0",
     "warning": "3.0.0",
     "whatwg-fetch": "2.0.3"
