@@ -10,13 +10,13 @@ Homestead.yaml
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/resources/apps/react-gym-management/node_modules
+/resources/apps/frontend/node_modules
 
 # testing
-/resources/apps/react-gym-management/coverage
+/resources/apps/frontend/coverage
 
 # production
-/resources/apps/react-gym-management/build
+/resources/apps/frontend/build
 
 # misc
 .DS_Store
