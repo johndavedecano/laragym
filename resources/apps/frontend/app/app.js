@@ -14,7 +14,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
-
+import FontFaceObserver from 'fontfaceobserver';
+import 'sanitize.css/sanitize.css';
 // Import root app
 import App from 'containers/App';
 
@@ -49,6 +50,18 @@ const initialState = {};
 const history = createHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
+
+// Observe loading of Roboto (to remove Roboto, remove the <link> tag in
+// the index.html file and this observer)
+const openSansObserver = new FontFaceObserver('Roboto', {});
+
+// When Roboto is loaded, add a font-family using Roboto to the body
+openSansObserver.load().then(() => {
+  document.body.classList.add('fontLoaded');
+}, () => {
+  document.body.classList.remove('fontLoaded');
+});
+
 
 const render = (messages) => {
   ReactDOM.render(

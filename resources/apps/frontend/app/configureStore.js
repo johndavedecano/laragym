@@ -37,6 +37,8 @@ export default function configureStore(initialState = {}, history) {
     composeEnhancers(...enhancers)
   );
 
+  window.store = store;
+
   // Extensions
   store.injectedReducers = {}; // Reducer registry
 
