@@ -7,30 +7,28 @@
  */
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
-import styled from 'styled-components';
-import { Switch, Route } from 'react-router-dom';
-import CssBaseline from 'material-ui/CssBaseline';
 
+import { Switch, Route } from 'react-router-dom';
+
+import Header from 'components/Layouts/Header';
+import AppMeta from './AppMeta';
+import AppSidebar from './AppSidebar';
 import HomePage from 'containers/Home/HomePage';
 import NotFoundPage from 'containers/NotFound/NotFoundPage';
 
+import styles from './App.css';
+
 export default function App() {
   return (
-    <div>
-      <CssBaseline />
-      <Helmet
-        titleTemplate="%s - React.js Boilerplate"
-        defaultTitle="React.js Boilerplate"
-      >
-        <meta name="description" content="A React.js Boilerplate application" />
-      </Helmet>
-      {/* <Header /> */}
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route path="" component={NotFoundPage} />
-      </Switch>
-      {/* <Footer /> */}
+    <div className={styles.appWrapper}>
+      <AppMeta />
+      <AppSidebar />
+      <div className={styles.appRight}>
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route path="" component={NotFoundPage} />
+        </Switch>
+      </div>
     </div>
   );
 }

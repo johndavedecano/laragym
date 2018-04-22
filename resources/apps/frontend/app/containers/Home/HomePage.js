@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 
+import Page from 'components/Layouts/Page';
+
 export default class HomePage extends Component {
   render() {
-    return <div>Home page</div>
+    return <Page title="Dashboard">sdgsgsgs</Page>
   }
 }

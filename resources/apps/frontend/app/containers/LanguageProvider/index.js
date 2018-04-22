@@ -24,6 +24,11 @@ export class LanguageProvider extends React.PureComponent { // eslint-disable-li
   }
 }
 
+LanguageProvider.defaultProps = {
+  locale: 'en',
+};
+
+
 LanguageProvider.propTypes = {
   locale: PropTypes.string,
   messages: PropTypes.object,

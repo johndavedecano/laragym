@@ -5,12 +5,14 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createReducer from './reducers';
+import thunk from 'redux-thunk';
 
 export default function configureStore(initialState = {}, history) {
   // Create the store with two middlewares
   // 2. routerMiddleware: Syncs the location/URL path to the state
   const middlewares = [
     routerMiddleware(history),
+    thunk,
   ];
 
   const enhancers = [
