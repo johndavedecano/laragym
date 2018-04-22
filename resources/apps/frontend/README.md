@@ -4,10 +4,15 @@ A frontend react js application for gym management
 
 ## Quick start
 
-1. Run `npm run setup` in order to install dependencies and clean the git repo.<br />
-   *We auto-detect `yarn` for installing packages by default, if you wish to force `npm` usage do: `USE_YARN=false npm run setup`*<br />
-   *At this point you can run `npm start` to see the example app at `http://localhost:3000`.*
-2. Run `npm run clean` to delete the example app.
+1. Run `npm install` in order to install dependencies and clean the git repo.
+2. At this point you can run `npm start` to see the example app at `http://localhost:3000`.
+
+## Production
+
+1. Run `npm install` in order to install dependencies and clean the git repo.
+2. Run `npm run build` 
+3. Then run `npm start:production`.
+4. Use nginx to route the react host to your domain name.
 
 Now you're ready to rumble!
 
