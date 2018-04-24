@@ -1,0 +1,22 @@
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 64px;
+
+}
+
+.logo a {
+    text-decoration: none;
+
+    color: #616161;
+
+    font-size: 1.25rem;
+}
+
+.logo span {
+    display: block;
+
+    font-size: 0.875rem
+}

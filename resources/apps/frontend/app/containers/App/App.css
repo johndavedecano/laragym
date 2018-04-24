@@ -1,14 +1,28 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+a, a:visited {
+  text-decoration: none;
+}
+
 .appWrapper {
-    width: 100%;
+  width: 100%;
 }
 
 .appRight {
-    position: relative;
+  position: relative;
 
-    width: calc(100% - 240px) !important;
-    margin-left: 240px;
+  width: calc(100% - 240px) !important;
+  margin-left: 240px;
 }
 
 .appDrawer {
-   width: 240px;
+  width: 240px;
 }

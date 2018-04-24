@@ -19,7 +19,7 @@ export default class Header extends Component {
             <MenuIcon />
           </IconButton>
           <Typography variant="title" color="inherit">
-            Title
+            {this.props.title}
           </Typography>
         </Toolbar>
       </AppBar>
