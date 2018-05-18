@@ -1,3 +1,17 @@
 .container {
   padding: 0.9375rem;
 }
+
+.menu {
+  min-width: 100px;
+}
+
+.menuRight {
+  margin-left: auto !important;
+}
+
+.menuItem > a {
+  padding-left: 5px;
+
+  color: inherit;
+}

@@ -17,9 +17,9 @@ export default class AppSidebar extends Component {
         }}
         anchor="left"
       >
-        <Logo />
-        <Divider />
         <List>
+          <Logo />
+          <Divider />
           <AppMenu />
         </List>
       </Drawer>

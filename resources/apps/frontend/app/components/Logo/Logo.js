@@ -6,7 +6,7 @@ import styles from './Logo.css';
 const Logo = () => (
   <div className={styles.logo}>
     <Link to="/">
-        Gym Management <span>Version 2</span>
+        Gym Management
     </Link>
   </div>
   );
