@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
+import Helmet from 'react-helmet';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from 'material-ui/Toolbar';
@@ -40,6 +41,7 @@ export default class Header extends Component {
 
     return (
       <AppBar position="static">
+        <Helmet title={this.props.title} />
         <Toolbar className={styles.toolbar}>
           <IconButton color="inherit" aria-label="Menu">
             <MenuIcon />
