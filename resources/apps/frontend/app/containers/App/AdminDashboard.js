@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 import AppMeta from './AppMeta';
 import AppSidebar from './AppSidebar';
-import Header from 'components/Layouts/Header';
-import HomePage from 'containers/Home/HomePage';
 
 import styles from './App.css';
 
 export default class AdminDashboard extends Component {
+
+  static propTypes = {
+    children: PropTypes.node,
+  };
+
   render() {
     return (
       <div className={styles.appWrapper}>

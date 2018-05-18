@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { MenuItem } from 'material-ui/Menu';
 import Divider from 'material-ui/Divider';
 import Drawer from 'material-ui/Drawer';
 import List from 'material-ui/List';
