@@ -41,7 +41,7 @@ import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line impor
 /* eslint-enable import/no-webpack-loader-syntax */
 
 import configureStore from './configureStore';
-import { loadState, subscribe } from './localStorage';
+import { loadState, createStoreSubscription } from './localStorage';
 // Import i18n messages
 import { translationMessages } from './i18n';
 
@@ -67,7 +67,7 @@ const initialState = loadState();
 const history = createHistory();
 const store = configureStore(initialState, history);
 
-subscribe(store);
+createStoreSubscription(store);
 
 const MOUNT_NODE = document.getElementById('app');
 

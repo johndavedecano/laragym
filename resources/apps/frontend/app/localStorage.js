@@ -49,7 +49,7 @@ const PERSISTED_STATES = ['auth', 'language'];
  *
  * @returns {void}
  */
-export const subscribe = (store) => {
+export const createStoreSubscription = (store) => {
   try {
     store.subscribe(
       throttle(() => {
