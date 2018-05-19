@@ -9,12 +9,12 @@
 import 'babel-polyfill';
 
 // Import all the third party stuff
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
+import { Provider } from 'react-redux';
 import createHistory from 'history/createBrowserHistory';
 import FontFaceObserver from 'fontfaceobserver';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import 'sanitize.css/sanitize.css';
 // Import root app
 import App from 'containers/App';
@@ -41,27 +41,35 @@ import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line impor
 /* eslint-enable import/no-webpack-loader-syntax */
 
 import configureStore from './configureStore';
-
+import { loadState, subscribe } from './localStorage';
 // Import i18n messages
 import { translationMessages } from './i18n';
 
+/**
+Observe loading of Roboto (to remove Roboto, remove the <link> tag in
+the index.html file and this observer)
+When Roboto is loaded, add a font-family using Roboto to the body
+======================================================================
+*/
+const openSansObserver = new FontFaceObserver('Roboto', {});
+openSansObserver.load().then(
+  () => {
+    document.body.classList.add('fontLoaded');
+  },
+  () => {
+    document.body.classList.remove('fontLoaded');
+  }
+);
+
 // Create redux store with history
-const initialState = {};
+// Get state from local storage.
+const initialState = loadState();
 const history = createHistory();
 const store = configureStore(initialState, history);
+
+subscribe(store);
+
 const MOUNT_NODE = document.getElementById('app');
-
-// Observe loading of Roboto (to remove Roboto, remove the <link> tag in
-// the index.html file and this observer)
-const openSansObserver = new FontFaceObserver('Roboto', {});
-
-// When Roboto is loaded, add a font-family using Roboto to the body
-openSansObserver.load().then(() => {
-  document.body.classList.add('fontLoaded');
-}, () => {
-  document.body.classList.remove('fontLoaded');
-});
-
 
 const render = (messages) => {
   ReactDOM.render(
@@ -76,10 +84,10 @@ const render = (messages) => {
   );
 };
 
+// Hot reloadable React components and translation json files
+// modules.hot.accept does not accept dynamic dependencies,
+// have to be constants at compile-time
 if (module.hot) {
-  // Hot reloadable React components and translation json files
-  // modules.hot.accept does not accept dynamic dependencies,
-  // have to be constants at compile-time
   module.hot.accept(['./i18n', 'containers/App'], () => {
     ReactDOM.unmountComponentAtNode(MOUNT_NODE);
     render(translationMessages);
@@ -88,13 +96,15 @@ if (module.hot) {
 
 // Chunked polyfill for browsers without Intl support
 if (!window.Intl) {
-  (new Promise((resolve) => {
+  new Promise((resolve) => {
     resolve(import('intl'));
-  }))
-    .then(() => Promise.all([
-      import('intl/locale-data/jsonp/en.js'),
-      import('intl/locale-data/jsonp/de.js'),
-    ]))
+  })
+    .then(() =>
+      Promise.all([
+        import('intl/locale-data/jsonp/en.js'),
+        import('intl/locale-data/jsonp/de.js'),
+      ])
+    )
     .then(() => render(translationMessages))
     .catch((err) => {
       throw err;
