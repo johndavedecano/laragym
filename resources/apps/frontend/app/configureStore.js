@@ -6,6 +6,7 @@ import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
 
+import API from './helpers/API';
 import createReducer from './reducers';
 
 export default function configureStore(initialState = {}, history) {
@@ -25,7 +26,7 @@ export default function configureStore(initialState = {}, history) {
       : compose;
   /* eslint-enable */
 
-  const middlewares = [routerMiddleware(history), thunk];
+  const middlewares = [routerMiddleware(history), thunk.withExtraArgument(API)];
   const enhancers = [applyMiddleware(...middlewares)];
 
   const store = createStore(

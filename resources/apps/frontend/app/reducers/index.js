@@ -6,6 +6,7 @@
 import { combineReducers } from 'redux-immutable';
 import languageProviderReducer from 'reducers/intl-reducer';
 
+import auth from './auth';
 import route from './route';
 
 /**
@@ -15,5 +16,6 @@ export default function createReducer() {
   return combineReducers({
     route,
     language: languageProviderReducer,
+    auth,
   });
 }

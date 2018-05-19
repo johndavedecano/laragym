@@ -16,6 +16,11 @@ import styles from './Layouts.css';
 export default class Header extends Component {
   static propTypes = {
     title: PropTypes.string,
+    showMenu: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    showMenu: false,
   };
 
   state = {
@@ -35,36 +40,13 @@ export default class Header extends Component {
     this.setState({ anchorEl: null });
   };
 
-  render() {
-    const { anchorEl } = this.state;
-    const open = Boolean(anchorEl);
-
-    return (
-      <AppBar position="static">
-        <Helmet title={this.props.title} />
-        <Toolbar className={styles.toolbar}>
-          <IconButton color="inherit" aria-label="Menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="title" color="inherit">
-            {this.props.title}
-          </Typography>
-
-          <IconButton
-            className={styles.menuRight}
-            aria-owns={open ? 'menu-appbar' : null}
-            aria-haspopup="true"
-            onClick={this.handleMenu}
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
-        </Toolbar>
-
+  get showMenu() {
+    if (this.props.showMenu) {
+      return (
         <Menu
           className={styles.menu}
           id="menu-bar"
-          anchorEl={anchorEl}
+          anchorEl={this.state.anchorEl}
           anchorOrigin={{
             vertical: 'top',
             horizontal: 'right',
@@ -84,6 +66,40 @@ export default class Header extends Component {
             <Link to="/logout">Logout</Link>
           </MenuItem>
         </Menu>
+      );
+    }
+    return null;
+  }
+
+  get isOpen() {
+    return Boolean(this.state.anchorEl);
+  }
+
+  render() {
+    return (
+      <AppBar position="static">
+        <Helmet title={this.props.title} />
+        <Toolbar className={styles.toolbar}>
+          <IconButton color="inherit" aria-label="Menu">
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="title" color="inherit">
+            {this.props.title}
+          </Typography>
+
+          {this.props.showMenu && (
+            <IconButton
+              className={styles.menuRight}
+              aria-owns={this.isOpen ? 'menu-appbar' : null}
+              aria-haspopup="true"
+              onClick={this.handleMenu}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          )}
+        </Toolbar>
+        {this.showMenu}
       </AppBar>
     );
   }

@@ -207,7 +207,9 @@
     "testRegex": "tests/.*\\.test\\.js$"
   },
   "dependencies": {
+    "@material-ui/core": "^1.0.0",
     "@material-ui/icons": "^1.0.0-beta.43",
+    "axios": "^0.18.0",
     "babel-polyfill": "6.23.0",
     "chalk": "^1.1.3",
     "classnames": "^2.2.5",
@@ -233,6 +235,7 @@
     "react-redux": "5.0.5",
     "react-router-dom": "4.1.1",
     "react-router-redux": "5.0.0-alpha.6",
+    "recompose": "^0.27.0",
     "redux": "3.6.0",
     "redux-immutable": "4.0.0",
     "redux-thunk": "^2.2.0",
