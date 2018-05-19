@@ -42,7 +42,6 @@ import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line impor
 
 import configureStore from './configureStore';
 import { loadState, createStoreSubscription } from './localStorage';
-// Import i18n messages
 import { translationMessages } from './i18n';
 
 /**
