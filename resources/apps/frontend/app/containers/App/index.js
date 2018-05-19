@@ -4,20 +4,24 @@ import { Switch } from 'react-router-dom';
 import Authenticated from 'containers/App/Authenticated';
 import Anonymous from 'containers/App/Anonymous';
 
-import CyclesPage from 'containers/Cycles/CyclesPage';
-import HomePage from 'containers/Home/HomePage';
-import InvoicesPage from 'containers/Invoices/InvoicesPage';
-import PackagesPage from 'containers/Packages/PackagesPage';
-import ProfilePage from 'containers/Profile/ProfilePage';
-import ServicesPage from 'containers/Services/ServicesPage';
-import SettingsPage from 'containers/Settings/SettingsPage';
-import SubscriptionsPage from 'containers/Subscriptions/SubscriptionsPage';
-import UsersPage from 'containers/Users/UsersPage';
-
-import LoginPage from 'containers/Auth/LoginPage';
-import ForgotPage from 'containers/Auth/ForgotPage';
-import ResetPage from 'containers/Auth/ResetPage';
-import NotFoundPage from 'containers/NotFound/NotFoundPage';
+/**
+ * Code Splitting Baby. Yeah
+ */
+import {
+  CyclesPage,
+  HomePage,
+  InvoicesPage,
+  PackagesPage,
+  ProfilePage,
+  ServicesPage,
+  SettingsPage,
+  SubscriptionsPage,
+  UsersPage,
+  LoginPage,
+  ForgotPage,
+  ResetPage,
+  NotFoundPage,
+} from './Loadables';
 
 export default function App() {
   return (
@@ -29,7 +33,11 @@ export default function App() {
       <Authenticated component={ProfilePage} exact path="/profile" />
       <Authenticated component={ServicesPage} exact path="/services" />
       <Authenticated component={SettingsPage} exact path="/settings" />
-      <Authenticated component={SubscriptionsPage} exact path="/subscriptions" />
+      <Authenticated
+        component={SubscriptionsPage}
+        exact
+        path="/subscriptions"
+      />
       <Authenticated component={UsersPage} exact path="/users" />
       <Anonymous component={LoginPage} path="/login" />
       <Anonymous component={ForgotPage} path="/forgot" />
