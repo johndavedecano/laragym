@@ -22,7 +22,3 @@ a, a:visited {
   width: calc(100% - 240px) !important;
   margin-left: 240px;
 }
-
-.appDrawer {
-  width: 240px;
-}

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import AppMeta from './AppMeta';
-import AppSidebar from './AppSidebar';
+
+import MetaTag from 'components/MetaTag/MetaTag';
+import Sidebar from 'containers/Sidebar/Sidebar';
 
 import styles from './App.css';
 
@@ -14,8 +15,8 @@ export default class AdminDashboard extends Component {
   render() {
     return (
       <div className={styles.appWrapper}>
-        <AppMeta />
-        <AppSidebar />
+        <MetaTag />
+        <Sidebar />
         <div className={styles.appRight}>{this.props.children}</div>
       </div>
     );

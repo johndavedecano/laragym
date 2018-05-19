@@ -3,9 +3,9 @@ import Divider from 'material-ui/Divider';
 import Drawer from 'material-ui/Drawer';
 import List from 'material-ui/List';
 import Logo from 'components/Logo/Logo';
-import AppMenu from './AppMenu';
+import SidebarMenu from './SidebarMenu';
 
-import styles from './App.css';
+import styles from './Sidebar.css';
 
 export default class AppSidebar extends Component {
   render() {
@@ -20,7 +20,7 @@ export default class AppSidebar extends Component {
         <List>
           <Logo />
           <Divider />
-          <AppMenu />
+          <SidebarMenu />
         </List>
       </Drawer>
     );

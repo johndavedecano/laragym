@@ -11,11 +11,11 @@ import ServicesPage from 'containers/Services/ServicesPage';
 import SettingsPage from 'containers/Settings/SettingsPage';
 import SubscriptionsPage from 'containers/Subscriptions/SubscriptionsPage';
 import UsersPage from 'containers/Users/UsersPage';
-import AdminDashboard from './AdminDashboard';
+import Authenticated from './Authenticated';
 
 export default function App() {
   return (
-    <AdminDashboard>
+    <Authenticated>
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route component={CyclesPage} exact path="/cycles" />
@@ -28,6 +28,6 @@ export default function App() {
         <Route component={UsersPage} exact path="/users" />
         <Route path="" component={NotFoundPage} />
       </Switch>
-    </AdminDashboard>
+    </Authenticated>
   );
 }
