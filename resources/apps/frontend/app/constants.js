@@ -5,3 +5,7 @@ export const USER_LOGGED_IN = 'auth:USER_LOGGED_IN';
 export const USER_LOGGED_IN_FAILED = 'auth:USER_LOGGED_IN_FAILED';
 export const USER_LOGGED_IN_SUCCESS = 'auth:USER_LOGGED_IN_SUCCESS';
 export const USER_LOGGED_OUT = 'auth:USER_LOGGED_OUT';
+
+export const NOTIFICATION_SHOW = 'notification:SHOW';
+export const NOTIFICATION_HIDE = 'notification:HIDE';
+export const NOTIFICATION_REMOVE = 'notification:REMOVE';
