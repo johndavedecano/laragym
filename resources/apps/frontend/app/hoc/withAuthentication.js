@@ -1,12 +1,13 @@
 import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+import { logout } from 'actions/auth-actions';
 
 export default function requireAuthentication(Component) {
   class AuthenticatedComponent extends React.Component {
-
     static propTypes = {
       isLoggedIn: PropTypes.bool,
       location: PropTypes.object,
@@ -37,5 +38,7 @@ export default function requireAuthentication(Component) {
     isLoggedIn: state.getIn(['auth', 'isLoggedIn']),
   });
 
-  return compose(connect(mapStateToProps), withRouter)(AuthenticatedComponent);
+  return compose(connect(mapStateToProps, { logout }), withRouter)(
+    AuthenticatedComponent
+  );
 }

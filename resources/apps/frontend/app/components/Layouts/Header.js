@@ -20,12 +20,18 @@ export default class Header extends Component {
   };
 
   static defaultProps = {
-    showMenu: false,
+    showMenu: true,
   };
 
   state = {
     auth: true,
     anchorEl: null,
+  };
+
+  onLogout = (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+    this.props.onLogout();
   };
 
   handleChange = (event, checked) => {
@@ -55,15 +61,17 @@ export default class Header extends Component {
             vertical: 'top',
             horizontal: 'right',
           }}
-          open={open}
+          open={this.isOpen}
           onClose={this.handleClose}
         >
           <MenuItem className={styles.menuItem}>
             <UserIcon />
             <Link to="/account">Account Settings</Link>
           </MenuItem>
-          <MenuItem className={styles.menuItem}>
-            <Link to="/logout">Logout</Link>
+          <MenuItem className={styles.menuItem} onClick={this.onLogout}>
+            <Link to="/" onClick={this.onLogout}>
+              Logout
+            </Link>
           </MenuItem>
         </Menu>
       );

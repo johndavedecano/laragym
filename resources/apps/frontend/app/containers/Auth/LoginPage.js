@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { compose } from 'recompose';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
+
+import { Link, withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -8,13 +12,15 @@ import Typography from '@material-ui/core/Typography';
 import AuthScreen from 'components/Auth/AuthScreen';
 import AuthPanel from 'components/Auth/AuthPanel';
 
-export default class LoginPage extends Component {
+import { login } from 'actions/auth-actions';
+
+class LoginPage extends Component {
   state = {
     form: {
       email: '',
       password: '',
-      isSubmitting: false,
     },
+    isSubmitting: false,
   };
 
   /**
@@ -22,23 +28,16 @@ export default class LoginPage extends Component {
    *
    * @returns {void}
    */
-  onSubmit = (event) => {
+  onSubmit = async (event) => {
     event.preventDefault();
-    this.setState({
-      form: {
-        ...this.state.form,
-        isSubmitting: true,
-      },
-    });
-
-    setTimeout(() => {
-      this.setState({
-        form: {
-          ...this.state.form,
-          isSubmitting: false,
-        },
-      });
-    }, 1000);
+    try {
+      this.setState({ isSubmitting: true });
+      await this.props.login(this.state.form);
+      this.setState({ form: { email: '', password: '' }, isSubmitting: false });
+      this.props.history.replace('/');
+    } catch (error) {
+      this.setState({ isSubmitting: false });
+    }
   };
 
   /**
@@ -95,10 +94,10 @@ export default class LoginPage extends Component {
                   variant="raised"
                   color="primary"
                   size="large"
-                  disabled={this.state.form.isSubmitting}
+                  disabled={this.state.isSubmitting}
                   fullWidth
                 >
-                  {this.state.form.isSubmitting ? 'Please Wait...' : 'Submit'}
+                  {this.state.isSubmitting ? 'Please Wait...' : 'Submit'}
                 </Button>
               </Grid>
             </Grid>
@@ -114,3 +113,14 @@ export default class LoginPage extends Component {
     );
   }
 }
+
+const mapStateToProps = createSelector(
+  (state) => state.get('auth'),
+  (auth) => ({
+    isLoggingIn: auth.get('isLogginIn'),
+  })
+);
+
+const withRedux = connect(mapStateToProps, { login });
+
+export default compose(withRedux, withRouter)(LoginPage);

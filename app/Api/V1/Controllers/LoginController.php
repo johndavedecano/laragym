@@ -27,7 +27,7 @@ class LoginController extends Controller
             $token = Auth::guard()->attempt($credentials);
 
             if(!$token) {
-                throw new AccessDeniedHttpException();
+                throw new AccessDeniedHttpException('Invalid username or password.');
             }
 
         } catch (JWTException $e) {

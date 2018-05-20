@@ -8,12 +8,15 @@ import styles from './Layouts.css';
 export default class Page extends Component {
   static propTypes = {
     children: PropTypes.node,
-    title: PropTypes.string,
   };
 
   render() {
     return [
-      <Header key="title" title={this.props.title} />,
+      <Header
+        key="title"
+        title={this.props.title}
+        onLogout={this.props.onLogout}
+      />,
       <main key="content" className={styles.appMain}>
         {this.props.children}
       </main>,

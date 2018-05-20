@@ -8,6 +8,7 @@ import thunk from 'redux-thunk';
 
 import api from './helpers/api';
 import createReducer from './reducers';
+import notificationMiddleware from './middlewares/notification-middleware';
 
 export default function configureStore(initialState = {}, history) {
   // If Redux DevTools Extension is installed use it, otherwise use
@@ -26,7 +27,12 @@ export default function configureStore(initialState = {}, history) {
       : compose;
   /* eslint-enable */
 
-  const middlewares = [routerMiddleware(history), thunk.withExtraArgument(api)];
+  const middlewares = [
+    routerMiddleware(history),
+    thunk.withExtraArgument(api),
+    notificationMiddleware,
+  ];
+
   const enhancers = [applyMiddleware(...middlewares)];
 
   const store = createStore(

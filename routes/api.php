@@ -6,7 +6,7 @@ use Dingo\Api\Routing\Router;
 $api = app(Router::class);
 
 $api->version('v1', function (Router $api) {
-    $api->group(['prefix' => 'auth'], function(Router $api) {
+    $api->group(['prefix' => 'auth'], function (Router $api) {
         $api->post('signup', 'App\\Api\\V1\\Controllers\\SignUpController@signUp');
         $api->post('login', 'App\\Api\\V1\\Controllers\\LoginController@login');
 
@@ -18,8 +18,7 @@ $api->version('v1', function (Router $api) {
         $api->get('me', 'App\\Api\\V1\\Controllers\\UserController@me');
     });
 
-    $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
-
+    $api->group(['middleware' => 'jwt.auth'], function (Router $api) {
         $api->resource('cycles', 'App\\Api\\V1\\Controllers\\CycleController');
         $api->resource('services', 'App\\Api\\V1\\Controllers\\ServiceController');
         $api->resource('packages', 'App\\Api\\V1\\Controllers\\PackageController');
@@ -29,7 +28,7 @@ $api->version('v1', function (Router $api) {
     
         $api->get('refresh', [
             'middleware' => 'jwt.refresh',
-            function() {
+            function () {
                 return response()->json([
                     'message' => 'By accessing this endpoint, you can refresh your access token at each request. Check out this response headers!'
                 ]);
