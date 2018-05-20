@@ -10,6 +10,8 @@ body {
 
 a, a:visited {
   text-decoration: none;
+
+  color: #2A58B1;
 }
 
 .appWrapper {

@@ -13,7 +13,9 @@ export default class AuthScreen extends Component {
         justify="center"
         className={styles.loginScreen}
       >
-        {this.props.children}
+        <Grid item xs={12} sm={12} md={4} lg={3}>
+          {this.props.children}
+        </Grid>
       </Grid>
     );
   }
