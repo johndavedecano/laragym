@@ -63,26 +63,27 @@ export default class LoginPage extends Component {
             <Grid direction="row" wrap="wrap" container>
               <Grid item xs={12}>
                 <TextField
+                  autoFocus
+                  fullWidth
                   id="email"
                   label="Email Address"
-                  value={this.state.form.email}
-                  onChange={this.onChange('email')}
                   margin="normal"
-                  type="email"
-                  fullWidth
+                  onChange={this.onChange('email')}
                   required
+                  type="email"
+                  value={this.state.form.email}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  fullWidth
                   id="password"
                   label="Password"
-                  value={this.state.form.password}
-                  onChange={this.onChange('password')}
                   margin="normal"
-                  type="password"
-                  fullWidth
+                  onChange={this.onChange('password')}
                   required
+                  type="password"
+                  value={this.state.form.password}
                 />
               </Grid>
             </Grid>

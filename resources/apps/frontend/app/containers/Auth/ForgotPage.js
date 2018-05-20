@@ -70,6 +70,7 @@ export default class ForgotPage extends Component {
                   type="email"
                   fullWidth
                   required
+                  autoFocus
                 />
               </Grid>
             </Grid>

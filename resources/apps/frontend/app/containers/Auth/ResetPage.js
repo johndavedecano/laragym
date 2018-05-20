@@ -70,6 +70,7 @@ export default class ForgotPage extends Component {
                   type="password"
                   fullWidth
                   required
+                  autoFocus
                 />
               </Grid>
               <Grid item xs={12}>
