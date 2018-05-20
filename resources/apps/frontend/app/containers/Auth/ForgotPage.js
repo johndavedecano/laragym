@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 
-import PublicPage from 'components/Layouts/PublicPage';
-import Container from 'components/Layouts/Container';
+import AuthScreen from 'components/Auth/AuthScreen';
+import AuthPanel from 'components/Auth/AuthPanel';
 
 export default class ForgotPage extends Component {
   render() {
     return (
-      <PublicPage title="Forgot">
-        <Container>
-          <h1>Forgot Page</h1>
-        </Container>
-      </PublicPage>
+      <AuthScreen>
+        <AuthPanel title="Forgot Password">
+          Hello
+        </AuthPanel>
+      </AuthScreen>
     );
   }
 }

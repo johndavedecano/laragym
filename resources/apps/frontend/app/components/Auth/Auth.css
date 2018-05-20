@@ -1,0 +1,16 @@
+.loginScreen {
+  padding-top: 10%;
+}
+
+.loginForm {
+  min-height: 300px;
+  padding: 1rem;
+}
+
+.loginHeader {
+  padding: 1rem;
+}
+
+.loginTitle {
+  margin: 0;
+}

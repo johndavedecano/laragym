@@ -8,7 +8,7 @@ import styles from './App.css';
 export default class Anonymous extends Component {
   render() {
     return (
-      <div className={styles.appWrapper}>
+      <div className={styles.loginWrapper}>
         <MetaTag />
         <Route {...this.props} />
       </div>
