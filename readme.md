@@ -11,7 +11,7 @@ For professional support please email me at johndavedecano@gmail.com
 
 ## Installation
 
-1. Initial setup
+1. API Setup
 
 ```bash
 $ git clone git@github.com:johndavedecano/PHPLaravelGymManagementSystem.git project
@@ -23,7 +23,15 @@ $ php artisan db:seed
 $ php artisan serve
 ```
 
-2. have a coffee, nothing to do here;
+2. Frontend Setup
+
+```base
+$ cd project/resources/apps/frontend
+$ npm install
+$ npm run start
+```
+
+Please check package.json for more production related commands.
 
 ## Usage
 
