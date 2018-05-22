@@ -91,9 +91,9 @@ export default class Header extends Component {
           <IconButton color="inherit" aria-label="Menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="title" color="inherit">
+          {/* <Typography variant="title" color="inherit">
             {this.props.title}
-          </Typography>
+          </Typography> */}
 
           {this.props.showMenu && (
             <IconButton

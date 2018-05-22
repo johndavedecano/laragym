@@ -28,8 +28,8 @@ export const PackagesPage = Loadable({
   delay: GLOBAL_DELAY,
 });
 
-export const ProfilePage = Loadable({
-  loader: () => import('containers/Profile/ProfilePage'),
+export const AccountPage = Loadable({
+  loader: () => import('containers/Account/AccountPage'),
   loading: Loading,
   delay: GLOBAL_DELAY,
 });
