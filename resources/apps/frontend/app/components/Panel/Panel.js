@@ -47,7 +47,7 @@ export const SearchForm = ({
   placeholder = 'Search...',
 }) => (
   <Grid container className={styles.searchWrapper}>
-    <Grid item xs={10} className={styles.searchInputWrapper}>
+    <Grid item xs={11} className={styles.searchInputWrapper}>
       <form onSubmit={onSubmit} className={styles.searchInputWrapper}>
         <input
           required
@@ -59,8 +59,8 @@ export const SearchForm = ({
         />
       </form>
     </Grid>
-    <Grid item xs={2} className={styles.searchButtonWrapper}>
-      <button className={styles.searchButton}>
+    <Grid item xs={1} className={styles.searchButtonWrapper}>
+      <button type="submit" className={styles.searchButton}>
         <SearchIcon />
       </button>
     </Grid>
