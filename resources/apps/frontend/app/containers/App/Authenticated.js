@@ -12,13 +12,35 @@ import Snackbars from 'containers/AppNotification/Snackbars';
 import Page from 'components/Layouts/Page';
 
 class Authenticated extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isSidebarOpen:
+        localStorage.getItem('isSidebarOpen') === 'true',
+    };
+  }
+
+  onToggleSidebar = () => {
+    localStorage.setItem('isSidebarOpen', !this.state.isSidebarOpen);
+    this.setState({
+      isSidebarOpen: !this.state.isSidebarOpen,
+    });
+  };
+
   render() {
     return (
       <AppWrapper>
         <MetaTag />
-        <Sidebar />
-        <AppRight>
-          <Page title={this.props.title} onLogout={this.props.logout}>
+        <Sidebar
+          isSidebarOpen={this.state.isSidebarOpen}
+          onToggleSidebar={this.onToggleSidebar}
+        />
+        <AppRight isSidebarOpen={this.state.isSidebarOpen}>
+          <Page
+            onToggleSidebar={this.onToggleSidebar}
+            title={this.props.title}
+            onLogout={this.props.logout}
+          >
             <Route {...this.props} />
           </Page>
         </AppRight>

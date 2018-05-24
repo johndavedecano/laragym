@@ -8,17 +8,21 @@ import SidebarMenu from './SidebarMenu';
 import styles from './Sidebar.css';
 
 export default class AppSidebar extends Component {
+
   render() {
     return (
       <Drawer
+        key={this.props.isSidebarOpen}
         variant="permanent"
         classes={{
-          paper: styles.appDrawer,
+          paper: this.props.isSidebarOpen
+            ? styles.appDrawer
+            : styles.appDrawerMobile,
         }}
         anchor="left"
       >
         <List>
-          <Logo />
+          <Logo isSidebarOpen={this.props.isSidebarOpen} />
           <Divider />
           <SidebarMenu />
         </List>

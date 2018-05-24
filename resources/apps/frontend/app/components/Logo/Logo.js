@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom';
 
 import styles from './Logo.css';
 
-const Logo = () => (
+const Logo = ({ isSidebarOpen }) => (
   <div className={styles.logo}>
-    <Link to="/">
-        Gym Management
-    </Link>
+    {isSidebarOpen ? <Link to="/">Gym Management</Link> : <Link to="/">G</Link>}
   </div>
-  );
+);
 
 export default Logo;

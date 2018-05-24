@@ -88,7 +88,7 @@ export default class Header extends Component {
       <AppBar position="static">
         <Helmet title={this.props.title} />
         <Toolbar className={styles.toolbar}>
-          <IconButton color="inherit" aria-label="Menu">
+          <IconButton color="inherit" aria-label="Menu" onClick={this.props.onToggleSidebar}>
             <MenuIcon />
           </IconButton>
           {/* <Typography variant="title" color="inherit">

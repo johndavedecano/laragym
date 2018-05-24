@@ -10,8 +10,23 @@
 .appRight {
   position: relative;
 
-  width: calc(100% - 240px) !important;
+  width: calc(100% - 240px);
   margin-left: 240px;
+}
+
+.appRightMobile {
+  position: relative;
+
+  width: calc(100% - 70px);
+  margin-left: 70px;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .appRightMobile {
+    width: 100%;
+    margin-left: 0px;
+  }
 }
 
 .container {

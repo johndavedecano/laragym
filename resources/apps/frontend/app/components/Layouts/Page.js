@@ -16,6 +16,7 @@ export default class Page extends Component {
         key="title"
         title={this.props.title}
         onLogout={this.props.onLogout}
+        onToggleSidebar={this.props.onToggleSidebar}
       />,
       <main key="content" className={styles.appMain}>
         {this.props.children}
