@@ -2,7 +2,6 @@
 
 namespace App\Api\V1\Controllers;
 
-use App\Api\V1\Requests\LoginRequest;
 use App\Api\V1\Requests\UserRequest as Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;

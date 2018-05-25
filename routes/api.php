@@ -25,7 +25,9 @@ $api->version('v1', function (Router $api) {
         $api->resource('users', 'App\\Api\\V1\\Controllers\\UserController');
         $api->resource('activities', 'App\\Api\\V1\\Controllers\\ActivityController');
         $api->resource('subscriptions', 'App\\Api\\V1\\Controllers\\SubscriptionController');
-    
+
+        $api->post('upload', 'App\\Api\\V1\\Controllers\\ImageController@store');
+        
         $api->get('refresh', [
             'middleware' => 'jwt.refresh',
             function () {
