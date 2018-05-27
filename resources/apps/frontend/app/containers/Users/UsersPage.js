@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import AddIcon from '@material-ui/icons/Add';
-import Button from '@material-ui/core/Button';
 import TablePagination from '@material-ui/core/TablePagination';
 
 import {
@@ -13,15 +11,17 @@ import {
   PanelFooter,
   PanelActions,
 } from 'components/Panel/Panel';
-
-import Container from 'components/Layouts/Container';
+import { AddButton } from 'components/ActionButtons/ActionButtons';
 import { UserTable } from 'components/UserTable/UserTable';
+import Container from 'components/Layouts/Container';
+import UserCreateDialog from 'components/UserDialog/UserCreateDialog';
 
 import { load, create, update, destroy } from 'actions/user-actions';
 
 class UsersPage extends Component {
   state = {
     query: '',
+    isAddModalOpen: false,
   };
 
   componentDidMount() {
@@ -45,18 +45,31 @@ class UsersPage extends Component {
   };
 
   onHandleAction = (id, action) => {
-    console.log(id, action);
+    if (action === 'DELETE') {
+      return this.onDeleteAction(id);
+    } else if (action === 'EDIT') {
+      return this.onEditAction(id);
+    } else if (action === 'VIEW') {
+      return this.onViewAction(id);
+    }
+    return false;
   };
+
+  onDeleteAction = (id) => {};
+
+  onEditAction = (id) => {};
+
+  onViewAction = (id) => {};
+
+  onAddAction = () => {};
 
   render() {
     return (
       <Container>
         <Panel>
           <PanelHeader title="Manage Users">
-            <Button size="large" variant="raised" color="primary">
-              <AddIcon />
-              Add User
-            </Button>
+            <AddButton label="Add User" onClick={this.onAddAction} />
+            <UserCreateDialog isOpen />
           </PanelHeader>
 
           <PanelSearch

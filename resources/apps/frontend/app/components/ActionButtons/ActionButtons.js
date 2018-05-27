@@ -8,6 +8,13 @@ import ViewIcon from '@material-ui/icons/Visibility';
 
 import styles from './ActionButtons.css';
 
+export const AddButton = ({ label, onClick }) => (
+  <Button onClick={onClick} size="large" variant="raised" color="primary">
+    <AddIcon />
+    {label}
+  </Button>
+);
+
 export const EditButton = (props) => (
   <Button
     {...props}

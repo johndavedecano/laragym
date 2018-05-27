@@ -39,13 +39,13 @@ export const UserTableRow = ({ user, onHandleAction }) => (
     </TableCell>
     <TableCell>
       <ViewButton
-        onClick={onClickHandler(user.get('id'), 'view', onHandleAction)}
+        onClick={onClickHandler(user.get('id'), 'VIEW', onHandleAction)}
       />
       <EditButton
-        onClick={onClickHandler(user.get('id'), 'edit', onHandleAction)}
+        onClick={onClickHandler(user.get('id'), 'EDIT', onHandleAction)}
       />
       <DeleteButton
-        onClick={onClickHandler(user.get('id'), 'delete', onHandleAction)}
+        onClick={onClickHandler(user.get('id'), 'DELETE', onHandleAction)}
       />
     </TableCell>
   </TableRow>
