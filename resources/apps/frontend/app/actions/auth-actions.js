@@ -17,6 +17,41 @@ export function logout() {
  *
  * @returns {Function}
  */
+export function check() {
+  return async (dispatch, getState, api) => {
+    try {
+      const userResponse = await api.get('/api/auth/me');
+
+      const user = get(userResponse, 'data', {});
+
+      dispatch({
+        type: types.USER_LOGGED_IN_SUCCESS,
+        user,
+      });
+    } catch (error) {
+      dispatch({
+        type: types.USER_LOGGED_IN_FAILED,
+        meta: {
+          notification: {
+            type: 'snackbar',
+            message: 'You are not allowed to access this page',
+            vertical: 'bottom',
+            horizontal: 'right',
+          },
+        },
+      });
+      throw new Error(get(error, 'response.data.error.message'));
+    }
+  };
+}
+
+/**
+ * Log in a user. Request for a JWT token.
+ *
+ * @param {Object} data
+ *
+ * @returns {Function}
+ */
 export function login(data = {}) {
   return async (dispatch, getState, api) => {
     try {

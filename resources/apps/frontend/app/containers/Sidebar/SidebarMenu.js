@@ -7,6 +7,8 @@ import RedeemIcon from '@material-ui/icons/Redeem';
 import SettingsIcon from '@material-ui/icons/Settings';
 import UpdateIcon from '@material-ui/icons/Update';
 import UserIcon from '@material-ui/icons/SupervisorAccount';
+import AlarmIcon from '@material-ui/icons/Alarm';
+import ActivitiesIcon from '@material-ui/icons/Dvr';
 
 import MenuItem from 'components/MenuItem/MenuItem';
 
@@ -14,6 +16,14 @@ const SidebarMenu = () => (
   <div>
     <MenuItem to="/" primary="Dashboard">
       <HomeIcon />
+    </MenuItem>
+
+    <MenuItem to="/activities" primary="Activities">
+      <ActivitiesIcon />
+    </MenuItem>
+
+    <MenuItem to="/attendance" primary="Attendance">
+      <AlarmIcon />
     </MenuItem>
 
     <MenuItem to="/users" primary="Users">

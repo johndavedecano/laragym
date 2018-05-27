@@ -34,6 +34,18 @@ export const AccountPage = Loadable({
   delay: GLOBAL_DELAY,
 });
 
+export const AttendancePage = Loadable({
+  loader: () => import('containers/Attendance/AttendancePage'),
+  loading: Loading,
+  delay: GLOBAL_DELAY,
+});
+
+export const ActivitiesPage = Loadable({
+  loader: () => import('containers/Activities/ActivitiesPage'),
+  loading: Loading,
+  delay: GLOBAL_DELAY,
+});
+
 export const ServicesPage = Loadable({
   loader: () => import('containers/Services/ServicesPage'),
   loading: Loading,
