@@ -11,17 +11,18 @@ import {
   PanelFooter,
   PanelActions,
 } from 'components/Panel/Panel';
+
 import { AddButton } from 'components/ActionButtons/ActionButtons';
 import { UserTable } from 'components/UserTable/UserTable';
 import Container from 'components/Layouts/Container';
-import UserCreateDialog from 'components/UserDialog/UserCreateDialog';
+import UserCreateDialog from './UserCreateDialog';
 
 import { load, create, update, destroy } from 'actions/user-actions';
 
 class UsersPage extends Component {
   state = {
     query: '',
-    isAddModalOpen: false,
+    isCreateModalOpen: false,
   };
 
   componentDidMount() {
@@ -61,15 +62,27 @@ class UsersPage extends Component {
 
   onViewAction = (id) => {};
 
-  onAddAction = () => {};
+  onOpenCreateModal = () => {
+    this.setState({
+      isCreateModalOpen: true,
+    });
+  };
+
+  onCloseCreateModal = () => {
+    this.setState({
+      isCreateModalOpen: false,
+    });
+  };
 
   render() {
     return (
       <Container>
         <Panel>
           <PanelHeader title="Manage Users">
-            <AddButton label="Add User" onClick={this.onAddAction} />
-            <UserCreateDialog isOpen />
+            <AddButton label="Add User" onClick={this.onOpenCreateModal} />
+            {this.state.isCreateModalOpen && (
+              <UserCreateDialog isOpen onClose={this.onCloseCreateModal} />
+            )}
           </PanelHeader>
 
           <PanelSearch
