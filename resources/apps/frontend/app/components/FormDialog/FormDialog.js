@@ -19,6 +19,7 @@ export default class UserCreateDialog extends Component {
     onClose: () => {},
     submitText: 'Submit',
     title: '',
+    method: 'POST',
   };
 
   static propTypes = {
@@ -29,6 +30,7 @@ export default class UserCreateDialog extends Component {
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.element]),
     title: PropTypes.string,
     customActions: PropTypes.func,
+    method: PropTypes.string,
   };
 
   onSubmit = (event) => {
@@ -77,7 +79,7 @@ export default class UserCreateDialog extends Component {
         disableBackdropClick
       >
         <DialogTitle id="form-dialog-title">{this.props.title}</DialogTitle>
-        <form method="POST" action="/" onSubmit={this.onSubmit}>
+        <form method={this.props.method} action="/" onSubmit={this.onSubmit}>
           <DialogContent className={styles.formDialog}>
             {this.props.contentText && (
               <DialogContentText>{this.props.contentText}</DialogContentText>
