@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\User;
+use App\Models\User;
 use App\Subscription;
 use App\Policies\HasAdmin;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -15,7 +15,7 @@ class SubscriptionPolicy
     /**
      * Determine whether the user can view the subscription.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Subscription  $subscription
      * @return mixed
      */
@@ -27,7 +27,7 @@ class SubscriptionPolicy
     /**
      * Determine whether the user can create subscriptions.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -38,7 +38,7 @@ class SubscriptionPolicy
     /**
      * Determine whether the user can update the subscription.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Subscription  $subscription
      * @return mixed
      */
@@ -50,7 +50,7 @@ class SubscriptionPolicy
     /**
      * Determine whether the user can delete the subscription.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Subscription  $subscription
      * @return mixed
      */

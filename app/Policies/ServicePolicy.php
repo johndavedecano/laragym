@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\User;
+use App\Models\User;
 use App\Service;
 use App\Policies\HasAdmin;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -15,7 +15,7 @@ class ServicePolicy
     /**
      * Determine whether the user can view the service.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Service  $service
      * @return mixed
      */
@@ -27,7 +27,7 @@ class ServicePolicy
     /**
      * Determine whether the user can create services.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -38,7 +38,7 @@ class ServicePolicy
     /**
      * Determine whether the user can update the service.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Service  $service
      * @return mixed
      */
@@ -50,7 +50,7 @@ class ServicePolicy
     /**
      * Determine whether the user can delete the service.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Service  $service
      * @return mixed
      */

@@ -7,11 +7,14 @@
 
 namespace App\Models;
 
-use Reliese\Database\Eloquent\Model as Eloquent;
+use Hash;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * Class User
- * 
+ *
  * @property int $id
  * @property string $name
  * @property string $email
@@ -32,36 +35,82 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class User extends Eloquent
+class User extends Authenticatable implements JWTSubject
 {
-	protected $casts = [
-		'is_admin' => 'bool'
-	];
+    use Notifiable;
 
-	protected $dates = [
-		'date_of_birth',
-		'last_login'
-	];
+    protected $casts = [
+        'is_admin' => 'bool'
+    ];
 
-	protected $hidden = [
-		'password',
-		'remember_token'
-	];
+    protected $dates = [
+        'date_of_birth',
+        'last_login'
+    ];
 
-	protected $fillable = [
-		'name',
-		'email',
-		'password',
-		'remember_token',
-		'account_number',
-		'mobile',
-		'avatar',
-		'date_of_birth',
-		'address',
-		'city',
-		'state',
-		'postal_code',
-		'is_admin',
-		'last_login'
-	];
+    protected $hidden = [
+        'password',
+        'remember_token'
+    ];
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'remember_token',
+        'account_number',
+        'mobile',
+        'avatar',
+        'date_of_birth',
+        'address',
+        'city',
+        'state',
+        'postal_code',
+        'is_admin',
+        'last_login'
+    ];
+
+    /**
+     * Automatically create user account number.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setAccountNumberAttribute($value)
+    {
+        $random = rand(10, 500);
+        
+        $this->attributes['account_number'] = $value.$random;
+    }
+
+    /**
+     * Automatically creates hash for the user password.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 }

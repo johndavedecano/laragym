@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\User;
+use App\Models\User;
 use App\Package;
 use App\Policies\HasAdmin;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -15,7 +15,7 @@ class PackagePolicy
     /**
      * Determine whether the user can view the package.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Package  $package
      * @return mixed
      */
@@ -27,7 +27,7 @@ class PackagePolicy
     /**
      * Determine whether the user can create packages.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -38,7 +38,7 @@ class PackagePolicy
     /**
      * Determine whether the user can update the package.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Package  $package
      * @return mixed
      */
@@ -50,7 +50,7 @@ class PackagePolicy
     /**
      * Determine whether the user can delete the package.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Package  $package
      * @return mixed
      */

@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\User;
+use App\Models\User;
 use App\Cycle;
 use App\Policies\HasAdmin;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -15,7 +15,7 @@ class CyclePolicy
     /**
      * Determine whether the user can view the cycle.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Cycle  $cycle
      * @return mixed
      */
@@ -27,7 +27,7 @@ class CyclePolicy
     /**
      * Determine whether the user can create cycles.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -38,7 +38,7 @@ class CyclePolicy
     /**
      * Determine whether the user can update the cycle.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Cycle  $cycle
      * @return mixed
      */
@@ -50,7 +50,7 @@ class CyclePolicy
     /**
      * Determine whether the user can delete the cycle.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Cycle  $cycle
      * @return mixed
      */

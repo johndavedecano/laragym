@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\User;
+use App\Models\User;
 use App\Activity;
 use App\Policies\HasAdmin;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -15,7 +15,7 @@ class ActivityPolicy
     /**
      * Determine whether the user can view the activity.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Activity  $activity
      * @return mixed
      */
@@ -27,7 +27,7 @@ class ActivityPolicy
     /**
      * Determine whether the user can create activities.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -38,7 +38,7 @@ class ActivityPolicy
     /**
      * Determine whether the user can update the activity.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Activity  $activity
      * @return mixed
      */
@@ -50,7 +50,7 @@ class ActivityPolicy
     /**
      * Determine whether the user can delete the activity.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Activity  $activity
      * @return mixed
      */

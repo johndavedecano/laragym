@@ -2,12 +2,13 @@
 
 namespace App\Api\V1\Controllers;
 
+use Auth;
+use Hash;
+
 use App\Api\V1\Requests\UserRequest as Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Auth;
-use Hash;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -15,6 +16,12 @@ use Tymon\JWTAuth\JWTAuth;
 
 class UserController extends Controller
 {
+    /**
+     * Pagination per_page.
+     *
+     * @var integer
+     */
+    public $per_page = 30;
     /**
      * Create a new AuthController instance.
      *
@@ -36,9 +43,13 @@ class UserController extends Controller
     {
         $this->authorize('create', User::class);
 
-        return UserResource::collection(
-            $this->model->orderBy('name', 'DESC')->paginate()
-        );
+        $builder = $this->model->orderBy('name', 'ASC');
+
+        if (request()->has('q')) {
+            $builder = $builder->where('name', 'like', '%'.request()->get('q').'%');
+        }
+
+        return UserResource::collection($builder->paginate(request()->get('per_page', $this->per_page)));
     }
 
     /**
@@ -54,15 +65,15 @@ class UserController extends Controller
         $model = $this->model->create([
             'name' => $request->get('name', ''),
             'email' => $request->get('email', ''),
-            'password'=> Hash::make($request->get('password', '')),
-            'account_number' => $request->get('account_number', date('YmdHis')),
+            'password'=> $request->get('password', 'password1234567890'),
             'mobile' => $request->get('mobile', ''),
             'avatar' => $request->get('avatar', ''),
-            'date_of_birth' => $request->get('date_of_birth', ''),
             'address' => $request->get('address', ''),
             'city' => $request->get('city', ''),
             'state' => $request->get('state', ''),
-            'postal_code' => $request->get('postal_code', '')
+            'postal_code' => $request->get('postal_code', ''),
+            'is_admin' => $request->get('is_admin', false),
+            'account_number' => date('YmdHis'),
         ]);
 
         return new UserResource($model);
@@ -96,24 +107,50 @@ class UserController extends Controller
 
         $this->authorize('update', $model);
 
-        $model->update([
-            'name' => $request->get('name', ''),
-            'email' => $request->get('email', ''),
-            'password'=> $request->get('password', ''),
-            'account_number' => $request->get('account_number', date('YmdHis')),
-            'mobile' => $request->get('mobile', ''),
-            'avatar' => $request->get('avatar', ''),
-            'date_of_birth' => $request->get('date_of_birth', ''),
-            'address' => $request->get('address', ''),
-            'city' => $request->get('city', ''),
-            'state' => $request->get('state', ''),
-            'postal_code' => $request->get('postal_code', '')
-        ]);
+        $data = [];
+
+        if ($request->has('name')) {
+            $data['name'] = $request->get('name', '');
+        }
+
+        if ($request->has('mobile')) {
+            $data['mobile'] = $request->get('mobile', '');
+        }
+
+        if ($request->has('avatar')) {
+            $data['avatar'] = $request->get('avatar', '');
+        }
+
+        if ($request->has('date_of_birth')) {
+            $data['date_of_birth'] = $request->get('date_of_birth', date('Y-m-d'));
+        }
+
+        if ($request->has('address')) {
+            $data['address'] = $request->get('address', '');
+        }
+
+        if ($request->has('city')) {
+            $data['city'] = $request->get('city', '');
+        }
+
+        if ($request->has('state')) {
+            $data['state'] = $request->get('state', '');
+        }
+
+        if ($request->has('postal_code')) {
+            $data['postal_code'] = $request->get('postal_code', '');
+        }
+        
+        if ($request->has('is_admin')) {
+            $data['is_admin'] = $request->get('is_admin', false);
+        }
 
         if ($request->has('password')) {
-            $model->update([
-                'password' => Hash::make($request->get('password'))
-            ]);
+            $data['password'] = $request->get('password', 'password1234567890');
+        }
+
+        if ($request->has('email')) {
+            $data['email'] = $request->get('email');
         }
 
         return new UserResource($model);
