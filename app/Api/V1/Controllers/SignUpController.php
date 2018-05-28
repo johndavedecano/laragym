@@ -3,7 +3,7 @@
 namespace App\Api\V1\Controllers;
 
 use Config;
-use App\User;
+use App\Models\User;
 use Tymon\JWTAuth\JWTAuth;
 use App\Http\Controllers\Controller;
 use App\Api\V1\Requests\SignUpRequest;
@@ -25,6 +25,7 @@ class SignUpController extends Controller
         }
 
         $token = $JWTAuth->fromUser($user);
+        
         return response()->json([
             'status' => 'ok',
             'token' => $token
