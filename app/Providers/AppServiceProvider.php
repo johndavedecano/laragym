@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,8 +25,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        app('Dingo\Api\Exception\Handler')->register(function (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
+        app('Dingo\Api\Exception\Handler')->register(function (ModelNotFoundException $exception) {
             return response()->make(['error' => 'Resource not found.'], 404);
+        });
+
+        app('Dingo\Api\Exception\Handler')->register(function (AuthorizationException $exception) {
+            return response()->make(['error' => 'You are not authorized to perform this action.'], 401);
         });
     }
 }
