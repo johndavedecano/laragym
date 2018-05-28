@@ -15,39 +15,67 @@ import {
 import { AddButton } from 'components/ActionButtons/ActionButtons';
 import { UserTable } from 'components/UserTable/UserTable';
 import Container from 'components/Layouts/Container';
+
 import UserCreateDialog from './UserCreateDialog';
+import UserDeleteDialog from './UserDeleteDialog';
 
 import { load, create, update, destroy } from 'actions/user-actions';
 
+const PAGINATION_LIMIT_OPTIONS = [30, 60, 120];
+
 class UsersPage extends Component {
   state = {
-    query: '',
-    isCreateModalOpen: false,
+    q: '',
+    isCreateDialogOpen: false,
+    isDeleteDialogOpen: false,
   };
 
   componentDidMount() {
     if (!this.props.isLoaded) {
-      this.props.load({}, true);
+      this.props.load();
     }
   }
 
   onSearchChange = (event) => {
     this.setState({
-      query: event.target.value,
+      q: event.target.value,
     });
   };
 
   onSubmitSearch = (event) => {
     event.preventDefault();
+    this.props.load({ q: this.state.q });
   };
 
   onChangePage = (event, page) => {
-    console.log(page);
+    const params = {
+      page: page + 1,
+      per_page: this.props.params.get('per_page', 30),
+    };
+
+    if (this.state.q) {
+      params.q = this.state.q;
+    }
+
+    this.props.load(params);
+  };
+
+  onChangeLimit = (event) => {
+    const params = {
+      page: this.props.params.get('current_page', 1),
+      per_page: event.target.value,
+    };
+
+    if (this.state.q) {
+      params.q = this.state.q;
+    }
+
+    this.props.load(params);
   };
 
   onHandleAction = (id, action) => {
     if (action === 'DELETE') {
-      return this.onDeleteAction(id);
+      return this.onOpenDeleteModal(id);
     } else if (action === 'EDIT') {
       return this.onEditAction(id);
     } else if (action === 'VIEW') {
@@ -56,21 +84,31 @@ class UsersPage extends Component {
     return false;
   };
 
-  onDeleteAction = (id) => {};
+  onEditAction = (user) => {};
 
-  onEditAction = (id) => {};
-
-  onViewAction = (id) => {};
+  onViewAction = (user) => {};
 
   onOpenCreateModal = () => {
     this.setState({
-      isCreateModalOpen: true,
+      isCreateDialogOpen: true,
     });
   };
 
   onCloseCreateModal = () => {
     this.setState({
-      isCreateModalOpen: false,
+      isCreateDialogOpen: false,
+    });
+  };
+
+  onOpenDeleteModal = (id) => {
+    this.setState({
+      isDeleteDialogOpen: id,
+    });
+  };
+
+  onCloseDeleteModal = () => {
+    this.setState({
+      isDeleteDialogOpen: false,
     });
   };
 
@@ -80,7 +118,7 @@ class UsersPage extends Component {
         <Panel>
           <PanelHeader title="Manage Users">
             <AddButton label="Add User" onClick={this.onOpenCreateModal} />
-            {this.state.isCreateModalOpen && (
+            {this.state.isCreateDialogOpen && (
               <UserCreateDialog
                 isOpen
                 onClose={this.onCloseCreateModal}
@@ -90,7 +128,7 @@ class UsersPage extends Component {
           </PanelHeader>
 
           <PanelSearch
-            value={this.state.query}
+            value={this.state.q}
             onChange={this.onSearchChange}
             onSubmit={this.onSubmitSearch}
           />
@@ -106,10 +144,10 @@ class UsersPage extends Component {
             <PanelActions>
               <TablePagination
                 component="div"
-                count={this.props.params.get('total')}
-                rowsPerPage={15}
-                rowsPerPageOptions={[15]}
-                page={this.props.params.get('current_page') - 1}
+                count={this.props.params.get('total', 0)}
+                rowsPerPage={Number(this.props.params.get('per_page', 30))}
+                rowsPerPageOptions={PAGINATION_LIMIT_OPTIONS}
+                page={this.props.params.get('current_page', 0) - 1}
                 backIconButtonProps={{
                   'aria-label': 'Previous Page',
                 }}
@@ -117,11 +155,20 @@ class UsersPage extends Component {
                   'aria-label': 'Next Page',
                 }}
                 onChangePage={this.onChangePage}
-                onChangeRowsPerPage={() => {}}
+                onChangeRowsPerPage={this.onChangeLimit}
               />
             </PanelActions>
           </PanelFooter>
         </Panel>
+
+        {this.state.isDeleteDialogOpen && (
+          <UserDeleteDialog
+            id={this.state.isDeleteDialogOpen}
+            isOpen
+            onClose={this.onCloseDeleteModal}
+            onSubmit={this.props.destroy}
+          />
+        )}
       </Container>
     );
   }

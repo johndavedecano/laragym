@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-
+import Hidden from '@material-ui/core/Hidden';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -18,8 +18,12 @@ export const UserTableHead = () => (
     <TableRow>
       <TableCell>Account #</TableCell>
       <TableCell>Name</TableCell>
-      <TableCell>Email</TableCell>
-      <TableCell>Member Since</TableCell>
+      <Hidden only={['xs', 'sm']}>
+        <React.Fragment>
+          <TableCell>Email</TableCell>
+          <TableCell>Member Since</TableCell>
+        </React.Fragment>
+      </Hidden>
       <TableCell>Action</TableCell>
     </TableRow>
   </TableHead>
@@ -33,16 +37,22 @@ export const UserTableRow = ({ user, onHandleAction }) => (
       {user.get('account_number')}
     </TableCell>
     <TableCell>{user.get('name')}</TableCell>
-    <TableCell>{user.get('email')}</TableCell>
-    <TableCell>
-      {moment(user.get('created_at')).format('MMM Do YYYY')}
-    </TableCell>
+
+    <Hidden only={['xs', 'sm']}>
+      <React.Fragment>
+        <TableCell>{user.get('email')}</TableCell>
+        <TableCell>
+          {moment(user.get('created_at')).format('MMM Do YYYY')}
+        </TableCell>
+      </React.Fragment>
+    </Hidden>
+
     <TableCell>
       <ViewButton
-        onClick={onClickHandler(user.get('id'), 'VIEW', onHandleAction)}
+        onClick={onClickHandler(user, 'VIEW', onHandleAction)}
       />
       <EditButton
-        onClick={onClickHandler(user.get('id'), 'EDIT', onHandleAction)}
+        onClick={onClickHandler(user, 'EDIT', onHandleAction)}
       />
       <DeleteButton
         onClick={onClickHandler(user.get('id'), 'DELETE', onHandleAction)}

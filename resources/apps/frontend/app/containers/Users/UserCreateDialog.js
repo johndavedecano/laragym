@@ -9,6 +9,17 @@ import TextField from '@material-ui/core/TextField';
 import AvatarField from 'components/AvatarField/AvatarField';
 import FormDialog from 'components/FormDialog/FormDialog';
 
+const INITIAL_STATE = {
+  name: '',
+  email: '',
+  is_admin: false,
+  avatar: null,
+  password: '',
+  password_confirmation: '',
+  isSubmitting: false,
+  errors: {},
+};
+
 export default class UserCreateDialog extends Component {
   static defaultProps = {
     isOpen: false,
@@ -20,16 +31,7 @@ export default class UserCreateDialog extends Component {
     onClose: PropTypes.func,
   };
 
-  state = {
-    name: '',
-    email: '',
-    is_admin: false,
-    avatar: null,
-    password: '',
-    password_confirmation: '',
-    isSubmitting: false,
-    errors: {},
-  };
+  state = INITIAL_STATE;
 
   onCheckboxChange = (name) => () => {
     this.setState({
@@ -64,14 +66,12 @@ export default class UserCreateDialog extends Component {
           'password_confirmation',
         ])
       );
-      this.setState({ isSubmitting: false, errors: {} });
+      this.setState(INITIAL_STATE);
       this.props.onClose();
     } catch (error) {
-      if (error.errors) {
-        this.setState({ errors: error.errors });
-      }
       this.setState({
         isSubmitting: false,
+        errors: error.errors ? error.errors : {},
       });
     }
   };
@@ -86,6 +86,7 @@ export default class UserCreateDialog extends Component {
   render() {
     return (
       <FormDialog
+        method="POST"
         title="Create User Account"
         contentText="Please make sure that you provide unique email address and valid name. Also you can only select jpg and png for your the avatar."
         isOpen={this.props.isOpen}
