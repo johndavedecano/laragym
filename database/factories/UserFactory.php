@@ -8,8 +8,8 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => Hash::make('password'),
+        'password' => 'password',
         'avatar' => 'https://www.gravatar.com/avatar/' . md5($faker->unique()->safeEmail),
-        'account_number' => $faker->randomNumber
+        'account_number' => date('YmdHis')
     ];
 });

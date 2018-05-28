@@ -20,9 +20,9 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@admin.com',
             'is_admin' => true,
-            'password' => Hash::make('password')
+            'password' => 'password'
         ]);
 
-        factory(App\Models\User::class, 10)->create(['is_admin' => false]);
+        factory(App\Models\User::class, 100)->create(['is_admin' => false]);
     }
 }
