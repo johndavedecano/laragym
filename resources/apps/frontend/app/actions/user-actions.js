@@ -1,13 +1,13 @@
 import get from 'lodash/get';
 import { fromJS } from 'immutable';
 import normalize from 'helpers/normalize';
-
+import ApiError from 'helpers/ApiError';
 import * as types from './../constants';
 
 export const normalizeData = (data) =>
   fromJS(normalize(get(data, 'data', []), 'id'));
 
-export function load(params, replace = false) {
+export function load(params, replace = true) {
   return async (dispatch, getState, api) => {
     try {
       dispatch({
@@ -34,7 +34,8 @@ export function load(params, replace = false) {
           },
         },
       });
-      throw error;
+
+      throw new ApiError(error.response);
     }
   };
 }
@@ -42,7 +43,40 @@ export function load(params, replace = false) {
 export function create(params = {}) {
   return async (dispatch, getState, api) => {
     try {
-    } catch (error) {}
+      dispatch({
+        type: types.USER_CREATE,
+      });
+
+      await api.post('/api/users', params);
+
+      await dispatch(load({ page: 1 }, true));
+
+      dispatch({
+        type: types.USER_CREATE_SUCCESS,
+        meta: {
+          notification: {
+            type: 'snackbar',
+            message: 'User was successfully created.',
+            vertical: 'bottom',
+            horizontal: 'right',
+          },
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: types.USER_CREATE_FAILED,
+        meta: {
+          notification: {
+            type: 'snackbar',
+            message: 'Unable to create user.',
+            vertical: 'bottom',
+            horizontal: 'right',
+          },
+        },
+      });
+
+      throw new ApiError(error.response);
+    }
   };
 }
 

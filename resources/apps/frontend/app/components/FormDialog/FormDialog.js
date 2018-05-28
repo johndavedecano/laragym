@@ -34,7 +34,7 @@ export default class UserCreateDialog extends Component {
   onSubmit = (event) => {
     if (this.props.isSubmitting) return;
     event.preventDefault();
-    this.props.onSubmit();
+    this.props.onSubmit(event);
   };
 
   onClose = (event) => {

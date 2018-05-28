@@ -81,7 +81,11 @@ class UsersPage extends Component {
           <PanelHeader title="Manage Users">
             <AddButton label="Add User" onClick={this.onOpenCreateModal} />
             {this.state.isCreateModalOpen && (
-              <UserCreateDialog isOpen onClose={this.onCloseCreateModal} />
+              <UserCreateDialog
+                isOpen
+                onClose={this.onCloseCreateModal}
+                onSubmit={this.props.create}
+              />
             )}
           </PanelHeader>
 
