@@ -50,7 +50,6 @@ export const SearchForm = ({
     <Grid item xs={11} className={styles.searchInputWrapper}>
       <form onSubmit={onSubmit} className={styles.searchInputWrapper}>
         <input
-          required
           value={value}
           type="search"
           placeholder={placeholder}
