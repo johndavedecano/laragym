@@ -39,7 +39,7 @@ export const saveState = (state) => {
   }
 };
 
-const PERSISTED_STATES = ['auth', 'language', 'user'];
+const PERSISTED_STATES = ['auth', 'language'];
 
 /**
  * Subscribe to store changes and save state
