@@ -14,7 +14,7 @@ export function load(params, replace = true) {
         type: types.USER_LOAD,
       });
 
-      const { data } = await api.get('/api/users', params);
+      const { data } = await api.get('/api/users', { params });
 
       dispatch({
         type: types.USER_LOAD_SUCCESS,
@@ -49,7 +49,7 @@ export function create(params = {}) {
 
       await api.post('/api/users', params);
 
-      await dispatch(load({ page: 1 }, true));
+      dispatch(load({ page: 1 }, true));
 
       dispatch({
         type: types.USER_CREATE_SUCCESS,
@@ -90,6 +90,39 @@ export function update(id, params = {}) {
 export function destroy(id) {
   return async (dispatch, getState, api) => {
     try {
-    } catch (error) {}
+      dispatch({
+        type: types.USER_DELETE,
+      });
+
+      await api.delete(`/api/users/${id}`);
+
+      dispatch(load({ page: 1 }, true));
+
+      dispatch({
+        type: types.USER_DELETE_SUCCESS,
+        meta: {
+          notification: {
+            type: 'snackbar',
+            message: 'User was successfully deleted.',
+            vertical: 'bottom',
+            horizontal: 'right',
+          },
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: types.USER_DELETE_FAILED,
+        meta: {
+          notification: {
+            type: 'snackbar',
+            message: 'Unable to delete user.',
+            vertical: 'bottom',
+            horizontal: 'right',
+          },
+        },
+      });
+
+      throw new ApiError(error.response);
+    }
   };
 }
