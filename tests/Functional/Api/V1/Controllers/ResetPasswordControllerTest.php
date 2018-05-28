@@ -4,7 +4,7 @@ namespace App\Functional\Api\V1\Controllers;
 
 use DB;
 use Config;
-use App\User;
+use App\Models\User;
 use App\TestCase;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
