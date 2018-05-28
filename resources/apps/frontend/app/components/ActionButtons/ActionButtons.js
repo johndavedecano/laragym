@@ -17,6 +17,7 @@ export const AddButton = ({ label, onClick }) => (
 
 export const EditButton = (props) => (
   <Button
+    size="small"
     {...props}
     className={styles.actionButton}
     variant="raised"
@@ -28,6 +29,7 @@ export const EditButton = (props) => (
 
 export const DeleteButton = (props) => (
   <Button
+    size="small"
     {...props}
     className={styles.actionButton}
     variant="raised"
@@ -39,6 +41,7 @@ export const DeleteButton = (props) => (
 
 export const CreateButton = (props) => (
   <Button
+    size="small"
     {...props}
     className={styles.actionButton}
     variant="raised"
@@ -50,6 +53,7 @@ export const CreateButton = (props) => (
 
 export const ViewButton = (props) => (
   <Button
+    size="small"
     {...props}
     className={styles.actionButton}
     variant="raised"
