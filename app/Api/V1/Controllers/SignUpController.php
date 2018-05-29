@@ -2,12 +2,12 @@
 
 namespace App\Api\V1\Controllers;
 
-use Config;
-use App\Models\User;
-use Tymon\JWTAuth\JWTAuth;
-use App\Http\Controllers\Controller;
 use App\Api\V1\Requests\SignUpRequest;
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Config;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Tymon\JWTAuth\JWTAuth;
 
 class SignUpController extends Controller
 {
