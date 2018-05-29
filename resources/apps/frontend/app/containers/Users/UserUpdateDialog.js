@@ -34,8 +34,6 @@ export default class UserCreateDialog extends Component {
     super(props);
     const { user } = props;
 
-    this.isStillMounted = false;
-
     this.state = {
       ...INITIAL_STATE,
       originalValues: {
@@ -65,7 +63,7 @@ export default class UserCreateDialog extends Component {
   }
 
   onCheckboxChange = (name) => () => {
-    this.setStateIfMounted({
+    this.setState({
       form: {
         ...this.state.form,
         [name]: !this.getFieldValue(name),
@@ -74,7 +72,7 @@ export default class UserCreateDialog extends Component {
   };
 
   onChange = (event) => {
-    this.setStateIfMounted({
+    this.setState({
       form: {
         ...this.state.form,
         [event.target.name]: event.target.value,
@@ -83,7 +81,7 @@ export default class UserCreateDialog extends Component {
   };
 
   onChangeAvatar = (avatar) => {
-    this.setStateIfMounted({
+    this.setState({
       form: {
         ...this.state.form,
         avatar,
@@ -92,7 +90,7 @@ export default class UserCreateDialog extends Component {
   };
 
   onChangeDOB = (dob) => {
-    this.setStateIfMounted({
+    this.setState({
       form: {
         ...this.state.form,
         date_of_birth: dob,
@@ -101,7 +99,7 @@ export default class UserCreateDialog extends Component {
   };
 
   onChangePassword = (event) => {
-    this.setStateIfMounted({
+    this.setState({
       form: {
         ...this.state.form,
         [event.target.name]: event.target.value,
@@ -113,7 +111,7 @@ export default class UserCreateDialog extends Component {
     try {
       if (this.state.isSubmitting) return;
       event.preventDefault();
-      this.setStateIfMounted({ isSubmitting: true, errors: {} });
+      this.setState({ isSubmitting: true, errors: {} });
       await this.props.onSubmit(
         this.props.user.get('id'),
         this.getFormValues()
@@ -122,32 +120,18 @@ export default class UserCreateDialog extends Component {
         this.props.onClose();
       });
     } catch (error) {
-      this.setStateIfMounted({
+      this.setState({
         isSubmitting: false,
         errors: error.errors ? error.errors : {},
       });
     }
   };
 
-  onPasswordChanged = () => {
-    this.setStateIfMounted({
-      passwordChanged: true,
-    });
-  };
-
-  setStateIfMounted() {
-    if (this.isStillMounted) {
-      /* eslint-disable */
-      this.setState(...arguments);
-      /* eslint-enable */
-    }
-  }
-
   getFormValues() {
     const values = omit(this.state.form, ['password']);
 
     // Somehow password gets autofield.
-    if (this.state.passwordChanged && this.state.form.password !== '') {
+    if (this.state.form.password !== '') {
       values.password = this.state.form.password;
       values.password_confirmation = this.state.form.password_confirmation;
     }
@@ -161,13 +145,15 @@ export default class UserCreateDialog extends Component {
    * @returns {String|Boolean}
    */
   getFieldValue(name) {
-    if (this.state.form[name] === false) {
-      return false;
-    }
+    const str = (value) => (value === null ? '' : value);
+    const formValue = str(this.state.form[name]);
+    const origValue = str(this.state.originalValues[name]);
 
-    const value = this.state.form[name] || this.state.originalValues[name];
+    if (formValue === origValue) return origValue;
+    if (formValue === false) return false;
+    if (typeof formValue === 'undefined') return origValue;
 
-    return value === null ? '' : value;
+    return formValue;
   }
 
   /**
@@ -209,6 +195,7 @@ export default class UserCreateDialog extends Component {
               helperText={this.getHelperText('name')}
               error={!!this.state.errors.name}
               onChange={this.onChange}
+              placeholder={this.state.originalValues.name}
               value={this.getFieldValue('name')}
             />
           </Grid>
@@ -222,6 +209,7 @@ export default class UserCreateDialog extends Component {
               fullWidth
               helperText={this.getHelperText('email')}
               error={!!this.state.errors.email}
+              placeholder={this.state.originalValues.email}
               onChange={this.onChange}
               value={this.getFieldValue('email')}
             />
@@ -327,17 +315,12 @@ export default class UserCreateDialog extends Component {
               name="password"
               label="Password"
               type="password"
-              inputProps={{
-                'data-lpignore': 'true',
-                autoComplete: 'off',
-              }}
               fullWidth
               helperText={this.getHelperText('password')}
               error={!!this.state.errors.password}
               onChange={this.onChangePassword}
               value={this.getFieldValue('password')}
               data-lpignore="true"
-              onKeyUp={this.onPasswordChanged}
             />
           </Grid>
           <Grid sm={12} md={6} item>
@@ -348,10 +331,6 @@ export default class UserCreateDialog extends Component {
               label="Password Confirmation"
               type="password"
               fullWidth
-              inputProps={{
-                'data-lpignore': 'true',
-                autoComplete: 'off',
-              }}
               helperText={this.getHelperText('password_confirmation')}
               error={!!this.state.errors.password_confirmation}
               onChange={this.onChangePassword}
