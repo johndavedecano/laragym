@@ -11,24 +11,24 @@ export function load(params, replace = true) {
   return async (dispatch, getState, api) => {
     try {
       dispatch({
-        type: types.SERVICE_LOAD,
+        type: types.SUBSCRIPTION_LOAD,
       });
 
-      const { data } = await api.get('/api/services', { params });
+      const { data } = await api.get('/api/subscriptions', { params });
 
       dispatch({
-        type: types.SERVICE_LOAD_SUCCESS,
+        type: types.SUBSCRIPTION_LOAD_SUCCESS,
         params: fromJS(get(data, 'meta')),
-        services: normalizeData(data),
+        subscriptions: normalizeData(data),
         replace,
       });
     } catch (error) {
       dispatch({
-        type: types.SERVICE_LOAD_FAILED,
+        type: types.SUBSCRIPTION_LOAD_FAILED,
         meta: {
           notification: {
             type: 'snackbar',
-            message: 'Unable to load services.',
+            message: 'Unable to load subscriptions.',
             vertical: 'bottom',
             horizontal: 'right',
           },
@@ -44,15 +44,15 @@ export function create(params = {}) {
   return async (dispatch, getState, api) => {
     try {
       dispatch({
-        type: types.SERVICE_CREATE,
+        type: types.SUBSCRIPTION_CREATE,
       });
 
-      await api.post('/api/services', params);
+      await api.post('/api/subscriptions', params);
 
       dispatch(load({ page: 1 }, true));
 
       dispatch({
-        type: types.SERVICE_CREATE_SUCCESS,
+        type: types.SUBSCRIPTION_CREATE_SUCCESS,
         meta: {
           notification: {
             type: 'snackbar',
@@ -64,7 +64,7 @@ export function create(params = {}) {
       });
     } catch (error) {
       dispatch({
-        type: types.SERVICE_CREATE_FAILED,
+        type: types.SUBSCRIPTION_CREATE_FAILED,
         meta: {
           notification: {
             type: 'snackbar',
@@ -84,15 +84,15 @@ export function update(id, params = {}) {
   return async (dispatch, getState, api) => {
     try {
       dispatch({
-        type: types.SERVICE_UPDATE,
+        type: types.SUBSCRIPTION_UPDATE,
       });
 
-      await api.put(`/api/services/${id}`, params);
+      await api.put(`/api/subscriptions/${id}`, params);
 
       dispatch(load({ page: 1 }, true));
 
       dispatch({
-        type: types.SERVICE_UPDATE_SUCCESS,
+        type: types.SUBSCRIPTION_UPDATE_SUCCESS,
         meta: {
           notification: {
             type: 'snackbar',
@@ -104,7 +104,7 @@ export function update(id, params = {}) {
       });
     } catch (error) {
       dispatch({
-        type: types.SERVICE_UPDATE_FAILED,
+        type: types.SUBSCRIPTION_UPDATE_FAILED,
         meta: {
           notification: {
             type: 'snackbar',
@@ -124,15 +124,15 @@ export function destroy(id) {
   return async (dispatch, getState, api) => {
     try {
       dispatch({
-        type: types.SERVICE_DELETE,
+        type: types.SUBSCRIPTION_DELETE,
       });
 
-      await api.delete(`/api/services/${id}`);
+      await api.delete(`/api/subscriptions/${id}`);
 
       dispatch(load({ page: 1 }, true));
 
       dispatch({
-        type: types.SERVICE_DELETE_SUCCESS,
+        type: types.SUBSCRIPTION_DELETE_SUCCESS,
         meta: {
           notification: {
             type: 'snackbar',
@@ -144,7 +144,7 @@ export function destroy(id) {
       });
     } catch (error) {
       dispatch({
-        type: types.SERVICE_DELETE_FAILED,
+        type: types.SUBSCRIPTION_DELETE_FAILED,
         meta: {
           notification: {
             type: 'snackbar',

@@ -11,24 +11,24 @@ export function load(params, replace = true) {
   return async (dispatch, getState, api) => {
     try {
       dispatch({
-        type: types.SERVICE_LOAD,
+        type: types.MESSAGE_LOAD,
       });
 
-      const { data } = await api.get('/api/services', { params });
+      const { data } = await api.get('/api/messages', { params });
 
       dispatch({
-        type: types.SERVICE_LOAD_SUCCESS,
+        type: types.MESSAGE_LOAD_SUCCESS,
         params: fromJS(get(data, 'meta')),
-        services: normalizeData(data),
+        messages: normalizeData(data),
         replace,
       });
     } catch (error) {
       dispatch({
-        type: types.SERVICE_LOAD_FAILED,
+        type: types.MESSAGE_LOAD_FAILED,
         meta: {
           notification: {
             type: 'snackbar',
-            message: 'Unable to load services.',
+            message: 'Unable to load messages.',
             vertical: 'bottom',
             horizontal: 'right',
           },
@@ -44,19 +44,19 @@ export function create(params = {}) {
   return async (dispatch, getState, api) => {
     try {
       dispatch({
-        type: types.SERVICE_CREATE,
+        type: types.MESSAGE_CREATE,
       });
 
-      await api.post('/api/services', params);
+      await api.post('/api/messages', params);
 
       dispatch(load({ page: 1 }, true));
 
       dispatch({
-        type: types.SERVICE_CREATE_SUCCESS,
+        type: types.MESSAGE_CREATE_SUCCESS,
         meta: {
           notification: {
             type: 'snackbar',
-            message: 'Service was successfully created.',
+            message: ' Successfully created.',
             vertical: 'bottom',
             horizontal: 'right',
           },
@@ -64,11 +64,11 @@ export function create(params = {}) {
       });
     } catch (error) {
       dispatch({
-        type: types.SERVICE_CREATE_FAILED,
+        type: types.MESSAGE_CREATE_FAILED,
         meta: {
           notification: {
             type: 'snackbar',
-            message: 'Unable to create service.',
+            message: 'Unable to create item.',
             vertical: 'bottom',
             horizontal: 'right',
           },
@@ -84,19 +84,19 @@ export function update(id, params = {}) {
   return async (dispatch, getState, api) => {
     try {
       dispatch({
-        type: types.SERVICE_UPDATE,
+        type: types.MESSAGE_UPDATE,
       });
 
-      await api.put(`/api/services/${id}`, params);
+      await api.put(`/api/messages/${id}`, params);
 
       dispatch(load({ page: 1 }, true));
 
       dispatch({
-        type: types.SERVICE_UPDATE_SUCCESS,
+        type: types.MESSAGE_UPDATE_SUCCESS,
         meta: {
           notification: {
             type: 'snackbar',
-            message: 'Service was successfully updated.',
+            message: 'Successfully Updated.',
             vertical: 'bottom',
             horizontal: 'right',
           },
@@ -104,11 +104,11 @@ export function update(id, params = {}) {
       });
     } catch (error) {
       dispatch({
-        type: types.SERVICE_UPDATE_FAILED,
+        type: types.MESSAGE_UPDATE_FAILED,
         meta: {
           notification: {
             type: 'snackbar',
-            message: 'Unable to update service.',
+            message: 'Unable to update item.',
             vertical: 'bottom',
             horizontal: 'right',
           },
@@ -124,19 +124,19 @@ export function destroy(id) {
   return async (dispatch, getState, api) => {
     try {
       dispatch({
-        type: types.SERVICE_DELETE,
+        type: types.MESSAGE_DELETE,
       });
 
-      await api.delete(`/api/services/${id}`);
+      await api.delete(`/api/messages/${id}`);
 
       dispatch(load({ page: 1 }, true));
 
       dispatch({
-        type: types.SERVICE_DELETE_SUCCESS,
+        type: types.MESSAGE_DELETE_SUCCESS,
         meta: {
           notification: {
             type: 'snackbar',
-            message: 'Service was successfully deleted.',
+            message: 'Successfully deleted.',
             vertical: 'bottom',
             horizontal: 'right',
           },
@@ -144,11 +144,11 @@ export function destroy(id) {
       });
     } catch (error) {
       dispatch({
-        type: types.SERVICE_DELETE_FAILED,
+        type: types.MESSAGE_DELETE_FAILED,
         meta: {
           notification: {
             type: 'snackbar',
-            message: 'Unable to delete service.',
+            message: 'Unable to delete item.',
             vertical: 'bottom',
             horizontal: 'right',
           },
