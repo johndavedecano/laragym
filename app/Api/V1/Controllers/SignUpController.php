@@ -24,6 +24,8 @@ class SignUpController extends Controller
             ], 201);
         }
 
+        // TODO: Send welcome email or SMS to the user.
+
         $token = $JWTAuth->fromUser($user);
         
         return response()->json([

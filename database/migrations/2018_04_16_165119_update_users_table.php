@@ -15,15 +15,16 @@ class UpdateUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function(Blueprint $table) {
-            $table->string('account_number')->nullable();
-            $table->string('mobile')->nullable();
-            $table->string('avatar')->nullable();
-            $table->date('date_of_birth')->nullable();
-            $table->string('address')->nullable();
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
-            $table->string('postal_code')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->boolean('is_admin')->default(false);
+            $table->date('date_of_birth')->nullable();
+            $table->string('account_number')->nullable();
+            $table->string('address')->nullable();
+            $table->string('avatar')->nullable();
+            $table->string('city')->nullable();
+            $table->string('mobile')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->string('state')->nullable();
             $table->timestamp('last_login')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
@@ -37,15 +38,16 @@ class UpdateUsersTable extends Migration
     {
         Schema::table('users', function(Blueprint $table) {
             $table->dropColumn('account_number'); 
-            $table->dropColumn('mobile');
-            $table->dropColumn('avatar');
-            $table->dropColumn('date_of_birth');
             $table->dropColumn('address');
+            $table->dropColumn('avatar');
             $table->dropColumn('city');
-            $table->dropColumn('state');
-            $table->dropColumn('postal_code');
+            $table->dropColumn('date_of_birth');
+            $table->dropColumn('is_active');
             $table->dropColumn('is_admin');
             $table->dropColumn('last_login');
+            $table->dropColumn('mobile');
+            $table->dropColumn('postal_code');
+            $table->dropColumn('state');
         });
     }
 }

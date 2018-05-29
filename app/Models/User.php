@@ -40,7 +40,8 @@ class User extends Authenticatable implements JWTSubject
     use Notifiable;
 
     protected $casts = [
-        'is_admin' => 'bool'
+        'is_admin' => 'bool',
+        'is_active' => 'bool'
     ];
 
     protected $dates = [
@@ -70,6 +71,19 @@ class User extends Authenticatable implements JWTSubject
         'last_login'
     ];
 
+    /**
+     * Save the last login timestamp.
+     *
+     * @return object
+     */
+    public function logLastLogin()
+    {
+        $this->last_login = date('Y-m-d H:i:s');
+        $this->save();
+
+        return $this;
+    }
+    
     /**
      * Automatically create user account number.
      *
