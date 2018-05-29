@@ -153,6 +153,8 @@ class UserController extends Controller
             $data['email'] = $request->get('email');
         }
 
+        $model->update($data);
+
         return new UserResource($model);
     }
 

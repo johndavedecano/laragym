@@ -14,14 +14,17 @@ class UserRequest extends FormRequest
         if ($this->getMethod() === 'POST') {
             $baseRules['email'] = 'required|unique:users,email|email';
             $baseRules['name'] = 'required|max:255';
-        }
-
-        if ($this->getMethod() === 'PUT') {
-            $baseRules['email'] = 'required|email|unique:users,email,'.$this->route('id');
-        }
-
-        if ($this->getMethod() === 'POST' || ($this->getMethod() === 'PUT' && $this->has('password'))) {
             $baseRules['password'] = 'required|min:5|max:20|confirmed';
+        }
+
+        if ($this->getMethod() === 'PUT' || $this->getMethod() === 'PATCH') {
+            if ($this->get('email') && $this->has('email')) {
+                $baseRules['email'] = 'email|unique:users,email,'.$this->route('id');
+            }
+
+            if ($this->get('password') && $this->has('password')) {
+                $baseRules['password'] = 'min:5|max:20|confirmed';
+            }
         }
 
         return $baseRules;

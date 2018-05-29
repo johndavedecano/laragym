@@ -79,7 +79,12 @@ export default class UserCreateDialog extends Component {
         disableBackdropClick
       >
         <DialogTitle id="form-dialog-title">{this.props.title}</DialogTitle>
-        <form method={this.props.method} action="/" onSubmit={this.onSubmit}>
+        <form
+          method={this.props.method}
+          action="/"
+          onSubmit={this.onSubmit}
+          autoComplete="off"
+        >
           <DialogContent className={styles.formDialog}>
             {this.props.contentText && (
               <DialogContentText>{this.props.contentText}</DialogContentText>

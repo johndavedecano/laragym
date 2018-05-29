@@ -66,8 +66,9 @@ export default class UserCreateDialog extends Component {
           'password_confirmation',
         ])
       );
-      this.setState(INITIAL_STATE);
-      this.props.onClose();
+      this.setState(INITIAL_STATE, () => {
+        this.props.onClose();
+      });
     } catch (error) {
       this.setState({
         isSubmitting: false,

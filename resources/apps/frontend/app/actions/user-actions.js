@@ -83,7 +83,40 @@ export function create(params = {}) {
 export function update(id, params = {}) {
   return async (dispatch, getState, api) => {
     try {
-    } catch (error) {}
+      dispatch({
+        type: types.USER_UPDATE,
+      });
+
+      await api.put(`/api/users/${id}`, params);
+
+      dispatch(load({ page: 1 }, true));
+
+      dispatch({
+        type: types.USER_UPDATE_SUCCESS,
+        meta: {
+          notification: {
+            type: 'snackbar',
+            message: 'User was successfully updated.',
+            vertical: 'bottom',
+            horizontal: 'right',
+          },
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: types.USER_UPDATE_FAILED,
+        meta: {
+          notification: {
+            type: 'snackbar',
+            message: 'Unable to update user.',
+            vertical: 'bottom',
+            horizontal: 'right',
+          },
+        },
+      });
+
+      throw new ApiError(error.response);
+    }
   };
 }
 

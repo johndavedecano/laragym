@@ -1,5 +1,7 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
+import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils';
+import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
 
 import Root from 'components/Root/Root';
 import Authenticated from 'containers/App/Authenticated';
@@ -29,6 +31,7 @@ import {
 
 export default function App() {
   return (
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
     <Root>
       <Switch>
         <Authenticated title="Dashboard" exact path="/" component={HomePage} />
@@ -121,5 +124,6 @@ export default function App() {
         />
       </Switch>
     </Root>
+    </MuiPickersUtilsProvider>
   );
 }

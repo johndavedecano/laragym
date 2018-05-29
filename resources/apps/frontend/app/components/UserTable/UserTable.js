@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import * as formatDate from 'date-fns/format';
 import Hidden from '@material-ui/core/Hidden';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,7 +10,6 @@ import TableRow from '@material-ui/core/TableRow';
 import {
   EditButton,
   DeleteButton,
-  ViewButton,
 } from 'components/ActionButtons/ActionButtons';
 
 export const UserTableHead = () => (
@@ -42,18 +41,13 @@ export const UserTableRow = ({ user, onHandleAction }) => (
       <React.Fragment>
         <TableCell>{user.get('email')}</TableCell>
         <TableCell>
-          {moment(user.get('created_at')).format('MMM Do YYYY')}
+          {formatDate(user.get('created_at'), 'YYYY-MM-DD')}
         </TableCell>
       </React.Fragment>
     </Hidden>
 
     <TableCell>
-      <ViewButton
-        onClick={onClickHandler(user, 'VIEW', onHandleAction)}
-      />
-      <EditButton
-        onClick={onClickHandler(user, 'EDIT', onHandleAction)}
-      />
+      <EditButton onClick={onClickHandler(user, 'EDIT', onHandleAction)} />
       <DeleteButton
         onClick={onClickHandler(user.get('id'), 'DELETE', onHandleAction)}
       />

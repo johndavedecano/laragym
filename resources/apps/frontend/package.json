@@ -207,6 +207,9 @@
     "setupTestFrameworkScriptFile": "<rootDir>/internals/testing/test-bundler.js",
     "testRegex": "tests/.*\\.test\\.js$"
   },
+  "resolutions": {
+    "moment-timezone/moment": "2.18.1"
+  },
   "dependencies": {
     "@material-ui/core": "^1.0.0",
     "@material-ui/icons": "^1.0.0-beta.43",
@@ -216,6 +219,7 @@
     "classnames": "^2.2.5",
     "compression": "1.6.2",
     "cross-env": "5.0.0",
+    "date-fns": "2.0.0-alpha.7",
     "express": "4.15.3",
     "fontfaceobserver": "^2.0.13",
     "history": "4.6.3",
@@ -226,8 +230,8 @@
     "ip": "1.1.5",
     "lodash": "4.17.4",
     "material-ui": "^1.0.0-beta.43",
+    "material-ui-pickers": "^1.0.0-rc.9",
     "minimist": "1.2.0",
-    "moment": "^2.22.1",
     "prop-types": "15.5.10",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",

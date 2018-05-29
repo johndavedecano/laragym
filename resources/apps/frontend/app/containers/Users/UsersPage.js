@@ -16,10 +16,11 @@ import { AddButton } from 'components/ActionButtons/ActionButtons';
 import { UserTable } from 'components/UserTable/UserTable';
 import Container from 'components/Layouts/Container';
 
+import { load, create, update, destroy } from 'actions/user-actions';
+
 import UserCreateDialog from './UserCreateDialog';
 import UserDeleteDialog from './UserDeleteDialog';
-
-import { load, create, update, destroy } from 'actions/user-actions';
+import UserUpdateDialog from './UserUpdateDialog';
 
 const PAGINATION_LIMIT_OPTIONS = [30, 60, 120];
 
@@ -28,6 +29,8 @@ class UsersPage extends Component {
     q: '',
     isCreateDialogOpen: false,
     isDeleteDialogOpen: false,
+    isUpdateDialogOpen: false,
+    isViewDialogOpen: false,
   };
 
   componentDidMount() {
@@ -75,38 +78,44 @@ class UsersPage extends Component {
 
   onHandleAction = (id, action) => {
     if (action === 'DELETE') {
-      return this.onOpenDeleteModal(id);
+      return this.onDeleteDialogOpen(id);
     } else if (action === 'EDIT') {
-      return this.onEditAction(id);
-    } else if (action === 'VIEW') {
-      return this.onViewAction(id);
+      return this.onUpdateDialogOpen(id);
     }
     return false;
   };
 
-  onEditAction = (user) => {};
+  onUpdateDialogOpen = (user) => {
+    this.setState({
+      isUpdateDialogOpen: user,
+    });
+  };
 
-  onViewAction = (user) => {};
+  onUpdateDialogClose = () => {
+    this.setState({
+      isUpdateDialogOpen: false,
+    });
+  };
 
-  onOpenCreateModal = () => {
+  onCreateDialogOpen = () => {
     this.setState({
       isCreateDialogOpen: true,
     });
   };
 
-  onCloseCreateModal = () => {
+  onCreateDialogClose = () => {
     this.setState({
       isCreateDialogOpen: false,
     });
   };
 
-  onOpenDeleteModal = (id) => {
+  onDeleteDialogOpen = (id) => {
     this.setState({
       isDeleteDialogOpen: id,
     });
   };
 
-  onCloseDeleteModal = () => {
+  onDeleteDialogClose = () => {
     this.setState({
       isDeleteDialogOpen: false,
     });
@@ -117,11 +126,11 @@ class UsersPage extends Component {
       <Container>
         <Panel>
           <PanelHeader title="Manage Users">
-            <AddButton label="Add User" onClick={this.onOpenCreateModal} />
+            <AddButton label="Add User" onClick={this.onCreateDialogOpen} />
             {this.state.isCreateDialogOpen && (
               <UserCreateDialog
                 isOpen
-                onClose={this.onCloseCreateModal}
+                onClose={this.onCreateDialogClose}
                 onSubmit={this.props.create}
               />
             )}
@@ -165,8 +174,17 @@ class UsersPage extends Component {
           <UserDeleteDialog
             id={this.state.isDeleteDialogOpen}
             isOpen
-            onClose={this.onCloseDeleteModal}
+            onClose={this.onDeleteDialogClose}
             onSubmit={this.props.destroy}
+          />
+        )}
+
+        {this.state.isUpdateDialogOpen && (
+          <UserUpdateDialog
+            user={this.state.isUpdateDialogOpen}
+            isOpen
+            onClose={this.onUpdateDialogClose}
+            onSubmit={this.props.update}
           />
         )}
       </Container>
