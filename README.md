@@ -1,4 +1,4 @@
-# LaraGym - Fitness Center Management System
+# LARAGYM - Fitness Center Management System
 
 A simple and easy to install gym management system which includes package management,members managements,services and activities. For professional support please email me at johndavedecano@gmail.com
 
