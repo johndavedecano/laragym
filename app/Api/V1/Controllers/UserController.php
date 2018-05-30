@@ -45,11 +45,26 @@ class UserController extends Controller
 
         $builder = $this->model->orderBy('name', 'ASC');
 
-        if (request()->has('q')) {
-            $builder = $builder->where('name', 'like', '%'.request()->get('q').'%');
+        if (request()->has('q') && request()->get('q')) {
+            $keyword = '%'.request()->get('q').'%';
+            $builder = $builder->where('name', 'like', $keyword);
+            $builder = $builder->orWhere('account_number', 'like', $keyword);
+            $builder = $builder->orWhere('email', 'like', $keyword);
         }
 
-        return UserResource::collection($builder->paginate(request()->get('per_page', $this->per_page)));
+        $limit = request()->get('per_page', $this->per_page);
+
+        $collection = UserResource::collection(
+            $builder->paginate($limit)
+        );
+
+        if (request()->has('q') && request()->get('q')) {
+            $collection->additional(['meta' => [
+                'q' => request()->get('q'),
+            ]]);
+        }
+
+        return $collection;
     }
 
     /**
