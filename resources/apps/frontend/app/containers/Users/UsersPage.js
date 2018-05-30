@@ -16,7 +16,13 @@ import { AddButton } from 'components/ActionButtons/ActionButtons';
 import { UserTable } from 'components/UserTable/UserTable';
 import Container from 'components/Layouts/Container';
 
-import { load, create, update, destroy } from 'actions/user-actions';
+import {
+  load,
+  create,
+  update,
+  destroy,
+  updateParams,
+} from 'actions/user-actions';
 
 import UserCreateDialog from './UserCreateDialog';
 import UserDeleteDialog from './UserDeleteDialog';
@@ -26,7 +32,6 @@ const PAGINATION_LIMIT_OPTIONS = [30, 60, 120];
 
 class UsersPage extends Component {
   state = {
-    q: '',
     isCreateDialogOpen: false,
     isDeleteDialogOpen: false,
     isUpdateDialogOpen: false,
@@ -40,14 +45,12 @@ class UsersPage extends Component {
   }
 
   onSearchChange = (event) => {
-    this.setState({
-      q: event.target.value,
-    });
+    this.props.updateParams({ q: event.target.value });
   };
 
   onSubmitSearch = (event) => {
     event.preventDefault();
-    this.props.load({ q: this.state.q });
+    this.props.load({ q: this.props.params.get('q') });
   };
 
   onChangePage = (event, page) => {
@@ -137,7 +140,7 @@ class UsersPage extends Component {
           </PanelHeader>
 
           <PanelSearch
-            value={this.state.q}
+            value={this.props.params.get('q', '')}
             onChange={this.onSearchChange}
             onSubmit={this.onSubmitSearch}
           />
@@ -199,6 +202,10 @@ const mapStateToProps = (state) => ({
   params: state.getIn(['user', 'params']),
 });
 
-export default connect(mapStateToProps, { load, create, update, destroy })(
-  UsersPage
-);
+export default connect(mapStateToProps, {
+  load,
+  create,
+  update,
+  destroy,
+  updateParams,
+})(UsersPage);

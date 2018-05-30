@@ -7,6 +7,13 @@ import * as types from './../constants';
 export const normalizeData = (data) =>
   fromJS(normalize(get(data, 'data', []), 'id'));
 
+export function updateParams(params = {}) {
+  return {
+    type: types.USER_PARAMS_CHANGE,
+    params,
+  };
+}
+
 export function load(params, replace = true) {
   return async (dispatch, getState, api) => {
     try {

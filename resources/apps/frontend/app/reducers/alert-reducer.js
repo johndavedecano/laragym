@@ -14,6 +14,8 @@ const initialState = fromJS({
 
 const Logic = {};
 
+Logic[types.ALERT_PARAMS_CHANGE] = (state, action) => state.mergeIn(['params'], action.params);
+
 Logic[types.ALERT_LOAD] = (state) => state.set('isLoading', true);
 
 Logic[types.ALERT_LOAD_SUCCESS] = (state, action) => {
@@ -21,13 +23,13 @@ Logic[types.ALERT_LOAD_SUCCESS] = (state, action) => {
     return state
       .set('isLoading', false)
       .set('isLoaded', true)
-      .set('params', action.params)
+      .mergeIn(['params'], action.params)
       .set('alerts', action.alerts);
   }
   return state
     .set('isLoading', false)
     .set('isLoaded', true)
-    .set('params', action.params)
+    .mergeIn(['params'], action.params)
     .set(
       'alerts',
       state.get('alerts').merge(action.alerts)

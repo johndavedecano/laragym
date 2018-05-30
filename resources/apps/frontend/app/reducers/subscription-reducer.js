@@ -14,6 +14,8 @@ const initialState = fromJS({
 
 const Logic = {};
 
+Logic[types.SUBSCRIPTION_PARAMS_CHANGE] = (state, action) => state.mergeIn(['params'], action.params);
+
 Logic[types.SUBSCRIPTION_LOAD] = (state) => state.set('isLoading', true);
 
 Logic[types.SUBSCRIPTION_LOAD_SUCCESS] = (state, action) => {
@@ -21,13 +23,13 @@ Logic[types.SUBSCRIPTION_LOAD_SUCCESS] = (state, action) => {
     return state
       .set('isLoading', false)
       .set('isLoaded', true)
-      .set('params', action.params)
+      .mergeIn(['params'], action.params)
       .set('subscriptions', action.subscriptions);
   }
   return state
     .set('isLoading', false)
     .set('isLoaded', true)
-    .set('params', action.params)
+    .mergeIn(['params'], action.params)
     .set(
       'subscriptions',
       state.get('subscriptions').merge(action.subscriptions)

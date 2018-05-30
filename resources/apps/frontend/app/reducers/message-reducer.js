@@ -14,6 +14,8 @@ const initialState = fromJS({
 
 const Logic = {};
 
+Logic[types.MESSAGE_PARAMS_CHANGE] = (state, action) => state.mergeIn(['params'], action.params);
+
 Logic[types.MESSAGE_LOAD] = (state) => state.set('isLoading', true);
 
 Logic[types.MESSAGE_LOAD_SUCCESS] = (state, action) => {
@@ -21,13 +23,13 @@ Logic[types.MESSAGE_LOAD_SUCCESS] = (state, action) => {
     return state
       .set('isLoading', false)
       .set('isLoaded', true)
-      .set('params', action.params)
+      .mergeIn(['params'], action.params)
       .set('messages', action.messages);
   }
   return state
     .set('isLoading', false)
     .set('isLoaded', true)
-    .set('params', action.params)
+    .mergeIn(['params'], action.params)
     .set('messages', state.get('messages').merge(action.messages));
 };
 

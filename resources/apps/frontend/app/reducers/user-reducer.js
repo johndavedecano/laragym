@@ -14,8 +14,10 @@ const initialState = fromJS({
 
 const Logic = {};
 
+Logic[types.USER_PARAMS_CHANGE] = (state, action) => state.mergeIn(['params'], action.params);
+
 Logic[types.USER_LOAD] = (state, action) =>
-  state.set('isLoading', true).merge('params', action.params);
+  state.set('isLoading', true).mergeIn(['params'], action.params);
 
 Logic[types.USER_LOAD_SUCCESS] = (state, action) => {
   if (action.replace) {
@@ -23,14 +25,14 @@ Logic[types.USER_LOAD_SUCCESS] = (state, action) => {
     return state
       .set('isLoading', false)
       .set('isLoaded', true)
-      .set('params', action.params)
+      .mergeIn(['params'], action.params)
       .set('users', action.users);
   }
   // pagination append.
   return state
     .set('isLoading', false)
     .set('isLoaded', true)
-    .set('params', action.params)
+    .mergeIn(['params'], action.params)
     .set('users', state.get('users').merge(action.users));
 };
 
