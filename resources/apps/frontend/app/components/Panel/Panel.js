@@ -58,8 +58,8 @@ export const SearchForm = ({
         />
       </form>
     </Grid>
-    <Grid item xs={1} className={styles.searchButtonWrapper}>
-      <button type="submit" className={styles.searchButton}>
+    <Grid item xs={1} onClick={onSubmit} className={styles.searchButtonWrapper}>
+      <button type="button" className={styles.searchButton}>
         <SearchIcon />
       </button>
     </Grid>
