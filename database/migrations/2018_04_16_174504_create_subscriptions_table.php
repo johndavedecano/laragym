@@ -14,7 +14,7 @@ class CreateSubscriptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('subscriptions', function(Blueprint $table) {
+        Schema::create('subscriptions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('package_id')->unsigned();
@@ -23,6 +23,7 @@ class CreateSubscriptionsTable extends Migration
             $table->integer('interval')->unsigned()->default(1);
             $table->timestamp('expires_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('suspended_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->boolean('is_archived')->default(false);
             $table->timestamps();
         });
     }

@@ -17,6 +17,7 @@ class CreateServicesTable extends Migration
             $table->increments('id');
             $table->string('name')->nullable();
             $table->boolean('is_archived')->default(false);
+            $table->boolean('is_default')->default(false);
             $table->string('description')->nullable();
             $table->timestamps();
         });
