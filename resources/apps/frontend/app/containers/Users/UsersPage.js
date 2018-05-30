@@ -13,7 +13,7 @@ import {
 } from 'components/Panel/Panel';
 
 import { AddButton } from 'components/ActionButtons/ActionButtons';
-import { UserTable } from 'components/UserTable/UserTable';
+import { UserTable } from 'components/Tables/UserTable';
 import Container from 'components/Layouts/Container';
 
 import {
