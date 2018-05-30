@@ -1,5 +1,12 @@
 # LARAGYM - Fitness Center Management System
 
+img[src$="centerme"] {
+  display:block;
+  margin: 0 auto;
+}
+
+![My Image](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/master/gym.png?style=centerme)
+
 A simple and easy to install gym management system which includes package management,members managements,services and activities. For professional support please email me at johndavedecano@gmail.com
 
 ![My Image](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/master/screenshot.jpg)
