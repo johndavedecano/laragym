@@ -26,6 +26,10 @@ export function check() {
 
       const user = get(userResponse, 'data', {});
 
+      if (!user.is_admin) {
+        throw new Error('You are not allowed to access this page.');
+      }
+
       dispatch({
         type: types.USER_LOGGED_IN_SUCCESS,
         user,
@@ -36,7 +40,7 @@ export function check() {
         meta: {
           notification: {
             type: 'snackbar',
-            message: 'You are not allowed to access this page',
+            message: error.message,
             vertical: 'bottom',
             horizontal: 'right',
           },
@@ -62,13 +66,17 @@ export function login(data = {}) {
 
       const token = get(response, 'data.token');
 
-      localStorage.setItem('token', token);
-
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
       const userResponse = await api.get('/api/auth/me');
 
       const user = get(userResponse, 'data', {});
+
+      if (!user.is_admin) {
+        throw new Error('You are not allowed to access this page.');
+      }
+
+      localStorage.setItem('token', token);
 
       dispatch({
         type: types.USER_LOGGED_IN_SUCCESS,
@@ -88,7 +96,7 @@ export function login(data = {}) {
         meta: {
           notification: {
             type: 'snackbar',
-            message: get(error, 'response.data.error.message'),
+            message: get(error, 'response.data.error.message', error.message),
             vertical: 'bottom',
             horizontal: 'right',
           },
