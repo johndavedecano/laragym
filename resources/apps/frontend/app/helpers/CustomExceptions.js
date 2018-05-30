@@ -1,4 +1,4 @@
-export default class ApiError {
+export class ApiError {
   constructor(response) {
     this.name = 'ApiException';
     this.status = response.status;
@@ -11,3 +11,14 @@ export default class ApiError {
     }
   }
 }
+
+ApiError.prototype = Error.prototype;
+
+export class ReduxError {
+  constructor(error) {
+    this.name = 'ReduxError';
+    this.message = error.message;
+  }
+}
+
+ReduxError.prototype = Error.prototype;

@@ -14,7 +14,8 @@ const initialState = fromJS({
 
 const Logic = {};
 
-Logic[types.USER_LOAD] = (state) => state.set('isLoading', true);
+Logic[types.USER_LOAD] = (state, action) =>
+  state.set('isLoading', true).merge('params', action.params);
 
 Logic[types.USER_LOAD_SUCCESS] = (state, action) => {
   if (action.replace) {

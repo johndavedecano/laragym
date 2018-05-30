@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import { fromJS } from 'immutable';
 import normalize from 'helpers/normalize';
-import ApiError from 'helpers/ApiError';
+import { handleActionError } from 'helpers/ActionErrorHandler';
 import * as types from './../constants';
 
 export const normalizeData = (data) =>
@@ -35,7 +35,7 @@ export function load(params, replace = true) {
         },
       });
 
-      throw new ApiError(error.response);
+      handleActionError(error);
     }
   };
 }
@@ -75,7 +75,7 @@ export function create(params = {}) {
         },
       });
 
-      throw new ApiError(error.response);
+      handleActionError(error);
     }
   };
 }
@@ -115,7 +115,7 @@ export function update(id, params = {}) {
         },
       });
 
-      throw new ApiError(error.response);
+      handleActionError(error);
     }
   };
 }
@@ -155,7 +155,7 @@ export function destroy(id) {
         },
       });
 
-      throw new ApiError(error.response);
+      handleActionError(error);
     }
   };
 }

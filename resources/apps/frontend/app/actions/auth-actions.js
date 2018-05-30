@@ -1,5 +1,7 @@
 import axios from 'axios';
 import get from 'lodash/get';
+
+import { handleActionError } from 'helpers/ActionErrorHandler';
 import * as types from './../constants';
 
 export function logout() {
@@ -40,7 +42,7 @@ export function check() {
           },
         },
       });
-      throw new Error(get(error, 'response.data.error.message'));
+      handleActionError(error);
     }
   };
 }
@@ -92,7 +94,7 @@ export function login(data = {}) {
           },
         },
       });
-      throw new Error(get(error, 'response.data.error.message'));
+      handleActionError(error);
     }
   };
 }
