@@ -43,7 +43,8 @@ class Subscription extends Eloquent
         'package_id' => 'int',
         'service_id' => 'int',
         'cycle_id' => 'int',
-        'interval' => 'int'
+        'interval' => 'int',
+        'is_archived' => 'bool',
     ];
 
     protected $dates = [
@@ -58,6 +59,7 @@ class Subscription extends Eloquent
         'cycle_id',
         'expires_at',
         'suspended_at',
-        'interval'
+        'interval',
+        'is_archived'
     ];
 }

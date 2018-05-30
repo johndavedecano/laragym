@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Cycle;
 use App\Http\Resources\CycleResource;
 use App\Api\V1\Requests\CommonRequest as Request;
+use App\Exceptions\DefaultEntityException;
+use App\Exceptions\SubscriptionException;
 
 class CycleController extends Controller
 {
@@ -37,7 +39,7 @@ class CycleController extends Controller
         $model = $this->model->create([
             'name' => $request->get('name'),
             'num_days' => $request->get('num_days'),
-            'description' => $request->get('description'), 
+            'description' => $request->get('description'),
             'is_archived' => $request->get('is_archived', false)
         ]);
 
@@ -76,7 +78,7 @@ class CycleController extends Controller
         $model->update([
             'name' => $request->get('name'),
             'num_days' => $request->get('num_days'),
-            'description' => $request->get('description'), 
+            'description' => $request->get('description'),
             'is_archived' => $request->get('is_archived', false)
         ]);
 
@@ -94,6 +96,14 @@ class CycleController extends Controller
         $model = $this->model->findOrFail($id);
 
         $this->authorize('delete', $model);
+
+        if ($model->is_default) {
+            throw new DefaultEntityException('You cannot delete a default entity.');
+        }
+
+        if ($model->subscriptions()->count() > 0) {
+            throw new SubscriptionException('You cannot delete an entity that has existing subscriptions.');
+        }
 
         $model->delete();
 

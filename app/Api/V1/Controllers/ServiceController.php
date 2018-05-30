@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Service;
 use App\Http\Resources\ServiceResource;
 use App\Api\V1\Requests\CommonRequest as Request;
+use App\Exceptions\DefaultEntityException;
+use App\Exceptions\SubscriptionException;
 
 class ServiceController extends Controller
 {
@@ -92,6 +94,14 @@ class ServiceController extends Controller
     public function destroy($id)
     {
         $model = $this->model->findOrFail($id);
+
+        if ($model->is_default) {
+            throw new DefaultEntityException('You cannot delete a default entity.');
+        }
+
+        if ($model->subscriptions()->count() > 0) {
+            throw new SubscriptionException('You cannot delete an entity that has existing subscriptions.');
+        }
 
         $this->authorize('delete', $model);
 

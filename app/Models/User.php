@@ -11,6 +11,7 @@ use Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\HasSubscriptions;
 
 /**
  * Class User
@@ -38,6 +39,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+    
+    use HasSubscriptions;
 
     protected $casts = [
         'is_admin' => 'bool',

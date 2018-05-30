@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Package;
 use App\Http\Resources\PackageResource;
 use App\Api\V1\Requests\PackageRequest as Request;
+use App\Exceptions\SubscriptionException;
 
 class PackageController extends Controller
 {
@@ -98,6 +99,10 @@ class PackageController extends Controller
         $model = $this->model->findOrFail($id);
 
         $this->authorize('delete', $model);
+
+        if ($model->subscriptions()->count() > 0) {
+            throw new SubscriptionException('You cannot delete an entity that has existing subscriptions.');
+        }
 
         $model->delete();
 

@@ -29,7 +29,9 @@ use App\Models\HasSubscriptions;
 class Package extends Eloquent
 {
 	use HasService;
+
 	use HasCycle;
+	
 	use HasSubscriptions;
 
 	protected $casts = [
@@ -46,6 +48,4 @@ class Package extends Eloquent
 		'name',
 		'is_archived'
 	];
-
-
 }

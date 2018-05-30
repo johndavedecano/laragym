@@ -13,6 +13,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\JWTAuth;
+use App\Exceptions\SubscriptionException;
 
 class UserController extends Controller
 {
@@ -184,6 +185,10 @@ class UserController extends Controller
         $model = $this->model->findOrFail($id);
 
         $this->authorize('delete', $model);
+
+        if ($model->subscriptions()->count() > 0) {
+            throw new SubscriptionException('User still has subscription.');
+        }
 
         $model->delete();
 

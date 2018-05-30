@@ -17,7 +17,7 @@ class ServiceSeeder extends Seeder
         Service::create([
             'id' => 1,
             'name' => 'Boxing',
-            'description' => ''
+            'description' => '',
         ]);
 
         Service::create([
@@ -29,7 +29,8 @@ class ServiceSeeder extends Seeder
         Service::create([
             'id' => 3,
             'name' => 'Fitness Only',
-            'description' => 'Use gym of equipments'
+            'description' => 'Use gym of equipments',
+            'is_default' => true,
         ]);
 
         Service::create([

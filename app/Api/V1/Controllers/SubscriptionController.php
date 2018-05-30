@@ -23,7 +23,11 @@ class SubscriptionController extends Controller
     {
         $this->authorize('create', Subscription::class);
 
-        return SubscriptionResource::collection($this->model->paginate());
+        $builder = $this->model->where('is_archived', false);
+
+        $limit = request()->get('per_page', $this->per_page);
+
+        return SubscriptionResource::collection($builder->paginate($limit));
     }
 
     /**
@@ -102,7 +106,9 @@ class SubscriptionController extends Controller
 
         $this->authorize('delete', $model);
 
-        $model->delete();
+        $model->is_archived = true;
+
+        $model->save();
 
         return new SubscriptionResource($model);
     }

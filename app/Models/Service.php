@@ -8,6 +8,7 @@
 namespace App\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
+use App\Models\HasSubscriptions;
 
 /**
  * Class Service
@@ -23,6 +24,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class Service extends Eloquent
 {
+	use HasSubscriptions;
+
 	protected $casts = [
 		'is_archived' => 'bool'
 	];
