@@ -116,7 +116,7 @@ export default class UserCreateDialog extends Component {
         this.props.user.get('id'),
         this.getFormValues()
       );
-      this.setState(INITIAL_STATE, () => {
+      this.setState({ isSubmitting: false }, () => {
         this.props.onClose();
       });
     } catch (error) {
@@ -168,6 +168,7 @@ export default class UserCreateDialog extends Component {
   }
 
   render() {
+    if (!this.props.isOpen) return null;
     return (
       <FormDialog
         method="POST"
