@@ -1,17 +1,16 @@
-PHPLaravelGymManagementSystem
-=============================
+# LaraGym - Fitness Center Management System
 
 A simple and easy to install gym management system which includes package management,members managements,services and activities. For professional support please email me at johndavedecano@gmail.com
 
 ![My Image](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/master/screenshot.jpg)
 
-System Requirements
-=============================
+## System Requirements
+
 1. PHP 5.3.7+
 2. MYSQL 5+
 
-Installation
-=============================
+## Installation
+
 1. Upload everything to your server at /home/username/....
 2. Point your document root to /home/username/public folder instead of public_html. 
 2. Make upload and cache folder writable.
