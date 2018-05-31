@@ -1,6 +1,6 @@
 import React from 'react';
-import * as formatDate from 'date-fns/format';
-import Hidden from '@material-ui/core/Hidden';
+// import * as formatDate from 'date-fns/format';
+// import Hidden from '@material-ui/core/Hidden';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -19,6 +19,7 @@ export const ServiceTableHead = () => (
       <TableCell>Name</TableCell>
       <TableCell>Description</TableCell>
       <TableCell>Archived</TableCell>
+      <TableCell>System Default</TableCell>
       <TableCell>Action</TableCell>
     </TableRow>
   </TableHead>
@@ -34,6 +35,7 @@ export const ServiceTableRow = ({ service, onHandleAction }) => (
     <TableCell>{service.get('name')}</TableCell>
     <TableCell>{service.get('description')}</TableCell>
     <TableCell>{service.get('is_archived') ? 'Yes' : 'No'}</TableCell>
+    <TableCell>{service.get('is_default') ? 'Yes' : 'No'}</TableCell>
     <TableCell>
       <EditButton onClick={onClickHandler(service, 'EDIT', onHandleAction)} />
       <DeleteButton

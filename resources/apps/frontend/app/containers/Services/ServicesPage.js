@@ -24,9 +24,9 @@ import {
   updateParams,
 } from 'actions/service-actions';
 
-// import ServiceCreateDialog from './ServiceCreateDialog';
-// import ServiceDeleteDialog from './ServiceDeleteDialog';
-// import ServiceUpdateDialog from './ServiceUpdateDialog';
+import ServiceCreateDialog from './ServiceCreateDialog';
+import ServiceDeleteDialog from './ServiceDeleteDialog';
+import ServiceUpdateDialog from './ServiceUpdateDialog';
 
 const PAGINATION_LIMIT_OPTIONS = [30, 60, 120];
 
@@ -130,13 +130,13 @@ class ServicesPage extends Component {
         <Panel>
           <PanelHeader title="Manage Services">
             <AddButton label="Add Service" onClick={this.onCreateDialogOpen} />
-            {/* {this.state.isCreateDialogOpen && (
+            {this.state.isCreateDialogOpen && (
               <ServiceCreateDialog
                 isOpen
                 onClose={this.onCreateDialogClose}
                 onSubmit={this.props.create}
               />
-            )} */}
+            )}
           </PanelHeader>
 
           <PanelSearch
@@ -174,23 +174,23 @@ class ServicesPage extends Component {
           </PanelFooter>
         </Panel>
 
-        {/* {this.state.isDeleteDialogOpen && (
+        {this.state.isDeleteDialogOpen && (
           <ServiceDeleteDialog
             id={this.state.isDeleteDialogOpen}
             isOpen
             onClose={this.onDeleteDialogClose}
             onSubmit={this.props.destroy}
           />
-        )} */}
+        )}
 
-        {/* {this.state.isUpdateDialogOpen && (
+        {this.state.isUpdateDialogOpen && (
           <ServiceUpdateDialog
-            service={this.state.isUpdateDialogOpen}
+            entity={this.state.isUpdateDialogOpen}
             isOpen
             onClose={this.onUpdateDialogClose}
             onSubmit={this.props.update}
           />
-        )} */}
+        )}
       </Container>
     );
   }
