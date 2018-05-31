@@ -54,14 +54,6 @@ export default class UserCreateDialog extends Component {
     };
   }
 
-  componentDidMount() {
-    this.isStillMounted = true;
-  }
-
-  componentWillUnmount() {
-    this.isStillMounted = false;
-  }
-
   onCheckboxChange = (name) => () => {
     this.setState({
       form: {
