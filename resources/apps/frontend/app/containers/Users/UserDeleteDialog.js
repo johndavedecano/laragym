@@ -19,6 +19,11 @@ export default class UserCreateDialog extends Component {
 
   state = INITIAL_STATE;
 
+  onClose = () => {
+    if (this.state.isSubmitting) return;
+    this.props.onClose();
+  };
+
   onSubmit = async (event) => {
     try {
       if (this.state.isSubmitting) return;
@@ -44,7 +49,7 @@ export default class UserCreateDialog extends Component {
         isOpen={this.props.isOpen}
         isSubmitting={this.state.isSubmitting}
         onSubmit={this.onSubmit}
-        onClose={this.props.onClose}
+        onClose={this.onClose}
       >
         <input type="hidden" name="id" value={this.props.id} />
       </FormDialog>
