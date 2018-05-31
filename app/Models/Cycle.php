@@ -34,6 +34,7 @@ class Cycle extends Eloquent
 		'name',
 		'num_days',
 		'is_archived',
-		'description'
+		'description',
+		'is_default',
 	];
 }

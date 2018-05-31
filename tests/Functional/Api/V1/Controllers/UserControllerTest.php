@@ -6,41 +6,36 @@ use Hash;
 use App\Models\User;
 use App\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use App\Functional\Api\V1\Controllers\UserLoginTrait;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserControllerTest extends TestCase
 {
     use DatabaseMigrations;
+    use RefreshDatabase;
+
+    use UserLoginTrait;
 
     public function setUp()
     {
         parent::setUp();
 
-        $user = new User([
-            'name' => 'Test',
-            'email' => 'test@email.com',
-            'password' => '123456'
-        ]);
+        $this->login('admin@admin.com', 'password');
+    }
 
-        $user->save();
+    public function testMeFailed()
+    {
+        $response = $this->get('api/me');
+
+        $response->assertStatus(401);
     }
 
     public function testMe()
     {
-        $response = $this->post('api/auth/login', [
-            'email' => 'test@email.com',
-            'password' => '123456'
-        ]);
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->token
+        ];
 
-        $response->assertStatus(200);
-
-        $responseJSON = json_decode($response->getContent(), true);
-        $token = $responseJSON['token'];
-
-        $this->get('api/auth/me', [], [
-            'Authorization' => 'Bearer ' . $token
-        ])->assertJson([
-            'name' => 'Test',
-            'email' => 'test@email.com'
-        ])->isOk();
+        $this->get('api/me', $headers, $headers)->isOk();
     }
 }

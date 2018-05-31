@@ -23,6 +23,8 @@ class CycleController extends Controller
      */
     public function index()
     {
+        $this->authorize('create', Cycle::class);
+
         return CycleResource::collection($this->model->all());
     }
 
@@ -38,8 +40,8 @@ class CycleController extends Controller
 
         $model = $this->model->create([
             'name' => $request->get('name'),
-            'num_days' => $request->get('num_days'),
             'description' => $request->get('description'),
+            'num_days' => $request->get('num_days', 30),
             'is_archived' => $request->get('is_archived', false)
         ]);
 
@@ -77,8 +79,8 @@ class CycleController extends Controller
 
         $model->update([
             'name' => $request->get('name'),
-            'num_days' => $request->get('num_days'),
             'description' => $request->get('description'),
+            'num_days' => $request->get('num_days', 30),
             'is_archived' => $request->get('is_archived', false)
         ]);
 
@@ -95,8 +97,6 @@ class CycleController extends Controller
     {
         $model = $this->model->findOrFail($id);
 
-        $this->authorize('delete', $model);
-
         if ($model->is_default) {
             throw new DefaultEntityException('You cannot delete a default entity.');
         }
@@ -104,6 +104,8 @@ class CycleController extends Controller
         if ($model->subscriptions()->count() > 0) {
             throw new SubscriptionException('You cannot delete an entity that has existing subscriptions.');
         }
+
+        $this->authorize('delete', $model);
 
         $model->delete();
 

@@ -78,19 +78,9 @@ class UserController extends Controller
     {
         $this->authorize('create', User::class);
 
-        $model = $this->model->create([
-            'name' => $request->get('name', ''),
-            'email' => $request->get('email', ''),
-            'password'=> $request->get('password', 'password1234567890'),
-            'mobile' => $request->get('mobile', ''),
-            'avatar' => $request->get('avatar', ''),
-            'address' => $request->get('address', ''),
-            'city' => $request->get('city', ''),
-            'state' => $request->get('state', ''),
-            'postal_code' => $request->get('postal_code', ''),
-            'is_admin' => $request->get('is_admin', false),
-            'account_number' => date('YmdHis'),
-        ]);
+        $data = $request->only($this->model->getFillable());
+
+        $model = $this->model->create($data);
 
         return new UserResource($model);
     }
@@ -123,53 +113,11 @@ class UserController extends Controller
 
         $this->authorize('update', $model);
 
-        $data = [];
+        $data = $request->only($this->model->getFillable());
 
-        if ($request->has('name')) {
-            $data['name'] = $request->get('name', '');
-        }
+        $model->fill($data);
 
-        if ($request->has('mobile')) {
-            $data['mobile'] = $request->get('mobile', '');
-        }
-
-        if ($request->has('avatar')) {
-            $data['avatar'] = $request->get('avatar', '');
-        }
-
-        if ($request->has('date_of_birth')) {
-            $data['date_of_birth'] = $request->get('date_of_birth', date('Y-m-d'));
-        }
-
-        if ($request->has('address')) {
-            $data['address'] = $request->get('address', '');
-        }
-
-        if ($request->has('city')) {
-            $data['city'] = $request->get('city', '');
-        }
-
-        if ($request->has('state')) {
-            $data['state'] = $request->get('state', '');
-        }
-
-        if ($request->has('postal_code')) {
-            $data['postal_code'] = $request->get('postal_code', '');
-        }
-        
-        if ($request->has('is_admin')) {
-            $data['is_admin'] = $request->get('is_admin', false);
-        }
-
-        if ($request->has('password')) {
-            $data['password'] = $request->get('password', 'password1234567890');
-        }
-
-        if ($request->has('email')) {
-            $data['email'] = $request->get('email');
-        }
-
-        $model->update($data);
+        $model->save();
 
         return new UserResource($model);
     }

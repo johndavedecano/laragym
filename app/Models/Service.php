@@ -33,6 +33,7 @@ class Service extends Eloquent
 	protected $fillable = [
 		'name',
 		'is_archived',
-		'description'
+		'description',
+		'is_default'
 	];
 }
