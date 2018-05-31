@@ -22,7 +22,7 @@ export function logout() {
 export function check() {
   return async (dispatch, getState, api) => {
     try {
-      const userResponse = await api.get('/api/auth/me');
+      const userResponse = await api.get('/api/me');
 
       const user = get(userResponse, 'data', {});
 
@@ -68,7 +68,7 @@ export function login(data = {}) {
 
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
-      const userResponse = await api.get('/api/auth/me');
+      const userResponse = await api.get('/api/me');
 
       const user = get(userResponse, 'data', {});
 
