@@ -11,6 +11,13 @@ use App\Exceptions\SubscriptionException;
 
 class ServiceController extends Controller
 {
+    /**
+     * Pagination per_page.
+     *
+     * @var integer
+     */
+    public $per_page = 30;
+
     public function __construct(Service $model)
     {
         $this->model = $model;
@@ -25,7 +32,26 @@ class ServiceController extends Controller
     {
         $this->authorize('create', Service::class);
 
-        return ServiceResource::collection($this->model->all());
+        $builder = $this->model->orderBy('name', 'ASC');
+
+        if (request()->has('q') && request()->get('q')) {
+            $keyword = '%'.request()->get('q').'%';
+            $builder = $builder->where('name', 'like', $keyword);
+        }
+
+        $limit = request()->get('per_page', $this->per_page);
+
+        $collection = ServiceResource::collection(
+            $builder->paginate($limit)
+        );
+
+        if (request()->has('q') && request()->get('q')) {
+            $collection->additional(['meta' => [
+                'q' => request()->get('q'),
+            ]]);
+        }
+
+        return $collection;
     }
 
     /**
@@ -40,7 +66,7 @@ class ServiceController extends Controller
 
         $model = $this->model->create([
             'name' => $request->get('name'),
-            'description' => $request->get('description'), 
+            'description' => $request->get('description'),
             'is_archived' => $request->get('is_archived', false)
         ]);
 
@@ -78,7 +104,7 @@ class ServiceController extends Controller
 
         $model->update([
             'name' => $request->get('name'),
-            'description' => $request->get('description'), 
+            'description' => $request->get('description'),
             'is_archived' => $request->get('is_archived', false)
         ]);
 
