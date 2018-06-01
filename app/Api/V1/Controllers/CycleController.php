@@ -11,6 +11,16 @@ use App\Exceptions\SubscriptionException;
 
 class CycleController extends Controller
 {
+    /**
+     * Pagination per_page.
+     *
+     * @var integer
+     */
+    public $per_page = 30;
+    
+    /**
+     * @param Cycle $model
+     */
     public function __construct(Cycle $model)
     {
         $this->model = $model;

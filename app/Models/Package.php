@@ -14,7 +14,7 @@ use App\Models\HasSubscriptions;
 
 /**
  * Class Package
- * 
+ *
  * @property int $id
  * @property int $service_id
  * @property int $cycle_id
@@ -28,24 +28,24 @@ use App\Models\HasSubscriptions;
  */
 class Package extends Eloquent
 {
-	use HasService;
+    use HasService;
 
-	use HasCycle;
-	
-	use HasSubscriptions;
+    use HasCycle;
+    
+    use HasSubscriptions;
 
-	protected $casts = [
-		'service_id' => 'int',
-		'cycle_id' => 'int',
-		'amount' => 'float',
-		'is_archived' => 'bool'
-	];
+    protected $casts = [
+        'service_id' => 'int',
+        'cycle_id' => 'int',
+        'amount' => 'float',
+        'is_archived' => 'bool'
+    ];
 
-	protected $fillable = [
-		'service_id',
-		'cycle_id',
-		'amount',
-		'name',
-		'is_archived'
-	];
+    protected $fillable = [
+        'service_id',
+        'cycle_id',
+        'amount',
+        'name',
+        'is_archived'
+    ];
 }

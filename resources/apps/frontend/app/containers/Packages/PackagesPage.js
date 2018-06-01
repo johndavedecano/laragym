@@ -22,11 +22,13 @@ import {
   update,
   destroy,
   updateParams,
+  show,
 } from 'actions/package-actions';
 
 import PackageCreateDialog from './PackageCreateDialog';
 import PackageDeleteDialog from './PackageDeleteDialog';
 import PackageUpdateDialog from './PackageUpdateDialog';
+import PackageViewDialog from './PackageViewDialog';
 
 const PAGINATION_LIMIT_OPTIONS = [30, 60, 120];
 
@@ -86,13 +88,27 @@ class PackagesPage extends Component {
       return this.onDeleteDialogOpen(id);
     } else if (action === 'EDIT') {
       return this.onUpdateDialogOpen(id);
+    } else if (action === 'VIEW') {
+      return this.onViewDialogOpen(id);
     }
     return false;
   };
 
-  onUpdateDialogOpen = (service) => {
+  onViewDialogOpen = (id) => {
     this.setState({
-      isUpdateDialogOpen: service,
+      isViewDialogOpen: id,
+    });
+  };
+
+  onViewDialogClose = () => {
+    this.setState({
+      isViewDialogOpen: false,
+    });
+  };
+
+  onUpdateDialogOpen = (id) => {
+    this.setState({
+      isUpdateDialogOpen: id,
     });
   };
 
@@ -193,6 +209,16 @@ class PackagesPage extends Component {
             onSubmit={this.props.update}
           />
         )}
+
+
+        {this.state.isViewDialogOpen && (
+          <PackageViewDialog
+            id={this.state.isViewDialogOpen}
+            isOpen
+            onClose={this.onViewDialogClose}
+            onShow={this.props.show}
+          />
+        )}
       </Container>
     );
   }
@@ -211,4 +237,5 @@ export default connect(mapStateToProps, {
   update,
   destroy,
   updateParams,
+  show,
 })(PackagesPage);

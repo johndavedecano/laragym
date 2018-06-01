@@ -1,0 +1,7 @@
+.modal {
+  position: relative;
+
+  min-width: 350px;
+  min-height: 300px;
+  padding-top: 0 !important;
+}

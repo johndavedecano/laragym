@@ -6,15 +6,18 @@ import pick from 'lodash/pick';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
-
 import FormDialog from 'components/FormDialog/FormDialog';
+import CyclesDropdown from 'containers/Dropdowns/CyclesDropdown';
+import ServicesDropdown from 'containers/Dropdowns/ServicesDropdown';
+import FormControl from 'components/FormControl/FormControl';
 
 const INITIAL_STATE = {
-  name: '',
-  description: '',
-  is_archived: false,
-  isSubmitting: false,
+  amount: '',
+  cycle_id: '',
   errors: {},
+  isSubmitting: false,
+  name: '',
+  service_id: '',
 };
 
 export default class UserCreateDialog extends Component {
@@ -35,9 +38,11 @@ export default class UserCreateDialog extends Component {
     const { entity } = props;
     this.state = {
       ...INITIAL_STATE,
-      name: entity.get('name'),
-      description: entity.get('description'),
+      amount: entity.get('amount'),
+      cycle_id: entity.get('cycle_id'),
       is_archived: entity.get('is_archived'),
+      name: entity.get('name'),
+      service_id: entity.get('service_id'),
     };
   }
 
@@ -108,7 +113,13 @@ export default class UserCreateDialog extends Component {
    * @returns {Object}
    */
   getFormData() {
-    return pick(this.state, ['name', 'description', 'is_archived']);
+    return pick(this.state, [
+      'amount',
+      'cycle_id',
+      'is_archived',
+      'name',
+      'service_id',
+    ]);
   }
 
   render() {
@@ -126,7 +137,7 @@ export default class UserCreateDialog extends Component {
           error={!!this.state.errors.name}
           helperText={this.getHelperText('name')}
           id="name"
-          label="Full name"
+          label="Package Name"
           margin="dense"
           name="name"
           onChange={this.onChange}
@@ -135,18 +146,31 @@ export default class UserCreateDialog extends Component {
           fullWidth
         />
 
+        <FormControl>
+          <ServicesDropdown
+            onChange={this.onChangeService}
+            value={this.state.service_id}
+          />
+        </FormControl>
+
+        <FormControl>
+          <CyclesDropdown
+            onChange={this.onChangeCycle}
+            value={this.state.cycle_id}
+          />
+        </FormControl>
+
         <TextField
-          error={!!this.state.errors.description}
-          helperText={this.getHelperText('description')}
-          id="description"
-          label="Description"
+          error={!!this.state.errors.amount}
+          helperText={this.getHelperText('amount')}
+          id="amount"
+          label="Amount"
           margin="dense"
-          name="description"
+          name="amount"
           onChange={this.onChange}
-          type="text"
-          value={this.state.description}
+          type="number"
+          value={this.state.amount}
           fullWidth
-          multiline
         />
 
         <FormControlLabel

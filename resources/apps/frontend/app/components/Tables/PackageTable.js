@@ -10,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import {
   EditButton,
   DeleteButton,
+  ViewButton,
 } from 'components/ActionButtons/ActionButtons';
 
 export const PackageTableHead = () => (
@@ -39,6 +40,7 @@ export const PackageTableRow = ({ pkg, onHandleAction }) => (
     <TableCell>{pkg.get('amount', 0).toFixed(2)}</TableCell>
     <TableCell>{pkg.get('is_archived') ? 'Yes' : 'No'}</TableCell>
     <TableCell>
+      {/* <ViewButton onClick={onClickHandler(pkg.get('id'), 'VIEW', onHandleAction)} /> */}
       <EditButton onClick={onClickHandler(pkg, 'EDIT', onHandleAction)} />
       <DeleteButton
         onClick={onClickHandler(pkg.get('id'), 'DELETE', onHandleAction)}

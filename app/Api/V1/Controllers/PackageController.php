@@ -41,9 +41,7 @@ class PackageController extends Controller
             $builder = $builder->where('name', 'like', $keyword);
         }
 
-        $builder = $builder->with('cycle');
-        
-        $builder = $builder->with('service');
+        $builder = $builder->with('cycle')->with('service');
 
         $limit = request()->get('per_page', $this->per_page);
 
@@ -90,6 +88,10 @@ class PackageController extends Controller
     public function show($id)
     {
         $model = $this->model->findOrFail($id);
+
+        $model->load('cycle');
+
+        $model->load('service');
 
         $this->authorize('view', $model);
 

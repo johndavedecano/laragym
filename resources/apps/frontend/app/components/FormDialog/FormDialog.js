@@ -84,6 +84,7 @@ export default class UserCreateDialog extends Component {
           action="/"
           onSubmit={this.onSubmit}
           autoComplete="off"
+          className={styles.dialogWrapper}
         >
           <DialogContent className={styles.formDialog}>
             {this.props.contentText && (

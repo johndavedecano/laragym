@@ -14,6 +14,29 @@ export function updateParams(params = {}) {
   };
 }
 
+export function show(id) {
+  return async (dispatch, getState, api) => {
+    try {
+      const { data } = await api.get(`/api/packages/${id}`);
+      return data.data;
+    } catch (error) {
+      dispatch({
+        type: 'noop',
+        meta: {
+          notification: {
+            type: 'snackbar',
+            message: 'Unable to load packages.',
+            vertical: 'bottom',
+            horizontal: 'right',
+          },
+        },
+      });
+      handleActionError(error);
+      return false;
+    }
+  };
+}
+
 export function load(params, replace = true) {
   return async (dispatch, getState, api) => {
     try {

@@ -8,32 +8,14 @@ export default class CyclesDropdown extends Component {
     onChange: () => {},
   };
 
-  state = {
-    value: '',
-  };
-
-  onChange = (value) => {
-    this.setState(
-      {
-        value,
-      },
-      () => {
-        this.props.onChange(value);
-      }
-    );
-  };
-
-  setValue = (value) => {
-    this.setState({ value });
-  };
-
   render() {
     return (
       <SelectFieldSingle
         async
         api="/api/cycles"
-        onChange={this.onChange}
-        value={this.state.value}
+        onChange={this.props.onChange}
+        value={this.props.value}
+        placeholder="Select Cycle"
       />
     );
   }

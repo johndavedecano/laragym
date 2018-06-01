@@ -3,14 +3,18 @@ import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 
 import TextField from '@material-ui/core/TextField';
-
 import FormDialog from 'components/FormDialog/FormDialog';
+import CyclesDropdown from 'containers/Dropdowns/CyclesDropdown';
+import ServicesDropdown from 'containers/Dropdowns/ServicesDropdown';
+import FormControl from 'components/FormControl/FormControl';
 
 const INITIAL_STATE = {
-  name: '',
-  description: '',
-  isSubmitting: false,
+  amount: '',
+  cycle_id: '',
   errors: {},
+  isSubmitting: false,
+  name: '',
+  service_id: '',
 };
 
 export default class UserCreateDialog extends Component {
@@ -27,13 +31,13 @@ export default class UserCreateDialog extends Component {
   state = INITIAL_STATE;
 
   /**
-   * @param {String} name
+   * @param {Event} event
    *
    * @returns {void}
    */
-  onCheckboxChange = (name) => () => {
+  onChange = (event) => {
     this.setState({
-      [name]: !this.state[name],
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -42,9 +46,20 @@ export default class UserCreateDialog extends Component {
    *
    * @returns {void}
    */
-  onChange = (event) => {
+  onChangeService = (value) => {
     this.setState({
-      [event.target.name]: event.target.value,
+      service_id: value,
+    });
+  };
+
+  /**
+   * @param {Event} event
+   *
+   * @returns {void}
+   */
+  onChangeCycle = (value) => {
+    this.setState({
+      cycle_id: value,
     });
   };
 
@@ -87,25 +102,31 @@ export default class UserCreateDialog extends Component {
    * @returns {Object}
    */
   getFormData() {
-    return pick(this.state, ['name', 'description']);
+    return pick(this.state, [
+      'amount',
+      'cycle_id',
+      'is_archived',
+      'name',
+      'service_id',
+    ]);
   }
 
   render() {
     return (
       <FormDialog
-        contentText=""
+        contentText="Please provide information below."
         isOpen={this.props.isOpen}
         isSubmitting={this.state.isSubmitting}
         method="POST"
         onClose={this.props.onClose}
         onSubmit={this.onSubmit}
-        title="Create Service"
+        title="Create Package"
       >
         <TextField
           error={!!this.state.errors.name}
           helperText={this.getHelperText('name')}
           id="name"
-          label="Full name"
+          label="Package Name"
           margin="dense"
           name="name"
           onChange={this.onChange}
@@ -114,18 +135,31 @@ export default class UserCreateDialog extends Component {
           fullWidth
         />
 
+        <FormControl>
+          <ServicesDropdown
+            onChange={this.onChangeService}
+            value={this.state.service_id}
+          />
+        </FormControl>
+
+        <FormControl>
+          <CyclesDropdown
+            onChange={this.onChangeCycle}
+            value={this.state.cycle_id}
+          />
+        </FormControl>
+
         <TextField
-          error={!!this.state.errors.description}
-          helperText={this.getHelperText('description')}
-          id="description"
-          label="Description"
+          error={!!this.state.errors.amount}
+          helperText={this.getHelperText('amount')}
+          id="amount"
+          label="Amount"
           margin="dense"
-          name="description"
+          name="amount"
           onChange={this.onChange}
-          type="text"
-          value={this.state.description}
+          type="number"
+          value={this.state.amount}
           fullWidth
-          multiline
         />
       </FormDialog>
     );
