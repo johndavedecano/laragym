@@ -8,7 +8,11 @@ import createHistory from 'history/createBrowserHistory';
 import FontFaceObserver from 'fontfaceobserver';
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+// Some third party CSS goes here.
 import 'sanitize.css/sanitize.css';
+import 'react-select/dist/react-select.css';
+
 // Import root app
 import App from 'containers/App';
 
