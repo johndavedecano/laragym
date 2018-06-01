@@ -39,6 +39,10 @@ class ServiceController extends Controller
             $builder = $builder->where('name', 'like', $keyword);
         }
 
+        if (request()->has('filter_archived')) {
+            $builder = $builder->where('is_archived', false);
+        }
+
         $limit = request()->get('per_page', $this->per_page);
 
         $collection = ServiceResource::collection(

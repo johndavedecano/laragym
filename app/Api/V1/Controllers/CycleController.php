@@ -25,7 +25,30 @@ class CycleController extends Controller
     {
         $this->authorize('create', Cycle::class);
 
-        return CycleResource::collection($this->model->all());
+        $builder = $this->model->orderBy('name', 'ASC');
+
+        if (request()->has('q') && request()->get('q')) {
+            $keyword = '%'.request()->get('q').'%';
+            $builder = $builder->where('name', 'like', $keyword);
+        }
+
+        if (request()->has('filter_archived')) {
+            $builder = $builder->where('is_archived', false);
+        }
+
+        $limit = request()->get('per_page', $this->per_page);
+
+        $collection = CycleResource::collection(
+            $builder->paginate($limit)
+        );
+
+        if (request()->has('q') && request()->get('q')) {
+            $collection->additional(['meta' => [
+                'q' => request()->get('q'),
+            ]]);
+        }
+
+        return $collection;
     }
 
     /**
