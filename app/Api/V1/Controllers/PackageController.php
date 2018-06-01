@@ -10,6 +10,16 @@ use App\Exceptions\SubscriptionException;
 
 class PackageController extends Controller
 {
+    /**
+     * Pagination per_page.
+     *
+     * @var integer
+     */
+    public $per_page = 30;
+
+    /**
+     * @param Package $model
+     */
     public function __construct(Package $model)
     {
         $this->model = $model;
@@ -24,7 +34,30 @@ class PackageController extends Controller
     {
         $this->authorize('create', Package::class);
 
-        return PackageResource::collection($this->model->paginate());
+        $builder = $this->model->orderBy('name', 'ASC');
+
+        if (request()->has('q') && request()->get('q')) {
+            $keyword = '%'.request()->get('q').'%';
+            $builder = $builder->where('name', 'like', $keyword);
+        }
+
+        $builder = $builder->with('cycle');
+        
+        $builder = $builder->with('service');
+
+        $limit = request()->get('per_page', $this->per_page);
+
+        $collection = PackageResource::collection(
+            $builder->paginate($limit)
+        );
+
+        if (request()->has('q') && request()->get('q')) {
+            $collection->additional(['meta' => [
+                'q' => request()->get('q'),
+            ]]);
+        }
+
+        return $collection;
     }
 
     /**
