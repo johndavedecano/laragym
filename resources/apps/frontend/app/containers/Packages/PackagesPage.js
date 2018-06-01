@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import AddIcon from '@material-ui/icons/Add';
-import Button from '@material-ui/core/Button';
-
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
 
 import {
@@ -15,24 +8,122 @@ import {
   PanelBody,
   PanelHeader,
   PanelSearch,
-  PanelFooter
+  PanelFooter,
+  PanelActions,
 } from 'components/Panel/Panel';
 
+import { AddButton } from 'components/ActionButtons/ActionButtons';
+import { PackageTable } from 'components/Tables/PackageTable';
 import Container from 'components/Layouts/Container';
 
-export default class PackagesPage extends Component {
+import {
+  load,
+  create,
+  update,
+  destroy,
+  updateParams,
+} from 'actions/package-actions';
+
+import PackageCreateDialog from './PackageCreateDialog';
+import PackageDeleteDialog from './PackageDeleteDialog';
+import PackageUpdateDialog from './PackageUpdateDialog';
+
+const PAGINATION_LIMIT_OPTIONS = [30, 60, 120];
+
+class PackagesPage extends Component {
   state = {
-    query: '',
+    isCreateDialogOpen: false,
+    isDeleteDialogOpen: false,
+    isUpdateDialogOpen: false,
+    isViewDialogOpen: false,
   };
 
-  onSearchChange = (event) => {
-    this.setState({
-      query: event.target.value,
+  componentDidMount() {
+    this.props.load({
+      page: this.props.params.get('current_page'),
+      per_page: this.props.params.get('per_page'),
+      q: this.props.params.get('q'),
     });
+  }
+
+  onSearchChange = (event) => {
+    this.props.updateParams({ q: event.target.value });
   };
 
   onSubmitSearch = (event) => {
     event.preventDefault();
+    this.props.load({ q: this.props.params.get('q') });
+  };
+
+  onChangePage = (event, page) => {
+    const params = {
+      page: page + 1,
+      per_page: this.props.params.get('per_page', 30),
+    };
+
+    if (this.state.q) {
+      params.q = this.state.q;
+    }
+
+    this.props.load(params);
+  };
+
+  onChangeLimit = (event) => {
+    const params = {
+      page: this.props.params.get('current_page', 1),
+      per_page: event.target.value,
+    };
+
+    if (this.state.q) {
+      params.q = this.state.q;
+    }
+
+    this.props.load(params);
+  };
+
+  onHandleAction = (id, action) => {
+    if (action === 'DELETE') {
+      return this.onDeleteDialogOpen(id);
+    } else if (action === 'EDIT') {
+      return this.onUpdateDialogOpen(id);
+    }
+    return false;
+  };
+
+  onUpdateDialogOpen = (service) => {
+    this.setState({
+      isUpdateDialogOpen: service,
+    });
+  };
+
+  onUpdateDialogClose = () => {
+    this.setState({
+      isUpdateDialogOpen: false,
+    });
+  };
+
+  onCreateDialogOpen = () => {
+    this.setState({
+      isCreateDialogOpen: true,
+    });
+  };
+
+  onCreateDialogClose = () => {
+    this.setState({
+      isCreateDialogOpen: false,
+    });
+  };
+
+  onDeleteDialogOpen = (id) => {
+    this.setState({
+      isDeleteDialogOpen: id,
+    });
+  };
+
+  onDeleteDialogClose = () => {
+    this.setState({
+      isDeleteDialogOpen: false,
+    });
   };
 
   render() {
@@ -40,21 +131,84 @@ export default class PackagesPage extends Component {
       <Container>
         <Panel>
           <PanelHeader title="Manage Packages">
-            <Button size="large" variant="raised" color="primary">
-              <AddIcon />
-              Add Package
-            </Button>
+            <AddButton label="Add Package" onClick={this.onCreateDialogOpen} />
+            {this.state.isCreateDialogOpen && (
+              <PackageCreateDialog
+                isOpen
+                onClose={this.onCreateDialogClose}
+                onSubmit={this.props.create}
+              />
+            )}
           </PanelHeader>
+
           <PanelSearch
-            placeholder="Search..."
-            value={this.state.query}
+            placeholder="Search Packages"
+            value={this.props.params.get('q', '')}
             onChange={this.onSearchChange}
             onSubmit={this.onSubmitSearch}
           />
-          <PanelBody>sdfsdfsfs</PanelBody>
-          <PanelFooter>Hello</PanelFooter>
+
+          <PanelBody isLoading={this.props.isLoading}>
+            <PackageTable
+              pkgs={this.props.packages}
+              onHandleAction={this.onHandleAction}
+            />
+          </PanelBody>
+
+          <PanelFooter>
+            <PanelActions>
+              <TablePagination
+                component="div"
+                count={this.props.params.get('total', 0)}
+                rowsPerPage={Number(this.props.params.get('per_page', 30))}
+                rowsPerPageOptions={PAGINATION_LIMIT_OPTIONS}
+                page={this.props.params.get('current_page', 0) - 1}
+                backIconButtonProps={{
+                  'aria-label': 'Previous Page',
+                }}
+                nextIconButtonProps={{
+                  'aria-label': 'Next Page',
+                }}
+                onChangePage={this.onChangePage}
+                onChangeRowsPerPage={this.onChangeLimit}
+              />
+            </PanelActions>
+          </PanelFooter>
         </Panel>
+
+        {this.state.isDeleteDialogOpen && (
+          <PackageDeleteDialog
+            id={this.state.isDeleteDialogOpen}
+            isOpen
+            onClose={this.onDeleteDialogClose}
+            onSubmit={this.props.destroy}
+          />
+        )}
+
+        {this.state.isUpdateDialogOpen && (
+          <PackageUpdateDialog
+            entity={this.state.isUpdateDialogOpen}
+            isOpen
+            onClose={this.onUpdateDialogClose}
+            onSubmit={this.props.update}
+          />
+        )}
       </Container>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  isLoaded: state.getIn(['package', 'isLoaded']),
+  isLoading: state.getIn(['package', 'isLoading']),
+  packages: state.getIn(['package', 'packages']),
+  params: state.getIn(['package', 'params']),
+});
+
+export default connect(mapStateToProps, {
+  load,
+  create,
+  update,
+  destroy,
+  updateParams,
+})(PackagesPage);
