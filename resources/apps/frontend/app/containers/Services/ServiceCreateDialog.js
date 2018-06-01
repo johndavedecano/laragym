@@ -4,7 +4,6 @@ import pick from 'lodash/pick';
 
 import TextField from '@material-ui/core/TextField';
 import FormDialog from 'components/FormDialog/FormDialog';
-import ServicesDropdown from './ServicesDropdown';
 
 const INITIAL_STATE = {
   name: '',
@@ -101,7 +100,6 @@ export default class UserCreateDialog extends Component {
         onSubmit={this.onSubmit}
         title="Create Service"
       >
-        <ServicesDropdown />
         <TextField
           error={!!this.state.errors.name}
           helperText={this.getHelperText('name')}
