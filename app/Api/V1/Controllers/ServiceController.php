@@ -18,6 +18,9 @@ class ServiceController extends Controller
      */
     public $per_page = 30;
 
+    /**
+     * @param Service $model
+     */
     public function __construct(Service $model)
     {
         $this->model = $model;

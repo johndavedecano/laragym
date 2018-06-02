@@ -9,6 +9,16 @@ use App\Models\Subscription;
 
 class SubscriptionController extends Controller
 {
+    /**
+     * Pagination per_page.
+     *
+     * @var integer
+     */
+    public $per_page = 30;
+
+    /**
+     * @param Service $model
+     */
     public function __construct(Subscription $model)
     {
         $this->model = $model;
