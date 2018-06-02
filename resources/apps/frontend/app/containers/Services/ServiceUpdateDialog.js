@@ -17,7 +17,7 @@ const INITIAL_STATE = {
   errors: {},
 };
 
-export default class UserCreateDialog extends Component {
+export default class ServiceUpdateDialog extends Component {
   static defaultProps = {
     entity: Map(),
     isOpen: false,

@@ -12,7 +12,7 @@ const INITIAL_STATE = {
   errors: {},
 };
 
-export default class ServiceCreateDialog extends Component {
+export default class CycleCreateDialog extends Component {
   static defaultProps = {
     isOpen: false,
     onClose: () => {},

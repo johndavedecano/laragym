@@ -1,29 +1,45 @@
 import React, { Component } from 'react';
+import { Map } from 'immutable';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextField from '@material-ui/core/TextField';
+
 import FormDialog from 'components/FormDialog/FormDialog';
 
 const INITIAL_STATE = {
   name: '',
   description: '',
+  is_archived: false,
   isSubmitting: false,
   errors: {},
 };
 
-export default class ServiceCreateDialog extends Component {
+export default class CycleCreateDialog extends Component {
   static defaultProps = {
+    entity: Map(),
     isOpen: false,
     onClose: () => {},
   };
 
   static propTypes = {
+    entity: PropTypes.instanceOf(Map),
     isOpen: PropTypes.bool,
     onClose: PropTypes.func,
   };
 
-  state = INITIAL_STATE;
+  constructor(props) {
+    super(props);
+    const { entity } = props;
+    this.state = {
+      ...INITIAL_STATE,
+      name: entity.get('name'),
+      description: entity.get('description'),
+      is_archived: entity.get('is_archived'),
+    };
+  }
 
   /**
    * @param {String} name
@@ -58,8 +74,14 @@ export default class ServiceCreateDialog extends Component {
     try {
       if (this.state.isSubmitting) return;
       event.preventDefault();
+
       this.setState({ isSubmitting: true, errors: {} });
-      await this.props.onSubmit(this.getFormData());
+
+      await this.props.onSubmit(
+        this.props.entity.get('id'),
+        this.getFormData()
+      );
+
       this.setState(INITIAL_STATE, () => {
         this.props.onClose();
       });
@@ -86,7 +108,7 @@ export default class ServiceCreateDialog extends Component {
    * @returns {Object}
    */
   getFormData() {
-    return pick(this.state, ['name', 'description']);
+    return pick(this.state, ['name', 'description', 'is_archived']);
   }
 
   render() {
@@ -125,6 +147,18 @@ export default class ServiceCreateDialog extends Component {
           value={this.state.description}
           fullWidth
           multiline
+        />
+
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={this.state.is_archived}
+              onChange={this.onCheckboxChange('is_archived')}
+              value="is_archived"
+              color="primary"
+            />
+          }
+          label="Archived"
         />
       </FormDialog>
     );
