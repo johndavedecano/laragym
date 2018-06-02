@@ -33,6 +33,8 @@ class ServiceController extends Controller
      */
     public function index()
     {
+        $meta = [];
+
         $this->authorize('create', Service::class);
 
         $builder = $this->model->orderBy('name', 'ASC');
@@ -40,10 +42,12 @@ class ServiceController extends Controller
         if (request()->has('q') && request()->get('q')) {
             $keyword = '%'.request()->get('q').'%';
             $builder = $builder->where('name', 'like', $keyword);
+            $meta['q'] = request()->get('q');
         }
 
-        if (request()->has('filter_archived')) {
-            $builder = $builder->where('is_archived', false);
+        if (request()->has('is_archived')) {
+            $builder = $builder->where('is_archived', request()->get('is_archived'));
+            $meta['is_archived'] = request()->get('is_archived');
         }
 
         $limit = request()->get('per_page', $this->per_page);
@@ -52,11 +56,7 @@ class ServiceController extends Controller
             $builder->paginate($limit)
         );
 
-        if (request()->has('q') && request()->get('q')) {
-            $collection->additional(['meta' => [
-                'q' => request()->get('q'),
-            ]]);
-        }
+        $collection->additional(['meta' => $meta]);
 
         return $collection;
     }

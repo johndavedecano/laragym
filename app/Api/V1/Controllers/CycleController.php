@@ -40,10 +40,12 @@ class CycleController extends Controller
         if (request()->has('q') && request()->get('q')) {
             $keyword = '%'.request()->get('q').'%';
             $builder = $builder->where('name', 'like', $keyword);
+            $meta['q'] = request()->get('q');
         }
 
-        if (request()->has('filter_archived')) {
-            $builder = $builder->where('is_archived', false);
+        if (request()->has('is_archived')) {
+            $builder = $builder->where('is_archived', request()->get('is_archived'));
+            $meta['is_archived'] = request()->get('is_archived');
         }
 
         $limit = request()->get('per_page', $this->per_page);

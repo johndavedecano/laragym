@@ -42,15 +42,20 @@ class UserController extends Controller
      */
     public function index()
     {
+        $meta = [];
+
         $this->authorize('create', User::class);
 
         $builder = $this->model->orderBy('name', 'ASC');
 
         if (request()->has('q') && request()->get('q')) {
             $keyword = '%'.request()->get('q').'%';
+
             $builder = $builder->where('name', 'like', $keyword);
             $builder = $builder->orWhere('account_number', 'like', $keyword);
             $builder = $builder->orWhere('email', 'like', $keyword);
+            
+            $meta['q'] = request()->get('q');
         }
 
         $limit = request()->get('per_page', $this->per_page);
@@ -59,11 +64,7 @@ class UserController extends Controller
             $builder->paginate($limit)
         );
 
-        if (request()->has('q') && request()->get('q')) {
-            $collection->additional(['meta' => [
-                'q' => request()->get('q'),
-            ]]);
-        }
+        $collection->additional(['meta' => $meta]);
 
         return $collection;
     }
