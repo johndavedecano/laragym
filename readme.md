@@ -1,10 +1,6 @@
 ## LaraGym - Gym and Fitness Center Management System
 
-<p align="center">
-    <img src="https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/master/logo.png" />
-</p>
-
-A simple and yet easy to install gym management system built with Laravel 5.5 and ReactJS
+Finally a gym management system build with laravel and reactjs. Comes with powerful features that will allow you to scale and easily manage your gym or fitness centers.
 
 ![My Image](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/master/screenshot.png)
 
