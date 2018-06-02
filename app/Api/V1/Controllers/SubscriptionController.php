@@ -106,7 +106,7 @@ class SubscriptionController extends Controller
         $model->load('user');
 
         $model->load('cycle');
-        
+
         $model->load('service');
 
         $this->authorize('view', $model);
@@ -127,15 +127,11 @@ class SubscriptionController extends Controller
 
         $this->authorize('update', $model);
 
-        $model->update([
-            'package_id'   => $request->get('package_id'),
-            'user_id'      => $request->get('user_id'),
-            'service_id'   => $request->get('service_id'),
-            'cycle_id'     => $request->get('cycle_id'),
-            'interval'     => $request->get('interval', 1),
-            'expires_at'   => $request->get('expires_at'),
-            'suspended_at' => $request->get('suspended_at'),
-        ]);
+        $data = $request->only($this->model->getFillable());
+
+        // TODO: Notify user about subscription changes.
+
+        $model->update($data);
 
         return new SubscriptionResource($model);
     }
