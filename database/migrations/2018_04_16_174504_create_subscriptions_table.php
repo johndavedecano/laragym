@@ -23,7 +23,8 @@ class CreateSubscriptionsTable extends Migration
             $table->integer('interval')->unsigned()->default(1);
             $table->timestamp('expires_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('suspended_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->boolean('is_archived')->default(false);
+            $table->boolean('is_expired')->default(false);
+            $table->boolean('is_suspended')->default(false);
             $table->timestamps();
         });
     }

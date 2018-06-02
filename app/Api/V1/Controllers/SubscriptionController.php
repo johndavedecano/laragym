@@ -21,13 +21,51 @@ class SubscriptionController extends Controller
      */
     public function index()
     {
+        $meta = [];
+
         $this->authorize('create', Subscription::class);
 
-        $builder = $this->model->where('is_archived', false);
+        $builder = $this->model->orderBy('name', 'ASC');
+
+        if (request()->has('user_id') && request()->get('user_id')) {
+            $meta['user_id'] = request()->get('user_id');
+            $builder = $builder->where('user_id', request()->get('user_id'));
+        }
+
+        if (request()->has('package_id') && request()->get('package_id')) {
+            $meta['package_id'] = request()->get('package_id');
+            $builder = $builder->where('package_id', request()->get('package_id'));
+        }
+
+        if (request()->has('cycle_id') && request()->get('cycle_id')) {
+            $meta['cycle_id'] = request()->get('cycle_id');
+            $builder = $builder->where('cycle_id', request()->get('cycle_id'));
+        }
+
+        if (request()->has('service_id') && request()->get('service_id')) {
+            $meta['service_id'] = request()->get('service_id');
+            $builder = $builder->where('service_id', request()->get('service_id'));
+        }
+
+        if (request()->has('is_suspended') && request()->get('is_suspended')) {
+            $meta['is_suspended'] = request()->get('is_suspended');
+            $builder = $builder->where('is_suspended', request()->get('is_suspended'));
+        }
+
+        if (request()->has('is_expired') && request()->get('is_expired')) {
+            $meta['is_expired'] = request()->get('is_expired');
+            $builder = $builder->where('is_expired', request()->get('is_expired'));
+        }
 
         $limit = request()->get('per_page', $this->per_page);
 
-        return SubscriptionResource::collection($builder->paginate($limit));
+        $collection = SubscriptionResource::collection(
+            $builder->paginate($limit)
+        );
+
+        $collection->additional(['meta' => $meta]);
+
+        return $collection;
     }
 
     /**
@@ -62,6 +100,14 @@ class SubscriptionController extends Controller
     public function show($id)
     {
         $model = $this->model->findOrFail($id);
+
+        $model->load('package');
+
+        $model->load('user');
+
+        $model->load('cycle');
+        
+        $model->load('service');
 
         $this->authorize('view', $model);
 
