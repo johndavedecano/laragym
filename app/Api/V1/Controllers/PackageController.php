@@ -89,13 +89,17 @@ class PackageController extends Controller
     {
         $model = $this->model->findOrFail($id);
 
-        $model->load('cycle');
-
         $model->load('service');
+
+        $model->load('cycle');
 
         $this->authorize('view', $model);
 
-        return new PackageResource($model);
+        return response()->json([
+            'data' => array_merge($model->toArray(), [
+                'subscriptions_count' => $model->subscriptions->count(),
+            ])
+        ]);
     }
 
 

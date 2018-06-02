@@ -40,7 +40,7 @@ export const PackageTableRow = ({ pkg, onHandleAction }) => (
     <TableCell>{pkg.get('amount', 0).toFixed(2)}</TableCell>
     <TableCell>{pkg.get('is_archived') ? 'Yes' : 'No'}</TableCell>
     <TableCell>
-      {/* <ViewButton onClick={onClickHandler(pkg.get('id'), 'VIEW', onHandleAction)} /> */}
+      <ViewButton onClick={onClickHandler(pkg.get('id'), 'VIEW', onHandleAction)} />
       <EditButton onClick={onClickHandler(pkg, 'EDIT', onHandleAction)} />
       <DeleteButton
         onClick={onClickHandler(pkg.get('id'), 'DELETE', onHandleAction)}
