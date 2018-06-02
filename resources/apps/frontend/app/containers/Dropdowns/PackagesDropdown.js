@@ -6,6 +6,7 @@ export default class PackageDropdown extends Component {
   static defaultProps = {
     value: '',
     onChange: () => {},
+    clearable: false,
   };
 
   render() {
@@ -16,6 +17,7 @@ export default class PackageDropdown extends Component {
         onChange={this.props.onChange}
         value={this.props.value}
         placeholder="Select Package"
+        clearable={this.props.clearable}
       />
     );
   }

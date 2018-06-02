@@ -6,6 +6,7 @@ export default class CyclesDropdown extends Component {
   static defaultProps = {
     value: '',
     onChange: () => {},
+    clearable: false,
   };
 
   render() {
@@ -16,6 +17,7 @@ export default class CyclesDropdown extends Component {
         onChange={this.props.onChange}
         value={this.props.value}
         placeholder="Select Cycle"
+        clearable={this.props.clearable}
       />
     );
   }

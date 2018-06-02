@@ -7,7 +7,7 @@ import Helmet from 'react-helmet';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
+// import Typography from 'material-ui/Typography';
 import UserIcon from '@material-ui/icons/SupervisorAccount';
 import { Link } from 'react-router-dom';
 

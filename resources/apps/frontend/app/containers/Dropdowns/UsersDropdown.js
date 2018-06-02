@@ -4,10 +4,11 @@ import { SelectFieldSingle } from 'components/Select/SelectComponents';
 
 export default class UsersDropdown extends Component {
   static defaultProps = {
+    clearable: false,
     value: '',
     onChange: () => {},
   };
-  
+
   render() {
     return (
       <SelectFieldSingle
@@ -16,6 +17,7 @@ export default class UsersDropdown extends Component {
         onChange={this.props.onChange}
         value={this.props.value}
         placeholder="Select User"
+        clearable={this.props.clearable}
       />
     );
   }

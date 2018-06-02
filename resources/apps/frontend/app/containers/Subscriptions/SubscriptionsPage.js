@@ -44,41 +44,34 @@ class Subscription extends Component {
     this.props.load({
       page: this.props.params.get('current_page'),
       per_page: this.props.params.get('per_page'),
-      q: this.props.params.get('q'),
     });
   }
 
-  onSearchChange = (event) => {
-    this.props.updateParams({ q: event.target.value });
-  };
-
-  onSubmitSearch = (event) => {
+  onSubmitFilter = (event) => {
     event.preventDefault();
-    this.props.load({ q: this.props.params.get('q') });
+    this.props.load(this.getParams());
   };
 
   onChangePage = (event, page) => {
     const params = {
+      ...this.getParams(),
       page: page + 1,
       per_page: this.props.params.get('per_page', 30),
     };
 
-    if (this.state.q) {
-      params.q = this.state.q;
-    }
+    this.props.updateParams(params);
 
     this.props.load(params);
   };
 
   onChangeLimit = (event) => {
     const params = {
+      ...this.getParams(),
       page: this.props.params.get('current_page', 1),
       per_page: event.target.value,
     };
 
-    if (this.state.q) {
-      params.q = this.state.q;
-    }
+    this.props.updateParams(params);
 
     this.props.load(params);
   };
@@ -142,6 +135,26 @@ class Subscription extends Component {
     });
   };
 
+  onChangeFilter = (name, value) => {
+    this.props.updateParams({
+      ...this.getParams(),
+      [name]: value,
+    });
+  };
+
+  getParams() {
+    return {
+      page: this.props.params.get('current_page'),
+      per_page: this.props.params.get('per_page'),
+      user_id: this.props.params.get('user_id'),
+      package_id: this.props.params.get('package_id'),
+      service_id: this.props.params.get('service_id'),
+      cycle_id: this.props.params.get('cycle_id'),
+      is_expired: this.props.params.get('is_expired'),
+      is_suspended: this.props.params.get('is_suspended'),
+    };
+  }
+
   render() {
     return (
       <Container>
@@ -160,7 +173,17 @@ class Subscription extends Component {
             )}
           </PanelHeader>
 
-          <SubscriptionsFilter />
+          <SubscriptionsFilter
+            user_id={this.props.params.get('user_id')}
+            cycle_id={this.props.params.get('cycle_id')}
+            service_id={this.props.params.get('service_id')}
+            package_id={this.props.params.get('package_id')}
+            is_expired={this.props.params.get('is_expired')}
+            is_suspended={this.props.params.get('is_suspended')}
+            by_user={this.state.by_user}
+            onChange={this.onChangeFilter}
+            onSubmit={this.onSubmitFilter}
+          />
 
           <PanelBody isLoading={this.props.isLoading}>
             <SubscriptionTable
