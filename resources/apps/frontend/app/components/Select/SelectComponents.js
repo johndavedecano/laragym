@@ -85,7 +85,7 @@ class SelectWrappedAsync extends React.Component {
       const { data } = await ApiClient.get(api, {
         params: {
           q: query,
-          filter_archived: true,
+          is_archived: false,
         },
       });
       return {

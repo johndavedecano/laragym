@@ -7,7 +7,6 @@ import {
   Panel,
   PanelBody,
   PanelHeader,
-  PanelSearch,
   PanelFooter,
   PanelActions,
 } from 'components/Panel/Panel';
@@ -29,6 +28,7 @@ import SubscriptionCreateDialog from './SubscriptionCreateDialog';
 import SubscriptionDeleteDialog from './SubscriptionDeleteDialog';
 import SubscriptionUpdateDialog from './SubscriptionUpdateDialog';
 import SubscriptionViewDialog from './SubscriptionViewDialog';
+import SubscriptionsFilter from './SubscriptionsFilter';
 
 const PAGINATION_LIMIT_OPTIONS = [30, 60, 120];
 
@@ -160,12 +160,7 @@ class Subscription extends Component {
             )}
           </PanelHeader>
 
-          <PanelSearch
-            placeholder="Search Subscriptions"
-            value={this.props.params.get('q', '')}
-            onChange={this.onSearchChange}
-            onSubmit={this.onSubmitSearch}
-          />
+          <SubscriptionsFilter />
 
           <PanelBody isLoading={this.props.isLoading}>
             <SubscriptionTable

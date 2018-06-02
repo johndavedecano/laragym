@@ -40,6 +40,12 @@ export const PanelBody = ({ isLoading = true, children }) => (
   </div>
 );
 
+export const PanelSearchWrapper = (props) => (
+  <Grid container className={styles.searchWrapper}>
+    {props.children}
+  </Grid>
+);
+
 export const SearchForm = ({
   value = '',
   onChange = Function,
@@ -66,6 +72,16 @@ export const SearchForm = ({
   </Grid>
 );
 
+export const PanelSearchContainer = (props) => (
+  <div className={cx(styles.panelHeader, styles.panelHeader__withFilters)}>
+    <Grid container>{props.children}</Grid>
+  </div>
+);
+
+export const PanelFilterContainter = (props) => (
+  <div className={cx(styles.panelHeaderFilter)}>{props.children}</div>
+);
+
 export const PanelSearch = ({
   value = '',
   onChange = Function,
@@ -73,19 +89,17 @@ export const PanelSearch = ({
   children = null,
   placeholder = 'Search Users...',
 }) => (
-  <div className={cx(styles.panelHeader, styles.panelHeader__withFilters)}>
-    <Grid container>
-      <Grid item xs={12} md={12}>
-        <SearchForm
-          value={value}
-          onSubmit={onSubmit}
-          onChange={onChange}
-          placeholder={placeholder}
-        />
-      </Grid>
-      <Grid item md={9}>
-        <div className={styles.filters}>{children}</div>
-      </Grid>
+  <PanelSearchContainer>
+    <Grid item xs={12} md={12}>
+      <SearchForm
+        value={value}
+        onSubmit={onSubmit}
+        onChange={onChange}
+        placeholder={placeholder}
+      />
     </Grid>
-  </div>
+    <Grid item md={9}>
+      <div className={styles.filters}>{children}</div>
+    </Grid>
+  </PanelSearchContainer>
 );

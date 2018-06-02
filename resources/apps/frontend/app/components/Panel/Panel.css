@@ -12,6 +12,16 @@
   border-bottom: solid 1px rgba(0, 0, 0, 0.12);
 }
 
+.panelHeaderFilter {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  padding: 1rem;
+
+  border-bottom: solid 1px rgba(0, 0, 0, 0.12);
+}
+
 .panelFooter {
   display: flex;
   align-items: center;
@@ -36,7 +46,11 @@
   height: 40px;
   padding-left: 0.5rem;
 
-  background: white;
+  background: #ffffff;
+}
+
+.panelInner {
+  background-color: #ffffff;
 }
 
 .searchField {
@@ -44,7 +58,7 @@
   height: 100%;
 
   border: none;
-  background: white;
+  background: #ffffff;
 }
 
 .searchInputWrapper {
@@ -68,7 +82,7 @@
   margin: 0;
   padding: 0;
 
-  color: white;
+  color: #ffffff;
   border: none;
   background: #3f53af;
 }
