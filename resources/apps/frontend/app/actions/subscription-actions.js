@@ -7,6 +7,36 @@ import * as types from './../constants';
 export const normalizeData = (data) =>
   fromJS(normalize(get(data, 'data', []), 'id'));
 
+export function updateParams(params = {}) {
+  return {
+    type: types.SUBSCRIPTION_PARAMS_CHANGE,
+    params,
+  };
+}
+
+export function show(id) {
+  return async (dispatch, getState, api) => {
+    try {
+      const { data } = await api.get(`/api/subscriptions/${id}`);
+      return data.data;
+    } catch (error) {
+      dispatch({
+        type: 'noop',
+        meta: {
+          notification: {
+            type: 'snackbar',
+            message: 'Unable to load subscriptions.',
+            vertical: 'bottom',
+            horizontal: 'right',
+          },
+        },
+      });
+      handleActionError(error);
+      return false;
+    }
+  };
+}
+
 export function load(params, replace = true) {
   return async (dispatch, getState, api) => {
     try {
