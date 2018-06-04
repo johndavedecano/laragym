@@ -42,6 +42,7 @@ export default function requireAuthentication(Component) {
 
     redirectToLoginPage() {
       const after = this.props.location.pathname;
+      this.props.logout();
       this.props.history.replace(`/login?after=${after}`);
     }
 
