@@ -1,7 +1,9 @@
-import axios from 'axios';
 import get from 'lodash/get';
 
 import { handleActionError } from 'helpers/ActionErrorHandler';
+
+import initAxios from 'helpers/initAxios';
+
 import * as types from './../constants';
 
 export function logout() {
@@ -66,7 +68,9 @@ export function login(data = {}) {
 
       const token = get(response, 'data.token');
 
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+      localStorage.setItem('token', token);
+
+      initAxios();
 
       const userResponse = await api.get('/api/me');
 
@@ -75,8 +79,6 @@ export function login(data = {}) {
       if (!user.is_admin) {
         throw new Error('You are not allowed to access this page.');
       }
-
-      localStorage.setItem('token', token);
 
       dispatch({
         type: types.USER_LOGGED_IN_SUCCESS,

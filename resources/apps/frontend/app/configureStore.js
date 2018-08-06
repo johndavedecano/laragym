@@ -1,12 +1,12 @@
 /**
  * Create the store with dynamic reducers
  */
+import axios from 'axios';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
 
-import api from './helpers/api';
 import createReducer from './reducers';
 import notificationMiddleware from './middlewares/notification-middleware';
 
@@ -29,7 +29,7 @@ export default function configureStore(initialState = {}, history) {
 
   const middlewares = [
     routerMiddleware(history),
-    thunk.withExtraArgument(api),
+    thunk.withExtraArgument(axios),
     notificationMiddleware,
   ];
 

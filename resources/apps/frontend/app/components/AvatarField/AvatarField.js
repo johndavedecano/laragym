@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import get from 'lodash/get';
-
+import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 
 import {
@@ -8,7 +8,6 @@ import {
   DeleteButton,
 } from 'components/ActionButtons/ActionButtons';
 
-import api from 'helpers/api';
 import config from 'config';
 import styles from './AvatarField.css';
 
@@ -68,7 +67,7 @@ export default class AvatarField extends Component {
       const form = new FormData();
       form.append('file', file);
 
-      const { data } = await api.post('/api/upload', form);
+      const { data } = await axios.post('/api/upload', form);
 
       const avatarUrl = `${config.API_URL}/${get(
         data,

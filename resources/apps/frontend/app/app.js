@@ -37,7 +37,7 @@ import '!file-loader?name=[name].[ext]!./images/user.png';
 import '!file-loader?name=[name].[ext]!./manifest.json';
 import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line import/extensions
 /* eslint-enable import/no-webpack-loader-syntax */
-
+import initAxios from 'helpers/initAxios';
 import configureStore from './configureStore';
 import { loadState, createStoreSubscription } from './localStorage';
 import { translationMessages } from './i18n';
@@ -67,6 +67,10 @@ const store = configureStore(initialState, history);
 createStoreSubscription(store);
 
 const MOUNT_NODE = document.getElementById('app');
+
+if (localStorage.getItem('token')) {
+  initAxios();
+}
 
 const render = (messages) => {
   ReactDOM.render(

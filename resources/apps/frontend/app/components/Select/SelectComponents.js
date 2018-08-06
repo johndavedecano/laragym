@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types, react/no-multi-comp */
 
 import React from 'react';
+import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
@@ -13,7 +14,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from 'react-select';
 // import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import ApiClient from 'helpers/api';
+
 import styles from './SelectClasses';
 
 class Option extends React.Component {
@@ -82,7 +83,7 @@ export function SelectWrapped(props) {
 class SelectWrappedAsync extends React.Component {
   getOptions = (api) => async (query) => {
     try {
-      const { data } = await ApiClient.get(api, {
+      const { data } = await axios.get(api, {
         params: {
           q: query,
           is_archived: false,
