@@ -44,6 +44,35 @@ class UserAuthService implements UserAuthServiceInterface
     }
 
     /**
+     * @param User $user
+     * @return string
+     */
+    public function token(User $user)
+    {
+        return $this->jwt->fromUser($user);
+    }
+
+    /**
+     * @param array $request
+     * @return mixed
+     */
+    public function reset($request = [])
+    {
+        $response = $this->getPasswordBroker()->reset(
+            $request, function ($user, $password) {
+                $user->pasword = $password;
+                $user->save();
+            }
+        );
+
+        if($response !== Password::PASSWORD_RESET) {
+            throw new HttpException(500);
+        }
+
+        return $this->user->where('email', $request['email'])->first();
+    }
+
+    /**
      * @return mixed
      */
     private function getPasswordBroker()
@@ -101,12 +130,6 @@ class UserAuthService implements UserAuthServiceInterface
     {
         $user = $this->user->create(array_only($credentials, $this->user->getFillable()));
 
-        if(!config()->get('boilerplate.sign_up.release_token')) {
-            return ['user' => $user];
-        }
-
-        $token = $this->jwt->fromUser($user);
-
-        return ['user' => $user, 'token' => $token];
+        return $user;
     }
 }

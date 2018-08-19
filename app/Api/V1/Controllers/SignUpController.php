@@ -32,8 +32,17 @@ class SignUpController extends Controller
      */
     public function signUp(SignUpRequest $request)
     {
-        $response = $this->authService->register($request->all());
-        
-        return response()->json($response, 201);
+        $user = $this->authService->register($request->all());
+
+        if(!Config::get('boilerplate.reset_password.release_token')) {
+            return response()->json([
+                'status' => 'ok',
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'ok',
+            'token' => $this->authService->token($user),
+        ]);
     }
 }

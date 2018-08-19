@@ -5,6 +5,7 @@ namespace App\Api\V1\Controllers;
 use App\Api\V1\Requests\ResetPasswordRequest;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\User\UserAuthService;
 use Config;
 use Illuminate\Support\Facades\Password;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -12,17 +13,27 @@ use Tymon\JWTAuth\JWTAuth;
 
 class ResetPasswordController extends Controller
 {
-    public function resetPassword(ResetPasswordRequest $request, JWTAuth $JWTAuth)
-    {
-        $response = $this->broker()->reset(
-            $this->credentials($request), function ($user, $password) {
-                $this->reset($user, $password);
-            }
-        );
+    /**
+     * @var UserAuthService
+     */
+    protected $authService;
 
-        if($response !== Password::PASSWORD_RESET) {
-            throw new HttpException(500);
-        }
+    /**
+     * ResetPasswordController constructor.
+     * @param UserAuthService $authService
+     */
+    public function __construct(UserAuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
+    /**
+     * @param ResetPasswordRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        $user = $this->authService->reset($this->credentials($request));
 
         if(!Config::get('boilerplate.reset_password.release_token')) {
             return response()->json([
@@ -30,22 +41,10 @@ class ResetPasswordController extends Controller
             ]);
         }
 
-        $user = User::where('email', '=', $request->get('email'))->first();
-
         return response()->json([
             'status' => 'ok',
-            'token' => $JWTAuth->fromUser($user)
+            'token' => $this->authService->token($user),
         ]);
-    }
-
-    /**
-     * Get the broker to be used during password reset.
-     *
-     * @return \Illuminate\Contracts\Auth\PasswordBroker
-     */
-    public function broker()
-    {
-        return Password::broker();
     }
 
     /**
@@ -59,18 +58,5 @@ class ResetPasswordController extends Controller
         return $request->only(
             'email', 'password', 'password_confirmation', 'token'
         );
-    }
-
-    /**
-     * Reset the given user's password.
-     *
-     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
-     * @param  string  $password
-     * @return void
-     */
-    protected function reset($user, $password)
-    {
-        $user->password = $password;
-        $user->save();
     }
 }

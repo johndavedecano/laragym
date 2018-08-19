@@ -13,7 +13,7 @@ use App\Exceptions\DefaultEntityException;
 use App\Exceptions\SubscriptionException;
 use App\Models\Cycle;
 
-class CycleService
+class CycleService implements CycleServiceInterface
 {
     /**
      * @var Cycle
