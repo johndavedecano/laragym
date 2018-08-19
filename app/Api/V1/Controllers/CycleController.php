@@ -8,50 +8,51 @@ use App\Http\Resources\CycleResource;
 use App\Api\V1\Requests\CommonRequest as Request;
 use App\Exceptions\DefaultEntityException;
 use App\Exceptions\SubscriptionException;
+use App\Services\Cycle\CycleCollection;
+use App\Services\Cycle\CycleService;
 
 class CycleController extends Controller
 {
     /**
-     * Pagination per_page.
-     *
-     * @var integer
+     * @var CycleCollection
      */
-    public $per_page = 30;
-    
+    protected $collection;
+
     /**
-     * @param Cycle $model
+     * @var CycleService
      */
-    public function __construct(Cycle $model)
+    protected $cycle;
+
+    /**
+     * CycleController constructor.
+     * @param CycleService $cycle
+     * @param CycleCollection $collection
+     */
+    public function __construct(CycleService $cycle, CycleCollection $collection)
     {
-        $this->model = $model;
+        $this->cycle = $cycle;
+
+        $this->collection = $collection;
     }
-    
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
         $this->authorize('create', Cycle::class);
 
-        $builder = $this->model->orderBy('name', 'ASC');
-
         if (request()->has('q') && request()->get('q')) {
-            $keyword = '%'.request()->get('q').'%';
-            $builder = $builder->where('name', 'like', $keyword);
             $meta['q'] = request()->get('q');
         }
 
         if (request()->has('is_archived')) {
-            $builder = $builder->where('is_archived', request()->get('is_archived'));
             $meta['is_archived'] = request()->get('is_archived');
         }
 
-        $limit = request()->get('per_page', $this->per_page);
-
         $collection = CycleResource::collection(
-            $builder->paginate($limit)
+            $this->collection->get()
         );
 
         if (request()->has('q') && request()->get('q')) {
@@ -64,16 +65,15 @@ class CycleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return CycleResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request)
     {
         $this->authorize('create', Cycle::class);
 
-        $model = $this->model->create([
+        $model = $this->cycle->create([
             'name' => $request->get('name'),
             'description' => $request->get('description'),
             'num_days' => $request->get('num_days', 30),
@@ -84,35 +84,32 @@ class CycleController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return CycleResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id)
     {
-        $model = $this->model->findOrFail($id);
+        $model = $this->cycle->find($id);
 
         $this->authorize('view', $model);
 
         return new CycleResource($model);
     }
 
-
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return CycleResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, $id)
     {
-        $model = $this->model->findOrFail($id);
+        $model = $this->cycle->find($id);
 
         $this->authorize('update', $model);
 
-        $model->update([
+        $model = $this->cycle->update($model, [
             'name' => $request->get('name'),
             'description' => $request->get('description'),
             'num_days' => $request->get('num_days', 30),
@@ -123,26 +120,19 @@ class CycleController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return CycleResource
+     * @throws DefaultEntityException
+     * @throws SubscriptionException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)
     {
-        $model = $this->model->findOrFail($id);
-
-        if ($model->is_default) {
-            throw new DefaultEntityException('You cannot delete a default entity.');
-        }
-
-        if ($model->subscriptions()->count() > 0) {
-            throw new SubscriptionException('You cannot delete an entity that has existing subscriptions.');
-        }
+        $model = $this->cycle->find($id);
 
         $this->authorize('delete', $model);
 
-        $model->delete();
+        $this->cycle->delete($model);
 
         return new CycleResource($model);
     }

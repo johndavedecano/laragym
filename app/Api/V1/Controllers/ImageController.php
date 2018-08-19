@@ -4,16 +4,22 @@ namespace App\Api\V1\Controllers;
 
 use App\Api\V1\Requests\ImageRequest as Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ImageResource;
 use App\Models\Image;
 use Imageupload;
 
+/**
+ * Class ImageController
+ * @package App\Api\V1\Controllers
+ */
 class ImageController extends Controller
 {
     /**
-     * Create a new AuthController instance.
-     *
-     * @return void
+     * @var Image
+     */
+    protected $model;
+    /**
+     * ImageController constructor.
+     * @param Image $model
      */
     public function __construct(Image $model)
     {
@@ -23,10 +29,8 @@ class ImageController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
