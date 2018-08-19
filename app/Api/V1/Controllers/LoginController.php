@@ -4,22 +4,28 @@ namespace App\Api\V1\Controllers;
 
 use App\Api\V1\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
-use Auth;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Tymon\JWTAuth\Exceptions\JWTException;
-use Tymon\JWTAuth\JWTAuth;
+use App\Services\User\UserAuthService;
 
 class LoginController extends Controller
 {
     /**
-     * Log the user in
-     *
+     * @var UserAuthService
+     */
+    protected $authService;
+    /**
+     * LoginController constructor.
+     * @param UserAuthService $authService
+     */
+    public function __construct(UserAuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
+    /**
      * @param LoginRequest $request
-     * @param JWTAuth $JWTAuth
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(LoginRequest $request, JWTAuth $JWTAuth)
+    public function login(LoginRequest $request)
     {
         $credentials = [
             'email' => $request->get('email'),
@@ -27,24 +33,13 @@ class LoginController extends Controller
             'is_active' => 1,
         ];
 
-        try {
-            $token = Auth::guard()->attempt($credentials);
-
-            if (!$token) {
-                throw new AccessDeniedHttpException('Invalid username or password.');
-            }
-        } catch (JWTException $e) {
-            throw new HttpException(500);
-        }
-
-        $user = Auth::guard()->user();
-        $user->logLastLogin();
+        $token = $this->authService->login($credentials);
 
         return response()
             ->json([
                 'status' => 'ok',
                 'token' => $token,
-                'expires_in' => Auth::guard()->factory()->getTTL() * 60
+                'expires_in' => auth()->guard()->factory()->getTTL() * 60
             ]);
     }
 }

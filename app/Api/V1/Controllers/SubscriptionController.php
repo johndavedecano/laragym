@@ -3,10 +3,18 @@
 namespace App\Api\V1\Controllers;
 
 use App\Api\V1\Requests\SubscriptionRequest as Request;
+use App\Api\V1\Requests\SubscriptionRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SubscriptionResource;
 use App\Models\Subscription;
+use App\Models\Package;
+use App\Models\Cycle;
+use Carbon\Carbon;
 
+/**
+ * Class SubscriptionController
+ * @package App\Api\V1\Controllers
+ */
 class SubscriptionController extends Controller
 {
     /**
@@ -17,17 +25,17 @@ class SubscriptionController extends Controller
     public $per_page = 30;
 
     /**
-     * @param Service $model
+     * SubscriptionController constructor.
+     * @param Subscription $model
      */
     public function __construct(Subscription $model)
     {
         $this->model = $model;
     }
-    
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
@@ -35,7 +43,7 @@ class SubscriptionController extends Controller
 
         $this->authorize('create', Subscription::class);
 
-        $builder = $this->model->orderBy('name', 'ASC');
+        $builder = $this->model->orderBy('created_at', 'DESC');
 
         if (request()->has('user_id') && request()->get('user_id')) {
             $meta['user_id'] = request()->get('user_id');
@@ -79,22 +87,25 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param SubscriptionRequest $request
+     * @return SubscriptionResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(Request $request)
+    public function store(SubscriptionRequest $request)
     {
         $this->authorize('create', Subscription::class);
 
+        $package = Package::find($request->get('package_id'));
+        $cycle = Cycle::find($package->cycle_id);
+        $interval = $request->get('interval', 1);
+
         $model = $this->model->create([
-            'package_id'   => $request->get('package_id'),
-            'user_id'      => $request->get('user_id'),
-            'service_id'   => $request->get('service_id'),
-            'cycle_id'     => $request->get('cycle_id'),
-            'interval'     => $request->get('interval', 1),
-            'expires_at'   => $request->get('expires_at'),
+            'package_id' => $request->get('package_id'),
+            'user_id' => $request->get('user_id'),
+            'service_id' => $package->service_id,
+            'cycle_id' => $package->cycle_id,
+            'interval' => $interval,
+            'expires_at' => Carbon::now()->addDays($cycle->num_days * $interval),
             'suspended_at' => $request->get('suspended_at'),
         ]);
 
@@ -102,10 +113,9 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return SubscriptionResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id)
     {
@@ -125,11 +135,10 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param SubscriptionRequest $request
+     * @param $id
+     * @return SubscriptionResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, $id)
     {
@@ -147,10 +156,9 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return SubscriptionResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)
     {

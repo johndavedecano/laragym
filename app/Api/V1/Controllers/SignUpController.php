@@ -4,33 +4,36 @@ namespace App\Api\V1\Controllers;
 
 use App\Api\V1\Requests\SignUpRequest;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Config;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Tymon\JWTAuth\JWTAuth;
+use App\Services\User\UserAuthService;
 
+/**
+ * Class SignUpController
+ * @package App\Api\V1\Controllers
+ */
 class SignUpController extends Controller
 {
-    public function signUp(SignUpRequest $request, JWTAuth $JWTAuth)
+    /**
+     * @var UserAuthService
+     */
+    protected $authService;
+
+    /**
+     * SignUpController constructor.
+     * @param UserAuthService $authService
+     */
+    public function __construct(UserAuthService $authService)
     {
-        $user = new User($request->all());
-        if(!$user->save()) {
-            throw new HttpException(500);
-        }
+        $this->authService = $authService;
+    }
 
-        if(!Config::get('boilerplate.sign_up.release_token')) {
-            return response()->json([
-                'status' => 'ok'
-            ], 201);
-        }
-
-        // TODO: Send welcome email or SMS to the user.
-
-        $token = $JWTAuth->fromUser($user);
+    /**
+     * @param SignUpRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function signUp(SignUpRequest $request)
+    {
+        $response = $this->authService->register($request->all());
         
-        return response()->json([
-            'status' => 'ok',
-            'token' => $token
-        ], 201);
+        return response()->json($response, 201);
     }
 }

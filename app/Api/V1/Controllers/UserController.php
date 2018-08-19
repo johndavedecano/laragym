@@ -2,67 +2,48 @@
 
 namespace App\Api\V1\Controllers;
 
-use Auth;
-use Hash;
-
+use App\Services\User\UserCollection;
+use App\Services\User\UserService;
 use App\Api\V1\Requests\UserRequest as Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Tymon\JWTAuth\Exceptions\JWTException;
-use Tymon\JWTAuth\JWTAuth;
 use App\Exceptions\SubscriptionException;
 
 class UserController extends Controller
 {
     /**
-     * Pagination per_page.
-     *
-     * @var integer
+     * @var UserService
      */
-    public $per_page = 30;
+    protected $userService;
+
     /**
-     * Create a new AuthController instance.
-     *
-     * @return void
+     * UserController constructor.
+     * @param UserService $userService
      */
-    public function __construct(User $model)
+    public function __construct(UserService $userService)
     {
         $this->middleware('auth:api', []);
 
-        $this->model = $model;
+        $this->userService = $userService;
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param UserCollection $list
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index()
+    public function index(UserCollection $list)
     {
         $meta = [];
 
         $this->authorize('create', User::class);
 
-        $builder = $this->model->orderBy('name', 'ASC');
-
         if (request()->has('q') && request()->get('q')) {
-            $keyword = '%'.request()->get('q').'%';
-
-            $builder = $builder->where('name', 'like', $keyword);
-            $builder = $builder->orWhere('account_number', 'like', $keyword);
-            $builder = $builder->orWhere('email', 'like', $keyword);
-            
             $meta['q'] = request()->get('q');
         }
 
-        $limit = request()->get('per_page', $this->per_page);
-
-        $collection = UserResource::collection(
-            $builder->paginate($limit)
-        );
+        $collection = UserResource::collection($list->get());
 
         $collection->additional(['meta' => $meta]);
 
@@ -70,78 +51,72 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return UserResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request)
     {
         $this->authorize('create', User::class);
 
-        $data = $request->only($this->model->getFillable());
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required|min:6|max:12|confirmed'
+        ]);
 
-        $model = $this->model->create($data);
+        $model = $this->userService->create($request->all());
 
         return new UserResource($model);
     }
 
+
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return UserResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id)
     {
-        $model = $this->model->findOrFail($id);
+        $user = $this->userService->find($id);
 
-        $this->authorize('view', $model);
+        $this->authorize('view', $user);
 
-        return new UserResource($model);
+        return new UserResource($user);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return UserResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, $id)
     {
-        $model = $this->model->findOrFail($id);
+        $user = $this->userService->find($id);
 
-        $this->authorize('update', $model);
+        $this->authorize('update', $user);
 
-        $data = $request->only($this->model->getFillable());
+        $user = $this->userService->update($user, $request->all());
 
-        $model->fill($data);
-
-        $model->save();
-
-        return new UserResource($model);
+        return new UserResource($user);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return UserResource
+     * @throws SubscriptionException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)
     {
-        $model = $this->model->findOrFail($id);
+        $user = $this->userService->find($id);
 
-        $this->authorize('delete', $model);
+        $this->authorize('delete', $user);
 
-        if ($model->subscriptions()->count() > 0) {
-            throw new SubscriptionException('User still has subscription.');
-        }
+        $user = $this->userService->delete($user);
 
-        $model->delete();
-
-        return new UserResource($model);
+        return new UserResource($user);
     }
 
     /**
