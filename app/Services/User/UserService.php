@@ -32,6 +32,14 @@ class UserService implements UserServiceInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getCurrentUser()
+    {
+        return auth()->guard()->user();
+    }
+
+    /**
      * @param $id
      * @return mixed
      */

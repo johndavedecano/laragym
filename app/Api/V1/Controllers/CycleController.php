@@ -26,40 +26,24 @@ class CycleController extends Controller
     /**
      * CycleController constructor.
      * @param CycleService $cycle
-     * @param CycleCollection $collection
      */
-    public function __construct(CycleService $cycle, CycleCollection $collection)
+    public function __construct(CycleService $cycle)
     {
         $this->cycle = $cycle;
-
-        $this->collection = $collection;
     }
 
     /**
+     * @param CycleCollection $cycles
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index()
+    public function index(CycleCollection $cycles)
     {
         $this->authorize('create', Cycle::class);
 
-        if (request()->has('q') && request()->get('q')) {
-            $meta['q'] = request()->get('q');
-        }
+        $collection = CycleResource::collection($cycles->get());
 
-        if (request()->has('is_archived')) {
-            $meta['is_archived'] = request()->get('is_archived');
-        }
-
-        $collection = CycleResource::collection(
-            $this->collection->get()
-        );
-
-        if (request()->has('q') && request()->get('q')) {
-            $collection->additional(['meta' => [
-                'q' => request()->get('q'),
-            ]]);
-        }
+        $collection->additional(['meta' => $cycles->meta]);
 
         return $collection;
     }

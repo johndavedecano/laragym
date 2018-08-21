@@ -8,70 +8,38 @@ use App\Http\Resources\ServiceResource;
 use App\Api\V1\Requests\CommonRequest as Request;
 use App\Exceptions\DefaultEntityException;
 use App\Exceptions\SubscriptionException;
+use App\Services\Service\ServiceCollection;
+use App\Services\Service\ServiceLogic;
 
 class ServiceController extends Controller
 {
     /**
-     * Pagination per_page.
-     *
-     * @var integer
+     * @param ServiceCollection $services
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public $per_page = 30;
-
-    /**
-     * @param Service $model
-     */
-    public function __construct(Service $model)
+    public function index(ServiceCollection $services)
     {
-        $this->model = $model;
-    }
-    
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $meta = [];
-
         $this->authorize('create', Service::class);
 
-        $builder = $this->model->orderBy('name', 'ASC');
+        $collection = ServiceResource::collection($services->get());
 
-        if (request()->has('q') && request()->get('q')) {
-            $keyword = '%'.request()->get('q').'%';
-            $builder = $builder->where('name', 'like', $keyword);
-            $meta['q'] = request()->get('q');
-        }
-
-        if (request()->has('is_archived')) {
-            $builder = $builder->where('is_archived', request()->get('is_archived'));
-            $meta['is_archived'] = request()->get('is_archived');
-        }
-
-        $limit = request()->get('per_page', $this->per_page);
-
-        $collection = ServiceResource::collection(
-            $builder->paginate($limit)
-        );
-
-        $collection->additional(['meta' => $meta]);
+        $collection->additional(['meta' => $services->meta]);
 
         return $collection;
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param ServiceLogic $service
+     * @return ServiceResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(Request $request)
+    public function store(Request $request, ServiceLogic $service)
     {
         $this->authorize('create', Service::class);
 
-        $model = $this->model->create([
+        $model = $service->create([
             'name' => $request->get('name'),
             'description' => $request->get('description'),
             'is_archived' => $request->get('is_archived', false)
@@ -81,35 +49,34 @@ class ServiceController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @param ServiceLogic $service
+     * @return ServiceResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show($id)
+    public function show($id, ServiceLogic $service)
     {
-        $model = $this->model->findOrFail($id);
+        $model = $service->find($id);
 
         $this->authorize('view', $model);
 
         return new ServiceResource($model);
     }
 
-
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param ServiceLogic $service
+     * @param $id
+     * @return ServiceResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ServiceLogic $service, $id)
     {
-        $model = $this->model->findOrFail($id);
+        $model = $service->find($id);
 
         $this->authorize('update', $model);
 
-        $model->update([
+        $service->update($model, [
             'name' => $request->get('name'),
             'description' => $request->get('description'),
             'is_archived' => $request->get('is_archived', false)
@@ -119,26 +86,20 @@ class ServiceController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ServiceLogic $service
+     * @param $id
+     * @return ServiceResource
+     * @throws DefaultEntityException
+     * @throws SubscriptionException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy($id)
+    public function destroy(ServiceLogic $service, $id)
     {
-        $model = $this->model->findOrFail($id);
-
-        if ($model->is_default) {
-            throw new DefaultEntityException('You cannot delete a default entity.');
-        }
-
-        if ($model->subscriptions()->count() > 0) {
-            throw new SubscriptionException('You cannot delete an entity that has existing subscriptions.');
-        }
+        $model = $service->find($id);
 
         $this->authorize('delete', $model);
 
-        $model->delete();
+        $service->delete($model);
 
         return new ServiceResource($model);
     }

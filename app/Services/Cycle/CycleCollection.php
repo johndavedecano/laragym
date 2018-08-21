@@ -14,6 +14,10 @@ use App\Models\Cycle;
 class CycleCollection implements CycleCollectionInterface
 {
     /**
+     * @var array
+     */
+    public $meta = [];
+    /**
      * @var Cycle
      */
     public $model;
@@ -59,6 +63,7 @@ class CycleCollection implements CycleCollectionInterface
         if (request()->has('q') && request()->get('q')) {
             $keyword = '%' . request()->get('q') . '%';
             $builder = $builder->where('name', 'like', $keyword);
+            $this->meta['q'] = request()->get('q');
         }
         return $builder;
     }
@@ -71,6 +76,7 @@ class CycleCollection implements CycleCollectionInterface
     {
         if (request()->has('is_archived')) {
             $builder = $builder->where('is_archived', request()->get('is_archived'));
+            $this->meta['is_archived'] = request()->get('is_archived');
         }
         return $builder;
     }

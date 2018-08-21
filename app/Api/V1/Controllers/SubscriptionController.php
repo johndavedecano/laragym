@@ -9,6 +9,8 @@ use App\Http\Resources\SubscriptionResource;
 use App\Models\Subscription;
 use App\Models\Package;
 use App\Models\Cycle;
+use App\Services\Subscription\SubscriptionCollection;
+use App\Services\Subscription\SubscriptionService;
 use Carbon\Carbon;
 
 /**
@@ -18,118 +20,52 @@ use Carbon\Carbon;
 class SubscriptionController extends Controller
 {
     /**
-     * Pagination per_page.
-     *
-     * @var integer
-     */
-    public $per_page = 30;
-
-    /**
-     * SubscriptionController constructor.
-     * @param Subscription $model
-     */
-    public function __construct(Subscription $model)
-    {
-        $this->model = $model;
-    }
-
-    /**
+     * @param SubscriptionCollection $subscriptions
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index()
+    public function index(SubscriptionCollection $subscriptions)
     {
-        $meta = [];
-
         $this->authorize('create', Subscription::class);
 
-        $builder = $this->model->orderBy('created_at', 'DESC');
+        $collection = SubscriptionResource::collection($subscriptions->get());
 
-        if (request()->has('user_id') && request()->get('user_id')) {
-            $meta['user_id'] = request()->get('user_id');
-            $builder = $builder->where('user_id', request()->get('user_id'));
-        }
-
-        if (request()->has('package_id') && request()->get('package_id')) {
-            $meta['package_id'] = request()->get('package_id');
-            $builder = $builder->where('package_id', request()->get('package_id'));
-        }
-
-        if (request()->has('cycle_id') && request()->get('cycle_id')) {
-            $meta['cycle_id'] = request()->get('cycle_id');
-            $builder = $builder->where('cycle_id', request()->get('cycle_id'));
-        }
-
-        if (request()->has('service_id') && request()->get('service_id')) {
-            $meta['service_id'] = request()->get('service_id');
-            $builder = $builder->where('service_id', request()->get('service_id'));
-        }
-
-        if (request()->has('is_suspended') && request()->get('is_suspended')) {
-            $meta['is_suspended'] = request()->get('is_suspended');
-            $builder = $builder->where('is_suspended', request()->get('is_suspended'));
-        }
-
-        if (request()->has('is_expired') && request()->get('is_expired')) {
-            $meta['is_expired'] = request()->get('is_expired');
-            $builder = $builder->where('is_expired', request()->get('is_expired'));
-        }
-
-        $limit = request()->get('per_page', $this->per_page);
-
-        $collection = SubscriptionResource::collection(
-            $builder->paginate($limit)
-        );
-
-        $collection->additional(['meta' => $meta]);
+        $collection->additional(['meta' => $subscriptions->getMeta()]);
 
         return $collection;
     }
 
     /**
      * @param SubscriptionRequest $request
+     * @param SubscriptionService $subscriptionService
      * @return SubscriptionResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(SubscriptionRequest $request)
+    public function store(SubscriptionRequest $request, SubscriptionService $subscriptionService)
     {
         $this->authorize('create', Subscription::class);
 
-        $package = Package::find($request->get('package_id'));
-        $cycle = Cycle::find($package->cycle_id);
-        $interval = $request->get('interval', 1);
+        $subscription = $subscriptionService->create($request->all());
 
-        $model = $this->model->create([
-            'package_id' => $request->get('package_id'),
-            'user_id' => $request->get('user_id'),
-            'service_id' => $package->service_id,
-            'cycle_id' => $package->cycle_id,
-            'interval' => $interval,
-            'expires_at' => Carbon::now()->addDays($cycle->num_days * $interval),
-            'suspended_at' => $request->get('suspended_at'),
-        ]);
-
-        return new SubscriptionResource($model);
+        return new SubscriptionResource($subscription);
     }
 
     /**
+     * @param SubscriptionService $service
      * @param $id
      * @return SubscriptionResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function show($id)
+    public function show(SubscriptionService $service, $id)
     {
-        $model = $this->model->findOrFail($id);
-
-        $model->load('package');
-
-        $model->load('user');
-
-        $model->load('cycle');
-
-        $model->load('service');
+        $model = $service->findOrFail($id);
 
         $this->authorize('view', $model);
+
+        $model->load('package');
+        $model->load('user');
+        $model->load('cycle');
+        $model->load('service');
 
         return new SubscriptionResource($model);
     }
