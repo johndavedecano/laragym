@@ -35,6 +35,11 @@ class UserCollection implements UserCollectionInteface
     protected $builder;
 
     /**
+     * @var array
+     */
+    public $meta = [];
+
+    /**
      * UserCollection constructor.
      * @param User $model
      */
@@ -82,6 +87,8 @@ class UserCollection implements UserCollectionInteface
                 ->where('name', 'like', $this->getKeyword())
                 ->orWhere('account_number', 'like', $this->getKeyword())
                 ->orWhere('email', 'like', $this->getKeyword());
+
+            $this->meta['q'] = request()->get('q');
         }
 
         return $builder;

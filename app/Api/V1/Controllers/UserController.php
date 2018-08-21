@@ -29,23 +29,17 @@ class UserController extends Controller
     }
 
     /**
-     * @param UserCollection $list
+     * @param UserCollection $users
      * @return mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(UserCollection $list)
+    public function index(UserCollection $users)
     {
-        $meta = [];
-
         $this->authorize('create', User::class);
 
-        if (request()->has('q') && request()->get('q')) {
-            $meta['q'] = request()->get('q');
-        }
+        $collection = UserResource::collection($users->get());
 
-        $collection = UserResource::collection($list->get());
-
-        $collection->additional(['meta' => $meta]);
+        $collection->additional(['meta' => $users->meta]);
 
         return $collection;
     }
