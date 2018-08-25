@@ -54,7 +54,7 @@ class ServiceCollection
         return $this
             ->build()
             ->byArchived()
-            ->byArchived()
+            ->bySearch()
             ->builder
             ->paginate($this->limit());
     }
