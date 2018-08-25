@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,400i,600,700');
+
+@import 'variables.scss';
+@import 'mixins.scss';
+@import 'global.scss';
+@import 'utilities.scss';
+@import 'navbar.scss';
+@import 'cards.scss';
+@import 'login.scss';
+@import 'footer.scss';
+
+$fa-font-path: '//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts';
+
+@import '~font-awesome/scss/font-awesome';
+
+@import '~bootstrap/scss/bootstrap';
