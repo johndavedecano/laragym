@@ -68,9 +68,7 @@ createStoreSubscription(store);
 
 const MOUNT_NODE = document.getElementById('app');
 
-if (localStorage.getItem('token')) {
-  initAxios();
-}
+initAxios();
 
 const render = (messages) => {
   ReactDOM.render(

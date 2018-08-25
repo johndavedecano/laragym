@@ -7,17 +7,23 @@ use App\Models\Activity;
 use App\Http\Resources\ActivityResource;
 use App\Api\V1\Requests\CommonRequest as Request;
 
+/**
+ * Class ActivityController
+ * @package App\Api\V1\Controllers
+ */
 class ActivityController extends Controller
 {
+    /**
+     * ActivityController constructor.
+     * @param Activity $model
+     */
     public function __construct(Activity $model)
     {
         $this->model = $model;
     }
-    
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
     public function index()
     {
@@ -33,10 +39,9 @@ class ActivityController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return ActivityResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request)
     {
@@ -50,10 +55,9 @@ class ActivityController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return ActivityResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id)
     {
@@ -64,13 +68,11 @@ class ActivityController extends Controller
         return new ActivityResource($model);
     }
 
-
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return ActivityResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, $id)
     {
@@ -86,10 +88,9 @@ class ActivityController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return ActivityResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)
     {

@@ -72,7 +72,9 @@ export function login(data = {}) {
 
       initAxios();
 
-      const userResponse = await api.get('/api/me');
+      const userResponse = await api.get('/api/me', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       const user = get(userResponse, 'data', {});
 
