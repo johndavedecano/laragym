@@ -1,19 +1,26 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
-import './App.scss';
+import {Router} from 'react-router';
+import {createBrowserHistory} from 'history';
+
+import {LayoutProvider} from 'contexts/layout-context';
+import {AuthProvider} from 'contexts/auth-context';
+import Root from 'components/Layouts/Root';
+
+import pages from './pages';
+import routes from './pages/routes';
+
+const browserHistory = createBrowserHistory();
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <AuthProvider>
+        <LayoutProvider>
+          <Router history={browserHistory}>
+            <Root>{routes(pages)}</Root>
+          </Router>
+        </LayoutProvider>
+      </AuthProvider>
     );
   }
 }
