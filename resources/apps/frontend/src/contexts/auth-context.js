@@ -49,14 +49,22 @@ class AuthProvider extends React.Component {
     }
   };
 
-  logout() {
+  logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    this.setState({
-      user: null,
-      token: null,
-    });
-  }
+    this.setState(
+      {
+        user: null,
+        token: null,
+      },
+      () => {
+        notify({
+          type: 'success',
+          text: 'Successfully logged out!',
+        });
+      }
+    );
+  };
 
   forgot() {}
 

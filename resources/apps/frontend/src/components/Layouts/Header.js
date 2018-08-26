@@ -24,11 +24,18 @@ class Header extends React.Component {
       isOpen: false,
     };
   }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen,
     });
   }
+
+  logout = event => {
+    event.preventDefault();
+    this.props.logout();
+  };
+
   render() {
     return (
       <div>
@@ -52,7 +59,7 @@ class Header extends React.Component {
                   </Link>
                   <DropdownItem divider />
                   <Link
-                    onClick={this.props.logout}
+                    onClick={this.logout}
                     className="dropdown-item"
                     to="/auth/login"
                   >
