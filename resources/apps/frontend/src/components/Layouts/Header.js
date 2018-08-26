@@ -2,6 +2,8 @@ import React from 'react';
 
 import {Link} from 'react-router-dom';
 
+import withAuth from 'enhancers/withAuth';
+
 import {
   Collapse,
   Navbar,
@@ -13,7 +15,7 @@ import {
   DropdownItem,
 } from 'reactstrap';
 
-export default class Example extends React.Component {
+class Header extends React.Component {
   constructor(props) {
     super(props);
 
@@ -49,7 +51,11 @@ export default class Example extends React.Component {
                     Settings
                   </Link>
                   <DropdownItem divider />
-                  <Link className="dropdown-item" to="/logout">
+                  <Link
+                    onClick={this.props.logout}
+                    className="dropdown-item"
+                    to="/auth/login"
+                  >
                     Logout
                   </Link>
                 </DropdownMenu>
@@ -61,3 +67,5 @@ export default class Example extends React.Component {
     );
   }
 }
+
+export default withAuth(Header);

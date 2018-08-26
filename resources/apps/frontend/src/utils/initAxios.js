@@ -3,7 +3,7 @@ import axios from 'axios';
 export default function() {
   const token = localStorage.getItem('token');
 
-  axios.defaults.baseURL = process.env.API_URL;
+  axios.defaults.baseURL = process.env.APP_API_URL;
 
   const errorHandler = error => {
     if (401 === error.response.status) {

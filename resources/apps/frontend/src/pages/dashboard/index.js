@@ -2,7 +2,7 @@ import Loadable from 'components/Loadable';
 
 export default {
   exact: true,
-  auth: false,
+  auth: true,
   path: '/',
   component: Loadable({
     loader: () => import('./dashboard'),

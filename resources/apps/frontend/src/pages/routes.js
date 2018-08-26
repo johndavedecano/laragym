@@ -45,7 +45,7 @@ const PreventAuthRoute = route => {
             isAuth === false ? (
               <route.component {...props} routes={route.routes} />
             ) : (
-              <RedirectComponent to="/dashboard" />
+              <RedirectComponent to="/" />
             )
           }
         />
