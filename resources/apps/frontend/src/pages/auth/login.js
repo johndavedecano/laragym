@@ -26,7 +26,7 @@ class Login extends Component {
       email: this.email.value,
       password: this.password.value,
     });
-    this.isStillMounted && this.setState({isLoading: true});
+    this.isStillMounted && this.setState({isLoading: false});
   };
 
   render() {
