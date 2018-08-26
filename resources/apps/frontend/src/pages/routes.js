@@ -10,10 +10,7 @@ const RouteWithSubRoutes = route => {
     <Route
       path={route.path}
       render={props => {
-        return (
-          // pass the sub-routes down to keep nesting
-          <route.component {...props} routes={route.routes} />
-        );
+        return <route.component {...props} routes={route.routes} />;
       }}
     />
   );
@@ -29,7 +26,7 @@ const AuthRoute = route => {
             isAuth === true ? (
               <route.component {...props} routes={route.routes} />
             ) : (
-              <RedirectComponent to="/" />
+              <RedirectComponent to="/auth/login" />
             )
           }
         />

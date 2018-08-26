@@ -32,7 +32,7 @@ export default class Example extends React.Component {
       <div>
         <Navbar color="dark" dark expand="md">
           <Link className="navbar-brand" to="/">
-            Laragym
+            {process.env.APP_NAME || 'Laragym'}
           </Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>

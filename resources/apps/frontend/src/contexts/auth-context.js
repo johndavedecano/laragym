@@ -21,6 +21,13 @@ class AuthProvider extends React.Component {
     super(props);
     this.state = __state__();
   }
+
+  login() {}
+
+  logout() {}
+
+  forgot() {}
+
   render() {
     const {user, token} = this.state;
     return (
@@ -29,6 +36,9 @@ class AuthProvider extends React.Component {
           user,
           token,
           isAuth: !!user && !!token,
+          login: this.login,
+          logout: this.logout,
+          forgot: this.forgot,
         }}
       >
         {this.props.children}
