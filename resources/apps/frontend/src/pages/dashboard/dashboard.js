@@ -20,7 +20,7 @@ class Dashboard extends Component {
     return (
       <PrivateLayout>
         <Card>
-          <CardHeader>Users</CardHeader>
+          <CardHeader>Manage Users</CardHeader>
           <TableActions>
             <Row>
               <Col md={2}>
