@@ -20,7 +20,9 @@ export default ({children}) => {
               <div id="wrapper">
                 {sidebar && <Sidebar />}
                 <div id="content-wrapper">
-                  <div className="container-fluid">{children}</div>
+                  <div className="container-fluid position-relative">
+                    {children}
+                  </div>
                   {footer && <Footer />}
                 </div>
               </div>
