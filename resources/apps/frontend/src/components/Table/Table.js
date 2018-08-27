@@ -2,7 +2,7 @@ import React from 'react';
 
 import StyleSheet from './Table.scss';
 
-export const TableActions = ({children}) => {
+export const TableFilters = ({children}) => {
   return <div className={StyleSheet.tableActions}>{children}</div>;
 };
 

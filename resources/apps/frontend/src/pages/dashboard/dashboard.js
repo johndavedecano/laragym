@@ -11,7 +11,7 @@ import {
   Button,
 } from 'reactstrap';
 
-import {TableActions} from 'components/Table/Table';
+import {TableFilters} from 'components/Table/Table';
 
 class Dashboard extends Component {
   state = {};
@@ -21,7 +21,7 @@ class Dashboard extends Component {
       <PrivateLayout>
         <Card>
           <CardHeader>Manage Users</CardHeader>
-          <TableActions>
+          <TableFilters>
             <Row>
               <Col md={2}>
                 <Input type="select" name="select" id="exampleSelect">
@@ -42,7 +42,7 @@ class Dashboard extends Component {
                 </Button>
               </Col>
             </Row>
-          </TableActions>
+          </TableFilters>
           <CardBody>
             <Table>
               <thead>
