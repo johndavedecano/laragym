@@ -5,9 +5,10 @@ export default class SearchInput extends React.Component {
     placeholder: 'Search',
   };
 
-  state = {
-    value: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {value: props.value};
+  }
 
   onKeyUp = event => {
     if (event.keyCode === 13) {
@@ -24,10 +25,9 @@ export default class SearchInput extends React.Component {
   render() {
     return (
       <input
-        {...this.props}
         disabled={this.props.disabled}
         name={this.props.name}
-        value={this.state.value}
+        defaultValue={this.state.value}
         type="search"
         className="form-control"
         placeholder={this.props.placeholder}

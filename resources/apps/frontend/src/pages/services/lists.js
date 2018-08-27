@@ -1,76 +1,81 @@
 import React from 'react';
-import {
-  Table,
-  Card,
-  CardBody,
-  CardHeader,
-  Row,
-  Col,
-  Input,
-  Button,
-} from 'reactstrap';
-
-import {TableFilters} from 'components/Table/Table';
+import {Card, CardBody, CardHeader} from 'reactstrap';
+import {Table} from 'components/Table';
+import Loader from 'components/Loader';
+import CardActions from './actions';
+import queryFilters from 'utils/query-filters';
+import notify from 'utils/notify';
+import date from 'utils/date';
+import getErrorMessage from 'utils/getErrorMessage';
+import {loadServices} from 'requests/services';
 
 class Component extends React.Component {
-  state = {};
+  state = {
+    data: [],
+    meta: {},
+    isLoading: false,
+  };
+
+  componentDidMount() {
+    this.load();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.location.search !== this.props.location.search) {
+      this.load();
+    }
+  }
+
+  load = async () => {
+    try {
+      this.setState({isLoading: true});
+      const {data, meta} = await loadServices(queryFilters());
+      this.setState({
+        data,
+        meta,
+        isLoading: false,
+      });
+    } catch (err) {
+      this.setState({isLoading: false}, () => {
+        notify({
+          type: 'error',
+          text: getErrorMessage(err),
+        });
+      });
+    }
+  };
+
+  get loader() {
+    return this.state.isLoading && <Loader show />;
+  }
+
+  get headers() {
+    return ['ID', 'Name', 'System', 'Updated', 'Actions'];
+  }
+
+  renderItem = item => {
+    return (
+      <tr key={item.id}>
+        <td>{item.id}</td>
+        <td>{item.name}</td>
+        <td>{item.is_default ? 'Yes' : 'No'}</td>
+        <td>{date(item.created_at)}</td>
+        <td>{item.id}</td>
+      </tr>
+    );
+  };
 
   render() {
     return (
       <Card>
-        <CardHeader>Manage Users</CardHeader>
-        <TableFilters>
-          <Row>
-            <Col md={2}>
-              <Input type="select" name="select" id="exampleSelect">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </Input>
-            </Col>
-            <Col md={2}>
-              <Input type="text" placeholder="Search" />
-            </Col>
-            <Col md={6} />
-            <Col md={2}>
-              <Button className="float-right" color="primary">
-                <i className="fa fa-plus" /> Add Item
-              </Button>
-            </Col>
-          </Row>
-        </TableFilters>
-        <CardBody>
-          <Table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
+        <CardHeader>Manage Services</CardHeader>
+        <CardActions isLoading={this.state.isLoading} />
+        <CardBody className="position-relative">
+          {this.loader}
+          <Table headers={this.headers}>
+            {this.state.data.map(item => {
+              return this.renderItem(item);
+            })}
           </Table>
         </CardBody>
       </Card>

@@ -2,6 +2,7 @@ import React from 'react';
 import {login} from 'requests/auth';
 import getErrorMessage from 'utils/getErrorMessage';
 import notify from 'utils/notify';
+import initAxios from 'utils/initAxios';
 
 const AuthContext = React.createContext();
 
@@ -28,6 +29,8 @@ class AuthProvider extends React.Component {
 
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
+
+      initAxios();
 
       this.setState(
         {

@@ -5,9 +5,15 @@ export default location => {
   const query = qs.parse(location || window.location.search);
   const limit = Number(get(query, 'limit'));
   const offset = Number(get(query, 'offset'));
-  return {
+  let params = {
     ...query,
     limit: limit || 20,
     offset: offset || 0,
   };
+
+  if (query.is_archived) {
+    params.is_archived = query.is_archived === 'true';
+  }
+
+  return params;
 };

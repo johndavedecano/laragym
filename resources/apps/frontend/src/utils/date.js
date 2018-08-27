@@ -6,7 +6,7 @@ import format from 'date-fns/format';
  * @param {*} date
  * @param {*} custom
  */
-export default function(date, custom = 'YYYY-MM-DD HH:mm') {
+export default function(date, custom = 'YYYY-MM-DD HH:mm A') {
   if (!date) return '-';
   return format(date, custom);
 }

@@ -6,7 +6,7 @@ import renderRoutes from './../routes';
 
 export default {
   exact: false,
-  auth: false,
+  auth: true,
   path: '/services',
   component: ({routes}) => {
     return <PrivateLayout>{renderRoutes(routes)}</PrivateLayout>;
@@ -14,7 +14,7 @@ export default {
   routes: [
     {
       exact: true,
-      auth: false,
+      auth: true,
       path: '/services',
       component: Loadable({
         loader: () => import('./lists'),
@@ -22,7 +22,7 @@ export default {
     },
     {
       exact: true,
-      auth: false,
+      auth: true,
       path: '/services/create',
       component: Loadable({
         loader: () => import('./create'),
