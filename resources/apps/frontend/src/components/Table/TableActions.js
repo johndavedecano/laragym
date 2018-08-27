@@ -41,11 +41,9 @@ export default class TableActions extends React.Component {
               return <DropdownItem key={item.label} divider />;
             } else if (item.href) {
               return (
-                <DropdownItem key={item.label}>
-                  <Link to={item.href}>
-                    <span className={item.color}>{item.label}</span>
-                  </Link>
-                </DropdownItem>
+                <Link key={item.label} className="dropdown-item" to={item.href}>
+                  <span className={item.color}>{item.label}</span>
+                </Link>
               );
             } else {
               return (

@@ -28,5 +28,21 @@ export default {
         loader: () => import('./create'),
       }),
     },
+    {
+      exact: true,
+      auth: true,
+      path: '/services/:id',
+      component: Loadable({
+        loader: () => import('./show'),
+      }),
+    },
+    {
+      exact: true,
+      auth: true,
+      path: '/services/:id/edit',
+      component: Loadable({
+        loader: () => import('./edit'),
+      }),
+    },
   ],
 };
