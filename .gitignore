@@ -19,6 +19,9 @@ Homestead.yaml
 # production
 /resources/apps/frontend/build
 
+/resources/redis
+/resources/mysql
+
 # misc
 .DS_Store
 .env.local
