@@ -60,7 +60,7 @@ class UserAuthService implements UserAuthServiceInterface
     {
         $response = $this->getPasswordBroker()->reset(
             $request, function ($user, $password) {
-                $user->pasword = $password;
+                $user->password = $password;
                 $user->save();
             }
         );
