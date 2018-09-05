@@ -19,7 +19,7 @@ node {
     }
 
     stage('docker-compose') {
-      sh 'docker-compose up -d -f docker-compose.testing.yml'
+      sh '/usr/local/bin/docker-compose up -d -f docker-compose.testing.yml --build'
     }
   } catch(error) {
       throw error
