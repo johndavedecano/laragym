@@ -23,6 +23,7 @@
     </filter>
     <php>
         <env name="APP_ENV" value="testing"/>
+        <env name="DB_HOST" value="mysql"/>
         <env name="DB_DATABASE" value="laragym"/>
         <env name="DB_USERNAME" value="homestead"/>
         <env name="DB_PASSWORD" value="secret"/>
