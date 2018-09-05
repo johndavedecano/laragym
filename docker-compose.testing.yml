@@ -20,6 +20,7 @@ services:
     links:
       - redis
       - mysql
+    command: "composer install --prefer-source --no-interaction"
   mysql:
     image: mysql:5.6
     container_name: laragym_mysql
