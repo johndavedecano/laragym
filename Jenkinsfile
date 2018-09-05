@@ -21,6 +21,13 @@ node {
     stage('docker-compose') {
       sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml down'
       sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml up -d'
+    }
+
+    stage('phpunit') {
+      sh '/usr/local/bin/docker-compose run laragym_php vendor/bin/phpunit'
+    }
+
+    stage('docker-teardown') {
       sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml down'
     }
   } catch(error) {
