@@ -8,7 +8,7 @@ nginx:
   links:
     - php
   ports:
-    - 8080:80
+    - 8000:80
 php:
   build: .
   dockerfile: ./Dockerfile
