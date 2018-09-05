@@ -17,7 +17,6 @@ php:
     - .:/var/www/laravel
   links:
     - redis
-    - mysql
 redis:
   image: redis:alphine
   container_name: laragym_redis
