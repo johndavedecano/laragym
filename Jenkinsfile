@@ -1,22 +1,23 @@
 #!/usr/bin/env groovy
 
 node {
+  def app
   try {
-    stage('build') {
+    stage('checkout') {
       checkout scm
-
-      sh "composer install"
-      sh "cp .env.example .env"
-      sh "php artisan key:generate"
     }
 
-    // stage('test') {
-    //     sh "./vendor/bin/phpunit"
-    // }
-
-    stage('deploy') {
-      sh "echo 'WE ARE DEPLOYING'"
+    stage('build-docker') {
+      app = docker.build("johndavedecano/laragym")
     }
+
+    stage('Push image') {
+      docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+        app.push("${env.BUILD_NUMBER}")
+        app.push("latest")
+      }
+    }
+
   } catch(error) {
       throw error
   } finally {
