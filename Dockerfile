@@ -14,4 +14,9 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer.phar install --no-dev --no-scripts \
     && rm composer.phar
 
-    
+WORKDIR /var/www/laravel
+
+RUN composer install \
+    && chmod +x artisan \
+    && php artisan migrate
+
