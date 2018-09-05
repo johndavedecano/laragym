@@ -1,4 +1,4 @@
-nginx:
+laragym_nginx:
   image: nginx:alpine
   container_name: laragym_nginx
   volumes_from:
@@ -9,7 +9,7 @@ nginx:
     - php
   ports:
     - 8000:80
-php:
+laragym_php:
   build: .
   dockerfile: ./Dockerfile
   container_name: laragym_php
@@ -19,7 +19,7 @@ php:
     - redis
     - mysql
   command: "composer install --prefer-source --no-interaction"
-mysql:
+laragym_mysql:
   image: mysql:5.6
   container_name: laragym_mysql
   ports:
@@ -31,7 +31,7 @@ mysql:
     MYSQL_ROOT_PASSWORD: secret
   volumes:
     - /resources/mysql:/var/lib/mysql
-redis:
+laragym_redis:
   image: redis:4.0.4-alpine
   container_name: laragym_redis
   volumes:
