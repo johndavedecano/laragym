@@ -7,17 +7,21 @@ node {
       checkout scm
     }
 
-    stage('build-docker') {
+    stage('docker-build') {
       app = docker.build("johndavedecano/laragym")
     }
 
-    stage('Push image') {
+    stage('docker-push') {
       docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
         app.push("${env.BUILD_NUMBER}")
         app.push("latest")
       }
     }
 
+    stage('docker-compose') {
+      sh 'docker-compose stop'
+      sh 'docker-compose start -d -f docker-compose.testing.yml'
+    }
   } catch(error) {
       throw error
   } finally {
