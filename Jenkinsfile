@@ -24,7 +24,7 @@ node {
     }
 
     stage('phpunit') {
-      sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec laragym_php vendor/bin/phpunit'
+      sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec php vendor/bin/phpunit'
     }
 
     stage('docker-teardown') {
