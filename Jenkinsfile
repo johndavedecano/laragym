@@ -22,11 +22,7 @@ node {
       sh 'docker ps -q -f status=exited | xargs --no-run-if-empty docker rm'
       sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml up -d'
     }
-
-    stage('phpunit') {
-      sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec php vendor/bin/phpunit'
-    }
-
+    
     stage('docker-teardown') {
       sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml down'
     }
