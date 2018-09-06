@@ -7,7 +7,7 @@ php-fpm:
   links:
     - redis
     - mysql
-  work_dir: "/var/www/laravel"
+  working_dir: "/var/www/laravel"
   command: "composer install --prefer-source --no-interaction"
 nginx:
   image: nginx:alpine
