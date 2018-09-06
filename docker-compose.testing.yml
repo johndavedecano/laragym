@@ -8,7 +8,6 @@ php-fpm:
     - redis
     - mysql
   working_dir: "/var/www/laravel"
-  command: "composer install --prefer-source --no-interaction"
 nginx:
   image: nginx:alpine
   container_name: laragym_nginx
