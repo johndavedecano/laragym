@@ -19,7 +19,7 @@ node {
     }
 
     stage('docker-compose') {
-      sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml down'
+      sh 'docker system prune --force --all --volumes'
       sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml up -d'
     }
 
