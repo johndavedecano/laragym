@@ -18,9 +18,13 @@ node {
       }
     }
 
-    stage('docker') {
+    stage('docker-compose') {
       sh 'docker stop $(docker ps -q) || docker rm $(docker ps -a -q) || docker rmi $(docker images -q -f dangling=true)'
       sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml up -d'
+    }
+
+    stage('phpunit') {
+      sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec php vendor/bin/phpunit'
     }
   } catch(error) {
       throw error
