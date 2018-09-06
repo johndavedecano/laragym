@@ -18,13 +18,9 @@ node {
       }
     }
 
-    stage('docker-compose') {
-      sh 'docker ps -q -f status=exited | xargs --no-run-if-empty docker rm'
+    stage('docker') {
+      sh 'docker stop $(docker ps -q) || docker rm $(docker ps -a -q) || docker rmi $(docker images -q -f dangling=true)'
       sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml up -d'
-    }
-    
-    stage('docker-teardown') {
-      sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml down'
     }
   } catch(error) {
       throw error
