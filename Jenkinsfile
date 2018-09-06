@@ -19,16 +19,17 @@ node {
     }
 
     stage('docker-compose') {
-      sh 'docker stop $(docker ps -q) || docker rm $(docker ps -a -q) || docker rmi $(docker images -q -f dangling=true)'
-      sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml up -d'
+        sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml up -d'
     }
 
     stage('phpunit') {
-      sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec php-fpm vendor/bin/phpunit'
+        sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec php-fpm vendor/bin/phpunit'
+    }
+
+    stage('docker-cleanup') {
+        sh 'docker stop $(docker ps -q) || docker rm $(docker ps -a -q) || docker rmi $(docker images -q -f dangling=true)'
     }
   } catch(error) {
-      throw error
-  } finally {
-
+      sh 'docker stop $(docker ps -q) || docker rm $(docker ps -a -q) || docker rmi $(docker images -q -f dangling=true)'
   }
 }
