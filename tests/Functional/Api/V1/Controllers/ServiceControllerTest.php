@@ -11,7 +11,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ServiceControllerTest extends TestCase
 {
-    use DatabaseMigrations;
     use RefreshDatabase;
 
     use UserLoginTrait;

@@ -6,10 +6,11 @@ use Hash;
 use App\Models\User;
 use App\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginControllerTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     public function setUp()
     {
@@ -45,7 +46,7 @@ class LoginControllerTest extends TestCase
             'password' => '123456'
         ])->assertJsonStructure([
             'error'
-        ])->assertStatus(403);
+        ])->assertStatus(401);
     }
 
     public function testLoginWithReturnsValidationError()

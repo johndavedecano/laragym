@@ -5,6 +5,7 @@ namespace App\Api\V1\Controllers;
 use App\Api\V1\Requests\SignUpRequest;
 use App\Http\Controllers\Controller;
 use App\Services\User\UserAuthService;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class SignUpController
@@ -37,12 +38,13 @@ class SignUpController extends Controller
         if(!Config::get('boilerplate.reset_password.release_token')) {
             return response()->json([
                 'status' => 'ok',
-            ]);
+                'token' => ''
+            ], 201);
         }
 
         return response()->json([
             'status' => 'ok',
             'token' => $this->authService->token($user),
-        ]);
+        ], 201);
     }
 }

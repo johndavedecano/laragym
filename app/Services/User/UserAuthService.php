@@ -8,10 +8,10 @@
 
 namespace App\Services\User;
 
+use App\Exceptions\AuthException;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Password;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tymon\JWTAuth\JWTAuth;
 
@@ -103,16 +103,12 @@ class UserAuthService implements UserAuthServiceInterface
         return $user;
     }
 
-    /**
-     * @param array $credentials
-     * @return mixed
-     */
     public function login($credentials = [])
     {
         $token = auth()->guard()->attempt($credentials);
 
         if (!$token) {
-            throw new AccessDeniedException('Invalid username or password.');
+            throw new AuthException('Invalid username or password.');
         }
 
         $user = auth()->guard()->user();

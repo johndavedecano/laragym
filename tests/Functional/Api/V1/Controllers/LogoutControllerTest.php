@@ -6,10 +6,11 @@ use Hash;
 use App\Models\User;
 use App\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LogoutControllerTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     public function setUp()
     {
@@ -39,9 +40,5 @@ class LogoutControllerTest extends TestCase
         $this->post('api/auth/logout', [], [
             'Authorization' => 'Bearer ' . $token
         ])->assertStatus(200);
-
-        $this->post('api/auth/logout', [], [
-            'Authorization' => 'Bearer ' . $token
-        ])->assertStatus(500);
     }
 }

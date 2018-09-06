@@ -5,10 +5,11 @@ namespace App\Functional\Api\V1\Controllers;
 use App\Models\User;
 use App\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ForgotPasswordControllerTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     public function setUp()
     {

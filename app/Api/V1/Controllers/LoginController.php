@@ -27,20 +27,27 @@ class LoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        $user = $this->authService->login([
-            'email' => $request->get('email'),
-            'password' => $request->get('password'),
-            'is_active' => 1,
-        ]);
-
-        $token = $this->authService->token($user);
-
-        return response()
-            ->json([
-                'status' => 'ok',
-                'token' => $token,
-                'user' => $user,
-                'expires_in' => auth()->guard()->factory()->getTTL() * 60
+        try {
+            $user = $this->authService->login([
+                'email' => $request->get('email'),
+                'password' => $request->get('password'),
+                'is_active' => 1,
             ]);
+
+            $token = $this->authService->token($user);
+
+            return response()
+                ->json([
+                    'status' => 'ok',
+                    'token' => $token,
+                    'user' => $user,
+                    'expires_in' => auth()->guard()->factory()->getTTL() * 60
+                ]);
+        } catch(\Exception $exception) {
+            return response()->json([
+                'error' => $exception->getMessage(),
+                'status' => 401
+            ], 401);
+        }
     }
 }
