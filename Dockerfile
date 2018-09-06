@@ -1,9 +1,36 @@
-FROM php:7.0.4-fpm
+FROM php:7.2-fpm-alpine
 
-RUN apt-get update && apt-get install -y libmcrypt-dev \
-    mysql-client libmagickwand-dev --no-install-recommends \
+RUN apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
+        curl-dev \
+        imagemagick-dev \
+        libtool \
+        libxml2-dev \
+        postgresql-dev \
+        sqlite-dev \
+    && apk add --no-cache \
+        curl \
+        git \
+        imagemagick \
+        mysql-client \
+        postgresql-libs \
+        libintl \
+        icu \
+        icu-dev \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
-    && docker-php-ext-install mcrypt pdo_mysql
-
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
+    && docker-php-ext-install \
+        curl \
+        iconv \
+        mbstring \
+        pdo \
+        pdo_mysql \
+        pdo_pgsql \
+        pdo_sqlite \
+        pcntl \
+        tokenizer \
+        xml \
+        zip \
+        intl \
+    && curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer \
+    && apk del -f .build-deps

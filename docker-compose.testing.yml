@@ -1,13 +1,4 @@
-nginx:
-  image: nginx:alpine
-  container_name: laragym_nginx
-  volumes:
-    - ./nginx.conf:/etc/nginx/conf.d/default.conf
-  links:
-    - php
-  ports:
-    - 8000:80
-php:
+php-fpm:
   build: .
   dockerfile: ./Dockerfile
   container_name: laragym_php
@@ -16,7 +7,17 @@ php:
   links:
     - redis
     - mysql
+  work_dir: "/var/www/laravel"
   command: "composer install --prefer-source --no-interaction"
+nginx:
+  image: nginx:alpine
+  container_name: laragym_nginx
+  volumes:
+    - ./nginx.conf:/etc/nginx/conf.d/default.conf
+  links:
+    - php-fpm
+  ports:
+    - 8000:80
 mysql:
   image: mysql:5.6
   container_name: laragym_mysql
