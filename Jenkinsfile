@@ -20,10 +20,11 @@ node {
 
     stage('docker-compose') {
         sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml up -d'
+        sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec php-fpm cd /var/www/laravel && composer install'
     }
 
     stage('phpunit') {
-        sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec php-fpm vendor/bin/phpunit'
+        sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec php-fpm cd /var/www/laravel && ./vendor/bin/phpunit'
     }
 
     stage('docker-cleanup') {
