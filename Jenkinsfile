@@ -19,7 +19,7 @@ node {
     }
 
     stage('docker-compose') {
-      sh 'docker system prune --force --all --volumes'
+      sh 'docker ps -q -f status=exited | xargs --no-run-if-empty docker rm'
       sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml up -d'
     }
 
