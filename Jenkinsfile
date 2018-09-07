@@ -22,6 +22,10 @@ node {
         sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec -T php-fpm ./vendor/bin/phpunit'
     }
 
+    stage('deploy') {
+        sh '/usr/bin/rsync -avz -e ssh ${workspace} ec2-user@ec2-18-222-232-199.us-east-2.compute.amazonaws.com:~/laragym'
+    }
+
     stage('clean') {
         sh 'docker stop $(docker ps -q) || docker rm $(docker ps -a -q) || docker rmi $(docker images -q -f dangling=true)'
     }
