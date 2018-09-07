@@ -7,6 +7,8 @@ use App\Models\Package;
 use App\Http\Resources\PackageResource;
 use App\Api\V1\Requests\PackageRequest as Request;
 use App\Exceptions\SubscriptionException;
+use App\Services\Package\PackageCollection;
+use App\Services\Package\PackageService;
 
 class PackageController extends Controller
 {
@@ -18,45 +20,31 @@ class PackageController extends Controller
     public $per_page = 30;
 
     /**
-     * @param Package $model
+     * @var PackageService
      */
-    public function __construct(Package $model)
+    protected $service;
+
+    /**
+     * PackageController constructor.
+     * @param PackageService $service
+     */
+    public function __construct(PackageService $service)
     {
-        $this->model = $model;
+        $this->service = $service;
     }
 
     /**
+     * @param PackageCollection $packages
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index()
+    public function index(PackageCollection $packages)
     {
-        $meta = [];
-        
         $this->authorize('create', Package::class);
 
-        $builder = $this->model->orderBy('name', 'ASC');
+        $collection = PackageResource::collection($packages->get());
 
-        $builder = $builder->with('cycle')->with('service');
-
-        if (request()->has('q') && request()->get('q')) {
-            $keyword = '%'.request()->get('q').'%';
-            $builder = $builder->where('name', 'like', $keyword);
-            $meta['q'] = request()->get('q');
-        }
-
-        if (request()->has('is_archived')) {
-            $builder = $builder->where('is_archived', request()->get('is_archived'));
-            $meta['is_archived'] = request()->get('is_archived');
-        }
-
-        $limit = request()->get('per_page', $this->per_page);
-
-        $collection = PackageResource::collection(
-            $builder->paginate($limit)
-        );
-
-        $collection->additional(['meta' => $meta]);
+        $collection->additional(['meta' => $packages->meta]);
 
         return $collection;
     }
@@ -70,7 +58,14 @@ class PackageController extends Controller
     {
         $this->authorize('create', Package::class);
 
-        $model = $this->model->create([
+        $this->validate($request->all(), [
+            'amount'      => 'required|numeric',
+            'cycle_id'    => 'required|exists:cycles,id',
+            'name'        => 'required|max:126',
+            'service_id'  => 'required|exists:services,id',
+        ]);
+
+        $model = $this->service->create([
             'amount'      => $request->get('amount'),
             'cycle_id'    => $request->get('cycle_id'),
             'is_archived' => $request->get('is_archived', false),
@@ -88,7 +83,7 @@ class PackageController extends Controller
      */
     public function show($id)
     {
-        $model = $this->model->findOrFail($id);
+        $model = $this->service->find($id);
 
         $model->load('service');
 
@@ -112,17 +107,18 @@ class PackageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $model = $this->model->findOrFail($id);
+        $model = $this->service->find($id);
 
         $this->authorize('update', $model);
 
-        $model->update([
-            'amount'      => $request->get('amount'),
-            'cycle_id'    => $request->get('cycle_id'),
-            'is_archived' => $request->get('is_archived', false),
-            'name'        => $request->get('name'),
-            'service_id'  => $request->get('service_id'),
+        $this->validate($request->all(), [
+            'amount'      => 'numeric',
+            'cycle_id'    => 'exists:cycles,id',
+            'name'        => 'max:126',
+            'service_id'  => 'exists:services,id',
         ]);
+
+        $this->service->update($model, $request->all());
 
         return new PackageResource($model);
     }
@@ -130,20 +126,15 @@ class PackageController extends Controller
     /**
      * @param $id
      * @return PackageResource
-     * @throws SubscriptionException
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)
     {
-        $model = $this->model->findOrFail($id);
+        $model = $this->service->find($id);
 
         $this->authorize('delete', $model);
 
-        if ($model->subscriptions()->count() > 0) {
-            throw new SubscriptionException('You cannot delete an entity that has existing subscriptions.');
-        }
-
-        $model->delete();
+        $this->service->destroy($model);
 
         return new PackageResource($model);
     }
