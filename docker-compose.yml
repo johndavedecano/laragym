@@ -1,39 +1,24 @@
-version: "3"
-services:
-  nginx:
-    image: nginx:alpine
-    container_name: laragym_nginx
-    volumes_from:
-      - php
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    links:
-      - php
-    ports:
-      - 80:80
-  php:
-    build: .
-    dockerfile: ./Dockerfile
-    container_name: laragym_php
-    volumes:
-      - .:/var/www/laravel
-    links:
-      - redis
-      - mysql
-  mysql:
-    image: mysql:5.6
-    container_name: laragym_mysql
-    ports:
-      - 3306:3306
-    environment:
-      MYSQL_DATABASE: laragym
-      MYSQL_USER: homestead
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: secret
-    volumes:
-      - /resources/mysql:/var/lib/mysql
-  redis:
-    image: redis:alphine
-    container_name: laragym_redis
-    volumes:
-      - ./resources/redis:/data
+php-fpm:
+  build: .
+  dockerfile: ./Dockerfile
+  container_name: laragym_php
+  volumes:
+    - .:/var/www/laravel
+    - ~/.env:/var/www/laravel/.env
+  links:
+    - redis
+  working_dir: /var/www/laravel
+nginx:
+  image: nginx:alpine
+  container_name: laragym_nginx
+  volumes:
+    - ./nginx.conf:/etc/nginx/conf.d/default.conf
+  links:
+    - php-fpm
+  ports:
+    - 80:80
+redis:
+  image: redis:4.0.4-alpine
+  container_name: laragym_redis
+  volumes:
+    - ~/redis_data:/data
