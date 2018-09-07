@@ -23,7 +23,7 @@ node {
     }
 
     stage('deploy') {
-        sh '/usr/bin/rsync -avz -e ssh ${WORKSPACE} ${env.LARAGYM_SERVER}:${env.LARAGYM_SERVER_PATH}'
+        sh "/usr/bin/rsync -avz -e ssh ${WORKSPACE} ${env.LARAGYM_SERVER}:${env.LARAGYM_SERVER_PATH}"
     }
 
     stage('clean') {
