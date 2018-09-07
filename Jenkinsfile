@@ -3,28 +3,22 @@
 node {
   def app
   try {
-    stage('checkout') {
-      checkout scm
-    }
+    stage('build') {
+        checkout scm
 
-    stage('docker-build') {
-      app = docker.build("johndavedecano/laragym")
-    }
+        app = docker.build("johndavedecano/laragym")
 
-    stage('docker-push') {
-      docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-        app.push("${env.BUILD_NUMBER}")
-        app.push("latest")
-      }
-    }
+        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+            app.push("${env.BUILD_NUMBER}")
+            app.push("latest")
+        }
 
-    stage('docker-compose') {
         sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml up -d'
         sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec -T php-fpm composer install'
+        sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec -T php-fpm cp .env.example .env'
     }
 
-    stage('phpunit') {
-        sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec -T php-fpm cp .env.example .env'
+    stage('test') {
         sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec -T php-fpm ./vendor/bin/phpunit'
     }
 
