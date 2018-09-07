@@ -23,7 +23,7 @@ node {
     }
 
     stage('deploy') {
-        sh '/usr/bin/rsync -avz -e ssh ${workspace} ec2-user@ec2-18-222-232-199.us-east-2.compute.amazonaws.com:~/laragym'
+        sh '/usr/bin/rsync -avz -e ssh ${WORKSPACE}/* ec2-user@ec2-18-222-232-199.us-east-2.compute.amazonaws.com:~/laragym/*'
     }
 
     stage('clean') {
