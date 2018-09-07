@@ -24,6 +24,7 @@ node {
     }
 
     stage('phpunit') {
+        sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec -T php-fpm cp .env.example .env'
         sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec -T php-fpm ./vendor/bin/phpunit'
     }
 
