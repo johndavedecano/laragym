@@ -22,7 +22,7 @@ node {
         sh '/usr/local/bin/docker-compose -f docker-compose.testing.yml exec -T php-fpm ./vendor/bin/phpunit'
     }
 
-    stage('docker-cleanup') {
+    stage('clean') {
         sh 'docker stop $(docker ps -q) || docker rm $(docker ps -a -q) || docker rmi $(docker images -q -f dangling=true)'
     }
   } catch(error) {
