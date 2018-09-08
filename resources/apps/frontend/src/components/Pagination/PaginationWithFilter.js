@@ -6,15 +6,15 @@ import withFilters from 'enhancers/withFilters';
 
 class Component extends React.Component {
   onPageChanged = ({selected}) => {
-    this.props.onChangeFilter('offset', selected);
+    this.props.onChangeFilter('page', selected + 1);
   };
 
   render() {
     return (
       <Pagination
         onChange={this.onPageChanged}
-        totalPages={get(this.props.meta, 'total_pages', 0)}
-        offset={get(this.props.meta, 'offset', 0)}
+        totalPages={get(this.props.meta, 'last_page', 1)}
+        offset={get(this.props.meta, 'current_page', 1) - 1}
       />
     );
   }

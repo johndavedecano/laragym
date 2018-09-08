@@ -11,6 +11,7 @@ import notify from 'utils/notify';
 import date from 'utils/date';
 import getErrorMessage from 'utils/getErrorMessage';
 import {loadServices, destroyService} from 'requests/services';
+import Pagination from 'components/Pagination/PaginationWithFilter';
 
 class Component extends React.Component {
   state = {
@@ -64,7 +65,6 @@ class Component extends React.Component {
 
   getTableActions = payload => {
     return [
-      {label: 'Show Information', href: `/services/${payload.id}`},
       {label: 'Edit Information', href: `/services/${payload.id}/edit`},
       {label: 'Divider', type: 'divider'},
       {
@@ -121,6 +121,8 @@ class Component extends React.Component {
               return this.renderItem(item);
             })}
           </Table>
+
+          {!this.state.isLoading && <Pagination meta={this.state.meta} />}
 
           <Confirm
             ref={confirm => (this.confirm = confirm)}

@@ -3,12 +3,12 @@ import get from 'lodash/get';
 
 export default location => {
   const query = qs.parse(location || window.location.search);
-  const limit = Number(get(query, 'limit'));
-  const offset = Number(get(query, 'offset'));
+  const per_page = Number(get(query, 'per_page'));
+  const page = Number(get(query, 'page'));
   let params = {
     ...query,
-    limit: limit || 20,
-    offset: offset || 0,
+    per_page: per_page || 5,
+    page: page || 1,
   };
 
   if (query.is_archived) {

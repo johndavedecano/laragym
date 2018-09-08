@@ -17,7 +17,17 @@ class Component extends React.Component {
     ];
   }
 
-  onSubmit = data => createService(data);
+  onSubmit = data => {
+    return createService({
+      ...data,
+      is_archived: data.is_archived === 'on',
+      is_default: data.is_default === 'on',
+    }).then(() => {
+      setTimeout(() => {
+        this.props.history.replace('/services');
+      }, 1000);
+    });
+  };
 
   render() {
     return (

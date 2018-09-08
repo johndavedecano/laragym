@@ -96,22 +96,12 @@ export default class extends React.Component {
         <hr />
 
         <Button
-          color="dark"
-          size="lg"
-          className="float-left"
-          type="reset"
-          disabled={this.state.isSubmitting}
-        >
-          Reset
-        </Button>
-
-        <Button
           color="primary"
           size="lg"
           className="float-right"
           disabled={this.state.isSubmitting}
         >
-          Submit
+          {this.state.isSubmitting ? 'Please Wait...' : 'Submit Form'}
         </Button>
       </Form>
     );
