@@ -1,6 +1,9 @@
 import React from 'react';
+
 import {Card, CardBody} from 'reactstrap';
+import Form from './form';
 import Breadcrumbs from 'components/Breadcrumbs';
+import {createService} from 'requests/services';
 
 class Component extends React.Component {
   state = {};
@@ -14,12 +17,16 @@ class Component extends React.Component {
     ];
   }
 
+  onSubmit = data => createService(data);
+
   render() {
     return (
       <React.Fragment>
         <Breadcrumbs previous={this.previous} active="Create Service" />
         <Card>
-          <CardBody>sdgsdgasdg</CardBody>
+          <CardBody>
+            <Form onSubmit={this.onSubmit} />
+          </CardBody>
         </Card>
       </React.Fragment>
     );
