@@ -9,8 +9,7 @@
 namespace App\Services\Cycle;
 
 
-use App\Exceptions\DefaultEntityException;
-use App\Exceptions\SubscriptionException;
+use App\Constants;
 use App\Models\Cycle;
 
 class CycleService implements CycleServiceInterface
@@ -63,20 +62,14 @@ class CycleService implements CycleServiceInterface
 
     /**
      * @param Cycle $cycle
-     * @return bool|null
-     * @throws DefaultEntityException
-     * @throws SubscriptionException
+     * @return Cycle|bool|null
      */
     public function delete(Cycle $cycle)
     {
-        if ($cycle->is_default) {
-            throw new DefaultEntityException('You cannot delete a default entity.');
-        }
+        $cycle->status = Constants::STATUS_DELETED;
 
-        if ($cycle->subscriptions()->count() > 0) {
-            throw new SubscriptionException('You cannot delete an entity that has existing subscriptions.');
-        }
+        $cycle->save();
 
-        return $cycle->delete();
+        return $cycle;
     }
 }

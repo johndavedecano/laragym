@@ -8,6 +8,7 @@
 
 namespace App\Services\Service;
 
+use App\Constants;
 use App\Exceptions\DefaultEntityException;
 use App\Exceptions\SubscriptionException;
 use App\Models\Service;
@@ -62,20 +63,14 @@ class ServiceLogic
 
     /**
      * @param Service $model
-     * @return bool|null
-     * @throws DefaultEntityException
-     * @throws SubscriptionException
+     * @return Service
      */
     public function delete(Service $model)
     {
-        if ($model->is_default) {
-            throw new DefaultEntityException('You cannot delete a default entity.');
-        }
+        $model->status = Constants::STATUS_DELETED;
 
-        if ($model->subscriptions()->count() > 0) {
-            throw new SubscriptionException('You cannot delete an entity that has existing subscriptions.');
-        }
+        $model->save();
 
-        return $model->delete();
+        return $model;
     }
 }

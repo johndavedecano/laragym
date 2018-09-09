@@ -73,15 +73,6 @@ class CycleControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testDestroyFailsDefault()
-    {
-        $model = Cycle::create(['name' => 'Dave', 'is_default' => true]);
-
-        $response = $this->withHeaders($this->headers)->json('DELETE', 'api/cycles/'.$model->id);
-
-        $response->assertStatus(400);
-    }
-
     public function testDestroyFailsNotFound()
     {
         $response = $this->withHeaders($this->headers)->json('DELETE', 'api/cycles/35729582', ['name' => 'Dave']);

@@ -4,6 +4,7 @@ namespace App\Api\V1\Controllers;
 
 use App\Api\V1\Requests\SubscriptionRequest as Request;
 use App\Api\V1\Requests\SubscriptionRequest;
+use App\Constants;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SubscriptionResource;
 use App\Models\Subscription;
@@ -72,19 +73,26 @@ class SubscriptionController extends Controller
 
     /**
      * @param SubscriptionRequest $request
+     * @param SubscriptionService $subscriptionService
      * @param $id
      * @return SubscriptionResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, SubscriptionService $subscriptionService, $id)
     {
-        $model = $this->model->findOrFail($id);
+        $model = $subscriptionService->find($id);
+
+        $this->validate($request, [
+            'package_id'   => 'exists:packages,id',
+            'user_id'      => 'exists:users,id',
+            'interval'     => 'numeric|min:1',
+            'suspended_at' => 'date_format:Y-m-d',
+            'status'       => 'in:active,inactive,deleted,expired,suspended'
+        ]);
 
         $this->authorize('update', $model);
 
-        $data = $request->only($this->model->getFillable());
-
-        // TODO: Notify user about subscription changes.
+        $data = $request->only($model->getFillable());
 
         $model->update($data);
 
@@ -92,17 +100,18 @@ class SubscriptionController extends Controller
     }
 
     /**
+     * @param SubscriptionService $subscriptionService
      * @param $id
      * @return SubscriptionResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy($id)
+    public function destroy(SubscriptionService $subscriptionService, $id)
     {
-        $model = $this->model->findOrFail($id);
+        $model = $subscriptionService->find($id);
 
         $this->authorize('delete', $model);
 
-        $model->is_archived = true;
+        $model->status = Constants::STATUS_DELETED;
 
         $model->save();
 

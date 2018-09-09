@@ -9,6 +9,7 @@
 namespace App\Services\Package;
 
 
+use App\Constants;
 use App\Exceptions\SubscriptionException;
 use App\Models\Package;
 
@@ -49,17 +50,17 @@ class PackageService
         return $package;
     }
 
+
     /**
      * @param Package $package
-     * @return bool|null
-     * @throws \Exception
+     * @return Package
      */
     public function destroy(Package $package)
     {
-        if ($package->subscriptions()->count() > 0) {
-            throw new SubscriptionException('You cannot delete an entity that has existing subscriptions.');
-        }
+        $package->status = Constants::STATUS_DELETED;
 
-        return $package->delete();
+        $package->save();
+
+        return $package;
     }
 }

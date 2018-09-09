@@ -19,7 +19,7 @@ class CreatePackagesTable extends Migration
             $table->integer('cycle_id')->unsigned();
             $table->decimal('amount', 8, 2);
             $table->string('name')->nullable();
-            $table->boolean('is_archived')->default(false);
+            $table->string('status')->default('active');
             $table->timestamps();
         });
     }

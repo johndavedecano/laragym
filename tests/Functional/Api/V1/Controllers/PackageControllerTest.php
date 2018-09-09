@@ -34,7 +34,7 @@ class PackageControllerTest extends TestCase
         $this->package = [
             'amount'      => 25,
             'cycle_id'    => $cycle->id,
-            'is_archived' => false,
+            'status'      => 'active',
             'name'        => 'Package 1',
             'service_id'  => $cycle->id,
         ];

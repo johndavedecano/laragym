@@ -17,8 +17,7 @@ class CreateCyclesTable extends Migration
             $table->increments('id');
             $table->string('name')->nullable();
             $table->integer('num_days')->default(1);
-            $table->boolean('is_archived')->default(false);
-            $table->boolean('is_default')->default(false);
+            $table->string('status')->default('active');
             $table->string('description')->nullable();
             $table->timestamps();
         });

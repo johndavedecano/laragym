@@ -10,6 +10,7 @@ use App\Exceptions\DefaultEntityException;
 use App\Exceptions\SubscriptionException;
 use App\Services\Service\ServiceCollection;
 use App\Services\Service\ServiceLogic;
+use Dingo\Api\Http\FormRequest;
 
 class ServiceController extends Controller
 {
@@ -39,13 +40,15 @@ class ServiceController extends Controller
     {
         $this->authorize('create', Service::class);
 
-        $model = $service->create([
-            'name' => $request->get('name'),
-            'description' => $request->get('description'),
-            'is_archived' => $request->get('is_archived', false)
+        $this->validate($request, [
+            'name' => 'required',
+            'description' => 'required',
+            'status' => 'in:active,inactive,deleted'
         ]);
 
-        return new ServiceResource($model);
+        // $model = $service->create($request->all());
+
+        // return new ServiceResource($model);
     }
 
     /**
@@ -76,11 +79,13 @@ class ServiceController extends Controller
 
         $this->authorize('update', $model);
 
-        $service->update($model, [
-            'name' => $request->get('name'),
-            'description' => $request->get('description'),
-            'is_archived' => $request->get('is_archived', false)
+        $this->validate($request, [
+            'name' => 'required',
+            'description' => 'required',
+            'status' => 'in:active,inactive,deleted'
         ]);
+
+        $service->update($model, $request->all());
 
         return new ServiceResource($model);
     }
@@ -89,8 +94,6 @@ class ServiceController extends Controller
      * @param ServiceLogic $service
      * @param $id
      * @return ServiceResource
-     * @throws DefaultEntityException
-     * @throws SubscriptionException
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(ServiceLogic $service, $id)

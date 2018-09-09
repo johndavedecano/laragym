@@ -19,7 +19,6 @@ class CycleSeeder extends Seeder
             'name' => 'Annually',
             'num_days' => 365,
             'description' => 'Customer pays yearly',
-            'is_default' => true,
         ]);
 
         Cycle::create([
@@ -27,7 +26,6 @@ class CycleSeeder extends Seeder
             'name' => 'Monthly',
             'num_days' => 30,
             'description' => 'Customer pays every month',
-            'is_default' => true,
         ]);
 
         Cycle::create([
@@ -35,7 +33,6 @@ class CycleSeeder extends Seeder
             'name' => 'Weekly',
             'num_days' => 7,
             'description' => 'Customer pays week',
-            'is_default' => true,
         ]);
 
         Cycle::create([
@@ -43,7 +40,6 @@ class CycleSeeder extends Seeder
             'name' => 'Daily',
             'num_days' => 1,
             'description' => 'Everyday sales',
-            'is_default' => true,
         ]);
     }
 }

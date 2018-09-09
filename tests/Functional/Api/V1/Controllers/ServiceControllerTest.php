@@ -43,9 +43,9 @@ class ServiceControllerTest extends TestCase
 
     public function testStoreSuccess()
     {
-        $response = $this->withHeaders($this->headers)->json('POST', 'api/services', ['name' => 'Dave']);
+        $response = $this->withHeaders($this->headers)->json('POST', 'api/services', ['name' => 'Dave', 'description' => 'test']);
 
-        $response->assertStatus(201);
+        $response->assertStatus(200);
     }
 
     public function testUpdateFailsValidation()
@@ -68,18 +68,9 @@ class ServiceControllerTest extends TestCase
     {
         $model = Service::create(['name' => 'Dave']);
 
-        $response = $this->withHeaders($this->headers)->json('PUT', 'api/services/'.$model->id, ['name' => 'Dave']);
+        $response = $this->withHeaders($this->headers)->json('PUT', 'api/services/'.$model->id, ['name' => 'Dave', 'description' => 'test']);
 
         $response->assertStatus(200);
-    }
-
-    public function testDestroyFailsDefault()
-    {
-        $model = Service::create(['name' => 'Dave', 'is_default' => true]);
-
-        $response = $this->withHeaders($this->headers)->json('DELETE', 'api/services/'.$model->id);
-
-        $response->assertStatus(400);
     }
 
     public function testDestroyFailsNotFound()

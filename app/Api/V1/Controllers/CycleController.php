@@ -57,12 +57,7 @@ class CycleController extends Controller
     {
         $this->authorize('create', Cycle::class);
 
-        $model = $this->cycle->create([
-            'name' => $request->get('name'),
-            'description' => $request->get('description'),
-            'num_days' => $request->get('num_days', 30),
-            'is_archived' => $request->get('is_archived', false)
-        ]);
+        $model = $this->cycle->create($request->all());
 
         return new CycleResource($model);
     }
@@ -91,14 +86,14 @@ class CycleController extends Controller
     {
         $model = $this->cycle->find($id);
 
+        $this->validate($request, [
+            'num_days' => 'numeric',
+            'status'   => 'in:active,inactive,deleted'
+        ]);
+
         $this->authorize('update', $model);
 
-        $model = $this->cycle->update($model, [
-            'name' => $request->get('name'),
-            'description' => $request->get('description'),
-            'num_days' => $request->get('num_days', 30),
-            'is_archived' => $request->get('is_archived', false)
-        ]);
+        $model = $this->cycle->update($model, $request->all());
 
         return new CycleResource($model);
     }
@@ -106,8 +101,6 @@ class CycleController extends Controller
     /**
      * @param $id
      * @return CycleResource
-     * @throws DefaultEntityException
-     * @throws SubscriptionException
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy($id)

@@ -30,7 +30,6 @@ class ServiceSeeder extends Seeder
             'id' => 3,
             'name' => 'Fitness Only',
             'description' => 'Use gym of equipments',
-            'is_default' => true,
         ]);
 
         Service::create([

@@ -63,6 +63,7 @@ class PackageController extends Controller
             'cycle_id'    => 'required|exists:cycles,id',
             'name'        => 'required|max:126',
             'service_id'  => 'required|exists:services,id',
+            'status'      => 'in:active,inactive,deleted'
         ]);
 
         $model = $this->service->create([
@@ -116,6 +117,7 @@ class PackageController extends Controller
             'cycle_id'    => 'exists:cycles,id',
             'name'        => 'max:126',
             'service_id'  => 'exists:services,id',
+            'status'      => 'in:active,inactive,deleted'
         ]);
 
         $this->service->update($model, $request->all());

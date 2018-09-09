@@ -10,10 +10,11 @@ class SubscriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            'package_id' => 'required|exists:packages,id',
-            'user_id' => 'required|exists:users,id',
-            'interval' => 'required|numeric|min:1',
+            'package_id'   => 'required|exists:packages,id',
+            'user_id'      => 'required|exists:users,id',
+            'interval'     => 'required|numeric|min:1',
             'suspended_at' => 'date_format:Y-m-d',
+            'status'       => 'in:active,inactive,deleted,expired,suspended'
         ];
     }
 

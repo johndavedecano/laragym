@@ -38,7 +38,6 @@ class Package extends Eloquent
         'service_id' => 'int',
         'cycle_id' => 'int',
         'amount' => 'float',
-        'is_archived' => 'bool'
     ];
 
     protected $fillable = [
@@ -46,6 +45,6 @@ class Package extends Eloquent
         'cycle_id',
         'amount',
         'name',
-        'is_archived'
+        'status'
     ];
 }
