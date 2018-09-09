@@ -9,8 +9,6 @@
 namespace App\Services\Service;
 
 use App\Constants;
-use App\Exceptions\DefaultEntityException;
-use App\Exceptions\SubscriptionException;
 use App\Models\Service;
 
 /**

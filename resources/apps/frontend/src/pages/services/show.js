@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 import {showService} from 'requests/services';
 import Breadcrumbs from 'components/Breadcrumbs';
 import Loader from 'components/Loader';
+import Status from 'components/Badges/Status';
 
 class Component extends React.Component {
   state = {
@@ -47,7 +48,7 @@ class Component extends React.Component {
   render() {
     if (!this.state.isLoaded) return <Loader show />;
     const {id} = this.props.match.params;
-    const {name, is_archived, is_default, description} = this.state.data;
+    const {name, description, status} = this.state.data;
     return (
       <React.Fragment>
         <Breadcrumbs previous={this.previous} active="Edit Service" />
@@ -83,29 +84,10 @@ class Component extends React.Component {
               </FormGroup>
 
               <FormGroup check className="mb-3">
-                <Label check>
-                  <Input
-                    type="checkbox"
-                    name="is_archived"
-                    defaultChecked={!!is_archived}
-                    readOnly={true}
-                    disabled
-                  />{' '}
-                  Archived
-                </Label>
-              </FormGroup>
-
-              <FormGroup check className="mb-3">
-                <Label check>
-                  <Input
-                    type="checkbox"
-                    name="is_default"
-                    defaultChecked={!!is_default}
-                    readOnly={true}
-                    disabled
-                  />{' '}
-                  System Default
-                </Label>
+                <Label for="status">Status</Label>
+                <p>
+                  <Status value={status} />
+                </p>
               </FormGroup>
 
               <hr />

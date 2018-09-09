@@ -46,9 +46,9 @@ class ServiceController extends Controller
             'status' => 'in:active,inactive,deleted'
         ]);
 
-        // $model = $service->create($request->all());
+         $model = $service->create($request->all());
 
-        // return new ServiceResource($model);
+         return new ServiceResource($model);
     }
 
     /**

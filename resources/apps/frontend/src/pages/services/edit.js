@@ -49,8 +49,6 @@ class Component extends React.Component {
         onSubmit={this.onSubmit}
         name={this.state.data.name}
         description={this.state.data.description}
-        is_archived={this.state.data.is_archived}
-        is_default={this.state.data.is_default}
       />
     );
   }
@@ -58,11 +56,7 @@ class Component extends React.Component {
   onSubmit = data => {
     const {id} = this.props.match.params;
     this.setState({isLoading: true});
-    return updateService(id, {
-      ...data,
-      is_archived: data.is_archived === 'on',
-      is_default: data.is_default === 'on',
-    }).then(() => {
+    return updateService(id, data).then(() => {
       this.load();
     });
   };

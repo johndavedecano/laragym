@@ -26,10 +26,6 @@ class Service extends Eloquent
 {
 	use HasSubscriptions;
 
-	protected $casts = [
-		'is_archived' => 'bool'
-	];
-
 	protected $fillable = [
 		'name',
 		'status',

@@ -9,8 +9,6 @@ export default class extends React.Component {
     successMessage: 'Successfully submitted',
     name: undefined,
     description: undefined,
-    is_archived: undefined,
-    is_default: undefined,
     onSubmit: () => {},
   };
 
@@ -68,32 +66,6 @@ export default class extends React.Component {
             disabled={this.state.isSubmitting}
           />
         </FormGroup>
-
-        <FormGroup check className="mb-3">
-          <Label check>
-            <Input
-              type="checkbox"
-              name="is_archived"
-              defaultChecked={!!this.props.is_archived}
-              disabled={this.state.isSubmitting}
-            />{' '}
-            Archived
-          </Label>
-        </FormGroup>
-
-        {/* <FormGroup check className="mb-3">
-          <Label check>
-            <Input
-              type="checkbox"
-              name="is_default"
-              defaultChecked={!!this.props.is_default}
-              disabled={this.state.isSubmitting}
-            />{' '}
-            System Default
-          </Label>
-        </FormGroup> */}
-
-        <hr />
 
         <Button
           color="primary"

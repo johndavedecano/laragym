@@ -25,16 +25,11 @@ use App\Models\HasSubscriptions;
 class Cycle extends Eloquent
 {
 	use HasSubscriptions;
-	
-	protected $casts = [
-		'is_archived' => 'bool'
-	];
 
 	protected $fillable = [
 		'name',
 		'num_days',
-		'is_archived',
 		'description',
-		'is_default',
+        'status'
 	];
 }

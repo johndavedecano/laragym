@@ -44,7 +44,8 @@ class User extends Authenticatable implements JWTSubject
 
     protected $casts = [
         'is_admin' => 'bool',
-        'is_active' => 'bool'
+        'is_active' => 'bool',
+        'is_deleted' => 'bool'
     ];
 
     protected $dates = [
@@ -71,6 +72,7 @@ class User extends Authenticatable implements JWTSubject
         'state',
         'postal_code',
         'is_admin',
+        'is_deleted',
         'last_login'
     ];
 
