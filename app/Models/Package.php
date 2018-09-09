@@ -20,7 +20,6 @@ use App\Models\HasSubscriptions;
  * @property int $cycle_id
  * @property float $amount
  * @property string $name
- * @property bool $is_archived
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  *

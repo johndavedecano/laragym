@@ -69,7 +69,6 @@ class PackageController extends Controller
         $model = $this->service->create([
             'amount'      => $request->get('amount'),
             'cycle_id'    => $request->get('cycle_id'),
-            'is_archived' => $request->get('is_archived', false),
             'name'        => $request->get('name'),
             'service_id'  => $request->get('service_id'),
         ]);
