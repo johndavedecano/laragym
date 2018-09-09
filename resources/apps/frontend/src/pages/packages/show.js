@@ -3,7 +3,7 @@ import React from 'react';
 import {Card, CardBody, Form, FormGroup, Input, Label} from 'reactstrap';
 
 import {Link} from 'react-router-dom';
-import {showService} from 'requests/services';
+import {showPackage} from 'requests/packages';
 import Breadcrumbs from 'components/Breadcrumbs';
 import Loader from 'components/Loader';
 
@@ -23,7 +23,7 @@ class Component extends React.Component {
     try {
       this.setState({isLoading: true});
       const {id} = this.props.match.params;
-      const {data} = await showService(id);
+      const {data} = await showPackage(id);
       this.setState({
         isLoading: false,
         isNotFound: false,
@@ -38,8 +38,8 @@ class Component extends React.Component {
   get previous() {
     return [
       {
-        to: '/services',
-        label: 'Services',
+        to: '/packages',
+        label: 'Package',
       },
     ];
   }
@@ -50,7 +50,7 @@ class Component extends React.Component {
     const {name, is_archived, is_default, description} = this.state.data;
     return (
       <React.Fragment>
-        <Breadcrumbs previous={this.previous} active="Edit Service" />
+        <Breadcrumbs previous={this.previous} active="Edit Package" />
         <Card>
           <CardBody className="position-relative">
             {this.state.isNotFound && 'Page Not Found'}
@@ -111,7 +111,7 @@ class Component extends React.Component {
               <hr />
 
               <Link
-                to={`/services/${id}/edit`}
+                to={`/packages/${id}/edit`}
                 className="btn btn-primary btn-lg"
               >
                 Edit

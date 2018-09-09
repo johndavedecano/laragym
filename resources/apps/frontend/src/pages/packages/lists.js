@@ -10,7 +10,7 @@ import queryFilters from 'utils/query-filters';
 import notify from 'utils/notify';
 import date from 'utils/date';
 import getErrorMessage from 'utils/getErrorMessage';
-import {loadServices, destroyService} from 'requests/services';
+import {loadPackages, destroyPackage} from 'requests/packages';
 import Pagination from 'components/Pagination/PaginationWithFilter';
 
 class Component extends React.Component {
@@ -33,7 +33,7 @@ class Component extends React.Component {
   load = async () => {
     try {
       this.setState({isLoading: true});
-      const {data, meta} = await loadServices(queryFilters());
+      const {data, meta} = await loadPackages(queryFilters());
       this.setState({
         data,
         meta,
@@ -60,12 +60,12 @@ class Component extends React.Component {
   getTableActions() {}
 
   onConfirm = ({payload, type}) => {
-    if (type === 'delete') return destroyService(payload.id);
+    if (type === 'delete') return destroyPackage(payload.id);
   };
 
   getTableActions = payload => {
     return [
-      {label: 'Edit Information', href: `/services/${payload.id}/edit`},
+      {label: 'Edit Information', href: `/packages/${payload.id}/edit`},
       {label: 'Divider', type: 'divider'},
       {
         label: 'Delete Record',
@@ -92,7 +92,7 @@ class Component extends React.Component {
       <tr key={item.id}>
         <td>{item.id}</td>
         <td>
-          <Link to={`/services/${item.id}`}>{item.name}</Link>
+          <Link to={`/packages/${item.id}`}>{item.name}</Link>
         </td>
         <td>{item.is_default ? 'Yes' : 'No'}</td>
         <td>{item.is_archived ? 'Yes' : 'No'}</td>
@@ -114,7 +114,7 @@ class Component extends React.Component {
   render() {
     return (
       <Card>
-        <CardHeader>Manage Services</CardHeader>
+        <CardHeader>Manage Package</CardHeader>
         <CardActions isLoading={this.state.isLoading} />
         <CardBody className="position-relative">
           {this.loader}
