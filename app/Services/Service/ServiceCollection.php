@@ -78,10 +78,9 @@ class ServiceCollection
      */
     public function byStatus()
     {
-        if (request()->has('status') && request()->get('status')) {
-            $this->builder = $this->builder->where('status', request()->get('status'));
-            $this->meta['status'] = request()->get('status');
-        }
+        $this->builder = $this->builder->where('status', request()->get('status', 'active'));
+
+        $this->meta['status'] = request()->get('status');
 
         return $this;
     }

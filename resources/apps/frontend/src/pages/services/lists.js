@@ -12,6 +12,7 @@ import date from 'utils/date';
 import getErrorMessage from 'utils/getErrorMessage';
 import {loadServices, destroyService} from 'requests/services';
 import Pagination from 'components/Pagination/PaginationWithFilter';
+import Status from 'components/Badges/Status';
 
 class Component extends React.Component {
   state = {
@@ -54,7 +55,7 @@ class Component extends React.Component {
   }
 
   get headers() {
-    return ['ID', 'Name', 'System', 'Archived', 'Updated', 'Actions'];
+    return ['ID', 'Name', 'Status', 'Updated', 'Actions'];
   }
 
   getTableActions() {}
@@ -94,8 +95,9 @@ class Component extends React.Component {
         <td>
           <Link to={`/services/${item.id}`}>{item.name}</Link>
         </td>
-        <td>{item.is_default ? 'Yes' : 'No'}</td>
-        <td>{item.is_archived ? 'Yes' : 'No'}</td>
+        <td className="align-center text-center">
+          <Status value={item.status} />
+        </td>
         <td>{date(item.updated_at)}</td>
         <td>
           <div className="d-flex justify-content-center">
