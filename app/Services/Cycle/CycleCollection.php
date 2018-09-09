@@ -47,11 +47,27 @@ class CycleCollection implements CycleCollectionInterface
 
         $builder = $this->search($builder);
 
+        $builder = $this->status($builder);
+
         $builder = $this->archive($builder);
 
         $limit = request()->get('per_page', $this->per_page);
 
         return $builder->paginate($limit);
+    }
+
+    /**
+     * @param $builder
+     * @return mixed
+     */
+    public function status($builder)
+    {
+        if (request()->has('status')) {
+            $builder = $builder->where('status', request()->get('status'));
+            $this->meta['status'] = request()->get('status');
+        }
+
+        return $builder;
     }
 
     /**

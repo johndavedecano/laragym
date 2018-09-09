@@ -55,7 +55,7 @@ class ServiceCollection
             ->build()
             ->byArchived()
             ->bySearch()
-            ->builder
+            ->byStatus()
             ->paginate($this->limit());
     }
 
@@ -72,6 +72,19 @@ class ServiceCollection
     public function limit()
     {
         return request()->get('per_page', $this->per_page);
+    }
+
+    /**
+     * @return $this
+     */
+    public function byStatus()
+    {
+        if (request()->has('status') && request()->get('status')) {
+            $this->builder = $this->builder->where('status', request()->get('status'));
+            $this->meta['status'] = request()->get('status');
+        }
+
+        return $this;
     }
 
     /**

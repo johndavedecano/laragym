@@ -39,8 +39,7 @@ class SubscriptionCollection
             ->byPackage()
             ->byCycle()
             ->byService()
-            ->bySuspended()
-            ->byExpired()
+            ->byStatus()
             ->build()
             ->paginate($this->getLimit());
 
@@ -122,24 +121,13 @@ class SubscriptionCollection
     /**
      * @return $this
      */
-    public function bySuspended()
+    public function byStatus()
     {
-        if (request()->has('is_suspended') && request()->get('is_suspended')) {
-            $this->builder = $this->builder->where('is_suspended', request()->get('is_suspended'));
-            $this->meta['is_suspended'] = request()->get('is_suspended');
+        if (request()->has('status') && request()->get('status')) {
+            $this->builder = $this->builder->where('status', request()->get('status'));
+            $this->meta['status'] = request()->get('status');
         }
-        return $this;
-    }
 
-    /**
-     * @return $this
-     */
-    public function byExpired()
-    {
-        if (request()->has('is_expired') && request()->get('is_expired')) {
-            $this->builder = $this->builder->where('is_expired', request()->get('is_expired'));
-            $this->meta['is_expired'] = request()->get('is_expired');
-        }
         return $this;
     }
 
