@@ -53,7 +53,6 @@ class ServiceCollection
     {
         return $this
             ->build()
-            ->byArchived()
             ->bySearch()
             ->byStatus()
             ->paginate($this->limit());
@@ -96,19 +95,6 @@ class ServiceCollection
             $keyword = '%' . request()->get('q') . '%';
             $this->builder = $this->builder->where('name', 'like', $keyword);
             $this->meta['q'] = request()->get('q');
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function byArchived()
-    {
-        if (request()->has('is_archived')) {
-            $this->builder = $this->builder->where('is_archived', request()->get('is_archived'));
-            $this->meta['is_archived'] = request()->get('is_archived');
         }
 
         return $this;
