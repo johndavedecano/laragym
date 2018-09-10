@@ -1,14 +1,17 @@
 import React from 'react';
 import serialize from 'form-serialize';
 import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
-import notify from 'utils/notify';
+
 import getErrorMessage from 'utils/getErrorMessage';
+import notify from 'utils/notify';
+import StatusSelect from 'components/Form/Select/StatusSelect';
 
 export default class extends React.Component {
   static defaultProps = {
     successMessage: 'Successfully submitted',
     name: undefined,
     description: undefined,
+    status: '',
     onSubmit: () => {},
   };
 
@@ -66,6 +69,17 @@ export default class extends React.Component {
             disabled={this.state.isSubmitting}
           />
         </FormGroup>
+
+        {this.props.status && (
+          <FormGroup>
+            <Label for="status">Status</Label>
+            <StatusSelect
+              bsSize="lg"
+              defaultValue={this.props.status}
+              name="status"
+            />
+          </FormGroup>
+        )}
 
         <Button
           color="primary"

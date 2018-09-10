@@ -65,15 +65,19 @@ class Component extends React.Component {
   };
 
   getTableActions = payload => {
-    return [
+    let actions = [
       {label: 'Edit Information', href: `/services/${payload.id}/edit`},
-      {label: 'Divider', type: 'divider'},
-      {
+    ];
+
+    if (payload.status !== 'deleted') {
+      actions.push({
         label: 'Delete Record',
         type: 'delete',
         color: 'text-danger',
-      },
-    ];
+      });
+    }
+
+    return actions;
   };
 
   onClickAction = data => {

@@ -15,9 +15,9 @@ class Component extends React.Component {
 
   state = queryFilters();
 
-  onChangeFilter = key => value => {
-    this.props.onChangeFilter(key, value);
-    this.setState({[key]: value});
+  onChangeStatus = event => {
+    this.props.onChangeFilter('status', event.target.value);
+    this.setState({status: event.target.value});
   };
 
   onSearch = keyword => {
@@ -34,8 +34,7 @@ class Component extends React.Component {
               placeholder="All Status"
               disabled={this.props.isLoading}
               value={get(this.state, 'status')}
-              onChange={this.onChangeFilter('status')}
-              simpleValue
+              onChange={this.onChangeStatus}
             />
           </Col>
           <Col md={2}>

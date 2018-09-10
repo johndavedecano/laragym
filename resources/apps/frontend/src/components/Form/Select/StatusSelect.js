@@ -1,12 +1,11 @@
 import React from 'react';
-import Select from 'react-select';
-
-const options = [
-  {value: 'active', label: 'Active'},
-  {value: 'inactive', label: 'Inactive'},
-  {value: 'deleted', label: 'Deleted'},
-];
+import {Input} from 'reactstrap';
 
 export default props => {
-  return <Select {...props} options={options} />;
+  return (
+    <Input type="select" {...props} name={props.name}>
+      <option value="active">Active</option>
+      <option value="deleted">Deleted</option>
+    </Input>
+  );
 };

@@ -49,6 +49,7 @@ class Component extends React.Component {
         onSubmit={this.onSubmit}
         name={this.state.data.name}
         description={this.state.data.description}
+        status={this.state.data.status}
       />
     );
   }
