@@ -52,6 +52,6 @@ class RefreshControllerTest extends TestCase
             'Authorization' => 'Bearer Wrong'
         ]);
 
-        $response->assertStatus(500);
+        $response->assertStatus(401);
     }
 }

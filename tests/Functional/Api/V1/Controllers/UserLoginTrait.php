@@ -32,7 +32,8 @@ trait UserLoginTrait
         $this->token = $responseJSON['token'];
 
         $this->headers = [
-            'Authorization' => 'Bearer ' . $this->token
+            'Authorization' => 'Bearer ' . $this->token,
+            'Accept' => 'application/json'
         ];
     }
 }

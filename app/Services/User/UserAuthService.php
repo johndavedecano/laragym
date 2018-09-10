@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Password;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tymon\JWTAuth\JWTAuth;
+use Illuminate\Auth\AuthenticationException;
 
 /**
  * Class UserAuthService
@@ -108,7 +109,7 @@ class UserAuthService implements UserAuthServiceInterface
         $token = auth()->guard()->attempt($credentials);
 
         if (!$token) {
-            throw new AuthException('Invalid username or password.');
+            throw new AuthenticationException('Invalid username or password.');
         }
 
         $user = auth()->guard()->user();

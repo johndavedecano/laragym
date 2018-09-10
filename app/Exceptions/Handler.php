@@ -6,6 +6,9 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -15,12 +18,12 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        \Illuminate\Auth\AuthenticationException::class,
-        \Illuminate\Auth\Access\AuthorizationException::class,
         \Symfony\Component\HttpKernel\Exception\HttpException::class,
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Session\TokenMismatchException::class,
-        \Illuminate\Validation\ValidationException::class,
+        AuthenticationException::class,
+        ValidationException::class,
+        AuthorizationException::class,
     ];
 
     /**
@@ -43,8 +46,22 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof ModelNotFoundException) {
-            return response()->json('Not Found', 404);
+            return response()->json(['error' => 'Resource was not found.'], 404);
         }
+
+        if ($exception instanceof ValidationException) {
+            return response()->json([
+                'error' => $exception->errors()
+            ], 422);
+        }
+
+        if ($exception instanceof AuthenticationException
+            || $exception instanceof AuthorizationException
+            || $exception instanceof UnauthorizedHttpException) {
+            return response()->json(['error' => 'Unauthenticated.'], 401);
+        }
+
+        return response()->json(['error' => $exception->getMessage()], 500);
 
         return parent::render($request, $exception);
     }
@@ -59,7 +76,7 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.', 'status_code' => 401], 401);
+            return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
         return redirect()->guest('login');

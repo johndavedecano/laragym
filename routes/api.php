@@ -4,7 +4,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('signup', 'SignUpController@signUp');
     Route::post('login', 'LoginController@login');
     Route::post('recovery', 'ForgotPasswordController@sendResetEmail');
-    Route::post('reset', 'ResetPasswordController@resetPassword');
+    Route::post('reset', 'ResetPasswordController@resetPassword')->name('password.reset');
     Route::post('logout', 'LogoutController@logout');
     Route::post('refresh', 'RefreshController@refresh');
 });
