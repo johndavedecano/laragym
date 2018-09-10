@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\V1\Controllers;
+namespace App\Http\Controllers;
 
 use App\Api\V1\Requests\SignUpRequest;
 use App\Http\Controllers\Controller;
@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Config;
 
 /**
  * Class SignUpController
- * @package App\Api\V1\Controllers
+ * @package App\Http\Controllers
  */
 class SignUpController extends Controller
 {

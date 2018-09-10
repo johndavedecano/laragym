@@ -44,7 +44,7 @@ class ServiceControllerTest extends TestCase
     public function testStoreSuccess()
     {
         $response = $this->withHeaders($this->headers)->json('POST', 'api/services', ['name' => 'Dave', 'description' => 'test']);
-        
+
         $response->isOk();
     }
 

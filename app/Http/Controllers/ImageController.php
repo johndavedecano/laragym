@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\V1\Controllers;
+namespace App\Http\Controllers;
 
 use App\Api\V1\Requests\ImageRequest as Request;
 use App\Http\Controllers\Controller;
@@ -9,7 +9,7 @@ use Imageupload;
 
 /**
  * Class ImageController
- * @package App\Api\V1\Controllers
+ * @package App\Http\Controllers
  */
 class ImageController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\V1\Controllers;
+namespace App\Http\Controllers;
 
 use App\Api\V1\Requests\SubscriptionRequest as Request;
 use App\Api\V1\Requests\SubscriptionRequest;
@@ -16,7 +16,7 @@ use Carbon\Carbon;
 
 /**
  * Class SubscriptionController
- * @package App\Api\V1\Controllers
+ * @package App\Http\Controllers
  */
 class SubscriptionController extends Controller
 {

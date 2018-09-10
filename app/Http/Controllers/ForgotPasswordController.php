@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\V1\Controllers;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Services\User\UserAuthService;
@@ -8,7 +8,7 @@ use App\Api\V1\Requests\ForgotPasswordRequest;
 
 /**
  * Class ForgotPasswordController
- * @package App\Api\V1\Controllers
+ * @package App\Http\Controllers
  */
 class ForgotPasswordController extends Controller
 {

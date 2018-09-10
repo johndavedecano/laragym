@@ -31,44 +31,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        app('Dingo\Api\Exception\Handler')->register(function (ModelNotFoundException $exception) {
-            return response()->make(
-                [
-                    'error' => 'Resource not found.',
-                    'status_code' => NOT_FOUND
-                ],
-                NOT_FOUND
-            );
-        });
 
-        app('Dingo\Api\Exception\Handler')->register(function (AuthorizationException $exception) {
-            return response()->make(
-                [
-                    'error' => 'You are not authorized to perform this action.',
-                    'status_code' => UNAUTHORIZED
-                ],
-                UNAUTHORIZED
-            );
-        });
-
-        app('Dingo\Api\Exception\Handler')->register(function (DefaultEntityException $exception) {
-            return response()->make(
-                [
-                    'error' => $exception->message,
-                    'status_code' => BAD_REQUEST
-                ],
-                BAD_REQUEST
-            );
-        });
-
-        app('Dingo\Api\Exception\Handler')->register(function (SubscriptionException $exception) {
-            return response()->make(
-                [
-                    'error' => $exception->message,
-                    'status_code' => BAD_REQUEST
-                ],
-                BAD_REQUEST
-            );
-        });
     }
 }

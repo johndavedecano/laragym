@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Api\V1\Requests;
+namespace App\Http\Requests;
 
 use Config;
-use Dingo\Api\Http\FormRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ResetPasswordRequest extends FormRequest
 {

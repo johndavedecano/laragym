@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\V1\Controllers;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
@@ -9,7 +9,7 @@ use App\Api\V1\Requests\CommonRequest as Request;
 
 /**
  * Class ActivityController
- * @package App\Api\V1\Controllers
+ * @package App\Http\Controllers
  */
 class ActivityController extends Controller
 {
