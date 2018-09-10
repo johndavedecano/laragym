@@ -10,7 +10,6 @@ use App\Exceptions\DefaultEntityException;
 use App\Exceptions\SubscriptionException;
 use App\Services\Service\ServiceCollection;
 use App\Services\Service\ServiceLogic;
-use Dingo\Api\Http\FormRequest;
 
 class ServiceController extends Controller
 {
