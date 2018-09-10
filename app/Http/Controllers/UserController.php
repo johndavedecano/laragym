@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\User\UserCollection;
 use App\Services\User\UserService;
-use App\Api\V1\Requests\UserRequest as Request;
+use App\Http\Requests\UserRequest as Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;

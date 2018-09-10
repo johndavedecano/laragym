@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Http\Resources\ActivityResource;
-use App\Api\V1\Requests\CommonRequest as Request;
+use App\Http\Requests\CommonRequest as Request;
 
 /**
  * Class ActivityController

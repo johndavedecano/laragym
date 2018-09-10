@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Package;
 use App\Http\Resources\PackageResource;
-use App\Api\V1\Requests\PackageRequest as Request;
+use App\Http\Requests\PackageRequest as Request;
 use App\Exceptions\SubscriptionException;
 use App\Services\Package\PackageCollection;
 use App\Services\Package\PackageService;

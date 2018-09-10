@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Api\V1\Requests\ResetPasswordRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\User\UserAuthService;

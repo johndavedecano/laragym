@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Api\V1\Requests\LoginRequest;
+use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use Auth;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -12,6 +12,11 @@ use Tymon\JWTAuth\JWTAuth;
 
 class RefreshController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['jwt.refresh']);
+    }
+
     /**
      * Refresh a token.
      *

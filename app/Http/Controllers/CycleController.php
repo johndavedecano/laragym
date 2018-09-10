@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Cycle;
 use App\Http\Resources\CycleResource;
-use App\Api\V1\Requests\CommonRequest as Request;
+use App\Http\Requests\CommonRequest as Request;
 use App\Exceptions\DefaultEntityException;
 use App\Exceptions\SubscriptionException;
 use App\Services\Cycle\CycleCollection;

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Api\V1\Requests\SubscriptionRequest as Request;
-use App\Api\V1\Requests\SubscriptionRequest;
+use App\Http\Requests\SubscriptionRequest as Request;
+use App\Http\Requests\SubscriptionRequest;
 use App\Constants;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SubscriptionResource;

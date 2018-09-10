@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Api\V1\Requests\SignUpRequest;
+use App\Http\Requests\SignUpRequest;
 use App\Http\Controllers\Controller;
 use App\Services\User\UserAuthService;
 use Illuminate\Support\Facades\Config;
