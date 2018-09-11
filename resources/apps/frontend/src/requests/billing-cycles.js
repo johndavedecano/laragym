@@ -13,7 +13,7 @@ export function destroyBillingCycle(cycleId) {
 }
 
 export function createBillingCycle(data) {
-  return axios.post('/api/packages', data).then(response => response.data);
+  return axios.post('/api/cycles', data).then(response => response.data);
 }
 
 export function updateBillingCycle(cycleId, data) {

@@ -1,12 +1,20 @@
 import React from 'react';
 
-import {Card, CardBody, Form, FormGroup, Input, Label} from 'reactstrap';
+import {
+  Card,
+  CardBody,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Row,
+  Col,
+} from 'reactstrap';
 
 import {Link} from 'react-router-dom';
 import {showService} from 'requests/services';
 import Breadcrumbs from 'components/Breadcrumbs';
 import Loader from 'components/Loader';
-import Status from 'components/Badges/Status';
 
 class Component extends React.Component {
   state = {
@@ -48,10 +56,10 @@ class Component extends React.Component {
   render() {
     if (!this.state.isLoaded) return <Loader show />;
     const {id} = this.props.match.params;
-    const {name, description, status} = this.state.data;
+    const {name, description, status, created_at, updated_at} = this.state.data;
     return (
       <React.Fragment>
-        <Breadcrumbs previous={this.previous} active="Edit Service" />
+        <Breadcrumbs previous={this.previous} active="Service Information" />
         <Card>
           <CardBody className="position-relative">
             {this.state.isNotFound && 'Page Not Found'}
@@ -83,20 +91,55 @@ class Component extends React.Component {
                 />
               </FormGroup>
 
-              <FormGroup check className="mb-3">
+              <FormGroup>
                 <Label for="status">Status</Label>
-                <p>
-                  <Status value={status} />
-                </p>
+                <Input
+                  type="text"
+                  name="status"
+                  id="status"
+                  bsSize="lg"
+                  required
+                  defaultValue={status}
+                  readOnly={true}
+                />
               </FormGroup>
 
-              <hr />
+              <Row>
+                <Col md={6}>
+                  <FormGroup>
+                    <Label for="created_at">Created At</Label>
+                    <Input
+                      type="text"
+                      name="created_at"
+                      id="created_at"
+                      bsSize="lg"
+                      required
+                      defaultValue={created_at}
+                      readOnly={true}
+                    />
+                  </FormGroup>
+                </Col>
 
+                <Col md={6}>
+                  <FormGroup>
+                    <Label for="updated_at">Updated At</Label>
+                    <Input
+                      type="text"
+                      name="updated_at"
+                      id="updated_at"
+                      bsSize="lg"
+                      required
+                      defaultValue={updated_at}
+                      readOnly={true}
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
               <Link
                 to={`/services/${id}/edit`}
-                className="btn btn-primary btn-lg"
+                className="btn btn-primary btn-lg align-right"
               >
-                Edit
+                Edit Service
               </Link>
             </Form>
           </CardBody>

@@ -38,31 +38,19 @@ class Component extends React.Component {
     return [
       {
         to: '/packages',
-        label: 'Package',
+        label: 'Packages',
       },
     ];
   }
 
   get form() {
-    return (
-      <Form
-        onSubmit={this.onSubmit}
-        name={this.state.data.name}
-        description={this.state.data.description}
-        is_archived={this.state.data.is_archived}
-        is_default={this.state.data.is_default}
-      />
-    );
+    return <Form onSubmit={this.onSubmit} {...this.state.data} />;
   }
 
   onSubmit = data => {
     const {id} = this.props.match.params;
     this.setState({isLoading: true});
-    return updatePackage(id, {
-      ...data,
-      is_archived: data.is_archived === 'on',
-      is_default: data.is_default === 'on',
-    }).then(() => {
+    return updatePackage(id, data).then(() => {
       this.load();
     });
   };

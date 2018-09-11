@@ -15,9 +15,9 @@ class Component extends React.Component {
 
   state = queryFilters();
 
-  onChangeStatus = event => {
-    this.props.onChangeFilter('status', event.target.value);
-    this.setState({status: event.target.value});
+  onChangeStatus = option => {
+    this.props.onChangeFilter('status', option.value);
+    this.setState({status: option.value});
   };
 
   onSearch = keyword => {

@@ -7,7 +7,7 @@ export default location => {
   const page = Number(get(query, 'page'));
   let params = {
     ...query,
-    per_page: per_page || 5,
+    per_page: per_page || 25,
     page: page || 1,
   };
 

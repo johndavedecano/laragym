@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {Row, Col} from 'reactstrap';
 import get from 'lodash/get';
 import {TableFilters} from 'components/Table';
-import BooleanSelect from 'components/Form/Select/BooleanSelect';
+import StatusSelect from 'components/Form/Select/StatusSelect';
 import Search from 'components/Form/Input/Search';
 import withFilters from 'enhancers/withFilters';
 import queryFilters from 'utils/query-filters';
@@ -15,9 +15,9 @@ class Component extends React.Component {
 
   state = queryFilters();
 
-  onChangeFilter = key => value => {
-    this.props.onChangeFilter(key, value);
-    this.setState({[key]: value});
+  onChangeStatus = option => {
+    this.props.onChangeFilter('status', option.value);
+    this.setState({status: option.value});
   };
 
   onSearch = keyword => {
@@ -30,12 +30,11 @@ class Component extends React.Component {
       <TableFilters>
         <Row>
           <Col md={2}>
-            <BooleanSelect
-              placeholder="All Packages"
+            <StatusSelect
+              placeholder="All Status"
               disabled={this.props.isLoading}
-              value={get(this.state, 'is_archived')}
-              onChange={this.onChangeFilter('is_archived')}
-              simpleValue
+              value={get(this.state, 'status')}
+              onChange={this.onChangeStatus}
             />
           </Col>
           <Col md={2}>

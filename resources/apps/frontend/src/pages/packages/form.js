@@ -1,16 +1,21 @@
 import React from 'react';
 import serialize from 'form-serialize';
 import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
-import notify from 'utils/notify';
+
 import getErrorMessage from 'utils/getErrorMessage';
+import notify from 'utils/notify';
+import StatusSelect from 'components/Form/Select/StatusSelect';
+import ServiceSelect from 'components/Form/Select/ServiceSelect';
+import CycleSelect from 'components/Form/Select/CycleSelect';
 
 export default class extends React.Component {
   static defaultProps = {
     successMessage: 'Successfully submitted',
     name: undefined,
-    description: undefined,
-    is_archived: undefined,
-    is_default: undefined,
+    amount: undefined,
+    cycle_id: undefined,
+    service_id: undefined,
+    status: undefined,
     onSubmit: () => {},
   };
 
@@ -48,7 +53,6 @@ export default class extends React.Component {
             type="text"
             name="name"
             id="name"
-            bsSize="lg"
             placeholder="Name"
             required
             defaultValue={this.props.name}
@@ -57,47 +61,39 @@ export default class extends React.Component {
         </FormGroup>
 
         <FormGroup>
-          <Label for="description">Description</Label>
+          <Label for="amount">Amount</Label>
           <Input
-            type="textarea"
-            name="description"
-            id="description"
-            bsSize="lg"
+            type="number"
+            name="amount"
+            id="amount"
             required
-            defaultValue={this.props.description}
+            defaultValue={this.props.amount}
             disabled={this.state.isSubmitting}
           />
         </FormGroup>
 
-        <FormGroup check className="mb-3">
-          <Label check>
-            <Input
-              type="checkbox"
-              name="is_archived"
-              defaultChecked={!!this.props.is_archived}
-              disabled={this.state.isSubmitting}
-            />{' '}
-            Archived
-          </Label>
+        {this.props.status && (
+          <FormGroup>
+            <Label for="status">Status</Label>
+            <StatusSelect defaultValue={this.props.status} name="status" />
+          </FormGroup>
+        )}
+
+        <FormGroup>
+          <Label for="service_id">Service</Label>
+          <ServiceSelect
+            defaultValue={this.props.service_id}
+            name="service_id"
+          />
         </FormGroup>
 
-        {/* <FormGroup check className="mb-3">
-          <Label check>
-            <Input
-              type="checkbox"
-              name="is_default"
-              defaultChecked={!!this.props.is_default}
-              disabled={this.state.isSubmitting}
-            />{' '}
-            System Default
-          </Label>
-        </FormGroup> */}
-
-        <hr />
+        <FormGroup>
+          <Label for="cycle_id">Billing Cycle</Label>
+          <CycleSelect defaultValue={this.props.cycle_id} name="cycle_id" />
+        </FormGroup>
 
         <Button
           color="primary"
-          size="lg"
           className="float-right"
           disabled={this.state.isSubmitting}
         >

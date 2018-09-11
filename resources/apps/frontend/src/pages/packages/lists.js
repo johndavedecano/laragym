@@ -12,6 +12,7 @@ import date from 'utils/date';
 import getErrorMessage from 'utils/getErrorMessage';
 import {loadPackages, destroyPackage} from 'requests/packages';
 import Pagination from 'components/Pagination/PaginationWithFilter';
+import Status from 'components/Badges/Status';
 
 class Component extends React.Component {
   state = {
@@ -54,7 +55,16 @@ class Component extends React.Component {
   }
 
   get headers() {
-    return ['ID', 'Name', 'System', 'Archived', 'Updated', 'Actions'];
+    return [
+      'ID',
+      'Name',
+      'Billing Cycle',
+      'Service',
+      'Amount',
+      'Status',
+      'Updated',
+      'Actions',
+    ];
   }
 
   getTableActions() {}
@@ -64,15 +74,19 @@ class Component extends React.Component {
   };
 
   getTableActions = payload => {
-    return [
+    let actions = [
       {label: 'Edit Information', href: `/packages/${payload.id}/edit`},
-      {label: 'Divider', type: 'divider'},
-      {
+    ];
+
+    if (payload.status !== 'deleted') {
+      actions.push({
         label: 'Delete Record',
         type: 'delete',
         color: 'text-danger',
-      },
-    ];
+      });
+    }
+
+    return actions;
   };
 
   onClickAction = data => {
@@ -92,10 +106,24 @@ class Component extends React.Component {
       <tr key={item.id}>
         <td>{item.id}</td>
         <td>
-          <Link to={`/packages/${item.id}`}>{item.name}</Link>
+          <Link to={`/packages/${item.id}`}>
+            {item.name || 'Not Available'}
+          </Link>
         </td>
-        <td>{item.is_default ? 'Yes' : 'No'}</td>
-        <td>{item.is_archived ? 'Yes' : 'No'}</td>
+        <td>
+          <Link to={`/billing-cycles/${item.cycle.id}`}>
+            {item.cycle.name || 'Not Available'}
+          </Link>
+        </td>
+        <td>
+          <Link to={`/services/${item.service.id}`}>
+            {item.service.name || 'Not Available'}
+          </Link>
+        </td>
+        <td>{item.amount}</td>
+        <td className="align-center text-center">
+          <Status value={item.status} />
+        </td>
         <td>{date(item.updated_at)}</td>
         <td>
           <div className="d-flex justify-content-center">
@@ -114,7 +142,7 @@ class Component extends React.Component {
   render() {
     return (
       <Card>
-        <CardHeader>Manage Package</CardHeader>
+        <CardHeader>Manage Packages</CardHeader>
         <CardActions isLoading={this.state.isLoading} />
         <CardBody className="position-relative">
           {this.loader}

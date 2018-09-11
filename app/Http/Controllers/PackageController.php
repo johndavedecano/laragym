@@ -58,7 +58,7 @@ class PackageController extends Controller
     {
         $this->authorize('create', Package::class);
 
-        $this->validate($request->all(), [
+        $this->validate($request, [
             'amount'      => 'required|numeric',
             'cycle_id'    => 'required|exists:cycles,id',
             'name'        => 'required|max:126',
@@ -111,7 +111,7 @@ class PackageController extends Controller
 
         $this->authorize('update', $model);
 
-        $this->validate($request->all(), [
+        $this->validate($request, [
             'amount'      => 'numeric',
             'cycle_id'    => 'exists:cycles,id',
             'name'        => 'max:126',

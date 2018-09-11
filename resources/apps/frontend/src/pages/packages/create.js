@@ -12,17 +12,13 @@ class Component extends React.Component {
     return [
       {
         to: '/packages',
-        label: 'Package',
+        label: 'Packages',
       },
     ];
   }
 
   onSubmit = data => {
-    return createPackage({
-      ...data,
-      is_archived: data.is_archived === 'on',
-      is_default: data.is_default === 'on',
-    }).then(() => {
+    return createPackage(data).then(() => {
       setTimeout(() => {
         this.props.history.replace('/packages');
       }, 1000);

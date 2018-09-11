@@ -9,7 +9,9 @@
 namespace App\Services\Cycle;
 
 
+use App\CacheKey;
 use App\Models\Cycle;
+use Illuminate\Support\Facades\Cache;
 
 class CycleCollection implements CycleCollectionInterface
 {
@@ -51,7 +53,9 @@ class CycleCollection implements CycleCollectionInterface
 
         $limit = request()->get('per_page', $this->per_page);
 
-        return $builder->paginate($limit);
+        return Cache::remember(CacheKey::get(), 1, function () use ($builder, $limit) {
+            return $builder->paginate($limit);
+        });
     }
 
     /**

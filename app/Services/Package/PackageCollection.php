@@ -9,14 +9,16 @@
 namespace App\Services\Package;
 
 
+use App\CacheKey;
 use App\Models\Package;
+use Illuminate\Support\Facades\Cache;
 
 class PackageCollection
 {
     /**
      * @var int
      */
-    public $per_page = 15;
+    public $per_page = 20;
 
     /**
      * @var array
@@ -52,13 +54,14 @@ class PackageCollection
             $this->meta['q'] = request()->get('q');
         }
 
-        if (request()->has('status')) {
-            $builder = $builder->where('status', request()->get('status'));
-            $this->meta['status'] = request()->get('status');
-        }
+        $builder = $builder->where('status', request()->get('status', 'active'));
+
+        $this->meta['status'] = request()->get('status', 'active');
 
         $limit = request()->get('per_page', $this->per_page);
 
-        return $builder->paginate($limit);
+        return Cache::remember(CacheKey::get(), 1, function () use ($builder, $limit) {
+            return $builder->paginate($limit);
+        });
     }
 }

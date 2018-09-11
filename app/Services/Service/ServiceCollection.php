@@ -9,7 +9,9 @@
 namespace App\Services\Service;
 
 
+use App\CacheKey;
 use App\Models\Service;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class ServiceCollection
@@ -35,7 +37,7 @@ class ServiceCollection
     /**
      * @var int
      */
-    protected $per_page = 15;
+    protected $per_page = 20;
 
     /**
      * ServiceCollection constructor.
@@ -51,11 +53,22 @@ class ServiceCollection
      */
     public function get()
     {
-        return $this
-            ->build()
-            ->bySearch()
-            ->byStatus()
-            ->paginate($this->limit());
+        return Cache::remember(CacheKey::get(), 1, function () {
+            return $this
+                ->build()
+                ->bySearch()
+                ->byStatus()
+                ->getBuild()
+                ->paginate($this->limit());
+        });
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBuild()
+    {
+        return $this->builder;
     }
 
     /**
@@ -80,7 +93,7 @@ class ServiceCollection
     {
         $this->builder = $this->builder->where('status', request()->get('status', 'active'));
 
-        $this->meta['status'] = request()->get('status');
+        $this->meta['status'] = request()->get('status', 'active');
 
         return $this;
     }
