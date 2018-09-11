@@ -10,7 +10,7 @@ import queryFilters from 'utils/query-filters';
 import notify from 'utils/notify';
 import date from 'utils/date';
 import getErrorMessage from 'utils/getErrorMessage';
-import {loadServices, destroyService} from 'requests/services';
+import {loadBillingCycles, destroyBillingCycle} from 'requests/billing-cycles';
 import Pagination from 'components/Pagination/PaginationWithFilter';
 import Status from 'components/Badges/Status';
 
@@ -34,7 +34,7 @@ class Component extends React.Component {
   load = async () => {
     try {
       this.setState({isLoading: true});
-      const {data, meta} = await loadServices(queryFilters());
+      const {data, meta} = await loadBillingCycles(queryFilters());
       this.setState({
         data,
         meta,
@@ -55,18 +55,18 @@ class Component extends React.Component {
   }
 
   get headers() {
-    return ['ID', 'Name', 'Status', 'Updated', 'Actions'];
+    return ['ID', 'Name', '# Days', 'Status', 'Updated', 'Actions'];
   }
 
   getTableActions() {}
 
   onConfirm = ({payload, type}) => {
-    if (type === 'delete') return destroyService(payload.id);
+    if (type === 'delete') return destroyBillingCycle(payload.id);
   };
 
   getTableActions = payload => {
     let actions = [
-      {label: 'Edit Information', href: `/services/${payload.id}/edit`},
+      {label: 'Edit Information', href: `/billing-cycles/${payload.id}/edit`},
     ];
 
     if (payload.status !== 'deleted') {
@@ -97,8 +97,11 @@ class Component extends React.Component {
       <tr key={item.id}>
         <td>{item.id}</td>
         <td>
-          <Link to={`/services/${item.id}`}>{item.name}</Link>
+          <Link to={`/billing-cycles/${item.id}`}>
+            {item.name || 'Not Available'}
+          </Link>
         </td>
+        <td>{item.num_days}</td>
         <td className="align-center text-center">
           <Status value={item.status} />
         </td>
@@ -120,7 +123,7 @@ class Component extends React.Component {
   render() {
     return (
       <Card>
-        <CardHeader>Manage Services</CardHeader>
+        <CardHeader>Manage Billing Cycles</CardHeader>
         <CardActions isLoading={this.state.isLoading} />
         <CardBody className="position-relative">
           {this.loader}

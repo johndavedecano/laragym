@@ -9,8 +9,10 @@
 namespace App\Services\Cycle;
 
 
+use App\CacheKey;
 use App\Constants;
 use App\Models\Cycle;
+use Illuminate\Support\Facades\Cache;
 
 class CycleService implements CycleServiceInterface
 {
@@ -34,8 +36,21 @@ class CycleService implements CycleServiceInterface
      */
     public function find($id)
     {
-        return $this->cycle->findOrFail($id);
+        return Cache::remember('cycle-'.$id, 1, function () use ($id) {
+            return $this->cycle->findOrFail($id);
+        });
     }
+
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function forget($id)
+    {
+        return Cache::forget('cycle-'.$id);
+    }
+
 
     /**
      * @param array $request
@@ -57,6 +72,8 @@ class CycleService implements CycleServiceInterface
 
         $cycle->save();
 
+        $this->forget($cycle->id);
+
         return $cycle;
     }
 
@@ -69,6 +86,8 @@ class CycleService implements CycleServiceInterface
         $cycle->status = Constants::STATUS_DELETED;
 
         $cycle->save();
+
+        $this->forget($cycle->id);
 
         return $cycle;
     }

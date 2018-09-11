@@ -15,9 +15,9 @@ class Component extends React.Component {
 
   state = queryFilters();
 
-  onChangeStatus = event => {
-    this.props.onChangeFilter('status', event.target.value);
-    this.setState({status: event.target.value});
+  onChangeStatus = option => {
+    this.props.onChangeFilter('status', option.value);
+    this.setState({status: option.value});
   };
 
   onSearch = keyword => {
@@ -47,8 +47,11 @@ class Component extends React.Component {
           </Col>
           <Col md={6} />
           <Col md={2}>
-            <Link to="/services/create" className="float-right btn btn-primary">
-              <i className="fa fa-plus" /> Add Service
+            <Link
+              to="/billing-cycles/create"
+              className="float-right btn btn-primary"
+            >
+              <i className="fa fa-plus" /> Add Billing Cycle
             </Link>
           </Col>
         </Row>

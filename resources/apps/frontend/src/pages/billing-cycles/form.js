@@ -10,8 +10,10 @@ export default class extends React.Component {
   static defaultProps = {
     successMessage: 'Successfully submitted',
     name: undefined,
+    amount: undefined,
     description: undefined,
-    status: '',
+    num_days: undefined,
+    status: undefined,
     onSubmit: () => {},
   };
 
@@ -49,7 +51,6 @@ export default class extends React.Component {
             type="text"
             name="name"
             id="name"
-            bsSize="lg"
             placeholder="Name"
             required
             defaultValue={this.props.name}
@@ -58,14 +59,13 @@ export default class extends React.Component {
         </FormGroup>
 
         <FormGroup>
-          <Label for="description">Description</Label>
+          <Label for="num_days">Number of Days</Label>
           <Input
-            type="textarea"
-            name="description"
-            id="description"
-            bsSize="lg"
+            type="number"
+            name="num_days"
+            id="num_days"
             required
-            defaultValue={this.props.description}
+            defaultValue={this.props.num_days}
             disabled={this.state.isSubmitting}
           />
         </FormGroup>
@@ -73,17 +73,25 @@ export default class extends React.Component {
         {this.props.status && (
           <FormGroup>
             <Label for="status">Status</Label>
-            <StatusSelect
-              bsSize="lg"
-              defaultValue={this.props.status}
-              name="status"
-            />
+            <StatusSelect defaultValue={this.props.status} name="status" />
           </FormGroup>
         )}
 
+        <FormGroup>
+          <Label for="description">Description</Label>
+          <Input
+            type="textarea"
+            rows={8}
+            name="description"
+            id="description"
+            required
+            defaultValue={this.props.description}
+            disabled={this.state.isSubmitting}
+          />
+        </FormGroup>
+
         <Button
           color="primary"
-          size="lg"
           className="float-right"
           disabled={this.state.isSubmitting}
         >

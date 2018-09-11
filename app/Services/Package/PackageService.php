@@ -8,13 +8,20 @@
 
 namespace App\Services\Package;
 
-
 use App\Constants;
-use App\Exceptions\SubscriptionException;
 use App\Models\Package;
+use Illuminate\Support\Facades\Cache;
 
+/**
+ * Class PackageService
+ * @package App\Services\Package
+ */
 class PackageService
 {
+    /**
+     * PackageService constructor.
+     * @param Package $model
+     */
     public function __construct(Package $model)
     {
         $this->model = $model;
@@ -26,7 +33,18 @@ class PackageService
      */
     public function find($id)
     {
-        return $this->model->findOrFail($id);
+        return Cache::remember('package-'.$id, 1, function () use ($id) {
+            return $this->model->findOrFail($id);
+        });
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function forget($id)
+    {
+        return Cache::forget('package-'.$id);
     }
 
     /**
@@ -47,6 +65,8 @@ class PackageService
     {
         $package->update(array_only($request, $package->getFillable()));
 
+        $this->forget($package->id);
+
         return $package;
     }
 
@@ -60,6 +80,8 @@ class PackageService
         $package->status = Constants::STATUS_DELETED;
 
         $package->save();
+
+        $this->forget($package->id);
 
         return $package;
     }

@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 
 import {Link} from 'react-router-dom';
-import {showService} from 'requests/services';
+import {showBillingCycle} from 'requests/billing-cycles';
 import Breadcrumbs from 'components/Breadcrumbs';
 import Loader from 'components/Loader';
 
@@ -32,7 +32,7 @@ class Component extends React.Component {
     try {
       this.setState({isLoading: true});
       const {id} = this.props.match.params;
-      const {data} = await showService(id);
+      const {data} = await showBillingCycle(id);
       this.setState({
         isLoading: false,
         isNotFound: false,
@@ -47,8 +47,8 @@ class Component extends React.Component {
   get previous() {
     return [
       {
-        to: '/services',
-        label: 'Services',
+        to: '/billing-cycles',
+        label: 'Billing Cycles',
       },
     ];
   }
@@ -56,53 +56,77 @@ class Component extends React.Component {
   render() {
     if (!this.state.isLoaded) return <Loader show />;
     const {id} = this.props.match.params;
-    const {name, description, status, created_at, updated_at} = this.state.data;
+    const {
+      name,
+      num_days,
+      status,
+      created_at,
+      updated_at,
+      description,
+    } = this.state.data;
     return (
       <React.Fragment>
-        <Breadcrumbs previous={this.previous} active="Service Information" />
+        <Breadcrumbs
+          previous={this.previous}
+          active="Billing Cycle Information"
+        />
         <Card>
           <CardBody className="position-relative">
             {this.state.isNotFound && 'Page Not Found'}
             <Form>
-              <FormGroup>
-                <Label for="Name">Name</Label>
-                <Input
-                  type="text"
-                  name="name"
-                  id="name"
-                  bsSize="lg"
-                  placeholder="Name"
-                  required
-                  defaultValue={name}
-                  readOnly={true}
-                />
-              </FormGroup>
+              <Row>
+                <Col md={6}>
+                  <FormGroup>
+                    <Label for="Name">Name</Label>
+                    <Input
+                      type="text"
+                      required
+                      defaultValue={name}
+                      readOnly={true}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col md={3}>
+                  <FormGroup>
+                    <Label for="num_days">Number of Days</Label>
+                    <Input
+                      type="text"
+                      required
+                      defaultValue={num_days}
+                      readOnly={true}
+                    />
+                  </FormGroup>
+                </Col>
 
-              <FormGroup>
-                <Label for="description">Description</Label>
-                <Input
-                  type="textarea"
-                  name="description"
-                  id="description"
-                  bsSize="lg"
-                  required
-                  defaultValue={description}
-                  readOnly={true}
-                />
-              </FormGroup>
+                <Col md={3}>
+                  <FormGroup>
+                    <Label for="status">Status</Label>
+                    <Input
+                      type="text"
+                      name="status"
+                      id="status"
+                      required
+                      defaultValue={status}
+                      readOnly={true}
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
 
-              <FormGroup>
-                <Label for="status">Status</Label>
-                <Input
-                  type="text"
-                  name="status"
-                  id="status"
-                  bsSize="lg"
-                  required
-                  defaultValue={status}
-                  readOnly={true}
-                />
-              </FormGroup>
+              <Row>
+                <Col md={12}>
+                  <FormGroup>
+                    <Label for="Description">Description</Label>
+                    <Input
+                      type="textarea"
+                      rows={8}
+                      required
+                      defaultValue={description}
+                      readOnly={true}
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
 
               <Row>
                 <Col md={6}>
@@ -112,7 +136,6 @@ class Component extends React.Component {
                       type="text"
                       name="created_at"
                       id="created_at"
-                      bsSize="lg"
                       required
                       defaultValue={created_at}
                       readOnly={true}
@@ -127,7 +150,6 @@ class Component extends React.Component {
                       type="text"
                       name="updated_at"
                       id="updated_at"
-                      bsSize="lg"
                       required
                       defaultValue={updated_at}
                       readOnly={true}
@@ -136,10 +158,10 @@ class Component extends React.Component {
                 </Col>
               </Row>
               <Link
-                to={`/services/${id}/edit`}
-                className="btn btn-primary btn-lg align-right"
+                to={`/billing-cycles/${id}/edit`}
+                className="btn btn-primary align-right"
               >
-                Edit Service
+                Edit Billing Cycle
               </Link>
             </Form>
           </CardBody>
