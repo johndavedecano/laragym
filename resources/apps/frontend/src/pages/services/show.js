@@ -70,7 +70,6 @@ class Component extends React.Component {
                   type="text"
                   name="name"
                   id="name"
-                  bsSize="lg"
                   placeholder="Name"
                   required
                   defaultValue={name}
@@ -84,7 +83,6 @@ class Component extends React.Component {
                   type="textarea"
                   name="description"
                   id="description"
-                  bsSize="lg"
                   required
                   defaultValue={description}
                   readOnly={true}
@@ -97,7 +95,6 @@ class Component extends React.Component {
                   type="text"
                   name="status"
                   id="status"
-                  bsSize="lg"
                   required
                   defaultValue={status}
                   readOnly={true}
@@ -112,7 +109,6 @@ class Component extends React.Component {
                       type="text"
                       name="created_at"
                       id="created_at"
-                      bsSize="lg"
                       required
                       defaultValue={created_at}
                       readOnly={true}
@@ -127,7 +123,6 @@ class Component extends React.Component {
                       type="text"
                       name="updated_at"
                       id="updated_at"
-                      bsSize="lg"
                       required
                       defaultValue={updated_at}
                       readOnly={true}
@@ -137,7 +132,7 @@ class Component extends React.Component {
               </Row>
               <Link
                 to={`/services/${id}/edit`}
-                className="btn btn-primary btn-lg align-right"
+                className="btn btn-primary align-right"
               >
                 Edit Service
               </Link>
