@@ -57,7 +57,43 @@ class UserCollection implements UserCollectionInteface
 
         $this->builder = $this->search($this->builder);
 
+        $this->builder = $this->admin($this->builder);
+
+        $this->builder = $this->active($this->builder);
+
+        $this->builder = $this->deleted($this->builder);
+
         return $this->builder->paginate($this->getLimit());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function deleted($builder)
+    {
+        $builder = $builder->where('is_deleted', request()->get('is_deleted', false));
+
+        return $builder;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function active($builder)
+    {
+        $builder = $builder->where('is_active', request()->get('is_active', true));
+
+        return $builder;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function admin($builder)
+    {
+        $builder = $builder->where('is_admin', request()->get('is_admin', false));
+
+        return $builder;
     }
 
     /**
