@@ -9,7 +9,9 @@
 namespace App\Services\User;
 
 
+use App\CacheKey;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class UserCollection
@@ -63,10 +65,13 @@ class UserCollection implements UserCollectionInteface
 
         $this->builder = $this->deleted($this->builder);
 
-        return $this->builder->paginate($this->getLimit());
+        return Cache::remember(CacheKey::get(), 1, function() {
+            return $this->builder->paginate($this->getLimit());
+        });
     }
 
     /**
+     * @param $builder
      * @return mixed
      */
     public function deleted($builder)
@@ -81,6 +86,7 @@ class UserCollection implements UserCollectionInteface
     }
 
     /**
+     * @param $builder
      * @return mixed
      */
     public function active($builder)
@@ -95,6 +101,7 @@ class UserCollection implements UserCollectionInteface
     }
 
     /**
+     * @param $builder
      * @return mixed
      */
     public function admin($builder)
