@@ -88,10 +88,21 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = $this->userService->find($id);
+        $rules = [];
 
         $this->authorize('update', $user);
 
-        $user = $this->userService->update($user, $request->all());
+        if ($request->has('password')) {
+            $rules['password'] = 'min:8|max:12|confirmed';
+        }
+
+        if ($request->has('email')) {
+            $rules['email'] = 'email|unique:users,email,'.$id;
+        }
+
+        $request = $request->all();
+
+        $user = $this->userService->update($user, $request);
 
         return new UserResource($user);
     }

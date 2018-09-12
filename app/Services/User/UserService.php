@@ -78,10 +78,6 @@ class UserService implements UserServiceInterface
      */
     public function delete(User $user)
     {
-        if ($user->subscriptions()->count() > 0) {
-            throw new SubscriptionException('User still has subscription.');
-        }
-
-        return $this->user->where('id', $user->id)->delete();
+        return $this->user->where('id', $user->id)->update('is_deleted', true);
     }
 }
