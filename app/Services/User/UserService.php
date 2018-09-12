@@ -54,24 +54,11 @@ class UserService implements UserServiceInterface
      */
     public function create($data = [])
     {
-        $data = $this->hash($data);
-
         $data = array_only($data, $this->user->getFillable());
 
+        $data = $this->sanitizeBooleans($data);
+
         return $this->user->create($data);
-    }
-
-    /**
-     * @param array $data
-     * @return array
-     */
-    public function hash($data)
-    {
-        if (isset($data['password'])) {
-            $data['password'] = hash()->make($data['password']);
-        }
-
-        return $data;
     }
 
     /**
@@ -81,11 +68,13 @@ class UserService implements UserServiceInterface
      */
     public function update(User $user, $data = [])
     {
-        $data = $this->hash($data);
-
         $data = array_only($data, $this->user->getFillable());
 
-        return $this->user->where('id', $user->id)->update($data);
+        $data = $this->sanitizeBooleans($data);
+
+        $this->user->where('id', $user->id)->update($data);
+
+        return $this->user->find($user->id);
     }
 
     /**
@@ -96,5 +85,25 @@ class UserService implements UserServiceInterface
     public function delete(User $user)
     {
         return $this->user->where('id', $user->id)->update('is_deleted', true);
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    public function sanitizeBooleans($data)
+    {
+        if (isset($data['is_admin'])) {
+            $data['is_admin'] = filter_var($data['is_admin'], FILTER_VALIDATE_BOOLEAN);
+        }
+
+        if (isset($data['is_active'])) {
+            $data['is_active'] = filter_var($data['is_active'], FILTER_VALIDATE_BOOLEAN);
+        }
+
+        if (isset($data['is_deleted'])) {
+            $data['is_deleted'] = filter_var($data['is_deleted'], FILTER_VALIDATE_BOOLEAN);
+        }
+        return $data;
     }
 }

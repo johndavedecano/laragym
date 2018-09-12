@@ -49,7 +49,6 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     protected $dates = [
-        'date_of_birth',
         'last_login'
     ];
 

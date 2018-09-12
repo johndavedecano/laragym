@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Services\User\UserCollection;
 use App\Services\User\UserService;
-use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Exceptions\SubscriptionException;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -102,9 +102,11 @@ class UserController extends Controller
 
         $request = $request->all();
 
-        $user = $this->userService->update($user, $request);
+        $response = $this->userService->update($user, $request);
 
-        return new UserResource($user);
+        return response()->json($response);
+
+        return new UserResource($response);
     }
 
     /**

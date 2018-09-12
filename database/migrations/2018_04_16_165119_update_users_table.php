@@ -18,7 +18,7 @@ class UpdateUsersTable extends Migration
             $table->boolean('is_active')->default(true);
             $table->boolean('is_admin')->default(false);
             $table->boolean('is_deleted')->default(false);
-            $table->date('date_of_birth')->nullable();
+            $table->string('date_of_birth')->nullable();
             $table->string('account_number')->nullable();
             $table->string('address')->nullable();
             $table->string('avatar')->nullable();
