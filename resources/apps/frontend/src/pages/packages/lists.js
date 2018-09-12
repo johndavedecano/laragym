@@ -74,13 +74,11 @@ class Component extends React.Component {
   };
 
   getTableActions = payload => {
-    let actions = [
-      {label: 'Edit Information', href: `/packages/${payload.id}/edit`},
-    ];
+    let actions = [{label: 'Edit', href: `/packages/${payload.id}/edit`}];
 
     if (payload.status !== 'deleted') {
       actions.push({
-        label: 'Delete Record',
+        label: 'Delete',
         type: 'delete',
         color: 'text-danger',
       });
