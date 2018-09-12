@@ -59,7 +59,7 @@ class ServiceControllerTest extends TestCase
 
     public function testUpdateFailsNotFound()
     {
-        $response = $this->withHeaders($this->headers)->json('PUT', 'api/services/35729582', ['name' => 'Dave']);
+        $response = $this->withHeaders($this->headers)->json('PUT', 'api/services/35729582', ['name' => 'Dave', 'description' => 'test']);
 
         $response->assertStatus(404);
     }

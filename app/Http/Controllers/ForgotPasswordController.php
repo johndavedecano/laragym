@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Services\User\UserAuthService;
 use App\Http\Requests\ForgotPasswordRequest;
 

@@ -43,7 +43,7 @@ class CycleControllerTest extends TestCase
 
     public function testStoreSuccess()
     {
-        $response = $this->withHeaders($this->headers)->json('POST', 'api/cycles', ['name' => 'Dave']);
+        $response = $this->withHeaders($this->headers)->json('POST', 'api/cycles', ['name' => 'Dave', 'description' => 'test']);
 
         $response->assertStatus(201);
     }
@@ -59,7 +59,7 @@ class CycleControllerTest extends TestCase
 
     public function testUpdateFailsNotFound()
     {
-        $response = $this->withHeaders($this->headers)->json('PUT', 'api/cycles/35729582', ['name' => 'Dave']);
+        $response = $this->withHeaders($this->headers)->json('PUT', 'api/cycles/35729582', ['name' => 'Dave', 'description' => 'test']);
 
         $response->assertStatus(404);
     }
@@ -68,14 +68,14 @@ class CycleControllerTest extends TestCase
     {
         $model = Cycle::create(['name' => 'Dave']);
 
-        $response = $this->withHeaders($this->headers)->json('PUT', 'api/cycles/'.$model->id, ['name' => 'Dave']);
+        $response = $this->withHeaders($this->headers)->json('PUT', 'api/cycles/'.$model->id, ['name' => 'Dave', 'description' => 'test']);
 
         $response->assertStatus(200);
     }
 
     public function testDestroyFailsNotFound()
     {
-        $response = $this->withHeaders($this->headers)->json('DELETE', 'api/cycles/35729582', ['name' => 'Dave']);
+        $response = $this->withHeaders($this->headers)->json('DELETE', 'api/cycles/35729582');
 
         $response->assertStatus(404);
     }
@@ -84,7 +84,7 @@ class CycleControllerTest extends TestCase
     {
         $model = Cycle::create(['name' => 'Dave']);
 
-        $response = $this->withHeaders($this->headers)->json('DELETE', 'api/cycles/'.$model->id, ['name' => 'Dave']);
+        $response = $this->withHeaders($this->headers)->json('DELETE', 'api/cycles/'.$model->id);
 
         $response->assertStatus(200);
     }

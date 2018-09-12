@@ -10,9 +10,8 @@ import queryFilters from 'utils/query-filters';
 import notify from 'utils/notify';
 import date from 'utils/date';
 import getErrorMessage from 'utils/getErrorMessage';
-import {loadServices, destroyService} from 'requests/services';
+import {loadMembers, destroyMember} from 'requests/members';
 import Pagination from 'components/Pagination/PaginationWithFilter';
-import Status from 'components/Badges/Status';
 
 class Component extends React.Component {
   state = {
@@ -34,7 +33,7 @@ class Component extends React.Component {
   load = async () => {
     try {
       this.setState({isLoading: true});
-      const {data, meta} = await loadServices(queryFilters());
+      const {data, meta} = await loadMembers(queryFilters());
       this.setState({
         data,
         meta,
@@ -55,17 +54,17 @@ class Component extends React.Component {
   }
 
   get headers() {
-    return ['ID', 'Name', 'Status', 'Updated', 'Actions'];
+    return ['ID', 'Name', 'Email', 'Active', 'Admin', 'Updated', 'Actions'];
   }
 
   getTableActions() {}
 
   onConfirm = ({payload, type}) => {
-    if (type === 'delete') return destroyService(payload.id);
+    if (type === 'delete') return destroyMember(payload.id);
   };
 
   getTableActions = payload => {
-    let actions = [{label: 'Edit', href: `/services/${payload.id}/edit`}];
+    let actions = [{label: 'Edit', href: `/members/${payload.id}/edit`}];
 
     if (payload.status !== 'deleted') {
       actions.push({
@@ -95,10 +94,14 @@ class Component extends React.Component {
       <tr key={item.id}>
         <td>{item.id}</td>
         <td>
-          <Link to={`/services/${item.id}`}>{item.name}</Link>
+          <Link to={`/members/${item.id}`}>{item.name}</Link>
+        </td>
+        <td className="align-center">{item.email}</td>
+        <td className="align-center text-center">
+          {item.is_active ? 'Yes' : 'No'}
         </td>
         <td className="align-center text-center">
-          <Status value={item.status} />
+          {item.is_active ? 'Yes' : 'No'}
         </td>
         <td>{date(item.updated_at)}</td>
         <td>
@@ -118,7 +121,7 @@ class Component extends React.Component {
   render() {
     return (
       <Card>
-        <CardHeader>Manage Services</CardHeader>
+        <CardHeader>Manage Members</CardHeader>
         <CardActions isLoading={this.state.isLoading} />
         <CardBody className="position-relative">
           {this.loader}

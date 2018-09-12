@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Http\Resources\ActivityResource;
 use App\Http\Requests\CommonRequest as Request;

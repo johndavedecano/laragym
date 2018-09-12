@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {Row, Col} from 'reactstrap';
 import get from 'lodash/get';
 import {TableFilters} from 'components/Table';
-import StatusSelect from 'components/Form/Select/StatusSelect';
+import BooleanSelect from 'components/Form/Select/BooleanSelect';
 import Search from 'components/Form/Input/Search';
 import withFilters from 'enhancers/withFilters';
 import queryFilters from 'utils/query-filters';
@@ -15,13 +15,15 @@ class Component extends React.Component {
 
   state = queryFilters();
 
-  onChangeStatus = event => {
-    this.props.onChangeFilter('status', event.target.value);
-    this.setState({status: event.target.value});
+  onChangeFilter = key => option => {
+    this.props.onChangeFilter(key, option.value);
+
+    this.setState({[key]: option.value});
   };
 
   onSearch = keyword => {
     this.setState({q: keyword});
+
     this.props.onChangeFilter('q', keyword);
   };
 
@@ -30,11 +32,19 @@ class Component extends React.Component {
       <TableFilters>
         <Row>
           <Col md={2}>
-            <StatusSelect
-              placeholder="All Status"
+            <BooleanSelect
+              placeholder="Select Deleted"
               disabled={this.props.isLoading}
-              value={get(this.state, 'status')}
-              onChange={this.onChangeStatus}
+              value={get(this.state, 'is_deleted')}
+              onChange={this.onChangeFilter('is_deleted')}
+            />
+          </Col>
+          <Col md={2}>
+            <BooleanSelect
+              placeholder="Select Admin"
+              disabled={this.props.isLoading}
+              value={get(this.state, 'is_admin')}
+              onChange={this.onChangeFilter('is_admin')}
             />
           </Col>
           <Col md={2}>
@@ -45,10 +55,10 @@ class Component extends React.Component {
               onSubmit={this.onSearch}
             />
           </Col>
-          <Col md={6} />
+          <Col md={4} />
           <Col md={2}>
-            <Link to="/services/create" className="float-right btn btn-primary">
-              <i className="fa fa-plus" /> Add Service
+            <Link to="/members/create" className="float-right btn btn-primary">
+              <i className="fa fa-plus" /> Add Member
             </Link>
           </Col>
         </Row>

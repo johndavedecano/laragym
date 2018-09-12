@@ -18,6 +18,10 @@ export default function(Component) {
         });
       }
 
+      if (key !== 'page') {
+        query['page'] = 1;
+      }
+
       history.push({
         pathname: location.pathname,
         search: queryString.stringify(query),

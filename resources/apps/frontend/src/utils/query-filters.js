@@ -11,8 +11,16 @@ export default location => {
     page: page || 1,
   };
 
-  if (query.is_archived) {
-    params.is_archived = query.is_archived === 'true';
+  if (query.is_deleted) {
+    params.is_deleted = query.is_deleted === 'true';
+  }
+
+  if (query.is_admin) {
+    params.is_admin = query.is_admin === 'true';
+  }
+
+  if (query.is_active) {
+    params.is_active = query.is_active === 'true';
   }
 
   return params;

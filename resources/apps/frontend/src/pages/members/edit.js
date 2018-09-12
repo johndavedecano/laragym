@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Card, CardBody} from 'reactstrap';
-import {updateService, showService} from 'requests/services';
+import {updateMember, showMember} from 'requests/members';
 import Breadcrumbs from 'components/Breadcrumbs';
 import Form from './form';
 import Loader from 'components/Loader';
@@ -22,7 +22,7 @@ class Component extends React.Component {
     try {
       this.setState({isLoading: true});
       const {id} = this.props.match.params;
-      const {data} = await showService(id);
+      const {data} = await showMember(id);
       this.setState({
         isLoading: false,
         isNotFound: false,
@@ -37,27 +37,20 @@ class Component extends React.Component {
   get previous() {
     return [
       {
-        to: '/services',
-        label: 'Services',
+        to: '/members',
+        label: 'Members',
       },
     ];
   }
 
   get form() {
-    return (
-      <Form
-        onSubmit={this.onSubmit}
-        name={this.state.data.name}
-        description={this.state.data.description}
-        status={this.state.data.status}
-      />
-    );
+    return <Form onSubmit={this.onSubmit} {...this.state.data} />;
   }
 
   onSubmit = data => {
     const {id} = this.props.match.params;
     this.setState({isLoading: true});
-    return updateService(id, data).then(() => {
+    return updateMember(id, data).then(() => {
       this.load();
     });
   };
@@ -66,7 +59,7 @@ class Component extends React.Component {
     if (!this.state.isLoaded) return <Loader show />;
     return (
       <React.Fragment>
-        <Breadcrumbs previous={this.previous} active="Edit Service" />
+        <Breadcrumbs previous={this.previous} active="Edit Member" />
         <Card>
           <CardBody className="position-relative">
             {this.state.isNotFound && 'Page Not Found'}

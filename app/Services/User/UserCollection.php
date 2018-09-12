@@ -71,7 +71,11 @@ class UserCollection implements UserCollectionInteface
      */
     public function deleted($builder)
     {
-        $builder = $builder->where('is_deleted', request()->get('is_deleted', false));
+        $isDeleted = request()->get('is_deleted', 'false') === 'true';
+
+        $builder = $builder->where('is_deleted', $isDeleted);
+
+        $this->meta['is_deleted'] = $isDeleted;
 
         return $builder;
     }
@@ -81,7 +85,11 @@ class UserCollection implements UserCollectionInteface
      */
     public function active($builder)
     {
-        $builder = $builder->where('is_active', request()->get('is_active', true));
+        $isActive = request()->get('is_active', 'true') === 'true';
+
+        $builder = $builder->where('is_active', $isActive);
+
+        $this->meta['is_active'] = $isActive;
 
         return $builder;
     }
@@ -91,7 +99,11 @@ class UserCollection implements UserCollectionInteface
      */
     public function admin($builder)
     {
-        $builder = $builder->where('is_admin', request()->get('is_admin', false));
+        $isAdmin = request()->get('is_admin', 'false') === 'true';
+
+        $builder = $builder->where('is_admin', $isAdmin);
+
+        $this->meta['is_admin'] = $isAdmin;
 
         return $builder;
     }

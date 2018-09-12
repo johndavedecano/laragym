@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ImageRequest as Request;
-use App\Http\Controllers\Controller;
 use App\Models\Image;
 use Imageupload;
 

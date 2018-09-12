@@ -29,9 +29,9 @@ class Sidebar extends Component {
         </li>
 
         <li className="nav-item">
-          <Link className="nav-link" to="/users">
+          <Link className="nav-link" to="/members">
             <i className="fas fa-fw fa-users" />
-            <span> Users</span>
+            <span> Members</span>
           </Link>
         </li>
 

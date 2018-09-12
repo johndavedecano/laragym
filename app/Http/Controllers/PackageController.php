@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Package;
 use App\Http\Resources\PackageResource;
 use App\Http\Requests\PackageRequest as Request;
@@ -58,14 +57,6 @@ class PackageController extends Controller
     {
         $this->authorize('create', Package::class);
 
-        $this->validate($request, [
-            'amount'      => 'required|numeric',
-            'cycle_id'    => 'required|exists:cycles,id',
-            'name'        => 'required|max:126',
-            'service_id'  => 'required|exists:services,id',
-            'status'      => 'in:active,inactive,deleted'
-        ]);
-
         $model = $this->service->create([
             'amount'      => $request->get('amount'),
             'cycle_id'    => $request->get('cycle_id'),
@@ -110,14 +101,6 @@ class PackageController extends Controller
         $model = $this->service->find($id);
 
         $this->authorize('update', $model);
-
-        $this->validate($request, [
-            'amount'      => 'numeric',
-            'cycle_id'    => 'exists:cycles,id',
-            'name'        => 'max:126',
-            'service_id'  => 'exists:services,id',
-            'status'      => 'in:active,inactive,deleted'
-        ]);
 
         $this->service->update($model, $request->all());
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Services\User\UserCollection;
 use App\Services\User\UserService;
-use App\Http\Requests\UserRequest as Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -55,7 +54,7 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users,email',
             'password' => 'required|min:6|max:12|confirmed'
         ]);
 
@@ -88,6 +87,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = $this->userService->find($id);
+
         $rules = [];
 
         $this->authorize('update', $user);
@@ -96,8 +96,8 @@ class UserController extends Controller
             $rules['password'] = 'min:8|max:12|confirmed';
         }
 
-        if ($request->has('email')) {
-            $rules['email'] = 'email|unique:users,email,'.$id;
+        if ($request->has('email') && $user->email !== $request->get('email')) {
+            $rules['email'] = 'email|unique:users,email';
         }
 
         $request = $request->all();

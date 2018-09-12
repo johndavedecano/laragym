@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Service;
 use App\Http\Resources\ServiceResource;
 use App\Http\Requests\CommonRequest as Request;
@@ -38,12 +37,6 @@ class ServiceController extends Controller
     public function store(Request $request, ServiceLogic $service)
     {
         $this->authorize('create', Service::class);
-
-        $this->validate($request, [
-            'name' => 'required',
-            'description' => 'required',
-            'status' => 'in:active,inactive,deleted'
-        ]);
 
          $model = $service->create($request->all());
 

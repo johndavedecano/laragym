@@ -26,6 +26,7 @@ class UpdateUsersTable extends Migration
             $table->string('mobile')->nullable();
             $table->string('postal_code')->nullable();
             $table->string('state')->nullable();
+            $table->string('country')->nullable();
             $table->timestamp('last_login')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }

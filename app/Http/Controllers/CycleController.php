@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Cycle;
 use App\Http\Resources\CycleResource;
 use App\Http\Requests\CommonRequest as Request;
@@ -88,7 +87,6 @@ class CycleController extends Controller
 
         $this->validate($request, [
             'num_days' => 'numeric',
-            'status'   => 'in:active,inactive,deleted'
         ]);
 
         $this->authorize('update', $model);

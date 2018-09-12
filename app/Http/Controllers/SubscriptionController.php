@@ -2,17 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SubscriptionRequest as Request;
-use App\Http\Requests\SubscriptionRequest;
 use App\Constants;
-use App\Http\Controllers\Controller;
+use App\Http\Requests\SubscriptionRequest as Request;
 use App\Http\Resources\SubscriptionResource;
 use App\Models\Subscription;
-use App\Models\Package;
-use App\Models\Cycle;
 use App\Services\Subscription\SubscriptionCollection;
 use App\Services\Subscription\SubscriptionService;
-use Carbon\Carbon;
 
 /**
  * Class SubscriptionController
@@ -37,12 +32,12 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * @param SubscriptionRequest $request
+     * @param Request $request
      * @param SubscriptionService $subscriptionService
      * @return SubscriptionResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(SubscriptionRequest $request, SubscriptionService $subscriptionService)
+    public function store(Request $request, SubscriptionService $subscriptionService)
     {
         $this->authorize('create', Subscription::class);
 
@@ -72,7 +67,7 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * @param SubscriptionRequest $request
+     * @param Request $request
      * @param SubscriptionService $subscriptionService
      * @param $id
      * @return SubscriptionResource
@@ -81,14 +76,6 @@ class SubscriptionController extends Controller
     public function update(Request $request, SubscriptionService $subscriptionService, $id)
     {
         $model = $subscriptionService->find($id);
-
-        $this->validate($request, [
-            'package_id'   => 'exists:packages,id',
-            'user_id'      => 'exists:users,id',
-            'interval'     => 'numeric|min:1',
-            'suspended_at' => 'date_format:Y-m-d',
-            'status'       => 'in:active,inactive,deleted,expired,suspended'
-        ]);
 
         $this->authorize('update', $model);
 

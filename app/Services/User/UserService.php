@@ -54,9 +54,24 @@ class UserService implements UserServiceInterface
      */
     public function create($data = [])
     {
+        $data = $this->hash($data);
+
         $data = array_only($data, $this->user->getFillable());
 
         return $this->user->create($data);
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function hash($data)
+    {
+        if (isset($data['password'])) {
+            $data['password'] = hash()->make($data['password']);
+        }
+
+        return $data;
     }
 
     /**
@@ -66,6 +81,8 @@ class UserService implements UserServiceInterface
      */
     public function update(User $user, $data = [])
     {
+        $data = $this->hash($data);
+
         $data = array_only($data, $this->user->getFillable());
 
         return $this->user->where('id', $user->id)->update($data);
