@@ -7,7 +7,7 @@ import renderRoutes from './../routes';
 export default {
   exact: false,
   auth: true,
-  path: '/services',
+  path: '/subscriptions',
   component: ({routes}) => {
     return <PrivateLayout>{renderRoutes(routes)}</PrivateLayout>;
   },
@@ -15,7 +15,7 @@ export default {
     {
       exact: true,
       auth: true,
-      path: '/services',
+      path: '/subscriptions',
       component: Loadable({
         loader: () => import('./lists'),
       }),
@@ -23,7 +23,7 @@ export default {
     {
       exact: true,
       auth: true,
-      path: '/services/create',
+      path: '/subscriptions/create',
       component: Loadable({
         loader: () => import('./create'),
       }),
@@ -31,7 +31,7 @@ export default {
     {
       exact: true,
       auth: true,
-      path: '/services/:id',
+      path: '/subscriptions/:id',
       component: Loadable({
         loader: () => import('./show'),
       }),
@@ -39,7 +39,7 @@ export default {
     {
       exact: true,
       auth: true,
-      path: '/services/:id/edit',
+      path: '/subscriptions/:id/edit',
       component: Loadable({
         loader: () => import('./edit'),
       }),

@@ -61,7 +61,12 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
-        return response()->json(['error' => $exception->getMessage()], 500);
+        return response()->json([
+            'error' => $exception->getMessage(),
+            'stack' => $exception->getTrace(),
+            'file'  => $exception->getFile(),
+            'line'  => $exception->getLine(),
+        ], 500);
 
         return parent::render($request, $exception);
     }

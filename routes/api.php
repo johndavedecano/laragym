@@ -18,4 +18,10 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::resource('activities', 'ActivityController');
     Route::resource('subscriptions', 'SubscriptionController');
     Route::post('upload', 'ImageController@store');
+
+    Route::get('/stats/subscriptions', 'StatisticsController@subscriptions');
+    Route::get('/stats/services', 'StatisticsController@services');
+    Route::get('/stats/members', 'StatisticsController@members');
+    Route::get('/stats/packages', 'StatisticsController@packages');
 });
+

@@ -2,16 +2,17 @@ import React from 'react';
 import AsyncSelect from 'react-select/lib/Async';
 import Select from 'react-select';
 
-import {loadBillingCycles, showBillingCycle} from 'requests/billing-cycles';
+import {loadPackages, showPackage} from 'requests/packages';
 
-export default class ServiceSelect extends React.Component {
+export default class PackageSelect extends React.Component {
   state = {
     defaultValue: null,
     defaultOptions: [],
   };
 
   static defaultProps = {
-    name: 'cycle_id',
+    plainLabel: false,
+    name: 'service_id',
     onChange: () => {},
   };
 
@@ -31,7 +32,7 @@ export default class ServiceSelect extends React.Component {
     try {
       this.setState({isInitializing: true});
 
-      const response = await showBillingCycle(id);
+      const response = await showPackage(id);
 
       if (!this._isMounted) return;
 
@@ -48,11 +49,26 @@ export default class ServiceSelect extends React.Component {
 
   loadOptions = async q => {
     try {
-      const response = await loadBillingCycles({q, limit: 10});
+      const response = await loadPackages({q, limit: 10});
       return response.data;
     } catch (err) {
       return [];
     }
+  };
+
+  renderOptionLabel = option => {
+    if (this.props.plainLabel) return option.name || 'No Package name';
+
+    return (
+      <div>
+        <p className="mb-0 font-weight-bold text-uppercase">
+          [{option.name || 'package'}]{' '}
+          <span className="small text-muted">{`${option.service.name} $${
+            option.amount
+          } ${option.cycle.name}`}</span>
+        </p>
+      </div>
+    );
   };
 
   render() {
@@ -62,7 +78,7 @@ export default class ServiceSelect extends React.Component {
         options={this.state.defaultOptions}
         name={this.props.name}
         defaultValue={this.state.defaultValue}
-        getOptionLabel={option => option.name}
+        getOptionLabel={this.renderOptionLabel}
         getOptionValue={option => option.id}
         cacheOptions={true}
         defaultOptions

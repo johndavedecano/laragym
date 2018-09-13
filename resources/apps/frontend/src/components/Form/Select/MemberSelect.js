@@ -2,16 +2,16 @@ import React from 'react';
 import AsyncSelect from 'react-select/lib/Async';
 import Select from 'react-select';
 
-import {loadBillingCycles, showBillingCycle} from 'requests/billing-cycles';
+import {loadMembers, showMember} from 'requests/members';
 
-export default class ServiceSelect extends React.Component {
+export default class MemberSelect extends React.Component {
   state = {
     defaultValue: null,
     defaultOptions: [],
   };
 
   static defaultProps = {
-    name: 'cycle_id',
+    name: 'user_id',
     onChange: () => {},
   };
 
@@ -31,7 +31,7 @@ export default class ServiceSelect extends React.Component {
     try {
       this.setState({isInitializing: true});
 
-      const response = await showBillingCycle(id);
+      const response = await showMember(id);
 
       if (!this._isMounted) return;
 
@@ -48,7 +48,7 @@ export default class ServiceSelect extends React.Component {
 
   loadOptions = async q => {
     try {
-      const response = await loadBillingCycles({q, limit: 10});
+      const response = await loadMembers({q, limit: 10});
       return response.data;
     } catch (err) {
       return [];

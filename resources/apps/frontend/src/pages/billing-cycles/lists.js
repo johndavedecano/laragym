@@ -15,6 +15,8 @@ import Pagination from 'components/Pagination/PaginationWithFilter';
 import Status from 'components/Badges/Status';
 
 class Component extends React.Component {
+  _isMounted = false;
+
   state = {
     data: [],
     meta: {},
@@ -22,7 +24,13 @@ class Component extends React.Component {
   };
 
   componentDidMount() {
+    this._isMounted = true;
+
     this.load();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   componentDidUpdate(prevProps) {
@@ -34,7 +42,11 @@ class Component extends React.Component {
   load = async () => {
     try {
       this.setState({isLoading: true});
+
       const {data, meta} = await loadBillingCycles(queryFilters());
+
+      if (!this._isMounted) return;
+
       this.setState({
         data,
         meta,

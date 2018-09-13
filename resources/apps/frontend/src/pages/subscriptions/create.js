@@ -3,7 +3,7 @@ import React from 'react';
 import {Card, CardBody} from 'reactstrap';
 import Form from './form';
 import Breadcrumbs from 'components/Breadcrumbs';
-import {createService} from 'requests/services';
+import {createSubscription} from 'requests/subscriptions';
 
 class Component extends React.Component {
   state = {};
@@ -11,16 +11,16 @@ class Component extends React.Component {
   get previous() {
     return [
       {
-        to: '/services',
-        label: 'Services',
+        to: '/subscriptions',
+        label: 'Subscriptions',
       },
     ];
   }
 
   onSubmit = data => {
-    return createService(data).then(() => {
+    return createSubscription(data).then(() => {
       setTimeout(() => {
-        this.props.history.replace('/services');
+        this.props.history.replace('/subscriptions');
       }, 1000);
     });
   };
@@ -28,10 +28,10 @@ class Component extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Breadcrumbs previous={this.previous} active="Create Service" />
+        <Breadcrumbs previous={this.previous} active="Create Subscription" />
         <Card>
           <CardBody>
-            <Form onSubmit={this.onSubmit} />
+            <Form onSubmit={this.onSubmit} isCreate />
           </CardBody>
         </Card>
       </React.Fragment>

@@ -8,6 +8,8 @@
 
 namespace App\Services\Subscription;
 
+use App\Models\Subscription;
+
 /**
  * Class SubscriptionCollection
  * @package App\Services\Subscription
@@ -28,6 +30,11 @@ class SubscriptionCollection
      */
     protected $per_page = 30;
 
+    public function __construct(Subscription $model)
+    {
+        $this->model = $model;
+    }
+
     /**
      * @return mixed
      */
@@ -40,7 +47,8 @@ class SubscriptionCollection
             ->byCycle()
             ->byService()
             ->byStatus()
-            ->build()
+            ->byQuery()
+            ->end()
             ->paginate($this->getLimit());
 
     }
@@ -50,13 +58,20 @@ class SubscriptionCollection
      */
     public function start()
     {
-        return $this->model->orderBy('created_at', 'DESC');
+        $this->builder = $this->model
+            ->orderBy('created_at', 'DESC')
+            ->with('user')
+            ->with('cycle')
+            ->with('package')
+            ->with('service');
+
+        return $this;
     }
 
     /**
      * @return mixed
      */
-    public function build()
+    public function end()
     {
         return $this->builder;
     }
@@ -85,12 +100,27 @@ class SubscriptionCollection
     /**
      * @return $this
      */
+    public function byQuery()
+    {
+        if (request()->has('q') && request()->get('q')) {
+            $keyword = '%' . request()->get('q') . '%';
+            $this->builder = $this->builder->where('user.name', 'like', $keyword);
+            $this->meta['q'] = request()->get('q');
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
     public function byPackage()
     {
         if (request()->has('package_id') && request()->get('package_id')) {
             $this->builder = $this->builder->where('package_id', request()->get('package_id'));
             $this->meta['package_id'] = request()->get('package_id');
         }
+
         return $this;
     }
 
@@ -103,6 +133,7 @@ class SubscriptionCollection
             $this->builder = $this->builder->where('cycle_id', request()->get('cycle_id'));
             $this->meta['cycle_id'] = request()->get('cycle_id');
         }
+
         return $this;
     }
 
@@ -115,6 +146,7 @@ class SubscriptionCollection
             $this->builder = $this->builder->where('service_id', request()->get('service_id'));
             $this->meta['service_id'] = request()->get('service_id');
         }
+        
         return $this;
     }
 
@@ -134,9 +166,10 @@ class SubscriptionCollection
     /**
      * @return mixed
      */
-    public function getLimit(): mixed
+    public function getLimit()
     {
         $limit = request()->get('per_page', $this->per_page);
+
         return $limit;
     }
 }

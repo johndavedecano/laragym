@@ -3,7 +3,11 @@ import {Link} from 'react-router-dom';
 import {Row, Col} from 'reactstrap';
 import get from 'lodash/get';
 import {TableFilters} from 'components/Table';
-import StatusSelect from 'components/Form/Select/StatusSelect';
+
+import SubscriptionStatusSelect from 'components/Form/Select/SubscriptionStatusSelect';
+import PackageSelect from 'components/Form/Select/PackageSelect';
+import MemberSelect from 'components/Form/Select/MemberSelect';
+
 import Search from 'components/Form/Input/Search';
 import withFilters from 'enhancers/withFilters';
 import queryFilters from 'utils/query-filters';
@@ -15,13 +19,14 @@ class Component extends React.Component {
 
   state = queryFilters();
 
-  onChangeStatus = event => {
-    this.props.onChangeFilter('status', event.target.value);
-    this.setState({status: event.target.value});
+  onChangeFilter = (key, valueKey = 'value') => option => {
+    this.props.onChangeFilter(key, option[valueKey]);
+    this.setState({[key]: option[valueKey]});
   };
 
   onSearch = keyword => {
     this.setState({q: keyword});
+
     this.props.onChangeFilter('q', keyword);
   };
 
@@ -30,13 +35,34 @@ class Component extends React.Component {
       <TableFilters>
         <Row>
           <Col md={2}>
-            <StatusSelect
-              placeholder="All Status"
+            <SubscriptionStatusSelect
+              placeholder="Select Status"
               disabled={this.props.isLoading}
-              value={get(this.state, 'status')}
-              onChange={this.onChangeStatus}
+              defaultValue={get(this.state, 'status')}
+              onChange={this.onChangeFilter('status')}
             />
           </Col>
+
+          <Col md={2}>
+            <PackageSelect
+              placeholder="Select Package"
+              disabled={this.props.isLoading}
+              defaultValue={get(this.state, 'package_id')}
+              onChange={this.onChangeFilter('package_id', 'id')}
+              plainLabel
+            />
+          </Col>
+
+          <Col md={2}>
+            <MemberSelect
+              placeholder="Select User"
+              disabled={this.props.isLoading}
+              defaultValue={get(this.state, 'user_id')}
+              onChange={this.onChangeFilter('user_id', 'id')}
+              plainLabel
+            />
+          </Col>
+
           <Col md={2}>
             <Search
               disabled={this.props.isLoading}
@@ -45,10 +71,13 @@ class Component extends React.Component {
               onSubmit={this.onSearch}
             />
           </Col>
-          <Col md={6} />
+          <Col md={2} />
           <Col md={2}>
-            <Link to="/services/create" className="float-right btn btn-primary">
-              <i className="fa fa-plus" /> Add Service
+            <Link
+              to="/subscriptions/create"
+              className="float-right btn btn-primary"
+            >
+              <i className="fa fa-plus" /> Add Subscription
             </Link>
           </Col>
         </Row>

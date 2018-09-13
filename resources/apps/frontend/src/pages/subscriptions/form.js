@@ -1,18 +1,22 @@
 import React from 'react';
 import serialize from 'form-serialize';
-import {Form, FormGroup, Input, Label, Button} from 'reactstrap';
+import {Form, FormGroup, Input, Label, Button, Row, Col} from 'reactstrap';
+
+import MemberSelect from 'components/Form/Select/MemberSelect';
+import SubscriptionStatusSelect from 'components/Form/Select/SubscriptionStatusSelect';
+import PackageSelect from 'components/Form/Select/PackageSelect';
 
 import getErrorMessage from 'utils/getErrorMessage';
 import notify from 'utils/notify';
-import StatusSelect from 'components/Form/Select/StatusSelect';
+import date from 'utils/date';
 
 export default class extends React.Component {
   static defaultProps = {
     successMessage: 'Successfully submitted',
-    name: undefined,
-    description: undefined,
-    status: '',
     onSubmit: () => {},
+    isCreate: false,
+    status: 'active',
+    interval: 1,
   };
 
   state = {
@@ -43,47 +47,94 @@ export default class extends React.Component {
   render() {
     return (
       <Form onSubmit={this.onSubmit}>
-        <FormGroup>
-          <Label for="Name">Name</Label>
-          <Input
-            type="text"
-            name="name"
-            id="name"
-            bsSize="lg"
-            placeholder="Name"
-            required
-            defaultValue={this.props.name}
-            disabled={this.state.isSubmitting}
-          />
-        </FormGroup>
+        <Row>
+          <Col md={6}>
+            <FormGroup>
+              <Label for="user_id">Member</Label>
+              <MemberSelect
+                name="user_id"
+                id="user_id"
+                placeholder="Select Member"
+                defaultValue={this.props.user_id}
+              />
+            </FormGroup>
+          </Col>
+          <Col md={6}>
+            <FormGroup>
+              <Label for="package_id">Package</Label>
+              <PackageSelect
+                name="package_id"
+                id="package_id"
+                placeholder="Select Package"
+                defaultValue={this.props.package_id}
+              />
+            </FormGroup>
+          </Col>
+        </Row>
 
-        <FormGroup>
-          <Label for="description">Description</Label>
-          <Input
-            type="textarea"
-            name="description"
-            id="description"
-            bsSize="lg"
-            required
-            defaultValue={this.props.description}
-            disabled={this.state.isSubmitting}
-          />
-        </FormGroup>
+        <Row>
+          <Col md={6}>
+            <FormGroup>
+              <Label for="interval">Interval</Label>
+              <Input
+                type="number"
+                name="interval"
+                id="interval"
+                required
+                min={1}
+                defaultValue={this.props.interval}
+              />
+            </FormGroup>
+          </Col>
+          <Col md={6}>
+            <FormGroup>
+              <Label for="status">Status</Label>
+              <SubscriptionStatusSelect
+                name="status"
+                id="status"
+                placeholder="Select Status"
+                defaultValue={this.props.status}
+                isDisabled={this.props.isCreate}
+              />
+            </FormGroup>
+          </Col>
+        </Row>
 
-        {this.props.status && (
-          <FormGroup>
-            <Label for="status">Status</Label>
-            <StatusSelect
-              bsSize="lg"
-              defaultValue={this.props.status}
-              name="status"
-            />
-          </FormGroup>
-        )}
+        <Row>
+          <Col md={6}>
+            <FormGroup>
+              <Label for="expires_at">Expiration At</Label>
+              <input
+                className="form-control"
+                type="date"
+                name="expires_at"
+                id="expires_at"
+                required
+                min={1}
+                defaultValue={date(this.props.expires_at, 'YYYY-MM-DD')}
+                disabled={this.props.isCreate}
+              />
+            </FormGroup>
+          </Col>
+          <Col md={6}>
+            <FormGroup>
+              <Label for="suspended_at">Suspended At</Label>
+              <input
+                className="form-control"
+                type="date"
+                name="suspended_at"
+                id="suspended_at"
+                required
+                min={1}
+                defaultValue={date(this.props.suspended_at, 'YYYY-MM-DD')}
+                disabled={this.props.isCreate}
+              />
+            </FormGroup>
+          </Col>
+        </Row>
 
         <Button
           color="primary"
-          size="lg"
           className="float-right"
           disabled={this.state.isSubmitting}
         >

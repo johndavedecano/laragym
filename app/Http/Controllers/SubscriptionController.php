@@ -54,7 +54,7 @@ class SubscriptionController extends Controller
      */
     public function show(SubscriptionService $service, $id)
     {
-        $model = $service->findOrFail($id);
+        $model = $service->find($id);
 
         $this->authorize('view', $model);
 

@@ -14,19 +14,19 @@ class Sidebar extends Component {
           </Link>
         </li>
 
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <Link className="nav-link" to="/activies">
             <i className="fas fa-fw fa-user-clock" />
             <span> Activities</span>
           </Link>
-        </li>
+        </li> */}
 
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <Link className="nav-link" to="/attendance">
             <i className="fas fa-fw fa-calendar-alt" />
             <span> Attendance</span>
           </Link>
-        </li>
+        </li> */}
 
         <li className="nav-item">
           <Link className="nav-link" to="/members">
@@ -35,12 +35,12 @@ class Sidebar extends Component {
           </Link>
         </li>
 
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <Link className="nav-link" to="/invoices">
             <i className="fas fa-fw fa-file-invoice-dollar" />
             <span> Invoices</span>
           </Link>
-        </li>
+        </li> */}
 
         <li className="nav-item">
           <Link className="nav-link" to="/subscriptions">

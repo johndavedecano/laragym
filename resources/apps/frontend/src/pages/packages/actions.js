@@ -33,7 +33,7 @@ class Component extends React.Component {
             <StatusSelect
               placeholder="All Status"
               disabled={this.props.isLoading}
-              value={get(this.state, 'status')}
+              defaultValue={get(this.state, 'status')}
               onChange={this.onChangeStatus}
             />
           </Col>

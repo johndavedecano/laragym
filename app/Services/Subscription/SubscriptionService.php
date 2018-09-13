@@ -69,16 +69,15 @@ class SubscriptionService
 
         $cycle = $this->cycle->findOrFail($package->cycle_id);
 
-        $interval = $request->get('interval', 1);
+        $interval = isset($request['interval']) ? $request['interval'] : 1;
 
-        $model = $this->model->create([
-            'package_id' => $request['package_id'],
-            'user_id' => $request['user_id'],
-            'service_id' => $package->service_id,
-            'cycle_id' => $package->cycle_id,
-            'interval' => $interval,
-            'expires_at' => Carbon::now()->addDays($cycle->num_days * $interval),
-            'suspended_at' => $request['suspended_at'],
+        $model = $this->subscription->create([
+            'package_id'   => $request['package_id'],
+            'user_id'      => $request['user_id'],
+            'service_id'   => $package->service_id,
+            'cycle_id'     => $package->cycle_id,
+            'interval'     => $interval,
+            'expires_at'   => Carbon::now()->addDays($cycle->num_days * $interval),
         ]);
 
         return $model;

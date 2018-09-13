@@ -7,7 +7,7 @@ export default function(t) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   const errorHandler = error => {
-    if (401 === error.response.status) {
+    if (error.response && 401 === error.response.status) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location = '/auth/login';

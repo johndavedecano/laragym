@@ -48,7 +48,7 @@ export default class ServiceSelect extends React.Component {
 
   loadOptions = async q => {
     try {
-      const response = await loadServices({q});
+      const response = await loadServices({q, limit: 10});
       return response.data;
     } catch (err) {
       return [];

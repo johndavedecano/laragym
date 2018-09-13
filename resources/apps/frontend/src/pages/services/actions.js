@@ -33,7 +33,7 @@ class Component extends React.Component {
             <StatusSelect
               placeholder="All Status"
               disabled={this.props.isLoading}
-              value={get(this.state, 'status')}
+              defaultValue={get(this.state, 'status')}
               onChange={this.onChangeStatus}
             />
           </Col>
@@ -41,7 +41,7 @@ class Component extends React.Component {
             <Search
               disabled={this.props.isLoading}
               name="search"
-              value={get(this.state, 'q')}
+              defaultValue={get(this.state, 'q')}
               onSubmit={this.onSearch}
             />
           </Col>

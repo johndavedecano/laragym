@@ -10,11 +10,13 @@ import queryFilters from 'utils/query-filters';
 import notify from 'utils/notify';
 import date from 'utils/date';
 import getErrorMessage from 'utils/getErrorMessage';
-import {loadServices, destroyService} from 'requests/services';
+import {loadSubscriptions, destroySubscription} from 'requests/subscriptions';
 import Pagination from 'components/Pagination/PaginationWithFilter';
-import Status from 'components/Badges/Status';
+import StatusBadge from 'components/Badges/Status';
 
 class Component extends React.Component {
+  _isMounted = false;
+
   state = {
     data: [],
     meta: {},
@@ -22,7 +24,12 @@ class Component extends React.Component {
   };
 
   componentDidMount() {
+    this._isMounted = true;
     this.load();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   componentDidUpdate(prevProps) {
@@ -34,7 +41,11 @@ class Component extends React.Component {
   load = async () => {
     try {
       this.setState({isLoading: true});
-      const {data, meta} = await loadServices(queryFilters());
+
+      const {data, meta} = await loadSubscriptions(queryFilters());
+
+      if (!this._isMounted) return;
+
       this.setState({
         data,
         meta,
@@ -55,17 +66,25 @@ class Component extends React.Component {
   }
 
   get headers() {
-    return ['ID', 'Name', 'Status', 'Updated', 'Actions'];
+    return [
+      'ID',
+      'Member',
+      'Package',
+      'Service',
+      'Status',
+      'Expiration',
+      'Actions',
+    ];
   }
 
   getTableActions() {}
 
   onConfirm = ({payload, type}) => {
-    if (type === 'delete') return destroyService(payload.id);
+    if (type === 'delete') return destroySubscription(payload.id);
   };
 
   getTableActions = payload => {
-    let actions = [{label: 'Edit', href: `/services/${payload.id}/edit`}];
+    let actions = [{label: 'Edit', href: `/subscriptions/${payload.id}/edit`}];
 
     if (payload.status !== 'deleted') {
       actions.push({
@@ -95,12 +114,24 @@ class Component extends React.Component {
       <tr key={item.id}>
         <td>{item.id}</td>
         <td>
-          <Link to={`/services/${item.id}`}>{item.name}</Link>
+          <Link to={`/subscriptions/${item.id}`}>{item.user.name}</Link>
+          <div>
+            <span className="small text-muted">{item.user.email}</span>
+          </div>
         </td>
+        <td className="align-center">
+          {item.package.name}
+          <div>
+            <span className="small text-muted text-lowercase">
+              ${item.package.amount} {item.cycle.name}
+            </span>
+          </div>
+        </td>
+        <td className="align-center">{item.service.name}</td>
         <td className="align-center text-center">
-          <Status value={item.status} />
+          <StatusBadge value={item.status} />
         </td>
-        <td>{date(item.updated_at)}</td>
+        <td>{date(item.expires_at)}</td>
         <td>
           <div className="d-flex justify-content-center">
             <TableActions
@@ -118,7 +149,7 @@ class Component extends React.Component {
   render() {
     return (
       <Card>
-        <CardHeader>Manage Services</CardHeader>
+        <CardHeader>Manage Subscriptions</CardHeader>
         <CardActions isLoading={this.state.isLoading} />
         <CardBody className="position-relative">
           {this.loader}
