@@ -9,7 +9,7 @@ Finally a gym management system build with laravel and reactjs. Comes with power
 1. packages - create custom packages.
 2. members - user management system.
 3. services and billing cycles - annually, weekly, daily, fixed etc.
-4. attendance(pending) - tracks who is currently on the gym.
+4. attendance - tracks who is currently on the gym.
 5. activities or system logs(pending)
 6. settings(pending) - system settings.
 7. chats(pending) - ability send message to members.
