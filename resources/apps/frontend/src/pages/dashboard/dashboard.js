@@ -1,10 +1,18 @@
 import React, {Component} from 'react';
 import {PrivateLayout} from 'components/Layouts';
-import {Card, CardBody, CardHeader, Row, Col} from 'reactstrap';
+import {Card, CardBody, CardHeader, Row, Col, Form, Button} from 'reactstrap';
+import serialize from 'form-serialize';
 
 import StatisticCard from './StatisticCard';
 import Loader from 'components/Loader';
 import {load} from 'requests/statistics';
+import Attendance from './Attendance';
+import Activities from './Activities';
+import MemberSelect from 'components/Form/Select/MemberSelect';
+import LoginTypeSelect from 'components/Form/Select/LoginTypeSelect';
+import notify from 'utils/notify';
+import getErrorMessage from 'utils/getErrorMessage';
+import {createAttendance} from 'requests/activities';
 
 class Dashboard extends Component {
   state = {
@@ -13,6 +21,7 @@ class Dashboard extends Component {
     members: 0,
     packages: 0,
     isLoading: false,
+    isSubmitting: false,
   };
 
   componentDidMount() {
@@ -33,6 +42,34 @@ class Dashboard extends Component {
       });
   }
 
+  onSubmit = async event => {
+    try {
+      event.preventDefault();
+
+      this.setState({isSubmitting: true});
+
+      const form = event.target;
+
+      const data = serialize(form, {hash: true});
+
+      await createAttendance(data);
+
+      await this.attendance.load();
+
+      this.setState({isSubmitting: false});
+
+      notify({
+        type: 'success',
+        text: 'Successfully Submitted',
+      });
+    } catch (err) {
+      notify({
+        type: 'error',
+        text: getErrorMessage(err),
+      });
+    }
+  };
+
   render() {
     return (
       <PrivateLayout>
@@ -41,33 +78,33 @@ class Dashboard extends Component {
           <Col md={3}>
             <StatisticCard
               color="primary"
+              iconClass="fa-id-card"
               message={`${this.state.subscriptions} subscriptions`}
               messageLink="/subscriptions"
-              iconClass="fa-id-card"
             />
           </Col>
           <Col md={3}>
             <StatisticCard
               color="warning"
+              iconClass="fa-server"
               message={`${this.state.services} services`}
               messageLink="/services"
-              iconClass="fa-server"
             />
           </Col>
           <Col md={3}>
             <StatisticCard
               color="danger"
+              iconClass="fa-box"
               message={`${this.state.packages} packages`}
               messageLink="/packages"
-              iconClass="fa-box"
             />
           </Col>
           <Col md={3}>
             <StatisticCard
               color="success"
+              iconClass="fa-users"
               message={`${this.state.members} members`}
               messageLink="/members"
-              iconClass="fa-users"
             />
           </Col>
         </Row>
@@ -75,13 +112,58 @@ class Dashboard extends Component {
           <Col md={6}>
             <Card>
               <CardHeader>Latest Activities</CardHeader>
-              <CardBody>Coming Soon</CardBody>
+              <CardBody>
+                <Activities
+                  ref={activities => (this.activities = activities)}
+                  limit={10}
+                />
+              </CardBody>
             </Card>
           </Col>
           <Col md={6}>
+            <Card className="mb-3">
+              <CardHeader>Login Member</CardHeader>
+              <CardBody>
+                <Form onSubmit={this.onSubmit}>
+                  <Row>
+                    <Col md={6}>
+                      <MemberSelect
+                        disabled={this.state.isSubmitting}
+                        isRequired
+                        name="user_id"
+                        placeholder="Select User"
+                        plainLabel
+                      />
+                    </Col>
+                    <Col md={4}>
+                      <LoginTypeSelect
+                        disabled={this.state.isSubmitting}
+                        isRequired
+                        name="description"
+                        placeholder="Select Type"
+                        plainLabel
+                      />
+                    </Col>
+                    <Col md={2}>
+                      <Button
+                        color="primary"
+                        disabled={this.state.isSubmitting}
+                      >
+                        {this.state.isSubmitting ? 'Please Wait...' : 'Submit'}
+                      </Button>
+                    </Col>
+                  </Row>
+                </Form>
+              </CardBody>
+            </Card>
             <Card>
               <CardHeader>Todays Attendance</CardHeader>
-              <CardBody>Coming Soon</CardBody>
+              <CardBody>
+                <Attendance
+                  limit={5}
+                  ref={attendance => (this.attendance = attendance)}
+                />
+              </CardBody>
             </Card>
           </Col>
         </Row>

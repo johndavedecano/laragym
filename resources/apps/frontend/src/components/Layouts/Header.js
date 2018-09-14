@@ -54,9 +54,9 @@ class Header extends React.Component {
                   <Link className="dropdown-item" to="/account">
                     Account
                   </Link>
-                  <Link className="dropdown-item" to="/settings">
+                  {/* <Link className="dropdown-item" to="/settings">
                     Settings
-                  </Link>
+                  </Link> */}
                   <DropdownItem divider />
                   <Link
                     onClick={this.logout}

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Services\Activity\ActivityService;
 use App\Services\User\UserAuthService;
 
 class LoginController extends Controller
@@ -34,6 +35,8 @@ class LoginController extends Controller
             ]);
 
             $token = $this->authService->token($user);
+
+            ActivityService::log($user->id, "$user->name has logged in to the system.");
 
             return response()
                 ->json([

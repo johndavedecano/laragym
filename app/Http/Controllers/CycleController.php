@@ -7,6 +7,7 @@ use App\Http\Resources\CycleResource;
 use App\Http\Requests\CommonRequest as Request;
 use App\Exceptions\DefaultEntityException;
 use App\Exceptions\SubscriptionException;
+use App\Services\Activity\ActivityService;
 use App\Services\Cycle\CycleCollection;
 use App\Services\Cycle\CycleService;
 
@@ -58,6 +59,8 @@ class CycleController extends Controller
 
         $model = $this->cycle->create($request->all());
 
+        ActivityService::log($model->id, "Billing cycle #$model->id was created.");
+
         return new CycleResource($model);
     }
 
@@ -93,6 +96,8 @@ class CycleController extends Controller
 
         $model = $this->cycle->update($model, $request->all());
 
+        ActivityService::log($model->id, "Billing cycle #$model->id was updated.");
+
         return new CycleResource($model);
     }
 
@@ -108,6 +113,8 @@ class CycleController extends Controller
         $this->authorize('delete', $model);
 
         $this->cycle->delete($model);
+
+        ActivityService::log($model->id, "Billing cycle #$model->id was deleted.");
 
         return new CycleResource($model);
     }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants;
 use App\Http\Resources\ActivityResource;
 use App\Services\Activity\ActivityCollection;
 use App\Services\Activity\ActivityService;
@@ -40,13 +39,11 @@ class ActivityController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function system(Request $request)
     {
         $request = $request->all();
 
-        $request['type'] = Constants::ACTIVITY_SYSTEM;
-
-        $response = $this->collection->list($request);
+        $response = $this->collection->system($request);
 
         $collection = ActivityResource::collection($response);
 
@@ -59,13 +56,11 @@ class ActivityController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function attendanceIndex(Request $request)
+    public function attendance(Request $request)
     {
         $request = $request->all();
 
-        $request['type'] = Constants::ACTIVITY_ATTENDANCE;
-
-        $response = $this->collection->list($request);
+        $response = $this->collection->attendance($request);
 
         $collection = ActivityResource::collection($response);
 

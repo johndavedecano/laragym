@@ -47,11 +47,29 @@ class ActivityService
         return $results;
     }
 
+    /**
+     * @param $userId
+     * @param $description
+     * @return mixed
+     */
     public function attend($userId, $description)
     {
         return $this->activity->create([
             'entity_id' => $userId,
             'type' => Constants::ACTIVITY_ATTENDANCE,
+            'description' => "User #$userId has $description",
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @param $description
+     */
+    public static function log($id, $description)
+    {
+        Activity::create([
+            'entity_id' => $id,
+            'type' => Constants::ACTIVITY_SYSTEM,
             'description' => $description,
         ]);
     }

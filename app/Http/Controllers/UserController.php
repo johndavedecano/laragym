@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Activity\ActivityService;
 use App\Services\User\UserCollection;
 use App\Services\User\UserService;
 use App\Http\Resources\UserResource;
@@ -60,6 +61,8 @@ class UserController extends Controller
 
         $model = $this->userService->create($request->all());
 
+        ActivityService::log($model->id, "#$model->id user account was created.");
+
         return new UserResource($model);
     }
 
@@ -104,6 +107,8 @@ class UserController extends Controller
 
         $response = $this->userService->update($user, $request);
 
+        ActivityService::log($user->id, "#$user->id user account was updated.");
+
         return response()->json($response);
 
         return new UserResource($response);
@@ -122,6 +127,8 @@ class UserController extends Controller
         $this->authorize('delete', $user);
 
         $user = $this->userService->delete($user);
+
+        ActivityService::log($user->id, "#$user->id user account was deleted.");
 
         return new UserResource($user);
     }

@@ -7,6 +7,7 @@ use App\Http\Resources\ServiceResource;
 use App\Http\Requests\CommonRequest as Request;
 use App\Exceptions\DefaultEntityException;
 use App\Exceptions\SubscriptionException;
+use App\Services\Activity\ActivityService;
 use App\Services\Service\ServiceCollection;
 use App\Services\Service\ServiceLogic;
 
@@ -39,6 +40,8 @@ class ServiceController extends Controller
         $this->authorize('create', Service::class);
 
          $model = $service->create($request->all());
+
+         ActivityService::log($model->id, "Service #$model->id was created.");
 
          return new ServiceResource($model);
     }
@@ -79,6 +82,8 @@ class ServiceController extends Controller
 
         $service->update($model, $request->all());
 
+        ActivityService::log($model->id, "Service #$model->id was updated.");
+
         return new ServiceResource($model);
     }
 
@@ -95,6 +100,8 @@ class ServiceController extends Controller
         $this->authorize('delete', $model);
 
         $service->delete($model);
+
+        ActivityService::log($model->id, "Service #$model->id was deleted.");
 
         return new ServiceResource($model);
     }

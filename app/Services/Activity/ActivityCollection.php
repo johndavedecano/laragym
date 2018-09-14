@@ -8,6 +8,7 @@
 
 namespace App\Services\Activity;
 
+use App\Constants;
 use App\Models\Activity;
 
 /**
@@ -55,13 +56,12 @@ class ActivityCollection
     }
 
     /**
+     * @param $builder
      * @param array $request
      * @return mixed
      */
-    public function list($request = [])
+    public function base($builder, $request = [])
     {
-        $builder = $this->activity->select('*');
-
         $builder = $this->order($builder, $request);
 
         if (isset($request['entity_id'])) {
@@ -73,6 +73,48 @@ class ActivityCollection
             $builder = $builder->where('type', $request['type']);
             $this->meta['type'] = $request['type'];
         }
+
+        if (isset($request['q'])) {
+            $keyword = '%' . $request['q'] . '%';
+            $builder = $builder->where('description', 'like', $keyword);
+            $this->meta['q'] = $request['q'];
+        }
+
+        return $builder;
+    }
+
+    /**
+     * @param array $request
+     * @return mixed
+     */
+    public function system($request = [])
+    {
+        $builder = $this->activity->select('*');
+
+        $request['type'] = Constants::ACTIVITY_SYSTEM;
+
+        $builder = $this->base($builder, $request);
+
+        $limit = isset($request['limit']) ? (int)$request['limit'] : 25;
+
+        return $builder->paginate($limit);
+    }
+
+    /**
+     * @param array $request
+     * @return mixed
+     */
+    public function attendance($request = [])
+    {
+        $builder = $this->activity->select([
+            'activities.*', 'users.name', 'users.id AS user_id', 'users.avatar', 'users.email'
+        ]);
+
+        $builder =  $builder->join('users', 'users.id', '=', 'activities.entity_id');
+
+        $request['type'] = Constants::ACTIVITY_ATTENDANCE;
+
+        $builder = $this->base($builder, $request);
 
         $limit = isset($request['limit']) ? (int)$request['limit'] : 25;
 

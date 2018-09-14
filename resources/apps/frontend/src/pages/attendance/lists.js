@@ -1,5 +1,6 @@
 import React from 'react';
 import {Card, CardBody, CardHeader} from 'reactstrap';
+import {Link} from 'react-router-dom';
 import {Table} from 'components/Table';
 import TableActions from 'components/Table/TableActions';
 import Confirm from 'components/Dialogs/Confirm';
@@ -9,7 +10,7 @@ import queryFilters from 'utils/query-filters';
 import notify from 'utils/notify';
 import date from 'utils/date';
 import getErrorMessage from 'utils/getErrorMessage';
-import {loadSystemLogs, destroyAttendance} from 'requests/activities';
+import {loadAttendance, destroyAttendance} from 'requests/activities';
 import Pagination from 'components/Pagination/PaginationWithFilter';
 
 class Component extends React.Component {
@@ -41,7 +42,7 @@ class Component extends React.Component {
     try {
       this.setState({isLoading: true});
 
-      const {data, meta} = await loadSystemLogs(queryFilters());
+      const {data, meta} = await loadAttendance(queryFilters());
 
       if (!this._isMounted) return;
 
@@ -65,7 +66,7 @@ class Component extends React.Component {
   }
 
   get headers() {
-    return ['ID', 'Description', 'Date', 'Actions'];
+    return ['ID', 'Name', 'Description', 'Date', 'Actions'];
   }
 
   getTableActions() {}
@@ -104,6 +105,12 @@ class Component extends React.Component {
     return (
       <tr key={item.id}>
         <td>{item.id}</td>
+        <td>
+          <Link to={`/members/${item.user_id}`}>{item.name}</Link>
+          <div>
+            <span className="small text-muted">{item.email}</span>
+          </div>
+        </td>
         <td className="align-center">{item.description}</td>
         <td>{date(item.created_at)}</td>
         <td>
@@ -123,7 +130,7 @@ class Component extends React.Component {
   render() {
     return (
       <Card>
-        <CardHeader>Activity Logs</CardHeader>
+        <CardHeader>Manage Attendance</CardHeader>
         <CardActions isLoading={this.state.isLoading} />
         <CardBody className="position-relative">
           {this.loader}

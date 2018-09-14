@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SignUpRequest;
+use App\Services\Activity\ActivityService;
 use App\Services\User\UserAuthService;
 use Illuminate\Support\Facades\Config;
 
@@ -40,6 +41,8 @@ class SignUpController extends Controller
                 'token' => ''
             ], 201);
         }
+
+        ActivityService::log($user->id, "User #$user->id has signed up.");
 
         return response()->json([
             'status' => 'ok',

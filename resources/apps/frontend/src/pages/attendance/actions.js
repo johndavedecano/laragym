@@ -36,7 +36,7 @@ class Component extends React.Component {
         <Row>
           <Col md={2}>
             <MemberSelect
-              placeholder="Select Entity"
+              placeholder="Select User"
               disabled={this.props.isLoading}
               defaultValue={get(this.state, 'entity_id')}
               onChange={this.onChangeFilter('entity_id', 'id')}

@@ -6,6 +6,7 @@ use App\Constants;
 use App\Http\Requests\SubscriptionRequest as Request;
 use App\Http\Resources\SubscriptionResource;
 use App\Models\Subscription;
+use App\Services\Activity\ActivityService;
 use App\Services\Subscription\SubscriptionCollection;
 use App\Services\Subscription\SubscriptionService;
 
@@ -42,6 +43,8 @@ class SubscriptionController extends Controller
         $this->authorize('create', Subscription::class);
 
         $subscription = $subscriptionService->create($request->all());
+
+        ActivityService::log($subscription->id, "Subscription #$subscription->id was created.");
 
         return new SubscriptionResource($subscription);
     }
@@ -83,6 +86,8 @@ class SubscriptionController extends Controller
 
         $model->update($data);
 
+        ActivityService::log($model->id, "Subscription #$model->id was updated.");
+
         return new SubscriptionResource($model);
     }
 
@@ -101,6 +106,8 @@ class SubscriptionController extends Controller
         $model->status = Constants::STATUS_DELETED;
 
         $model->save();
+
+        ActivityService::log($model->id, "Subscription #$model->id was deleted.");
 
         return new SubscriptionResource($model);
     }

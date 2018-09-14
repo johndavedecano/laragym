@@ -14,19 +14,19 @@ class Sidebar extends Component {
           </Link>
         </li>
 
-        {/* <li className="nav-item">
-          <Link className="nav-link" to="/activies">
+        <li className="nav-item">
+          <Link className="nav-link" to="/activities">
             <i className="fas fa-fw fa-user-clock" />
             <span> Activities</span>
           </Link>
-        </li> */}
+        </li>
 
-        {/* <li className="nav-item">
+        <li className="nav-item">
           <Link className="nav-link" to="/attendance">
             <i className="fas fa-fw fa-calendar-alt" />
             <span> Attendance</span>
           </Link>
-        </li> */}
+        </li>
 
         <li className="nav-item">
           <Link className="nav-link" to="/members">
@@ -41,28 +41,24 @@ class Sidebar extends Component {
             <span> Invoices</span>
           </Link>
         </li> */}
-
         <li className="nav-item">
           <Link className="nav-link" to="/subscriptions">
             <i className="fas fa-fw fa-id-card" />
             <span> Subscriptions</span>
           </Link>
         </li>
-
         <li className="nav-item">
           <Link className="nav-link" to="/packages">
             <i className="fas fa-fw fa-box" />
             <span> Packages</span>
           </Link>
         </li>
-
         <li className="nav-item">
           <Link className="nav-link" to="/billing-cycles">
             <i className="fas fa-fw fa-clock" />
             <span> Billing Cycles</span>
           </Link>
         </li>
-
         <li className="nav-item">
           <Link className="nav-link" to="/services">
             <i className="fas fa-fw fa-server" />

@@ -6,6 +6,7 @@ use App\Models\Package;
 use App\Http\Resources\PackageResource;
 use App\Http\Requests\PackageRequest as Request;
 use App\Exceptions\SubscriptionException;
+use App\Services\Activity\ActivityService;
 use App\Services\Package\PackageCollection;
 use App\Services\Package\PackageService;
 
@@ -64,6 +65,8 @@ class PackageController extends Controller
             'service_id'  => $request->get('service_id'),
         ]);
 
+        ActivityService::log($model->id, "Package #$model->id was created.");
+
         return new PackageResource($model);
     }
 
@@ -104,6 +107,8 @@ class PackageController extends Controller
 
         $this->service->update($model, $request->all());
 
+        ActivityService::log($model->id, "Package #$model->id was updated.");
+
         return new PackageResource($model);
     }
 
@@ -119,6 +124,8 @@ class PackageController extends Controller
         $this->authorize('delete', $model);
 
         $this->service->destroy($model);
+
+        ActivityService::log($model->id, "Package #$model->id was deleted.");
 
         return new PackageResource($model);
     }

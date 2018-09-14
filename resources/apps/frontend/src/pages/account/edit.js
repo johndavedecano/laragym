@@ -1,8 +1,6 @@
 import React from 'react';
-
-import {Card, CardBody} from 'reactstrap';
-import {updateService, showService} from 'requests/services';
-import Breadcrumbs from 'components/Breadcrumbs';
+import {Card, CardBody, CardHeader} from 'reactstrap';
+import {updateMember, showMember} from 'requests/members';
 import Form from './form';
 import Loader from 'components/Loader';
 
@@ -15,14 +13,24 @@ class Component extends React.Component {
   };
 
   componentDidMount() {
-    this.load();
+    this.user = this.user();
+    this.load(this.user.id);
   }
 
-  load = async () => {
+  user() {
+    try {
+      return JSON.parse(localStorage.getItem('user'));
+    } catch (err) {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      window.location.replace('/login');
+    }
+  }
+
+  load = async id => {
     try {
       this.setState({isLoading: true});
-      const {id} = this.props.match.params;
-      const {data} = await showService(id);
+      const {data} = await showMember(id);
       this.setState({
         isLoading: false,
         isNotFound: false,
@@ -34,40 +42,21 @@ class Component extends React.Component {
     }
   };
 
-  get previous() {
-    return [
-      {
-        to: '/services',
-        label: 'Services',
-      },
-    ];
-  }
-
   get form() {
-    return (
-      <Form
-        onSubmit={this.onSubmit}
-        name={this.state.data.name}
-        description={this.state.data.description}
-        status={this.state.data.status}
-      />
-    );
+    return <Form onSubmit={this.onSubmit} {...this.state.data} />;
   }
 
   onSubmit = data => {
-    const {id} = this.props.match.params;
     this.setState({isLoading: true});
-    return updateService(id, data).then(() => {
-      this.load();
-    });
+    return updateMember(this.user.id, data);
   };
 
   render() {
     if (!this.state.isLoaded) return <Loader show />;
     return (
       <React.Fragment>
-        <Breadcrumbs previous={this.previous} active="Edit Service" />
         <Card>
+          <CardHeader>Update Account</CardHeader>
           <CardBody className="position-relative">
             {this.state.isNotFound && 'Page Not Found'}
             {this.form}

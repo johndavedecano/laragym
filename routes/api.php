@@ -25,11 +25,11 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
 
     Route::group(['prefix' => 'activities'], function() {
-        Route::get('/', 'ActivitiesController@index');
-        Route::get('/attendance', 'ActivitiesController@attendanceIndex');
-        Route::post('/attendance', 'ActivitiesController@store');
-        Route::delete('/attendance/{id}', 'ActivitiesController@destroy');
-        Route::get('/attendance/{id}', 'ActivitiesController@show');
+        Route::get('system', 'ActivityController@system');
+        Route::get('attendance', 'ActivityController@attendance');
+        Route::post('attendance', 'ActivityController@store');
+        Route::delete('attendance/{id}', 'ActivityController@destroy');
+        Route::get('attendance/{id}', 'ActivityController@show');
     });
 });
 
