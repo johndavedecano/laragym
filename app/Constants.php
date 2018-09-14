@@ -20,4 +20,8 @@ class Constants
     const STATUS_SUSPENDED = 'suspended';
 
     const STATUS_EXPIRED = 'expired';
+
+    const ACTIVITY_ATTENDANCE = 'attendance';
+
+    const ACTIVITY_SYSTEM = 'system';
 }

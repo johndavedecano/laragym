@@ -7,12 +7,7 @@
 
 namespace App\Models;
 
-use Reliese\Database\Eloquent\Model as Eloquent;
-use App\Models\HasService;
-use App\Models\HasCycle;
-use App\Models\HasPackage;
-use App\Models\HasUser;
-
+use Illuminate\Database\Eloquent\Model;
 /**
  * Class Subscription
  *
@@ -28,7 +23,7 @@ use App\Models\HasUser;
  *
  * @package App\Models
  */
-class Subscription extends Eloquent
+class Subscription extends Model
 {
     use HasService;
 

@@ -14,6 +14,12 @@ class ActivitySeeder extends Seeder
     {
         Activity::truncate();
 
-        factory(App\Models\Activity::class, 10)->create(['user_id' => 1]);
+        foreach (range(0, 10) as $key) {
+            Activity::create([
+                'entity_id' => 1,
+                'type' => \App\Constants::ACTIVITY_ATTENDANCE,
+                'description' => 'login'
+            ]);
+        }
     }
 }

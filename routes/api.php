@@ -15,7 +15,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::resource('services', 'ServiceController');
     Route::resource('packages', 'PackageController');
     Route::resource('users', 'UserController');
-    Route::resource('activities', 'ActivityController');
     Route::resource('subscriptions', 'SubscriptionController');
     Route::post('upload', 'ImageController@store');
 
@@ -23,5 +22,14 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('/stats/services', 'StatisticsController@services');
     Route::get('/stats/members', 'StatisticsController@members');
     Route::get('/stats/packages', 'StatisticsController@packages');
+
+
+    Route::group(['prefix' => 'activities'], function() {
+        Route::get('/', 'ActivitiesController@index');
+        Route::get('/attendance', 'ActivitiesController@attendanceIndex');
+        Route::post('/attendance', 'ActivitiesController@store');
+        Route::delete('/attendance/{id}', 'ActivitiesController@destroy');
+        Route::get('/attendance/{id}', 'ActivitiesController@show');
+    });
 });
 

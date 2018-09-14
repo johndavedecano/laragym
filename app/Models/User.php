@@ -11,7 +11,6 @@ use Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use App\Models\HasSubscriptions;
 
 /**
  * Class User

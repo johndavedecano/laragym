@@ -7,22 +7,20 @@
 
 namespace App\Models;
 
-use Reliese\Database\Eloquent\Model as Eloquent;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Cycle
- * 
- * @property int $id
- * @property string $name
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- *
+ * Class Activity
  * @package App\Models
  */
-class Activity extends Eloquent
+class Activity extends Model
 {
+    /**
+     * @var array
+     */
 	protected $fillable = [
-        'user_id',
-		'name'
+        'entity_id',
+        'type',
+		'description'
 	];
 }

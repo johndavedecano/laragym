@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Activity;
+use App\Constants;
 use App\Http\Resources\ActivityResource;
-use App\Http\Requests\CommonRequest as Request;
+use App\Services\Activity\ActivityCollection;
+use App\Services\Activity\ActivityService;
+use Illuminate\Http\Request;
 
 /**
  * Class ActivityController
@@ -13,92 +15,103 @@ use App\Http\Requests\CommonRequest as Request;
 class ActivityController extends Controller
 {
     /**
-     * ActivityController constructor.
-     * @param Activity $model
+     * @var ActivityCollection
      */
-    public function __construct(Activity $model)
+    protected $collection;
+
+    /**
+     * @var ActivityService
+     */
+    protected $service;
+
+    /**
+     * ActivityController constructor.
+     * @param ActivityCollection $collection
+     * @param ActivityService $service
+     */
+    public function __construct(ActivityCollection $collection, ActivityService $service)
     {
-        $this->model = $model;
+        $this->collection = $collection;
+
+        $this->service = $service;
     }
 
     /**
-     * @return mixed
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = auth()->guard()->user();
+        $request = $request->all();
 
-        if ($user->is_admin) {
-            return ActivityResource::collection($this->model->all());
-        }
+        $request['type'] = Constants::ACTIVITY_SYSTEM;
 
-        return ActivityResource::collection(
-            $this->model->where('user_id', $user->id)->paginate()
-        );
+        $response = $this->collection->list($request);
+
+        $collection = ActivityResource::collection($response);
+
+        $collection->additional(['meta' => $this->collection->meta]);
+
+        return $collection;
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function attendanceIndex(Request $request)
+    {
+        $request = $request->all();
+
+        $request['type'] = Constants::ACTIVITY_ATTENDANCE;
+
+        $response = $this->collection->list($request);
+
+        $collection = ActivityResource::collection($response);
+
+        $collection->additional(['meta' => $this->collection->meta]);
+
+        return $collection;
     }
 
     /**
      * @param Request $request
      * @return ActivityResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request)
     {
-        $this->authorize('create', Activity::class);
-
-        $model = $this->model->create([
-            'name' => $request->get('name')
+        $this->validate($request, [
+            'user_id'     => 'required|exists:users,id',
+            'description' => 'required|in:login,logout'
         ]);
 
-        return new ActivityResource($model);
+        $response = $this->service->attend($request['user_id'], $request['description']);
+
+        return new ActivityResource($response);
     }
 
     /**
      * @param $id
      * @return ActivityResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show($id)
     {
-        $model = $this->model->findOrFail($id);
+        $response = $this->service->find($id);
 
-        $this->authorize('view', $model);
-
-        return new ActivityResource($model);
-    }
-
-    /**
-     * @param Request $request
-     * @param $id
-     * @return ActivityResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function update(Request $request, $id)
-    {
-        $model = $this->model->findOrFail($id);
-
-        $this->authorize('update', $model);
-
-        $model->update([
-            'name' => $request->get('name')
-        ]);
-
-        return new ActivityResource($model);
+        return new ActivityResource($response);
     }
 
     /**
      * @param $id
-     * @return ActivityResource
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy($id)
     {
-        $model = $this->model->findOrFail($id);
+        $activity = $this->service->find($id);
 
-        $this->authorize('delete', $model);
+        $response = $this->service->delete($activity);
 
-        $model->delete();
-
-        return new ActivityResource($model);
+        return response()->json($response);
     }
 }
