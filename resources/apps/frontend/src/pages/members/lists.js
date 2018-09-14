@@ -65,7 +65,7 @@ class Component extends React.Component {
   }
 
   get headers() {
-    return ['ID', 'Name', 'Email', 'Active', 'Admin', 'Updated', 'Actions'];
+    return ['ID', 'Name', 'Account#', 'Active', 'Admin', 'Updated', 'Actions'];
   }
 
   getTableActions() {}
@@ -106,8 +106,11 @@ class Component extends React.Component {
         <td>{item.id}</td>
         <td>
           <Link to={`/members/${item.id}`}>{item.name}</Link>
+          <div>
+            <span className="small text-muted">{item.email}</span>
+          </div>
         </td>
-        <td className="align-center">{item.email}</td>
+        <td className="align-center">{item.account_number}</td>
         <td className="align-center text-center">
           {item.is_active ? 'Yes' : 'No'}
         </td>
