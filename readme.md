@@ -22,7 +22,7 @@ For professional support please email me at johndavedecano@gmail.com
 1. API Setup
 
 ```bash
-$ git clone git@github.com:johndavedecano/PHPLaravelGymManagementSystem.git project
+$ git clone git@github.com:johndavedecano/laragym.git project
 $ cd project
 $ composer install
 $ cp .env.example .env # THEN EDIT YOUR ENV FILE ACCORDING TO YOUR OWN SETTINGS.
