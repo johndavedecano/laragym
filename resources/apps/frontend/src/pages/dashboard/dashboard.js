@@ -67,6 +67,8 @@ class Dashboard extends Component {
         type: 'error',
         text: getErrorMessage(err),
       });
+
+      this.setState({isSubmitting: false});
     }
   };
 
@@ -108,14 +110,14 @@ class Dashboard extends Component {
             />
           </Col>
         </Row>
-        <Row>
+        <Row className="mb-4">
           <Col md={6}>
             <Card>
               <CardHeader>Latest Activities</CardHeader>
               <CardBody>
                 <Activities
                   ref={activities => (this.activities = activities)}
-                  limit={10}
+                  limit={11}
                 />
               </CardBody>
             </Card>
@@ -149,7 +151,7 @@ class Dashboard extends Component {
                         color="primary"
                         disabled={this.state.isSubmitting}
                       >
-                        {this.state.isSubmitting ? 'Please Wait...' : 'Submit'}
+                        {this.state.isSubmitting ? '......' : 'Submit'}
                       </Button>
                     </Col>
                   </Row>
