@@ -68,7 +68,7 @@ class Login extends Component {
               color="primary"
               block
             >
-              Login
+              {this.state.isLoading ? 'Please Wait...' : 'Login'}
             </Button>
           </Form>
           <div className="text-center mt-3">

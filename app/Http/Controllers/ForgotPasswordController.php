@@ -25,7 +25,7 @@ class ForgotPasswordController extends Controller
         $this->authService = $authService;
     }
 
-    public function sendResetEmail(ForgotPasswordRequest $request)
+    public function forgot(ForgotPasswordRequest $request)
     {
         $this->authService->forgot($request->get('email'));
 

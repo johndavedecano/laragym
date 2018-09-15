@@ -28,5 +28,13 @@ export default {
         loader: () => import('./forgot'),
       }),
     },
+    {
+      exact: true,
+      auth: false,
+      path: '/auth/reset/:token',
+      component: Loadable({
+        loader: () => import('./reset'),
+      }),
+    },
   ],
 };

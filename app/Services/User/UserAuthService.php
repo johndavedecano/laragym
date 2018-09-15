@@ -70,7 +70,7 @@ class UserAuthService implements UserAuthServiceInterface
             throw new HttpException(500);
         }
 
-        return $this->user->where('email', $request['email'])->first();
+        return $response;
     }
 
     /**

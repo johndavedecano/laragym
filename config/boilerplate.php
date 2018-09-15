@@ -46,7 +46,6 @@ return [
         // here you can specify some validation rules for your password recovery procedure
         'validation_rules' => [
             'token' => 'required',
-            'email' => 'required|email',
             'password' => 'required|confirmed'
         ]
     ]

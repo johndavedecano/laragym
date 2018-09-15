@@ -1,5 +1,5 @@
 import React from 'react';
-import {login} from 'requests/auth';
+import {login, forgot, reset} from 'requests/auth';
 import getErrorMessage from 'utils/getErrorMessage';
 import notify from 'utils/notify';
 import initAxios from 'utils/initAxios';
@@ -69,7 +69,41 @@ class AuthProvider extends React.Component {
     );
   };
 
-  forgot() {}
+  reset = async (data = {}) => {
+    try {
+      await reset(data);
+      notify({
+        type: 'success',
+        text: 'Successfully logged in!',
+      });
+      setTimeout(() => {
+        window.location.replace('/auth/login');
+      });
+    } catch (error) {
+      notify({
+        type: 'error',
+        text: getErrorMessage(error),
+      });
+    }
+  };
+
+  forgot = async (data = {}) => {
+    try {
+      await forgot(data);
+      notify({
+        type: 'success',
+        text: 'Successfully logged in!',
+      });
+      setTimeout(() => {
+        window.location.replace('/auth/login');
+      });
+    } catch (error) {
+      notify({
+        type: 'error',
+        text: getErrorMessage(error),
+      });
+    }
+  };
 
   render() {
     const {user, token} = this.state;
@@ -82,6 +116,7 @@ class AuthProvider extends React.Component {
           login: this.login,
           logout: this.logout,
           forgot: this.forgot,
+          reset: this.reset,
         }}
       >
         {this.props.children}

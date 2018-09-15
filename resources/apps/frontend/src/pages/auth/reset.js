@@ -4,7 +4,7 @@ import {Button, Form, FormGroup, Label, Input} from 'reactstrap';
 
 import withAuth from 'enhancers/withAuth';
 
-class Forgot extends Component {
+class Reset extends Component {
   state = {
     isLoading: false,
   };
@@ -23,8 +23,10 @@ class Forgot extends Component {
     event.preventDefault();
     this.setState({isLoading: true});
 
-    await this.props.forgot({
-      email: this.email.value,
+    await this.props.reset({
+      token: this.props.match.params.token,
+      password: this.password.value,
+      password_confirmation: this.password_confirmation.value,
     });
 
     this.isStillMounted && this.setState({isLoading: false});
@@ -33,21 +35,37 @@ class Forgot extends Component {
   render() {
     return (
       <div className="card card-login mx-auto mt-5">
-        <div className="card-header text-center">Forgot Password</div>
+        <div className="card-header text-center">Admin Login</div>
         <div className="card-body">
           <Form onSubmit={this.onSubmit}>
             <FormGroup>
               <div className="form-label-group">
                 <Input
-                  innerRef={email => (this.email = email)}
-                  type="email"
-                  id="inputEmail"
+                  innerRef={password => (this.password = password)}
+                  type="password"
+                  id="inputPassword"
                   className="form-control"
-                  placeholder="Email address"
-                  autoFocus
+                  placeholder="Password"
                   disabled={this.state.isLoading}
                 />
-                <Label for="inputEmail">Email address</Label>
+                <Label for="inputPassword">Password</Label>
+              </div>
+            </FormGroup>
+            <FormGroup>
+              <div className="form-label-group">
+                <Input
+                  innerRef={password_confirmation =>
+                    (this.password_confirmation = password_confirmation)
+                  }
+                  type="password"
+                  id="inputPasswordConfirmation"
+                  className="form-control"
+                  placeholder="Password Confirmation"
+                  disabled={this.state.isLoading}
+                />
+                <Label for="inputPasswordConfirmation">
+                  Password Confirmation
+                </Label>
               </div>
             </FormGroup>
             <Button
@@ -56,7 +74,7 @@ class Forgot extends Component {
               color="primary"
               block
             >
-              {this.state.isLoading ? 'Please Wait...' : 'Recover'}
+              {this.state.isLoading ? 'Please Wait...' : 'Reset Password'}
             </Button>
           </Form>
           <div className="text-center mt-3">
@@ -70,4 +88,4 @@ class Forgot extends Component {
   }
 }
 
-export default withAuth(Forgot);
+export default withAuth(Reset);

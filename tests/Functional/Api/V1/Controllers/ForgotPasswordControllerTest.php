@@ -26,7 +26,7 @@ class ForgotPasswordControllerTest extends TestCase
 
     public function testForgotPasswordRecoverySuccessfully()
     {
-        $this->post('api/auth/recovery', [
+        $this->post('api/auth/forgot', [
             'email' => 'test@email.com'
         ])->assertJson([
             'status' => 'ok'
@@ -35,7 +35,7 @@ class ForgotPasswordControllerTest extends TestCase
 
     public function testForgotPasswordRecoveryReturnsUserNotFoundError()
     {
-        $this->post('api/auth/recovery', [
+        $this->post('api/auth/forgot', [
             'email' => 'unknown@email.com'
         ])->assertJsonStructure([
             'error'
@@ -44,7 +44,7 @@ class ForgotPasswordControllerTest extends TestCase
 
     public function testForgotPasswordRecoveryReturnsValidationErrors()
     {
-        $this->post('api/auth/recovery', [
+        $this->post('api/auth/forgot', [
             'email' => 'i am not an email'
         ])->assertJsonStructure([
             'error'

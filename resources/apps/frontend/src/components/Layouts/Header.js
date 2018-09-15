@@ -41,7 +41,7 @@ class Header extends React.Component {
       <div>
         <Navbar color="dark" dark expand="md">
           <Link className="navbar-brand" to="/">
-            {process.env.APP_NAME || 'Laragym'}
+            {process.env.APP_NAME || 'LaraGym'}
           </Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
