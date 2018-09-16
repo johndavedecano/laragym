@@ -36,8 +36,9 @@ $ php artisan serve
 ```base
 $ cd project/resources/apps/frontend
 $ cp .env.example .env # edit this file accordingly
-$ npm install
-$ npm run start
+$ yarn
+$ yarn start
+$ yarn build # for production
 ```
 
 ## Tests
