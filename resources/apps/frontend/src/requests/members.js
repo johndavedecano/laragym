@@ -23,3 +23,7 @@ export function updateMember(serviceId, data) {
     .put('/api/users/' + serviceId, data)
     .then(response => response.data);
 }
+
+export function uploadAvatar(data) {
+  return axios.post('/api/upload', data).then(response => response.data);
+}

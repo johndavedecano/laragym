@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, CardBody, CardHeader} from 'reactstrap';
-import {Link} from 'react-router-dom';
 import {Table} from 'components/Table';
+
 import TableActions from 'components/Table/TableActions';
 import Confirm from 'components/Dialogs/Confirm';
 import Loader from 'components/Loader';
@@ -12,6 +12,7 @@ import date from 'utils/date';
 import getErrorMessage from 'utils/getErrorMessage';
 import {loadMembers, destroyMember} from 'requests/members';
 import Pagination from 'components/Pagination/PaginationWithFilter';
+import AvatarInfo from 'components/Avatar/AvatarInfo';
 
 class Component extends React.Component {
   _isMounted = false;
@@ -105,10 +106,7 @@ class Component extends React.Component {
       <tr key={item.id}>
         <td>{item.id}</td>
         <td>
-          <Link to={`/members/${item.id}`}>{item.name}</Link>
-          <div>
-            <span className="small text-muted">{item.email}</span>
-          </div>
+          <AvatarInfo {...item} />
         </td>
         <td className="align-center">{item.account_number}</td>
         <td className="align-center text-center">

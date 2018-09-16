@@ -59,13 +59,13 @@ return [
    'dimensions' => [
         'square50' => [50, 50, true],
         'square100' => [100, 100, true],
-        'square200' => [200, 200, true],
-        'square400' => [400, 400, true],
+        // 'square200' => [200, 200, true],
+        // 'square400' => [400, 400, true],
 
-        'size50' => [50, 50, false],
-        'size100' => [100, 100, false],
-        'size200' => [200, 200, false],
-        'size400' => [400, 400, false],
+        // 'size50' => [50, 50, false],
+        // 'size100' => [100, 100, false],
+        // 'size200' => [200, 200, false],
+        // 'size400' => [400, 400, false],
    ],
 
    /*
