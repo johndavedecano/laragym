@@ -45,7 +45,7 @@ class LoginController extends Controller
                     'user' => $user,
                     'expires_in' => auth()->guard()->factory()->getTTL() * 60
                 ]);
-        } catch(\Exception $exception) {
+        } catch (\Exception $exception) {
             return response()->json([
                 'error' => $exception->getMessage(),
                 'status' => 401

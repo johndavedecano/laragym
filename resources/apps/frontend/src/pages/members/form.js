@@ -1,10 +1,22 @@
 import React from 'react';
+import get from 'lodash/get';
 import serialize from 'form-serialize';
-import {Form, FormGroup, Input, Label, Button, Row, Col} from 'reactstrap';
+import {
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Button,
+  Row,
+  Col,
+  FormText,
+} from 'reactstrap';
 
 import BooleanSelect from 'components/Form/Select/BooleanSelect';
 import getErrorMessage from 'utils/getErrorMessage';
 import notify from 'utils/notify';
+import Avatar from 'components/Avatar';
+import {uploadAvatar} from 'requests/members';
 
 export default class extends React.Component {
   static defaultProps = {
@@ -15,6 +27,7 @@ export default class extends React.Component {
 
   state = {
     isSubmitting: false,
+    avatar: null,
   };
 
   onSubmit = async event => {
@@ -38,11 +51,60 @@ export default class extends React.Component {
     }
   };
 
+  get avatar() {
+    if (this.state.avatar) return this.state.avatar;
+    return this.props.avatar;
+  }
+
+  onChangeFile = async event => {
+    try {
+      const files = event.target.files;
+      if (files.length === 0) return;
+
+      const file = files[0];
+
+      this.setState({isSubmitting: true});
+
+      const data = new FormData();
+
+      data.append('file', file);
+
+      const response = await uploadAvatar(data);
+
+      const path = get(response, 'dimensions.square50.filedir');
+      const avatar = `${process.env.APP_API_URL}/${path.substring(1)}`;
+
+      this.setState({isSubmitting: false, avatar});
+    } catch (err) {
+      alert(err.message);
+      this.setState({isSubmitting: false});
+    }
+  };
+
   render() {
     return (
       <Form onSubmit={this.onSubmit}>
+        <FormGroup>
+          <Row>
+            <div className="float-left pl-3 pr-3 d-flex align-items-center justify-content-end">
+              <Avatar src={this.avatar} />
+            </div>
+            <div className="float-left">
+              <Label for="exampleFile">Avatar</Label>
+              <Input
+                type="file"
+                name="file"
+                id="file"
+                onChange={this.onChangeFile}
+                accept="image/*"
+              />
+              <FormText color="muted">You must select only images</FormText>
+            </div>
+          </Row>
+        </FormGroup>
         <Row>
           <Col md={6}>
+            <Input type="hidden" name="avatar" defaultValue={this.avatar} />
             <FormGroup>
               <Label for="name">Name</Label>
               <Input

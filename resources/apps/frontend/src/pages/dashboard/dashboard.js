@@ -124,7 +124,7 @@ class Dashboard extends Component {
           </Col>
           <Col md={6}>
             <Card className="mb-3">
-              <CardHeader>Login Member</CardHeader>
+              <CardHeader>New Attendance</CardHeader>
               <CardBody>
                 <Form onSubmit={this.onSubmit}>
                   <Row>

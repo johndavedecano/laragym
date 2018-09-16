@@ -1,10 +1,10 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {Table} from 'components/Table';
 import notify from 'utils/notify';
 import date from 'utils/date';
 import getErrorMessage from 'utils/getErrorMessage';
 import {loadAttendance} from 'requests/activities';
+import AvatarInfo from 'components/Avatar/AvatarInfo';
 
 class Component extends React.Component {
   _isMounted = false;
@@ -43,18 +43,19 @@ class Component extends React.Component {
   };
 
   get headers() {
-    return ['ID', 'Name', 'Description', 'Date'];
+    return ['Name', 'Description', 'Date'];
   }
 
   renderItem = item => {
     return (
       <tr key={item.id}>
-        <td>{item.id}</td>
         <td>
-          <Link to={`/members/${item.user_id}`}>{item.name}</Link>
-          <div>
-            <span className="small text-muted">{item.email}</span>
-          </div>
+          <AvatarInfo
+            id={item.user_id}
+            avatar={item.avatar}
+            name={item.name}
+            email={item.email}
+          />
         </td>
         <td className="align-center">{item.description}</td>
         <td>{date(item.created_at)}</td>

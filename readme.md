@@ -10,10 +10,8 @@ Finally a gym management system build with laravel and reactjs. Comes with power
 2. members - user management system.
 3. services and billing cycles - annually, weekly, daily, fixed etc.
 4. attendance - tracks who is currently on the gym.
-5. activities or system logs(pending)
-6. settings(pending) - system settings.
-7. chats(pending) - ability send message to members.
-8. invoice(pending) - generate invoice and notify user through email.
+5. activities or system logs
+6. subscription management
 
 For professional support please email me at johndavedecano@gmail.com
 
@@ -22,7 +20,7 @@ For professional support please email me at johndavedecano@gmail.com
 1. API Setup
 
 ```bash
-$ git clone git@github.com:johndavedecano/PHPLaravelGymManagementSystem.git project
+$ git clone git@github.com:johndavedecano/laragym.git project
 $ cd project
 $ composer install
 $ cp .env.example .env # THEN EDIT YOUR ENV FILE ACCORDING TO YOUR OWN SETTINGS.
@@ -36,8 +34,9 @@ $ php artisan serve
 ```base
 $ cd project/resources/apps/frontend
 $ cp .env.example .env # edit this file accordingly
-$ npm install
-$ npm run start
+$ yarn
+$ yarn start
+$ yarn build # for production
 ```
 
 ## Tests
@@ -47,7 +46,7 @@ If you want to contribute to this project, feel free to do it and open a PR. How
 In order to run tests:
 
 - create a `homestead_test` database on your machine;
-- run `phpunit`;
+- run `./vendor/bin/phpunit`;
 
 If you want to specify a different name for the test database, don't forget to change the value in the `phpunix.xml` file.
 

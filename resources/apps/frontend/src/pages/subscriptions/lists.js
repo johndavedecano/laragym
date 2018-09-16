@@ -13,6 +13,7 @@ import getErrorMessage from 'utils/getErrorMessage';
 import {loadSubscriptions, destroySubscription} from 'requests/subscriptions';
 import Pagination from 'components/Pagination/PaginationWithFilter';
 import StatusBadge from 'components/Badges/Status';
+import AvatarInfo from 'components/Avatar/AvatarInfo';
 
 class Component extends React.Component {
   _isMounted = false;
@@ -84,7 +85,10 @@ class Component extends React.Component {
   };
 
   getTableActions = payload => {
-    let actions = [{label: 'Edit', href: `/subscriptions/${payload.id}/edit`}];
+    let actions = [
+      {label: 'Edit', href: `/subscriptions/${payload.id}/edit`},
+      {label: 'View Subscription', href: `/subscriptions/${payload.id}`},
+    ];
 
     if (payload.status !== 'deleted') {
       actions.push({
@@ -112,12 +116,11 @@ class Component extends React.Component {
   renderItem = item => {
     return (
       <tr key={item.id}>
-        <td>{item.id}</td>
         <td>
-          <Link to={`/subscriptions/${item.id}`}>{item.user.name}</Link>
-          <div>
-            <span className="small text-muted">{item.user.email}</span>
-          </div>
+          <Link to={`/subscriptions/${item.id}`}>{item.id}</Link>
+        </td>
+        <td>
+          <AvatarInfo {...item.user} />
         </td>
         <td className="align-center">
           {item.package.name}
