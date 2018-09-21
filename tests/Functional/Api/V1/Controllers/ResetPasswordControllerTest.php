@@ -39,8 +39,6 @@ class ResetPasswordControllerTest extends TestCase
             'token' => 'my_super_secret_code',
             'password' => 'mynewpass',
             'password_confirmation' => 'mynewpass'
-        ])->assertJson([
-            'status' => 'ok'
         ])->isOk();
     }
 
@@ -53,11 +51,6 @@ class ResetPasswordControllerTest extends TestCase
             'token' => 'my_super_secret_code',
             'password' => 'mynewpass',
             'password_confirmation' => 'mynewpass'
-        ])->assertJsonStructure([
-            'status',
-            'token'
-        ])->assertJson([
-            'status' => 'ok'
         ])->isOk();
     }
 
@@ -68,8 +61,6 @@ class ResetPasswordControllerTest extends TestCase
             'token' => 'this_code_is_invalid',
             'password' => 'mynewpass',
             'password_confirmation' => 'mynewpass'
-        ])->assertJsonStructure([
-            'error'
         ])->assertStatus(500);
     }
 
@@ -79,8 +70,6 @@ class ResetPasswordControllerTest extends TestCase
             'email' => 'test@email.com',
             'token' => 'my_super_secret_code',
             'password' => 'mynewpass'
-        ])->assertJsonStructure([
-            'error'
         ])->assertStatus(422);
     }
 }
