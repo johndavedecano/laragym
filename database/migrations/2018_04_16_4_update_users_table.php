@@ -28,6 +28,11 @@ class UpdateUsersTable extends Migration
             $table->string('state')->nullable();
             $table->string('country')->nullable();
             $table->timestamp('last_login')->default(DB::raw('CURRENT_TIMESTAMP'));
+
+
+            $table->index('is_active');
+            $table->index('is_deleted');
+            $table->index('is_admin');
         });
     }
 

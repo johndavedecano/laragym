@@ -36,7 +36,7 @@ class PackageControllerTest extends TestCase
             'cycle_id'    => $cycle->id,
             'status'      => 'active',
             'name'        => 'Package 1',
-            'service_id'  => $cycle->id,
+            'service_id'  => $service->id,
         ];
     }
 
