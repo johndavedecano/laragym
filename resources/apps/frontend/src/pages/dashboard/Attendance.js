@@ -43,7 +43,7 @@ class Component extends React.Component {
   };
 
   get headers() {
-    return ['Name', 'Description', 'Date'];
+    return ['Nombre', 'Descripción', 'Fecha'];
   }
 
   renderItem = item => {

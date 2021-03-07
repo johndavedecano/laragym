@@ -2,7 +2,7 @@ import React from 'react';
 
 export default class SearchInput extends React.Component {
   static defaultProps = {
-    placeholder: 'Search',
+    placeholder: 'Buscar',
   };
 
   constructor(props) {

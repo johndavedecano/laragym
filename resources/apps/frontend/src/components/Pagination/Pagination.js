@@ -29,7 +29,7 @@ export default class Pagination extends React.Component {
         forcePage={Number(this.props.offset)}
         marginPagesDisplayed={this.props.marginPagesDisplayed}
         nextClassName="page-item"
-        nextLabel={'next'}
+        nextLabel={'Siguiente'}
         nextLinkClassName="page-link"
         onPageChange={this.props.onChange}
         pageClassName="page-item"
@@ -37,7 +37,7 @@ export default class Pagination extends React.Component {
         pageLinkClassName="page-link"
         pageRangeDisplayed={this.props.pageRangeDisplayed}
         previousClassName="page-item"
-        previousLabel={'previous'}
+        previousLabel={'anterior'}
         previousLinkClassName="page-link"
         subContainerClassName={'pages pagination'}
         breakLabel={

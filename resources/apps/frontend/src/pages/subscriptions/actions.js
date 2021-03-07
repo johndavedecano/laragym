@@ -36,7 +36,7 @@ class Component extends React.Component {
         <Row>
           <Col md={2}>
             <SubscriptionStatusSelect
-              placeholder="Select Status"
+              placeholder="Seleccionar Estatus"
               disabled={this.props.isLoading}
               defaultValue={get(this.state, 'status')}
               onChange={this.onChangeFilter('status')}
@@ -45,7 +45,7 @@ class Component extends React.Component {
 
           <Col md={2}>
             <PackageSelect
-              placeholder="Select Package"
+              placeholder="Seleccionar paquete"
               disabled={this.props.isLoading}
               defaultValue={get(this.state, 'package_id')}
               onChange={this.onChangeFilter('package_id', 'id')}
@@ -55,7 +55,7 @@ class Component extends React.Component {
 
           <Col md={2}>
             <MemberSelect
-              placeholder="Select User"
+              placeholder="Seleccionar Usuario"
               disabled={this.props.isLoading}
               defaultValue={get(this.state, 'user_id')}
               onChange={this.onChangeFilter('user_id', 'id')}
@@ -66,7 +66,7 @@ class Component extends React.Component {
           <Col md={2}>
             <Search
               disabled={this.props.isLoading}
-              name="search"
+              name="Buscar"
               value={get(this.state, 'q')}
               onSubmit={this.onSearch}
             />
@@ -77,7 +77,7 @@ class Component extends React.Component {
               to="/subscriptions/create"
               className="float-right btn btn-primary"
             >
-              <i className="fa fa-plus" /> Add Subscription
+              <i className="fa fa-plus" /> Agregar Subscripción
             </Link>
           </Col>
         </Row>

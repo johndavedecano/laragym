@@ -98,7 +98,7 @@ export default class extends React.Component {
                 onChange={this.onChangeFile}
                 accept="image/*"
               />
-              <FormText color="muted">You must select only images</FormText>
+              <FormText color="muted">Debes seleccionar solo imágenes</FormText>
             </div>
           </Row>
         </FormGroup>
@@ -106,7 +106,7 @@ export default class extends React.Component {
           <Col md={6}>
             <Input type="hidden" name="avatar" defaultValue={this.avatar} />
             <FormGroup>
-              <Label for="name">Name</Label>
+              <Label for="name">Nombre</Label>
               <Input
                 type="text"
                 name="name"
@@ -137,7 +137,7 @@ export default class extends React.Component {
         <Row>
           <Col md={6}>
             <FormGroup>
-              <Label for="password">Password</Label>
+              <Label for="password">Contraseña</Label>
               <Input
                 type="password"
                 name="password"
@@ -150,7 +150,9 @@ export default class extends React.Component {
           </Col>
           <Col md={6}>
             <FormGroup>
-              <Label for="Password Confirmation">Password Confirmation</Label>
+              <Label for="Password Confirmation">
+                Confirmación de contraseña
+              </Label>
               <Input
                 type="password"
                 name="password_confirmation"
@@ -165,7 +167,7 @@ export default class extends React.Component {
         <Row>
           <Col md={6}>
             <FormGroup>
-              <Label for="date_of_birth">Date of Birth</Label>
+              <Label for="date_of_birth">Fecha de nacimiento</Label>
               <Input
                 type="date"
                 name="date_of_birth"
@@ -178,7 +180,7 @@ export default class extends React.Component {
           </Col>
           <Col md={6}>
             <FormGroup>
-              <Label for="mobile">Mobile Number</Label>
+              <Label for="mobile">Teléfono</Label>
               <Input
                 type="text"
                 name="mobile"
@@ -194,7 +196,7 @@ export default class extends React.Component {
         <Row>
           <Col md={12}>
             <FormGroup>
-              <Label for="address">Address</Label>
+              <Label for="address">Dirección</Label>
               <Input
                 rows={8}
                 type="textarea"
@@ -211,7 +213,7 @@ export default class extends React.Component {
         <Row>
           <Col md={4}>
             <FormGroup>
-              <Label for="is_active">Active</Label>
+              <Label for="is_active">Activo</Label>
               <BooleanSelect
                 name="is_active"
                 id="is_active"
@@ -234,7 +236,7 @@ export default class extends React.Component {
 
           <Col md={4}>
             <FormGroup>
-              <Label for="is_deleted">Deleted</Label>
+              <Label for="is_deleted">Eliminado</Label>
               <BooleanSelect
                 name="is_deleted"
                 id="is_deleted"
@@ -248,7 +250,7 @@ export default class extends React.Component {
         <Row>
           <Col md={6}>
             <FormGroup>
-              <Label for="city">City</Label>
+              <Label for="city">Ciudad</Label>
               <Input
                 type="text"
                 name="city"
@@ -261,7 +263,7 @@ export default class extends React.Component {
           </Col>
           <Col md={6}>
             <FormGroup>
-              <Label for="state">State</Label>
+              <Label for="state">Estado</Label>
               <Input
                 type="text"
                 name="state"
@@ -276,7 +278,7 @@ export default class extends React.Component {
         <Row>
           <Col md={6}>
             <FormGroup>
-              <Label for="country">Country</Label>
+              <Label for="country">Pais</Label>
               <Input
                 type="text"
                 name="country"
@@ -289,7 +291,7 @@ export default class extends React.Component {
           </Col>
           <Col md={6}>
             <FormGroup>
-              <Label for="postal_code">Postal Code</Label>
+              <Label for="postal_code">Código postal</Label>
               <Input
                 type="text"
                 name="postal_code"
@@ -307,7 +309,9 @@ export default class extends React.Component {
           className="float-right"
           disabled={this.state.isSubmitting}
         >
-          {this.state.isSubmitting ? 'Please Wait...' : 'Submit Form'}
+          {this.state.isSubmitting
+            ? 'Espere por favor...'
+            : 'Enviar formulario'}
         </Button>
       </Form>
     );

@@ -50,7 +50,7 @@ export default class extends React.Component {
         <Row>
           <Col md={6}>
             <FormGroup>
-              <Label for="user_id">Member</Label>
+              <Label for="user_id">Miembro</Label>
               <MemberSelect
                 name="user_id"
                 id="user_id"
@@ -61,7 +61,7 @@ export default class extends React.Component {
           </Col>
           <Col md={6}>
             <FormGroup>
-              <Label for="package_id">Package</Label>
+              <Label for="package_id">Paquete</Label>
               <PackageSelect
                 name="package_id"
                 id="package_id"
@@ -75,7 +75,7 @@ export default class extends React.Component {
         <Row>
           <Col md={6}>
             <FormGroup>
-              <Label for="interval">Interval</Label>
+              <Label for="interval">Intervalo</Label>
               <Input
                 type="number"
                 name="interval"
@@ -88,7 +88,7 @@ export default class extends React.Component {
           </Col>
           <Col md={6}>
             <FormGroup>
-              <Label for="status">Status</Label>
+              <Label for="status">Estatus</Label>
               <SubscriptionStatusSelect
                 name="status"
                 id="status"
@@ -103,7 +103,7 @@ export default class extends React.Component {
         <Row>
           <Col md={6}>
             <FormGroup>
-              <Label for="expires_at">Expiration At</Label>
+              <Label for="expires_at">Fecha de Expiración</Label>
               <input
                 className="form-control"
                 type="date"
@@ -118,7 +118,7 @@ export default class extends React.Component {
           </Col>
           <Col md={6}>
             <FormGroup>
-              <Label for="suspended_at">Suspended At</Label>
+              <Label for="suspended_at">Fecha de suspención</Label>
               <input
                 className="form-control"
                 type="date"
@@ -138,7 +138,7 @@ export default class extends React.Component {
           className="float-right"
           disabled={this.state.isSubmitting}
         >
-          {this.state.isSubmitting ? 'Please Wait...' : 'Submit Form'}
+          {this.state.isSubmitting ? 'Porfavor Espere...' : 'Enviar Formulario'}
         </Button>
       </Form>
     );

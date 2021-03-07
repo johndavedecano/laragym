@@ -69,12 +69,12 @@ class Component extends React.Component {
   get headers() {
     return [
       'ID',
-      'Member',
-      'Package',
-      'Service',
-      'Status',
-      'Expiration',
-      'Actions',
+      'Miembro',
+      'Paquete',
+      'Servicio',
+      'Estatus',
+      'Expiración',
+      'Acciones',
     ];
   }
 
@@ -92,7 +92,7 @@ class Component extends React.Component {
 
     if (payload.status !== 'deleted') {
       actions.push({
-        label: 'Delete',
+        label: 'Eliminar',
         type: 'delete',
         color: 'text-danger',
       });
@@ -105,8 +105,8 @@ class Component extends React.Component {
     if (data.type === 'delete') {
       this.confirm.open({
         isOpen: true,
-        title: 'Delete',
-        content: 'Are you sure want to delete item?',
+        title: 'Eliminar',
+        content: '¿Estás seguro de eliminar el registro?',
         payload: data,
       });
       return;
@@ -138,7 +138,7 @@ class Component extends React.Component {
         <td>
           <div className="d-flex justify-content-center">
             <TableActions
-              buttonLabel="Actions"
+              buttonLabel="Acciones"
               payload={item}
               items={this.getTableActions(item)}
               onClick={this.onClickAction}
@@ -152,7 +152,7 @@ class Component extends React.Component {
   render() {
     return (
       <Card>
-        <CardHeader>Manage Subscriptions</CardHeader>
+        <CardHeader>Administrar Subscripciones</CardHeader>
         <CardActions isLoading={this.state.isLoading} />
         <CardBody className="position-relative">
           {this.loader}

@@ -34,9 +34,9 @@ class Component extends React.Component {
     return (
       <TableFilters>
         <Row>
-          <Col md={2}>
+          <Col md={3}>
             <MemberSelect
-              placeholder="Select Entity"
+              placeholder="Seleccionar entidad"
               disabled={this.props.isLoading}
               defaultValue={get(this.state, 'entity_id')}
               onChange={this.onChangeFilter('entity_id', 'id')}
@@ -44,10 +44,10 @@ class Component extends React.Component {
             />
           </Col>
 
-          <Col md={2}>
+          <Col md={3}>
             <Search
               disabled={this.props.isLoading}
-              name="search"
+              name="Buscar"
               defaultValue={get(this.state, 'q')}
               onSubmit={this.onSearch}
             />

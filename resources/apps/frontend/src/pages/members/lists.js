@@ -66,7 +66,15 @@ class Component extends React.Component {
   }
 
   get headers() {
-    return ['ID', 'Name', 'Account#', 'Active', 'Admin', 'Updated', 'Actions'];
+    return [
+      'ID',
+      'Nombre',
+      'Cuenta#',
+      'Activo',
+      'Admin',
+      'Actualizado',
+      'Acciones',
+    ];
   }
 
   getTableActions() {}
@@ -76,11 +84,11 @@ class Component extends React.Component {
   };
 
   getTableActions = payload => {
-    let actions = [{label: 'Edit', href: `/members/${payload.id}/edit`}];
+    let actions = [{label: 'Editar', href: `/members/${payload.id}/edit`}];
 
     if (payload.status !== 'deleted') {
       actions.push({
-        label: 'Delete',
+        label: 'Eliminar',
         type: 'delete',
         color: 'text-danger',
       });
@@ -93,8 +101,8 @@ class Component extends React.Component {
     if (data.type === 'delete') {
       this.confirm.open({
         isOpen: true,
-        title: 'Delete',
-        content: 'Are you sure want to delete item?',
+        title: 'Eliminar',
+        content: '¿Estás seguro de eliminar el registro?',
         payload: data,
       });
       return;
@@ -110,16 +118,16 @@ class Component extends React.Component {
         </td>
         <td className="align-center">{item.account_number}</td>
         <td className="align-center text-center">
-          {item.is_active ? 'Yes' : 'No'}
+          {item.is_active ? 'Si' : 'No'}
         </td>
         <td className="align-center text-center">
-          {item.is_active ? 'Yes' : 'No'}
+          {item.is_active ? 'Si' : 'No'}
         </td>
         <td>{date(item.updated_at)}</td>
         <td>
           <div className="d-flex justify-content-center">
             <TableActions
-              buttonLabel="Actions"
+              buttonLabel="Acciones"
               payload={item}
               items={this.getTableActions(item)}
               onClick={this.onClickAction}
@@ -133,7 +141,7 @@ class Component extends React.Component {
   render() {
     return (
       <Card>
-        <CardHeader>Manage Members</CardHeader>
+        <CardHeader>Administrar Miembros</CardHeader>
         <CardActions isLoading={this.state.isLoading} />
         <CardBody className="position-relative">
           {this.loader}

@@ -36,7 +36,7 @@ export default class extends React.Component {
           className="card-footer text-white clearfix small z-1"
           to={this.props.messageLink}
         >
-          <span className="float-left">View Details</span>
+          <span className="float-left">Ver Detalles</span>
           <span className="float-right">
             <i className="fas fa-angle-right" />
           </span>

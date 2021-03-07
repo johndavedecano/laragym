@@ -72,7 +72,7 @@ class Component extends React.Component {
               <Row>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="user_id">Member</Label>
+                    <Label for="user_id">Miembro</Label>
                     <Input
                       type="text"
                       name="user_id"
@@ -85,7 +85,7 @@ class Component extends React.Component {
                 </Col>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="email">Email Address</Label>
+                    <Label for="email">Email</Label>
                     <Input
                       type="email"
                       name="email"
@@ -101,7 +101,7 @@ class Component extends React.Component {
               <Row>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="amount">Amount</Label>
+                    <Label for="amount">Cantidad</Label>
                     <Input
                       type="text"
                       name="amount"
@@ -114,7 +114,7 @@ class Component extends React.Component {
                 </Col>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="package_status">Package</Label>
+                    <Label for="package_status">Paquete</Label>
                     <Input
                       type="text"
                       name="package_status"
@@ -130,7 +130,7 @@ class Component extends React.Component {
               <Row>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="cycle_id">Billing Cycle</Label>
+                    <Label for="cycle_id">Ciclos de Facturación</Label>
                     <Input
                       type="text"
                       name="cycle_id"
@@ -143,7 +143,7 @@ class Component extends React.Component {
                 </Col>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="service_id">Service</Label>
+                    <Label for="service_id">Servicio</Label>
                     <Input
                       type="text"
                       name="service_id"
@@ -159,7 +159,7 @@ class Component extends React.Component {
               <Row>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="interval">Interval</Label>
+                    <Label for="interval">Inteervalo</Label>
                     <Input
                       type="number"
                       name="interval"
@@ -172,7 +172,7 @@ class Component extends React.Component {
                 </Col>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="status">Status</Label>
+                    <Label for="status">Estatus</Label>
                     <SubscriptionStatusSelect
                       name="status"
                       id="status"
@@ -187,7 +187,7 @@ class Component extends React.Component {
               <Row>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="expires_at">Expiration At</Label>
+                    <Label for="expires_at">Expira en</Label>
                     <input
                       className="form-control"
                       type="date"
@@ -204,7 +204,7 @@ class Component extends React.Component {
                 </Col>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="suspended_at">Suspended At</Label>
+                    <Label for="suspended_at">Suspendido en</Label>
                     <input
                       className="form-control"
                       type="date"
@@ -224,7 +224,7 @@ class Component extends React.Component {
               <Row>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="created_at">Created At</Label>
+                    <Label for="created_at">Creado en</Label>
                     <input
                       className="form-control"
                       type="date"
@@ -241,7 +241,7 @@ class Component extends React.Component {
                 </Col>
                 <Col md={6}>
                   <FormGroup>
-                    <Label for="updated_at">Updated At</Label>
+                    <Label for="updated_at">Actualizado en</Label>
                     <input
                       className="form-control"
                       type="date"
@@ -262,7 +262,7 @@ class Component extends React.Component {
                 to={`/subscriptions/${id}/edit`}
                 className="btn btn-primary align-right"
               >
-                Edit Subscription
+                Editar Subscripción
               </Link>
             </Form>
           </CardBody>

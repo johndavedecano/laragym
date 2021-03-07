@@ -81,7 +81,7 @@ class Dashboard extends Component {
             <StatisticCard
               color="primary"
               iconClass="fa-id-card"
-              message={`${this.state.subscriptions} subscriptions`}
+              message={`${this.state.subscriptions} Subscripciones`}
               messageLink="/subscriptions"
             />
           </Col>
@@ -89,7 +89,7 @@ class Dashboard extends Component {
             <StatisticCard
               color="warning"
               iconClass="fa-server"
-              message={`${this.state.services} services`}
+              message={`${this.state.services} Servicios`}
               messageLink="/services"
             />
           </Col>
@@ -97,7 +97,7 @@ class Dashboard extends Component {
             <StatisticCard
               color="danger"
               iconClass="fa-box"
-              message={`${this.state.packages} packages`}
+              message={`${this.state.packages} paquetes`}
               messageLink="/packages"
             />
           </Col>
@@ -105,7 +105,7 @@ class Dashboard extends Component {
             <StatisticCard
               color="success"
               iconClass="fa-users"
-              message={`${this.state.members} members`}
+              message={`${this.state.members} miembros`}
               messageLink="/members"
             />
           </Col>
@@ -113,7 +113,7 @@ class Dashboard extends Component {
         <Row className="mb-4">
           <Col md={6}>
             <Card>
-              <CardHeader>Latest Activities</CardHeader>
+              <CardHeader>Últimas actividades</CardHeader>
               <CardBody>
                 <Activities
                   ref={activities => (this.activities = activities)}
@@ -124,7 +124,7 @@ class Dashboard extends Component {
           </Col>
           <Col md={6}>
             <Card className="mb-3">
-              <CardHeader>New Attendance</CardHeader>
+              <CardHeader>Nueva asistencia</CardHeader>
               <CardBody>
                 <Form onSubmit={this.onSubmit}>
                   <Row>
@@ -159,7 +159,7 @@ class Dashboard extends Component {
               </CardBody>
             </Card>
             <Card>
-              <CardHeader>Todays Attendance</CardHeader>
+              <CardHeader>Asistencia de hoy</CardHeader>
               <CardBody>
                 <Attendance
                   limit={5}

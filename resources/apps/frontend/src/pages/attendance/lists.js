@@ -66,7 +66,7 @@ class Component extends React.Component {
   }
 
   get headers() {
-    return ['ID', 'Name', 'Description', 'Date', 'Actions'];
+    return ['ID', 'Nombre', 'Descripción', 'Fecha', 'Acciones'];
   }
 
   getTableActions() {}
@@ -80,7 +80,7 @@ class Component extends React.Component {
 
     if (payload.status !== 'deleted') {
       actions.push({
-        label: 'Delete',
+        label: 'Eliminar',
         type: 'delete',
         color: 'text-danger',
       });
@@ -93,8 +93,8 @@ class Component extends React.Component {
     if (data.type === 'delete') {
       this.confirm.open({
         isOpen: true,
-        title: 'Delete',
-        content: 'Are you sure want to delete item?',
+        title: 'Eliminar',
+        content: '¿Estás seguro de eliminar el registro?',
         payload: data,
       });
       return;
@@ -132,7 +132,7 @@ class Component extends React.Component {
   render() {
     return (
       <Card>
-        <CardHeader>Manage Attendance</CardHeader>
+        <CardHeader>Administrar asistencia</CardHeader>
         <CardActions isLoading={this.state.isLoading} />
         <CardBody className="position-relative">
           {this.loader}

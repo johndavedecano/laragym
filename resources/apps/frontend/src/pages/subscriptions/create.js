@@ -12,7 +12,7 @@ class Component extends React.Component {
     return [
       {
         to: '/subscriptions',
-        label: 'Subscriptions',
+        label: 'Subscripciones',
       },
     ];
   }
@@ -28,7 +28,7 @@ class Component extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Breadcrumbs previous={this.previous} active="Create Subscription" />
+        <Breadcrumbs previous={this.previous} active="Crear Subscriptción" />
         <Card>
           <CardBody>
             <Form onSubmit={this.onSubmit} isCreate />

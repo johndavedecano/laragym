@@ -17,21 +17,21 @@ class Sidebar extends Component {
         <li className="nav-item">
           <Link className="nav-link" to="/activities">
             <i className="fas fa-fw fa-user-clock" />
-            <span> Activities</span>
+            <span> Actividades</span>
           </Link>
         </li>
 
         <li className="nav-item">
           <Link className="nav-link" to="/attendance">
             <i className="fas fa-fw fa-calendar-alt" />
-            <span> Attendance</span>
+            <span> Asistencia</span>
           </Link>
         </li>
 
         <li className="nav-item">
           <Link className="nav-link" to="/members">
             <i className="fas fa-fw fa-users" />
-            <span> Members</span>
+            <span> Miembros</span>
           </Link>
         </li>
 
@@ -44,25 +44,25 @@ class Sidebar extends Component {
         <li className="nav-item">
           <Link className="nav-link" to="/subscriptions">
             <i className="fas fa-fw fa-id-card" />
-            <span> Subscriptions</span>
+            <span> Subscripciones</span>
           </Link>
         </li>
         <li className="nav-item">
           <Link className="nav-link" to="/packages">
             <i className="fas fa-fw fa-box" />
-            <span> Packages</span>
+            <span> Paquetes</span>
           </Link>
         </li>
         <li className="nav-item">
           <Link className="nav-link" to="/billing-cycles">
             <i className="fas fa-fw fa-clock" />
-            <span> Billing Cycles</span>
+            <span> Ciclos de facturación</span>
           </Link>
         </li>
         <li className="nav-item">
           <Link className="nav-link" to="/services">
             <i className="fas fa-fw fa-server" />
-            <span> Services</span>
+            <span> Servicios</span>
           </Link>
         </li>
       </ul>

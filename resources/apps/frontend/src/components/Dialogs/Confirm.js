@@ -51,7 +51,7 @@ export default class Confirm extends React.Component {
             type="submit"
             onClick={this.onSubmit}
           >
-            Submit
+            Confirmar
           </Button>{' '}
           <Button
             disabled={this.state.isLoading}
@@ -59,7 +59,7 @@ export default class Confirm extends React.Component {
             onClick={this.onClose}
             type="button"
           >
-            Cancel
+            Cancelar
           </Button>
         </ModalFooter>
       </Modal>

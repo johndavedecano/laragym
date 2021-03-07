@@ -31,34 +31,34 @@ class Component extends React.Component {
     return (
       <TableFilters>
         <Row>
-          <Col md={2}>
+          <Col md={3}>
             <BooleanSelect
-              placeholder="Select Deleted"
+              placeholder="Seleccionar Eliminado"
               disabled={this.props.isLoading}
               value={get(this.state, 'is_deleted')}
               onChange={this.onChangeFilter('is_deleted')}
             />
           </Col>
-          <Col md={2}>
+          <Col md={3}>
             <BooleanSelect
-              placeholder="Select Admin"
+              placeholder="Seleccionar Administrador"
               disabled={this.props.isLoading}
               value={get(this.state, 'is_admin')}
               onChange={this.onChangeFilter('is_admin')}
             />
           </Col>
-          <Col md={2}>
+          <Col md={3}>
             <Search
               disabled={this.props.isLoading}
-              name="search"
+              name="Buscar"
               value={get(this.state, 'q')}
               onSubmit={this.onSearch}
             />
           </Col>
-          <Col md={4} />
-          <Col md={2}>
+          <Col md={2} />
+          <Col md={1}>
             <Link to="/members/create" className="float-right btn btn-primary">
-              <i className="fa fa-plus" /> Add Member
+              <i className="fa fa-plus" /> Agregar Miembro
             </Link>
           </Col>
         </Row>
