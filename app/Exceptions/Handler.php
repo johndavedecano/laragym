@@ -2,90 +2,40 @@
 
 namespace App\Exceptions;
 
-use Exception;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Auth\Access\AuthorizationException;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Illuminate\Session\TokenMismatchException;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
     /**
-     * A list of the exception types that should not be reported.
+     * A list of the exception types that are not reported.
      *
-     * @var array
+     * @var array<int, class-string<Throwable>>
      */
     protected $dontReport = [
-        HttpException::class,
-        ModelNotFoundException::class,
-        TokenMismatchException::class,
-        AuthenticationException::class,
-        ValidationException::class,
-        AuthorizationException::class,
+        //
     ];
 
     /**
-     * @param Exception $exception
-     * @return mixed|void
-     * @throws Exception
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array<int, string>
      */
-    public function report(Exception $exception)
-    {
-        parent::report($exception);
-    }
+    protected $dontFlash = [
+        'current_password',
+        'password',
+        'password_confirmation',
+    ];
 
     /**
-     * Render an exception into an HTTP response.
+     * Register the exception handling callbacks for the application.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @return void
      */
-    public function render($request, Exception $exception)
+    public function register()
     {
-        if ($exception instanceof ModelNotFoundException) {
-            return response()->json(['error' => 'Resource was not found.'], 404);
-        }
-
-        if ($exception instanceof ValidationException) {
-            return response()->json([
-                'error' => $exception->errors()
-            ], 422);
-        }
-
-        if ($exception instanceof AuthenticationException
-            || $exception instanceof AuthorizationException
-            || $exception instanceof UnauthorizedHttpException) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
-        }
-
-        return response()->json([
-            'error' => $exception->getMessage(),
-            'stack' => $exception->getTrace(),
-            'file'  => $exception->getFile(),
-            'line'  => $exception->getLine(),
-        ], 500);
-
-        return parent::render($request, $exception);
-    }
-
-    /**
-     * Convert an authentication exception into an unauthenticated response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
-     * @return \Illuminate\Http\Response
-     */
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
-        }
-
-        return redirect()->guest('login');
+        $this->reportable(function (Throwable $e) {
+            //
+        });
     }
 }

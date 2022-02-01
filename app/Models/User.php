@@ -1,146 +1,44 @@
 <?php
 
-/**
- * Created by John Dave Decano<johndavedecano@gmail.com>.
- * Date: Mon, 16 Apr 2018 18:21:38 +0000.
- */
-
 namespace App\Models;
 
-use App\Notifications\ForgotPassword;
-use Hash;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-/**
- * Class User
- *
- * @property int $id
- * @property string $name
- * @property string $email
- * @property string $password
- * @property string $remember_token
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property string $account_number
- * @property string $mobile
- * @property string $avatar
- * @property \Carbon\Carbon $date_of_birth
- * @property string $address
- * @property string $city
- * @property string $state
- * @property string $postal_code
- * @property bool $is_admin
- * @property \Carbon\Carbon $last_login
- *
- * @package App\Models
- */
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable
 {
-    use Notifiable;
-    
-    use HasSubscriptions;
+    use HasApiTokens, HasFactory, Notifiable;
 
-    protected $casts = [
-        'is_admin' => 'bool',
-        'is_active' => 'bool',
-        'is_deleted' => 'bool'
-    ];
-
-    protected $dates = [
-        'last_login'
-    ];
-
-    protected $hidden = [
-        'password',
-        'remember_token'
-    ];
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'remember_token',
-        'account_number',
-        'mobile',
-        'avatar',
-        'date_of_birth',
-        'address',
-        'city',
-        'state',
-        'postal_code',
-        'country',
-        'is_admin',
-        'is_deleted',
-        'last_login'
     ];
 
     /**
-     * Save the last login timestamp.
+     * The attributes that should be hidden for serialization.
      *
-     * @return object
+     * @var array<int, string>
      */
-    public function logLastLogin()
-    {
-        $this->last_login = date('Y-m-d H:i:s');
-        $this->save();
-
-        return $this;
-    }
-    
-    /**
-     * Automatically create user account number.
-     *
-     * @param  string  $value
-     * @return void
-     */
-    public function setAccountNumberAttribute($value)
-    {
-        $random = rand(10, 500);
-        
-        $this->attributes['account_number'] = $value.$random;
-    }
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     /**
-     * Automatically creates hash for the user password.
+     * The attributes that should be cast.
      *
-     * @param  string  $value
-     * @return void
+     * @var array<string, string>
      */
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = Hash::make($value);
-    }
-
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
-     */
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
-
-    /**
-     * Send the password reset notification.
-     *
-     * @param  string  $token
-     * @return void
-     */
-    public function sendPasswordResetNotification($token)
-    {
-        $this->notify(new ForgotPassword($token));
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 }
