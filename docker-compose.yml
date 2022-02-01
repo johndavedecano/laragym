@@ -1,0 +1,33 @@
+version: "3"
+services:
+    mysql:
+        container_name: laragym_mysql
+        image: mysql:8
+        ports:
+            - 3306:3306
+        volumes:
+            - mysql:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_DATABASE: ${DB_DATABASE}
+    redis:
+        image: redis:latest
+        container_name: laragym_redis
+        ports:
+            - 6379:6379
+        volumes:
+            - redis:/data
+    mailhog:
+        image: mailhog/mailhog
+        container_name: laragym_mailhog
+        ports:
+            - 1025:1025
+            - 8025:8025
+volumes:
+    mysql:
+        driver: local
+    redis:
+        driver: local
+
