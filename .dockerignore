@@ -1,8 +1,0 @@
-.git
-.idea
-.env
-node_modules
-vendor
-storage/framework/cache/**
-storage/framework/sessions/**
-storage/framework/views/**
