@@ -1,0 +1,22 @@
+version: "2"
+services:
+    laragym_db:
+        image: mysql:8.0
+        command: mysqld --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        environment:
+            MYSQL_DATABASE: laragym
+            MYSQL_ROOT_PASSWORD: laragym
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+        ports:
+            - '3306:3306'
+    laragym_redis:
+        image: redis:latest
+        ports:
+            - 6379:6379
+        volumes:
+            - ./data/redis:/data
+    laragym_mailhog:
+        image: mailhog/mailhog
+        ports:
+            - 1025:1025
+            - 8025:8025
