@@ -73,6 +73,8 @@ class ResetPasswordControllerTest extends TestCase
             'status',
             'token',
         ])->isOk();
+
+        Config::set('boilerplate.reset_password.release_token', false);
     }
 
     public function testResetReturnsProcessError()
