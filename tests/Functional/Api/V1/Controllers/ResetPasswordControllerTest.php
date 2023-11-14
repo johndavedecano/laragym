@@ -50,7 +50,7 @@ class ResetPasswordControllerTest extends TestCase
             'token' => 'my_super_secret_code',
             'password' => 'mynewpass',
             'password_confirmation' => 'mynewpass'
-        ])->isOk();
+        ])->assertStatus(200);
     }
 
     public function testResetSuccessfullyWithTokenRelease()
