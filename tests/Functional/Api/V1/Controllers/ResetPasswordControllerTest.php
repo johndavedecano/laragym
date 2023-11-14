@@ -50,7 +50,12 @@ class ResetPasswordControllerTest extends TestCase
             'token' => 'my_super_secret_code',
             'password' => 'mynewpass',
             'password_confirmation' => 'mynewpass'
-        ])->assertStatus(200);
+        ])->assertJson([
+            'status' => 'ok'
+        ])->assertJsonStructure([
+            'status',
+            'token',
+        ])->isOk();
     }
 
     public function testResetSuccessfullyWithTokenRelease()
@@ -62,6 +67,11 @@ class ResetPasswordControllerTest extends TestCase
             'token' => 'my_super_secret_code',
             'password' => 'mynewpass',
             'password_confirmation' => 'mynewpass'
+        ])->assertJson([
+            'status' => 'ok'
+        ])->assertJsonStructure([
+            'status',
+            'token',
         ])->isOk();
     }
 

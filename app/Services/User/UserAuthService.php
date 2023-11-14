@@ -59,10 +59,14 @@ class UserAuthService implements UserAuthServiceInterface
      */
     public function reset($request = [])
     {
+        $createdUser = null;
+
         $response = $this->getPasswordBroker()->reset(
-            $request, function ($user, $password) {
+            $request, function ($user, $password) use (&$createdUser) {
                 $user->password = $password;
                 $user->save();
+
+                $createdUser = $user;
             }
         );
 
@@ -70,7 +74,7 @@ class UserAuthService implements UserAuthServiceInterface
             throw new HttpException(500);
         }
 
-        return $response;
+        return $createdUser;
     }
 
     /**
