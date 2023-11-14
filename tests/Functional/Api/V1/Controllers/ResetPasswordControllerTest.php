@@ -13,23 +13,35 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class ResetPasswordControllerTest extends TestCase
 {
     use RefreshDatabase;
+    
+    private $user;
 
     public function setUp()
     {
         parent::setUp();
 
-        $user = new User([
-            'name' => 'Test User',
+        $this->user = new User([
+            'name' => 'Test',
             'email' => 'test@email.com',
             'password' => '123456'
         ]);
-        $user->save();
+        $this->user->save();
 
         DB::table('password_resets')->insert([
             'email' => 'test@email.com',
             'token' => bcrypt('my_super_secret_code'),
             'created_at' => Carbon::now()
         ]);
+    }
+
+    public function tearDown()
+    {
+        // Delete the user after each test
+        if ($this->user) {
+            $this->user->delete();
+        }
+
+        parent::tearDown();
     }
 
     public function testResetSuccessfully()
