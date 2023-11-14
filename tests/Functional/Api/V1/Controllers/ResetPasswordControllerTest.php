@@ -36,7 +36,6 @@ class ResetPasswordControllerTest extends TestCase
 
     public function tearDown()
     {
-        // Delete the user after each test
         if ($this->user) {
             $this->user->delete();
         }
