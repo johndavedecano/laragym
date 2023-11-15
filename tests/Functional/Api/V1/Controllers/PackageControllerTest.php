@@ -2,6 +2,7 @@
 
 namespace App\Functional\Api\V1\Controllers;
 
+use App\Models\User;
 use Hash;
 use App\Functional\Api\V1\Controllers\UserLoginTrait;
 use App\Models\Package;
@@ -38,6 +39,15 @@ class PackageControllerTest extends TestCase
             'name'        => 'Package 1',
             'service_id'  => $service->id,
         ];
+    }
+
+    public function tearDown(): void
+    {
+        $user = User::where('email', 'admin@admin.com');
+        if ($user) {
+            $user->delete();
+        }
+        parent::tearDown();
     }
 
     public function testIndexFails()
