@@ -2,9 +2,9 @@
 
 namespace App\Functional\Api\V1\Controllers;
 
-use App\Models\User;
 use Hash;
 use App\Functional\Api\V1\Controllers\UserLoginTrait;
+use App\Models\User;
 use App\Models\Package;
 use App\Models\Service;
 use App\Models\Cycle;
