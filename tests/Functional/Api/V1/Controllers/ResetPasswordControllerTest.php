@@ -13,8 +13,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class ResetPasswordControllerTest extends TestCase
 {
     use RefreshDatabase;
-    
-    private $user;
 
     public function setUp()
     {

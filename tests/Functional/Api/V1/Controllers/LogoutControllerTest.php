@@ -12,8 +12,6 @@ class LogoutControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $user;
-
     public function setUp()
     {
         parent::setUp();
