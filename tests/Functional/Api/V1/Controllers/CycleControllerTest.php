@@ -2,6 +2,7 @@
 
 namespace App\Functional\Api\V1\Controllers;
 
+use App\Models\User;
 use Hash;
 use App\Functional\Api\V1\Controllers\UserLoginTrait;
 use App\Models\Cycle;
@@ -20,6 +21,15 @@ class CycleControllerTest extends TestCase
         parent::setUp();
 
         $this->login('admin@admin.com', 'password');
+    }
+
+    public function tearDown(): void
+    {
+        $user = User::where('email', 'admin@admin.com');
+        if ($user) {
+            $user->delete();
+        }
+        parent::tearDown();
     }
 
     public function testIndexFails()
