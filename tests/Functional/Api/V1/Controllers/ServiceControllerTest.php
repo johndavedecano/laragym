@@ -3,6 +3,7 @@
 namespace App\Functional\Api\V1\Controllers;
 
 use Hash;
+use App\Models\User;
 use App\Models\Service;
 use App\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -20,6 +21,15 @@ class ServiceControllerTest extends TestCase
         parent::setUp();
 
         $this->login('admin@admin.com', 'password');
+    }
+
+    public function tearDown(): void
+    {
+        $user = User::where('email', 'admin@admin.com');
+        if ($user) {
+            $user->delete();
+        }
+        parent::tearDown();
     }
 
     public function testIndexFails()
