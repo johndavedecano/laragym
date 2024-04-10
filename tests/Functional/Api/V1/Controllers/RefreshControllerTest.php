@@ -16,13 +16,22 @@ class RefreshControllerTest extends TestCase
     {
         parent::setUp();
 
-        $user = new User([
+        $this->user = new User([
             'name' => 'Test',
             'email' => 'test@email.com',
             'password' => '123456'
         ]);
 
-        $user->save();
+        $this->user->save();
+    }
+
+    public function tearDown()
+    {
+        if ($this->user) {
+            $this->user->delete();
+        }
+
+        parent::tearDown();
     }
 
     public function testRefresh()

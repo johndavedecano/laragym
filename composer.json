@@ -14,7 +14,7 @@
   "require": {
     "php": ">=7.1.2",
     "laravel/framework": "5.7.*",
-    "fideloper/proxy" : "^4.0",
+    "fideloper/proxy": "^4.0",
     "tymon/jwt-auth": "dev-develop",
     "barryvdh/laravel-cors": "^0.11.0",
     "reliese/laravel": "^0.0.13",
@@ -56,6 +56,9 @@
     ]
   },
   "config": {
-    "preferred-install": "dist"
+    "preferred-install": "dist",
+    "allow-plugins": {
+      "kylekatarnls/update-helper": true
+    }
   }
 }

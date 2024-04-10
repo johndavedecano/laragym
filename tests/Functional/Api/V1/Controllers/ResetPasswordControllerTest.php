@@ -18,18 +18,27 @@ class ResetPasswordControllerTest extends TestCase
     {
         parent::setUp();
 
-        $user = new User([
-            'name' => 'Test User',
+        $this->user = new User([
+            'name' => 'Test',
             'email' => 'test@email.com',
             'password' => '123456'
         ]);
-        $user->save();
+        $this->user->save();
 
         DB::table('password_resets')->insert([
             'email' => 'test@email.com',
             'token' => bcrypt('my_super_secret_code'),
             'created_at' => Carbon::now()
         ]);
+    }
+
+    public function tearDown()
+    {
+        if ($this->user) {
+            $this->user->delete();
+        }
+
+        parent::tearDown();
     }
 
     public function testResetSuccessfully()
@@ -39,6 +48,11 @@ class ResetPasswordControllerTest extends TestCase
             'token' => 'my_super_secret_code',
             'password' => 'mynewpass',
             'password_confirmation' => 'mynewpass'
+        ])->assertJson([
+            'status' => 'ok'
+        ])->assertJsonStructure([
+            'status',
+            'token',
         ])->isOk();
     }
 
@@ -51,7 +65,14 @@ class ResetPasswordControllerTest extends TestCase
             'token' => 'my_super_secret_code',
             'password' => 'mynewpass',
             'password_confirmation' => 'mynewpass'
+        ])->assertJson([
+            'status' => 'ok'
+        ])->assertJsonStructure([
+            'status',
+            'token',
         ])->isOk();
+
+        Config::set('boilerplate.reset_password.release_token', false);
     }
 
     public function testResetReturnsProcessError()
