@@ -12,7 +12,7 @@
   "license": "MIT",
   "type": "project",
   "require": {
-    "php": ">=7.1.2",
+    "php": "^8.0",
     "laravel/framework": "5.7.*",
     "fideloper/proxy": "^4.0",
     "tymon/jwt-auth": "dev-develop",
