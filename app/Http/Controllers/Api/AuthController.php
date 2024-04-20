@@ -2,33 +2,28 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\UserAuthException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\ForgotRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\ResendRequest;
 use App\Http\Requests\Auth\ResetRequest;
-use App\Models\User;
-use Illuminate\Auth\Events\Registered;
+use App\Services\UserAuthService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
+    private UserAuthService $userAuthService;
+
+    public function __construct()
+    {
+        $this->userAuthService = new UserAuthService();
+    }
+
     public function register(RegisterRequest $request)
     {
-        $user = new User([
-            'email' => $request->email,
-            'name' => $request->name,
-            'password' => bcrypt($request->password)
-        ]);
-
-        $user->save();
-
-        event(new Registered($user));
+        $this->userAuthService->register($request->email, $request->password, $request->name);
 
         return response()->json([
             'success' => true
@@ -37,23 +32,20 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $credentials = $request->only(['email', 'password']);
+        try {
+            $token = $this->userAuthService->login($request->email, $request->password);
 
-        if (!auth()->attempt($credentials)) {
             return response()->json([
-                'message' => 'invalid login credentials',
+                'success' => true,
+                'token_type' => 'Bearer',
+                'access_token' => $token,
+            ]);
+        } catch (UserAuthException $ex) {
+            return response()->json([
+                'message' => $ex,
                 'success' => false
             ], 401);
         }
-
-        $user = $request->user();
-        $token = $user->getPersonalAccessToken();
-
-        return response()->json([
-            'success' => true,
-            'token_type' => 'Bearer',
-            'access_token' => $token,
-        ]);
     }
 
 
@@ -72,7 +64,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete();
+        $this->userAuthService->logout($request->user());
 
         return response()->json([
             'success' => true
@@ -81,33 +73,20 @@ class AuthController extends Controller
 
     public function forgot(ForgotRequest $request)
     {
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        $status = $this->userAuthService->forgot($request->email);
 
-        return $status === Password::RESET_LINK_SENT
+        return $status === true
             ? response()->json(['success' => true])
-            : response()->json(['message' => __($status), 'success' => false], 400);
+            : response()->json(['message' => 'unable to process request', 'success' => false], 400);
     }
 
     public function reset(ResetRequest $request)
     {
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function (User $user, string $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->setRememberToken(Str::random(60));
+        $status = $this->userAuthService->reset($request->toArray());
 
-                $user->save();
-
-                event(new PasswordReset($user));
-            }
-        );
-
-        return $status === Password::PASSWORD_RESET
-            ? response()->json(['success' => true, 'message' => [__($status)]])
-            : response()->json(['message' => [__($status)], 'success' => false], 400);
+        return $status === true
+            ? response()->json(['success' => true])
+            : response()->json(['message' => 'unable to reset password', 'success' => false], 400);
     }
 
     public function verify($id, $hash, Request $request)
@@ -116,11 +95,7 @@ class AuthController extends Controller
             return response()->json(["message" => "invalid verification token", "success" => false], 400);
         }
 
-        $user = User::findOrFail($id);
-
-        if (!$user->hasVerifiedEmail()) {
-            $user->markEmailAsVerified();
-        }
+        $this->userAuthService->verify($id);
 
         return response()->json([
             'success' => true
@@ -129,16 +104,10 @@ class AuthController extends Controller
 
     public function resend(ResendRequest $request)
     {
-        $user = User::where('email', '=', $request->email)->firstOrFail();
+        $status = $this->userAuthService->resend($request->email);
 
-        if ($user->hasVerifiedEmail()) {
-            return response()->json(["message" => "email is already verified.", "success" => false], 400);
-        }
-
-        $user->sendEmailVerificationNotification();
-
-        return response()->json([
-            'success' => true
-        ]);
+        return $status === true
+            ? response()->json(['success' => true])
+            : response()->json(['message' => 'user must already been verified', 'success' => false], 400);
     }
 }

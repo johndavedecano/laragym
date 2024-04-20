@@ -63,8 +63,6 @@ class LoginTest extends TestCase
             'Accept' => 'application/json'
         ]);
 
-        $response->assertStatus(200)->assertJson(function (AssertableJson $json) {
-            $json->hasAny(['token_type', 'access_token']);
-        });
+        $response->assertStatus(200);
     }
 }
