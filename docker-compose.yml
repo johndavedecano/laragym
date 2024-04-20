@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+    mysql:
+        image: mysql:8.0
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        command: --default-authentication-plugin=mysql_native_password --bind-address=0.0.0.0
+        volumes:
+            - ./storage/mysql:/var/lib/mysql
+        ports:
+            - "3306:3306"
+    redis:
+        image: redis:alpine
+        restart: unless-stopped
+        ports:
+            - "6379:6379"
+    mailhog:
+        image: mailhog/mailhog:latest
+        restart: unless-stopped
+        ports:
+            - "1025:1025"
+            - "8025:8025"
