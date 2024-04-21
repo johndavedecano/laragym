@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +25,24 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('reset', 'AuthController@reset')->name('password.reset');
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::group(['middleware' => ['admin']], function () {
+        Route::resource('cycles', 'CycleController');
+        // Route::resource('services', 'ServiceController');
+        // Route::resource('packages', 'PackageController');
+        // Route::resource('users', 'UserController');
+        // Route::resource('subscriptions', 'SubscriptionController');
+        // Route::post('upload', 'ImageController@store');
+        // Route::get('/stats/subscriptions', 'StatisticsController@subscriptions');
+        // Route::get('/stats/services', 'StatisticsController@services');
+        // Route::get('/stats/members', 'StatisticsController@members');
+        // Route::get('/stats/packages', 'StatisticsController@packages');
+        // Route::group(['prefix' => 'activities'], function () {
+        //     Route::get('system', 'ActivityController@system');
+        //     Route::get('attendance', 'ActivityController@attendance');
+        //     Route::post('attendance', 'ActivityController@store');
+        //     Route::delete('attendance/{id}', 'ActivityController@destroy');
+        //     Route::get('attendance/{id}', 'ActivityController@show');
+        // });
+    });
 });

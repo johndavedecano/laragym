@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCycleRequest;
 use App\Http\Requests\UpdateCycleRequest;
+use App\Http\Resources\CycleResource;
 use App\Models\Cycle;
+use App\Services\Cycle\CycleCollection;
 
 class CycleController extends Controller
 {
@@ -14,9 +16,13 @@ class CycleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(CycleCollection $cycles)
     {
-        //
+        $collection = CycleResource::collection($cycles->get());
+
+        $collection->additional(['meta' => $cycles->meta]);
+
+        return response()->json($collection);
     }
 
     /**

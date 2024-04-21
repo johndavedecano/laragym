@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exceptions\UserAuthException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\ForgotRequest;
 use App\Http\Requests\Auth\LoginRequest;
@@ -10,6 +9,7 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\ResendRequest;
 use App\Http\Requests\Auth\ResetRequest;
 use App\Services\UserAuthService;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -40,9 +40,9 @@ class AuthController extends Controller
                 'token_type' => 'Bearer',
                 'access_token' => $token,
             ]);
-        } catch (UserAuthException $ex) {
+        } catch (AuthenticationException $ex) {
             return response()->json([
-                'message' => $ex,
+                'message' => $ex->getMessage(),
                 'success' => false
             ], 401);
         }

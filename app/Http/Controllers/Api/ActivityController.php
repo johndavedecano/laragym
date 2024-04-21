@@ -1,66 +1,112 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreActivityRequest;
-use App\Http\Requests\UpdateActivityRequest;
-use App\Models\Activity;
+use App\Http\Resources\ActivityResource;
+use App\Services\Activity\ActivityCollection;
+use App\Services\Activity\ActivityService;
+use Illuminate\Http\Request;
 
+/**
+ * Class ActivityController
+ * @package App\Http\Controllers
+ */
 class ActivityController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @var ActivityCollection
      */
-    public function index()
+    protected $collection;
+
+    /**
+     * @var ActivityService
+     */
+    protected $service;
+
+    /**
+     * ActivityController constructor.
+     * @param ActivityCollection $collection
+     * @param ActivityService $service
+     */
+    public function __construct(ActivityCollection $collection, ActivityService $service)
     {
-        //
+        $this->collection = $collection;
+
+        $this->service = $service;
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreActivityRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function store(StoreActivityRequest $request)
+    public function system(Request $request)
     {
-        //
+        $request = $request->all();
+
+        $response = $this->collection->system($request);
+
+        $collection = ActivityResource::collection($response);
+
+        $collection->additional(['meta' => $this->collection->meta]);
+
+        return $collection;
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Activity  $activity
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function show(Activity $activity)
+    public function attendance(Request $request)
     {
-        //
+        $request = $request->all();
+
+        $response = $this->collection->attendance($request);
+
+        $collection = ActivityResource::collection($response);
+
+        $collection->additional(['meta' => $this->collection->meta]);
+
+        return $collection;
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateActivityRequest  $request
-     * @param  \App\Models\Activity  $activity
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return ActivityResource
      */
-    public function update(UpdateActivityRequest $request, Activity $activity)
+    public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'user_id' => 'required|exists:users,id',
+            'description' => 'required|in:login,logout'
+        ]);
+
+        $response = $this->service->attend($request['user_id'], $request['description']);
+
+        return new ActivityResource($response);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Activity  $activity
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return ActivityResource
      */
-    public function destroy(Activity $activity)
+    public function show($id)
     {
-        //
+        $response = $this->service->find($id);
+
+        return new ActivityResource($response);
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function destroy($id)
+    {
+        $activity = $this->service->find($id);
+
+        $response = $this->service->delete($activity);
+
+        return response()->json($response);
     }
 }

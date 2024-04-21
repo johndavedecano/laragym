@@ -2,9 +2,8 @@
 
 namespace App\Services;
 
-use App\Exceptions\ErrorType;
-use App\Exceptions\UserAuthException;
 use App\Models\User;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
@@ -31,7 +30,7 @@ class UserAuthService
         $credentials = ['email' => $email, 'password' => $password];
 
         if (!auth()->attempt($credentials)) {
-            throw new UserAuthException(ErrorType::INVALID_CREDENTIALS);
+            throw new AuthenticationException("invalid login credentials");
         }
 
         $user = User::where('email', $email)->firstOrFail();
