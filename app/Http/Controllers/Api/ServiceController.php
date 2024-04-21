@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreServiceRequest;
 use App\Http\Requests\UpdateServiceRequest;
 use App\Models\Service;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ServiceController extends Controller
 {
@@ -16,7 +17,11 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        //
+        $results = QueryBuilder::for(Service::class)
+            ->paginate()
+            ->appends(request()->query());
+
+        return response()->json($results);
     }
 
     /**

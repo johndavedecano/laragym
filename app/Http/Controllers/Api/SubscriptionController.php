@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSubscriptionRequest;
 use App\Http\Requests\UpdateSubscriptionRequest;
 use App\Models\Subscription;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class SubscriptionController extends Controller
 {
@@ -16,7 +17,11 @@ class SubscriptionController extends Controller
      */
     public function index()
     {
-        //
+        $results = QueryBuilder::for(Subscription::class)
+            ->paginate()
+            ->appends(request()->query());
+
+        return response()->json($results);
     }
 
     /**

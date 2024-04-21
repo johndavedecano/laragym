@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->timestamp('suspended_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('status')->default('active');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index('status');
 

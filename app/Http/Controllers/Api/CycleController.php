@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCycleRequest;
 use App\Http\Requests\UpdateCycleRequest;
-use App\Http\Resources\CycleResource;
 use App\Models\Cycle;
-use App\Services\Cycle\CycleCollection;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CycleController extends Controller
 {
@@ -16,13 +15,13 @@ class CycleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(CycleCollection $cycles)
+    public function index()
     {
-        $collection = CycleResource::collection($cycles->get());
+        $results = QueryBuilder::for(Cycle::class)
+            ->paginate()
+            ->appends(request()->query());
 
-        $collection->additional(['meta' => $cycles->meta]);
-
-        return response()->json($collection);
+        return response()->json($results);
     }
 
     /**
@@ -33,7 +32,14 @@ class CycleController extends Controller
      */
     public function store(StoreCycleRequest $request)
     {
-        //
+        $result = Cycle::create($request->only([
+            'name',
+            'num_days',
+            'status',
+            'description',
+        ]));
+
+        return response()->json($result);
     }
 
     /**
@@ -44,7 +50,7 @@ class CycleController extends Controller
      */
     public function show(Cycle $cycle)
     {
-        //
+        return response()->json($cycle);
     }
 
     /**
@@ -56,7 +62,14 @@ class CycleController extends Controller
      */
     public function update(UpdateCycleRequest $request, Cycle $cycle)
     {
-        //
+        $result = $cycle->update($request->only([
+            'name',
+            'num_days',
+            'status',
+            'description',
+        ]));
+
+        return response()->json($result);
     }
 
     /**
@@ -67,6 +80,8 @@ class CycleController extends Controller
      */
     public function destroy(Cycle $cycle)
     {
-        //
+        $result = $cycle->delete();
+
+        return response()->json($result);
     }
 }

@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('entity_id')->nullable();
             $table->string('type')->nullable();
             $table->string('description')->nullable();
-
+            $table->softDeletes();
             $table->timestamps();
 
             $table->index('type');

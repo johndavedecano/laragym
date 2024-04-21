@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
 {
@@ -16,7 +17,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $results = QueryBuilder::for(User::class)
+            ->paginate()
+            ->appends(request()->query());
+
+        return response()->json($results);
     }
 
     /**

@@ -5,10 +5,11 @@ namespace Tests\Feature\Cycle;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tests\UserSessionTrait;
 
 class CycleIndexTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, UserSessionTrait;
 
     public function test_unauthorized()
     {
@@ -21,13 +22,11 @@ class CycleIndexTest extends TestCase
 
     public function test_not_admin()
     {
-        $user = User::factory()->create();
-
-        $token = $user->getPersonalAccessToken();
+        $bearer = $this->getUserAuth();
 
         $response = $this->get('/api/cycles', [
             'Accept' => 'application/json',
-            'Authorization' => "Bearer $token"
+            'Authorization' => $bearer
         ]);
 
         $response->assertStatus(403);
@@ -35,15 +34,11 @@ class CycleIndexTest extends TestCase
 
     public function test_fetch_success()
     {
-        $user = User::factory()->create();
-        $user->is_admin = true;
-        $user->save();
-
-        $token = $user->getPersonalAccessToken();
+        $bearer = $this->getAdminAuth();
 
         $response = $this->get('/api/cycles', [
             'Accept' => 'application/json',
-            'Authorization' => "Bearer $token"
+            'Authorization' => $bearer
         ]);
 
         $response->assertStatus(200);
