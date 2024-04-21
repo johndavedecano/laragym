@@ -13,7 +13,7 @@ class UpdateServiceRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class UpdateServiceRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'string|max:255',
+            'num_days' => 'integer',
+            'status' => 'string|in:active,inactive,deleted',
+            'description' => 'string|max:255',
         ];
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePackageRequest;
 use App\Http\Requests\UpdatePackageRequest;
 use App\Models\Package;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class PackageController extends Controller
@@ -18,6 +19,10 @@ class PackageController extends Controller
     public function index()
     {
         $results = QueryBuilder::for(Package::class)
+            ->allowedFilters(
+                AllowedFilter::partial('name'),
+                AllowedFilter::exact('status')
+            )
             ->paginate()
             ->appends(request()->query());
 
@@ -45,24 +50,24 @@ class PackageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Package  $cycle
+     * @param  \App\Models\Package $package
      * @return \Illuminate\Http\Response
      */
-    public function show(Package $cycle)
+    public function show(Package $package)
     {
-        return response()->json($cycle);
+        return response()->json($package);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdatePackageRequest  $request
-     * @param  \App\Models\Package  $cycle
+     * @param  \App\Models\Package $package
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePackageRequest $request, Package $cycle)
+    public function update(UpdatePackageRequest $request, Package $package)
     {
-        $result = $cycle->update($request->only([
+        $result = $package->update($request->only([
             'name',
             'num_days',
             'status',
@@ -75,13 +80,13 @@ class PackageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Package  $cycle
+     * @param  \App\Models\Package  $package
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Package $cycle)
+    public function destroy(Package $package)
     {
-        $result = $cycle->delete();
+        $package->delete();
 
-        return response()->json($result);
+        return response()->json(null, 204);
     }
 }

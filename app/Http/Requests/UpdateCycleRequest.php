@@ -26,7 +26,7 @@ class UpdateCycleRequest extends FormRequest
         return [
             'name' => 'string|max:255',
             'num_days' => 'integer',
-            'status' => 'string|max:255',
+            'status' => 'string|in:active,inactive,deleted',
             'description' => 'string|max:255',
         ];
     }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCycleRequest;
 use App\Http\Requests\UpdateCycleRequest;
 use App\Models\Cycle;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CycleController extends Controller
@@ -18,6 +19,10 @@ class CycleController extends Controller
     public function index()
     {
         $results = QueryBuilder::for(Cycle::class)
+            ->allowedFilters(
+                AllowedFilter::partial('name'),
+                AllowedFilter::exact('status')
+            )
             ->paginate()
             ->appends(request()->query());
 
@@ -80,8 +85,8 @@ class CycleController extends Controller
      */
     public function destroy(Cycle $cycle)
     {
-        $result = $cycle->delete();
+        $cycle->delete();
 
-        return response()->json($result);
+        return response()->json(null, 204);
     }
 }

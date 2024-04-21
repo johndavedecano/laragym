@@ -27,7 +27,9 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['middleware' => ['admin']], function () {
-        Route::resource('cycles', 'CycleController');
+        Route::apiResource('cycles', 'CycleController');
+        Route::apiResource('services', 'ServiceController');
+        // Route::apiResource('packages', 'PackageController');
         // Route::resource('services', 'ServiceController');
         // Route::resource('packages', 'PackageController');
         // Route::resource('users', 'UserController');

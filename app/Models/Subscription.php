@@ -8,8 +8,9 @@ use App\Models\Traits\HasService;
 use App\Models\Traits\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Subscription extends Model
 {
-    use HasFactory, HasService, HasCycle, HasPackage, HasUser;
+    use HasFactory, HasService, HasCycle, HasPackage, HasUser, SoftDeletes;
 }

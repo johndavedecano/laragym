@@ -13,7 +13,7 @@ class StorePackageRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class StorePackageRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'service_id' => 'required|integer|exists:services,id',
+            'cycle_id' => 'required|integer|exists:cycles,id',
+            'amount' => 'required|numeric',
+            'name' => 'required|string|max:255',
+            'status' => 'required|string|in:active,inactive,deleted'
         ];
     }
 }
