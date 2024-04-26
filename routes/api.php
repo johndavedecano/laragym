@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['middleware' => ['admin']], function () {
         Route::apiResource('cycles', 'CycleController');
         Route::apiResource('services', 'ServiceController');
+        Route::apiResource('branches', 'BranchController');
         Route::apiResource('packages', 'PackageController');
         Route::apiResource('subscriptions', 'SubscriptionController');
         Route::apiResource('users', 'UserController');

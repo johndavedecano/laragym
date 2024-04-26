@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreServiceRequest;
-use App\Http\Requests\UpdateServiceRequest;
-use App\Models\Service;
+use App\Http\Requests\StoreBranchRequest;
+use App\Http\Requests\UpdateBranchRequest;
+use App\Models\Branch;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class ServiceController extends Controller
+class BranchController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $results = QueryBuilder::for(Service::class)
+        $results = QueryBuilder::for(Branch::class)
             ->allowedFilters(
                 AllowedFilter::partial('name'),
                 AllowedFilter::exact('status')
@@ -32,12 +32,12 @@ class ServiceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreServiceRequest $request
+     * @param  \App\Http\Requests\StoreBranchRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreServiceRequest $request)
+    public function store(StoreBranchRequest $request)
     {
-        $result = Service::create($request->only([
+        $result = Branch::create($request->only([
             'name',
             'status',
             'description',
@@ -49,24 +49,24 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Service $service
+     * @param  \App\Models\Branch $branch
      * @return \Illuminate\Http\Response
      */
-    public function show(Service $service)
+    public function show(Branch $branch)
     {
-        return response()->json($service);
+        return response()->json($branch);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateServiceRequest $request
-     * @param  \App\Models\Service $service
+     * @param  \App\Http\Requests\UpdateBranchRequest $request
+     * @param  \App\Models\Branch $branch
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateServiceRequest $request, Service $service)
+    public function update(UpdateBranchRequest $request, Branch $branch)
     {
-        $result = $service->update($request->only([
+        $result = $branch->update($request->only([
             'name',
             'status',
             'description',
@@ -78,12 +78,12 @@ class ServiceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Service $service
+     * @param  \App\Models\Branch $branch
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Service $service)
+    public function destroy(Branch $branch)
     {
-        $service->delete();
+        $branch->delete();
 
         return response()->json(null, 204);
     }

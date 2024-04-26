@@ -1,19 +1,19 @@
 <?php
 
-namespace Tests\Feature\Service;
+namespace Tests\Feature\Branch;
 
-use App\Models\Service;
+use App\Models\Branch;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\UserSessionTrait;
 
-class ServiceUpdateTest extends TestCase
+class BranchUpdateTest extends TestCase
 {
     use RefreshDatabase, UserSessionTrait;
 
     public function test_user_is_unauthorized()
     {
-        $response = $this->put('/api/services/1', [], [
+        $response = $this->put('/api/branches/1', [], [
             'Accept' => 'application/json'
         ]);
 
@@ -22,11 +22,11 @@ class ServiceUpdateTest extends TestCase
 
     public function test_user_is_not_admin()
     {
-        $model = Service::factory()->create();
+        $model = Branch::factory()->create();
 
         $bearer = $this->getUserAuth();
 
-        $response = $this->put('/api/services/' . $model->id, [], [
+        $response = $this->put('/api/branches/' . $model->id, [], [
             'Accept' => 'application/json',
             'Authorization' => $bearer
         ]);
@@ -36,11 +36,11 @@ class ServiceUpdateTest extends TestCase
 
     public function test_validation_error()
     {
-        $model = Service::factory()->create();
+        $model = Branch::factory()->create();
 
         $bearer = $this->getAdminAuth();
 
-        $response = $this->put('/api/services/' . $model->id, [
+        $response = $this->put('/api/branches/' . $model->id, [
             'name' => '',
         ], [
             'Accept' => 'application/json',
@@ -54,7 +54,7 @@ class ServiceUpdateTest extends TestCase
     {
         $bearer = $this->getAdminAuth();
 
-        $response = $this->put('/api/services/3', [
+        $response = $this->put('/api/branches/0', [
             'name' => 'test',
         ], [
             'Accept' => 'application/json',
@@ -66,12 +66,13 @@ class ServiceUpdateTest extends TestCase
 
     public function test_store_success()
     {
-        $model = Service::factory()->create();
+        $model = Branch::factory()->create();
 
         $bearer = $this->getAdminAuth();
 
-        $response = $this->put('/api/services/' . $model->id, [
+        $response = $this->put('/api/branches/' . $model->id, [
             'name' => fake()->name(),
+            'num_days' => fake()->numberBetween(1, 10),
             'status' => 'active',
             'description' => fake()->paragraph(1),
         ], [
