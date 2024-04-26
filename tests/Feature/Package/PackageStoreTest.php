@@ -53,12 +53,11 @@ class PackageStoreTest extends TestCase
         $cycle = Cycle::factory()->create();
 
         $response = $this->post('/api/packages', [
-            'service_id' => $service->id,
             'cycle_id' => $cycle->id,
+            'services' => [$service->id],
+            'amount' => 1,
             'name' => fake()->name(),
-            'num_days' => fake()->numberBetween(1, 10),
-            'status' => 'active',
-            'amount' => fake()->numberBetween(1, 100)
+            'status' => 'active'
         ], [
             'Accept' => 'application/json',
             'Authorization' => $bearer

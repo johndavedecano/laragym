@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\Package;
 
+use App\Models\Cycle;
 use App\Models\Package;
+use App\Models\Service;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tests\UserSessionTrait;
@@ -70,11 +72,15 @@ class PackageUpdateTest extends TestCase
 
         $bearer = $this->getAdminAuth();
 
+        $service = Service::factory()->create();
+        $cycle = Cycle::factory()->create();
+
         $response = $this->put('/api/packages/' . $model->id, [
+            'cycle_id' => $cycle->id,
+            'services' => [$service->id],
+            'amount' => 1,
             'name' => fake()->name(),
-            'num_days' => fake()->numberBetween(1, 10),
-            'status' => 'active',
-            'amount' => fake()->numberBetween(1, 100)
+            'status' => 'active'
         ], [
             'Accept' => 'application/json',
             'Authorization' => $bearer

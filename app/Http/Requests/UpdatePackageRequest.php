@@ -24,7 +24,7 @@ class UpdatePackageRequest extends FormRequest
     public function rules()
     {
         return [
-            'service_id' => 'integer|exists:services,id',
+            'services.*' => 'required|integer|exists:services,id',
             'cycle_id' => 'integer|exists:cycles,id',
             'amount' => 'numeric',
             'name' => 'string|max:255',

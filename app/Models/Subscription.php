@@ -17,8 +17,6 @@ class Subscription extends Model
     protected $fillable = [
         'package_id',
         'user_id',
-        'service_id',
-        'cycle_id',
         'interval',
         'expires_at',
     ];

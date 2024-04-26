@@ -37,15 +37,19 @@ class PackageController extends Controller
      */
     public function store(StorePackageRequest $request)
     {
-        $result = Package::create($request->only([
+
+        $package = Package::create($request->only([
             'name',
             'amount',
             'status',
             'cycle_id',
-            'service_id',
         ]));
 
-        return response()->json($result);
+        $package->services()->attach($request->services);
+
+        $package->load('services');
+
+        return response()->json($package);
     }
 
     /**
@@ -56,6 +60,8 @@ class PackageController extends Controller
      */
     public function show(Package $package)
     {
+        $package->load('services');
+
         return response()->json($package);
     }
 
@@ -73,8 +79,13 @@ class PackageController extends Controller
             'amount',
             'status',
             'cycle_id',
-            'service_id',
         ]));
+
+        if ($request->has('services')) {
+            $package->services()->sync($request->services);
+        }
+
+        $package->load('services');
 
         return response()->json($result);
     }

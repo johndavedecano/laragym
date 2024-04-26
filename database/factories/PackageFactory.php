@@ -19,7 +19,6 @@ class PackageFactory extends Factory
     public function definition()
     {
         return [
-            'service_id' => Service::factory(),
             'cycle_id' => Cycle::factory(),
             'name' => fake()->name(),
             'status' => 'active',

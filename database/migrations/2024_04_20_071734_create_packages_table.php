@@ -14,7 +14,6 @@ return new class extends Migration {
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('service_id');
             $table->unsignedBigInteger('cycle_id');
             $table->decimal('amount', 8, 2);
             $table->string('name')->nullable();
@@ -24,7 +23,6 @@ return new class extends Migration {
 
             $table->index('status');
 
-            $table->foreign('service_id')->references('id')->on('services');
             $table->foreign('cycle_id')->references('id')->on('cycles');
         });
     }
