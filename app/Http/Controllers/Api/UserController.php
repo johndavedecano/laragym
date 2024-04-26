@@ -6,10 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use App\Services\UserAuthService;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
 {
+    private UserAuthService $userAuthService;
+
+    public function __construct()
+    {
+        $this->userAuthService = new UserAuthService();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +27,10 @@ class UserController extends Controller
     public function index()
     {
         $results = QueryBuilder::for(User::class)
+            ->allowedFilters([
+                AllowedFilter::partial('name'),
+                AllowedFilter::partial('email')
+            ])
             ->paginate()
             ->appends(request()->query());
 
@@ -32,7 +45,9 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        $this->userAuthService->register($request->email, $request->password, $request->name);
+
+        return response()->json(['success' => true], 201);
     }
 
     /**
@@ -43,7 +58,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return response()->json($user);
     }
 
     /**
@@ -55,7 +70,26 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        if ($request->has('email')) {
+            $exists = User::where('email', '=', $request->email)->whereNot('id', $user->id)->exists();
+            if ($exists) {
+                return response()->json(['message' => 'email must be unique'], 400);
+            }
+            $user->email = $request->email;
+        }
+
+        if ($request->has('password')) {
+            $user->password = bcrypt($request->password);
+        }
+
+        if ($request->has('name'))
+            $user->name = $request->name;
+
+        $user->save();
+
+        $user->refresh();
+
+        return response()->json($user);
     }
 
     /**
@@ -66,6 +100,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return response()->json(null, 204);
     }
 }
