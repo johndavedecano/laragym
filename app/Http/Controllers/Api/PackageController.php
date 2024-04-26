@@ -39,9 +39,10 @@ class PackageController extends Controller
     {
         $result = Package::create($request->only([
             'name',
-            'num_days',
+            'amount',
             'status',
-            'description',
+            'cycle_id',
+            'service_id',
         ]));
 
         return response()->json($result);
@@ -69,9 +70,10 @@ class PackageController extends Controller
     {
         $result = $package->update($request->only([
             'name',
-            'num_days',
+            'amount',
             'status',
-            'description',
+            'cycle_id',
+            'service_id',
         ]));
 
         return response()->json($result);

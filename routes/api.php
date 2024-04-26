@@ -29,22 +29,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['middleware' => ['admin']], function () {
         Route::apiResource('cycles', 'CycleController');
         Route::apiResource('services', 'ServiceController');
-        // Route::apiResource('packages', 'PackageController');
-        // Route::resource('services', 'ServiceController');
-        // Route::resource('packages', 'PackageController');
-        // Route::resource('users', 'UserController');
-        // Route::resource('subscriptions', 'SubscriptionController');
-        // Route::post('upload', 'ImageController@store');
-        // Route::get('/stats/subscriptions', 'StatisticsController@subscriptions');
-        // Route::get('/stats/services', 'StatisticsController@services');
-        // Route::get('/stats/members', 'StatisticsController@members');
-        // Route::get('/stats/packages', 'StatisticsController@packages');
-        // Route::group(['prefix' => 'activities'], function () {
-        //     Route::get('system', 'ActivityController@system');
-        //     Route::get('attendance', 'ActivityController@attendance');
-        //     Route::post('attendance', 'ActivityController@store');
-        //     Route::delete('attendance/{id}', 'ActivityController@destroy');
-        //     Route::get('attendance/{id}', 'ActivityController@show');
-        // });
+        Route::apiResource('packages', 'PackageController');
+
     });
 });

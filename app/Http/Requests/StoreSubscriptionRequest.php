@@ -13,7 +13,7 @@ class StoreSubscriptionRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class StoreSubscriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'package_id' => 'required|exists:packages,id',
+            'user_id' => 'required|exists:users,id',
+            'interval' => 'required|numeric|min:1',
+            'status' => 'in:active,inactive,expired,suspended'
         ];
     }
 }
