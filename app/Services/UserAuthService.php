@@ -14,13 +14,11 @@ class UserAuthService
 {
     public function register(string $email, string $password, string $name)
     {
-        $user = new User([
+        $user = User::create([
             'email' => $email,
             'name' => $name,
             'password' => bcrypt($password)
         ]);
-
-        $user->save();
 
         event(new Registered($user));
     }
