@@ -13,7 +13,7 @@ class StoreActivityRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class StoreActivityRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'entity_id' => 'required|numeric',
+            'type' => 'required|string',
+            'description' => 'string|nullable',
         ];
     }
 }

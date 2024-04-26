@@ -30,5 +30,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::apiResource('packages', 'PackageController');
         Route::apiResource('subscriptions', 'SubscriptionController');
         Route::apiResource('users', 'UserController');
+        Route::apiResource('activities', 'ActivityController');
+        Route::get('/stats/subscriptions', 'StatisticsController@subscriptions');
+        Route::get('/stats/services', 'StatisticsController@services');
+        Route::get('/stats/members', 'StatisticsController@members');
+        Route::get('/stats/packages', 'StatisticsController@packages');
     });
 });

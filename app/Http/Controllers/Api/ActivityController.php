@@ -1,112 +1,90 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\ActivityResource;
-use App\Services\Activity\ActivityCollection;
-use App\Services\Activity\ActivityService;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreActivityRequest;
+use App\Http\Requests\UpdateActivityRequest;
+use App\Models\Activity;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
-/**
- * Class ActivityController
- * @package App\Http\Controllers
- */
 class ActivityController extends Controller
 {
     /**
-     * @var ActivityCollection
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
-    protected $collection;
-
-    /**
-     * @var ActivityService
-     */
-    protected $service;
-
-    /**
-     * ActivityController constructor.
-     * @param ActivityCollection $collection
-     * @param ActivityService $service
-     */
-    public function __construct(ActivityCollection $collection, ActivityService $service)
+    public function index()
     {
-        $this->collection = $collection;
+        $results = QueryBuilder::for(Activity::class)
+            ->allowedFilters(
+                AllowedFilter::exact('entity_id'),
+                AllowedFilter::exact('type')
+            )
+            ->paginate()
+            ->appends(request()->query());
 
-        $this->service = $service;
+        return response()->json($results);
     }
 
     /**
-     * @param Request $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreActivityRequest  $request
+     * @return \Illuminate\Http\Response
      */
-    public function system(Request $request)
+    public function store(StoreActivityRequest $request)
     {
-        $request = $request->all();
+        $result = Activity::create($request->only([
+            'entity_id',
+            'type',
+            'description'
+        ]));
 
-        $response = $this->collection->system($request);
-
-        $collection = ActivityResource::collection($response);
-
-        $collection->additional(['meta' => $this->collection->meta]);
-
-        return $collection;
+        return response()->json($result);
     }
 
     /**
-     * @param Request $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Activity  $activity
+     * @return \Illuminate\Http\Response
      */
-    public function attendance(Request $request)
+    public function show(Activity $activity)
     {
-        $request = $request->all();
-
-        $response = $this->collection->attendance($request);
-
-        $collection = ActivityResource::collection($response);
-
-        $collection->additional(['meta' => $this->collection->meta]);
-
-        return $collection;
+        return response()->json($activity);
     }
 
     /**
-     * @param Request $request
-     * @return ActivityResource
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\UpdateActivityRequest  $request
+     * @param  \App\Models\Activity  $activity
+     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function update(UpdateActivityRequest $request, Activity $activity)
     {
-        $this->validate($request, [
-            'user_id' => 'required|exists:users,id',
-            'description' => 'required|in:login,logout'
-        ]);
+        $result = $activity->update($request->only([
+            'entity_id',
+            'type',
+            'description'
+        ]));
 
-        $response = $this->service->attend($request['user_id'], $request['description']);
-
-        return new ActivityResource($response);
+        return response()->json($result);
     }
 
     /**
-     * @param $id
-     * @return ActivityResource
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Activity  $activity
+     * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function destroy(Activity $activity)
     {
-        $response = $this->service->find($id);
+        $activity->delete();
 
-        return new ActivityResource($response);
-    }
-
-    /**
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
-    public function destroy($id)
-    {
-        $activity = $this->service->find($id);
-
-        $response = $this->service->delete($activity);
-
-        return response()->json($response);
+        return response()->json(null, 204);
     }
 }

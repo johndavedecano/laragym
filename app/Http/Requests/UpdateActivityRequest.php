@@ -13,7 +13,7 @@ class UpdateActivityRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class UpdateActivityRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'entity_id' => 'numeric',
+            'type' => 'string',
+            'description' => 'string|nullable',
         ];
     }
 }
