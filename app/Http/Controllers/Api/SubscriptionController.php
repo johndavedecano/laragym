@@ -24,8 +24,6 @@ class SubscriptionController extends Controller
         $results = QueryBuilder::for(Subscription::class)
             ->allowedFilters(
                 AllowedFilter::exact('package_id'),
-                AllowedFilter::exact('cycle_id'),
-                AllowedFilter::exact('service_id'),
                 AllowedFilter::exact('user_id'),
                 AllowedFilter::exact('status'),
             )
@@ -45,17 +43,13 @@ class SubscriptionController extends Controller
     {
         $package = Package::findOrFail($request->package_id);
 
-        $cycle = Cycle::findOrFail($package->cycle_id);
-
         $interval = $request->has('interval') ? $request->interval : 1;
 
         $model = Subscription::create([
-            'package_id' => $request['package_id'],
-            'user_id' => $request['user_id'],
-            'service_id' => $package->service_id,
-            'cycle_id' => $package->cycle_id,
+            'package_id' => $request->package_id,
+            'user_id' => $request->user_id,
             'interval' => $interval,
-            'expires_at' => Carbon::now()->addDays($cycle->num_days * $interval),
+            'expires_at' => Carbon::now()->addDays($package->cycle->num_days * $interval),
         ]);
 
         return response()->json($model);
@@ -85,7 +79,7 @@ class SubscriptionController extends Controller
             'status'
         ]);
 
-        $subscription->udpate($params);
+        $subscription->update($params);
 
         $subscription->fresh();
 

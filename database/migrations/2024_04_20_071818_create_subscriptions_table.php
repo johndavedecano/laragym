@@ -16,8 +16,6 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('package_id');
-            $table->unsignedBigInteger('service_id');
-            $table->unsignedBigInteger('cycle_id');
             $table->integer('interval')->default(1);
             $table->timestamp('expires_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('suspended_at')->default(DB::raw('CURRENT_TIMESTAMP'));
@@ -29,8 +27,6 @@ return new class extends Migration {
 
             $table->foreign('package_id')->references('id')->on('packages');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('service_id')->references('id')->on('services');
-            $table->foreign('cycle_id')->references('id')->on('cycles');
         });
     }
 
