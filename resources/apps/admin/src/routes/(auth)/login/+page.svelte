@@ -11,7 +11,6 @@
 		axios
 			.post('/login', fields)
 			.then((response) => {
-				console.log(response.data);
 				goto('/');
 			})
 			.finally(() => {
