@@ -17,31 +17,27 @@ class PackageSeeder extends Seeder
 
         for ($i = 1; $i < 4; $i++) {
             Package::create([
-                'service_id' => $i,
                 'cycle_id' => 1,
                 'amount' => 10 + $i * 1,
                 'name' => 'Package1' . $i,
-            ]);
+            ])->services()->attach([1, 2, 3, 4]);
 
             Package::create([
-                'service_id' => $i,
                 'cycle_id' => 2,
                 'amount' => 10 + $i * 2,
-            ]);
+            ])->services()->attach([1, 2, 3, 4]);
 
             Package::create([
-                'service_id' => $i,
                 'cycle_id' => 3,
                 'amount' => 10 + $i * 3,
                 'name' => 'Package1' . $i,
-            ]);
+            ])->services()->attach([1, 2, 3, 4]);
 
             Package::create([
-                'service_id' => $i,
                 'cycle_id' => 4,
                 'amount' => 10 + $i * 4,
                 'name' => 'Package1' . $i,
-            ]);
+            ])->services()->attach([1, 2, 3, 4]);
         }
     }
 }
