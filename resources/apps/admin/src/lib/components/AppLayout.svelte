@@ -1,15 +1,11 @@
 <script>
-	import './../../app.pcss';
-
-	import { AppShell, initializeStores } from '@skeletonlabs/skeleton';
+	import { AppShell } from '@skeletonlabs/skeleton';
 
 	import { Drawer } from '@skeletonlabs/skeleton';
 
 	import Navigation from '$lib/components/Navigation.svelte';
 
 	import Header from './Header.svelte';
-
-	initializeStores();
 </script>
 
 <Drawer bgDrawer="bg-gray-800" rounded="rounded-none" width="300px">

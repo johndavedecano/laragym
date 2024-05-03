@@ -3,6 +3,7 @@ import { join } from 'path';
 
 // 1. Import the Skeleton plugin
 import { skeleton } from '@skeletonlabs/tw-plugin';
+import forms from '@tailwindcss/forms';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -11,17 +12,15 @@ export default {
 	content: [
 		'./src/**/*.{html,js,svelte,ts}',
 		// 3. Append the path to the Skeleton package
-		join(require.resolve(
-			'@skeletonlabs/skeleton'),
-			'../**/*.{html,js,svelte,ts}'
-		)
+		join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}')
 	],
 	theme: {
-		extend: {},
+		extend: {}
 	},
-    plugins: [
-        skeleton({
-            themes: { preset: [ "skeleton" ] }
-        })
-    ]
-}
+	plugins: [
+		skeleton({
+			themes: { preset: ['skeleton'] }
+		}),
+		forms
+	]
+};
