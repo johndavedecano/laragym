@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { json, redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 
 const PUBLIC_PAGES = ['/login', '/reset', '/forgot', '/activate', '/register', '/resend'];
 
