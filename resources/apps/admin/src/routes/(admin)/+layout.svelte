@@ -3,5 +3,7 @@
 </script>
 
 <AppLayout>
-	<slot></slot>
+	<main>
+		<slot></slot>
+	</main>
 </AppLayout>

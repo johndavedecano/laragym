@@ -1,7 +1,10 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { useToast } from '$lib/toast';
 
 	import axios from 'axios';
+
+	const toast = useToast();
 
 	let fields = { email: '', password: '' };
 
@@ -10,8 +13,18 @@
 	const onSubmit = () => {
 		axios
 			.post('/login', fields)
-			.then((response) => {
+			.then(() => {
+				toast.trigger({
+					message: 'You have successfully logged in',
+					background: 'variant-filled-success'
+				});
 				goto('/');
+			})
+			.catch((error) => {
+				toast.trigger({
+					message: 'Unable to logged you in',
+					background: 'variant-filled-danger'
+				});
 			})
 			.finally(() => {
 				loading = false;
