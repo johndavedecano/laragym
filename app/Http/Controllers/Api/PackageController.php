@@ -23,7 +23,7 @@ class PackageController extends Controller
                 AllowedFilter::partial('name'),
                 AllowedFilter::exact('status')
             )
-            ->paginate()
+            ->paginate(request()->get('per_page', 15))
             ->appends(request()->query());
 
         return response()->json($results);

@@ -25,7 +25,7 @@ class StoreCycleRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'num_days' => 'required|integer',
+            'num_days' => 'required|integer|gt:0',
             'status' => 'required|string|in:active,inactive,deleted',
             'description' => 'required|string|max:255',
         ];

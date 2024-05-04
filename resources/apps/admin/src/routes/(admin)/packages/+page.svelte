@@ -1,4 +1,6 @@
 <script>
+	import { goto } from '$app/navigation';
+
 	let items = Array.from(new Array(10));
 
 	let title = 'Manage Packages';
@@ -13,8 +15,12 @@
 		<header class="card-header mb-6 flex items-center">
 			<h3 class="h3">{title}</h3>
 			<div class="flex-1"></div>
-			<button type="submit" class="btn variant-filled-primary text-white">
-				Add Package
+			<button
+				type="submit"
+				class="btn variant-filled-primary text-white"
+				on:click={() => goto('/packages/new')}
+			>
+				Add Item
 			</button>
 		</header>
 		<!-- Responsive Container (recommended) -->

@@ -23,7 +23,7 @@ class ActivityController extends Controller
                 AllowedFilter::exact('entity_id'),
                 AllowedFilter::exact('type')
             )
-            ->paginate()
+            ->paginate(request()->get('per_page', 15))
             ->appends(request()->query());
 
         return response()->json($results);

@@ -27,7 +27,7 @@ class SubscriptionController extends Controller
                 AllowedFilter::exact('user_id'),
                 AllowedFilter::exact('status'),
             )
-            ->paginate()
+            ->paginate(request()->get('per_page', 15))
             ->appends(request()->query());
 
         return response()->json($results);

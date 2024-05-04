@@ -23,7 +23,7 @@
 			.catch((error) => {
 				toast.trigger({
 					message: 'Unable to logged you in',
-					background: 'variant-filled-danger'
+					background: 'variant-filled-error'
 				});
 			})
 			.finally(() => {

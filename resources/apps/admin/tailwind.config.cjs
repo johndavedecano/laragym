@@ -15,7 +15,14 @@ export default {
 		join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}')
 	],
 	theme: {
-		extend: {}
+		extend: {
+			width: {
+				1200: '75rem'
+			},
+			maxWidth: {
+				1200: '75rem'
+			}
+		}
 	},
 	plugins: [
 		skeleton({
