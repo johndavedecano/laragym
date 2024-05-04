@@ -1,6 +1,10 @@
 <script>
+	// @ts-nocheck
+
 	import { goto } from '$app/navigation';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
+	import CycleSelect from '$lib/components/CycleSelect.svelte';
+	import ServiceSelect from '$lib/components/ServiceSelect.svelte';
 	import { useToast } from '$lib/toast';
 
 	const toast = useToast();
@@ -9,19 +13,27 @@
 		Authorization: getBearerToken()
 	});
 
-	let title = 'Add Package';
+	let title = 'New Package';
 
 	let loading = false;
 
 	let fields = {
 		name: '',
 		status: 'active',
-		description: ''
+		amount: '',
+		cycle: null,
+		services: []
 	};
 
 	const onSubmit = () => {
 		loading = true;
-		api.post('/packages', fields)
+		api.post(`/packages`, {
+			name: fields.name,
+			status: fields.status,
+			amount: fields.amount,
+			cycle_id: fields.cycle ? fields.cycle.id : null,
+			services: fields.services.map((v) => v.id)
+		})
 			.then(() => {
 				goto('/packages');
 				toast.trigger({
@@ -37,6 +49,8 @@
 			})
 			.finally(() => (loading = false));
 	};
+
+	$: console.log(fields);
 </script>
 
 <svelte:head>
@@ -67,6 +81,20 @@
 
 			<div class="mb-4">
 				<label class="label">
+					<span>Amount</span>
+					<input
+						class="input"
+						bind:value={fields.amount}
+						name="amount"
+						type="number"
+						required
+						disabled={loading}
+					/>
+				</label>
+			</div>
+
+			<div class="mb-4">
+				<label class="label">
 					<span>Status</span>
 					<select
 						class="select"
@@ -83,16 +111,18 @@
 			</div>
 
 			<div class="mb-4">
-				<label class="label">
-					<span>Description</span>
-					<textarea
-						class="textarea"
-						rows="4"
-						bind:value={fields.description}
-						name="description"
-						required
-						disabled={loading}
-					/>
+				<!-- svelte-ignore a11y-label-has-associated-control -->
+				<label class="label flex flex-col gap-1">
+					<span>Billing Cycle</span>
+					<CycleSelect bind:value={fields.cycle} />
+				</label>
+			</div>
+
+			<div class="mb-4">
+				<!-- svelte-ignore a11y-label-has-associated-control -->
+				<label class="label flex flex-col gap-1">
+					<span>Services</span>
+					<ServiceSelect bind:value={fields.services} />
 				</label>
 			</div>
 
