@@ -8,7 +8,6 @@
 	import Status from '$lib/components/Status.svelte';
 	import EditIcon from 'svelte-icons/fa/FaEdit.svelte';
 	import DeleteIcon from 'svelte-icons/fa/FaTrash.svelte';
-	import axios from 'axios';
 
 	const api = useApi({
 		Authorization: getBearerToken()
@@ -27,7 +26,7 @@
 		if (confirm) {
 			items = items.filter((v) => v.id != id);
 			totalItems = totalItems - 1;
-			axios.delete(`/cycles/${id}`);
+			api.delete(`/cycles/${id}`);
 		}
 	};
 
@@ -109,7 +108,7 @@
 									on:click={() => onEdit(item.id)}
 								>
 									<span class="h-4 w-4 text-white">
-										<EditIcon size />
+										<EditIcon />
 									</span>
 								</button>
 								<button

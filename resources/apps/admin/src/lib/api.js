@@ -3,10 +3,6 @@ import { PUBLIC_API_URL } from '$env/static/public';
 
 import axios from 'axios';
 
-const client = axios.create({
-	baseURL: PUBLIC_API_URL
-});
-
 export const getErrorMessage = (
 	/** @type {{ message: any; response: { data: { message: any; }; }; }} */ error
 ) => {
@@ -31,5 +27,3 @@ export const getBearerToken = () => {
 export const useApi = (headers = {}) => {
 	return axios.create({ headers, baseURL: PUBLIC_API_URL + '/api' });
 };
-
-export default client;
