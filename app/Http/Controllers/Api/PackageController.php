@@ -23,6 +23,8 @@ class PackageController extends Controller
                 AllowedFilter::partial('name'),
                 AllowedFilter::exact('status')
             )
+            ->with('cycle')
+            ->with('services')
             ->paginate(request()->get('per_page', 15))
             ->appends(request()->query());
 
@@ -37,7 +39,6 @@ class PackageController extends Controller
      */
     public function store(StorePackageRequest $request)
     {
-
         $package = Package::create($request->only([
             'name',
             'amount',
@@ -60,7 +61,7 @@ class PackageController extends Controller
      */
     public function show(Package $package)
     {
-        $package->load('services');
+        $package->load('services')->load('cycle');
 
         return response()->json($package);
     }

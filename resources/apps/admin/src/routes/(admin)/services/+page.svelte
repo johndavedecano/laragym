@@ -53,7 +53,7 @@
 	onMount(() => loadItems());
 
 	$: paginationSettings = {
-		page: currentPage,
+		page: currentPage - 1,
 		limit: perPage,
 		size: totalItems,
 		amounts: [5, 10, 15, 20, 40, 60, 100]

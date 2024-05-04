@@ -14,7 +14,7 @@
 	});
 
 	let items = [];
-	let currentPage = 0;
+	let currentPage = 1;
 	let loading = false;
 	let totalItems = 0;
 	let perPage = 15;
@@ -37,7 +37,7 @@
 		loading = true;
 		api.get('/packages', {
 			params: {
-				page: currentPage + 1,
+				page: currentPage,
 				per_page: perPage
 			}
 		})
@@ -53,7 +53,7 @@
 	onMount(() => loadItems());
 
 	$: paginationSettings = {
-		page: currentPage,
+		page: currentPage - 1,
 		limit: perPage,
 		size: totalItems,
 		amounts: [5, 10, 15, 20, 40, 60, 100]
@@ -85,6 +85,9 @@
 					<tr>
 						<th>ID</th>
 						<th>Name</th>
+						<th>Billing Cycle</th>
+						<th>Services</th>
+						<th>Price</th>
 						<th>Status</th>
 						<th>Action</th>
 					</tr>
@@ -95,6 +98,15 @@
 							<td>{item.id}</td>
 							<td>
 								<a href={`/packages/${item.id}`} class="font-bold">{item.name}</a>
+							</td>
+							<td>
+								{item.cycle.name}
+							</td>
+							<td>
+								{item.services.length}
+							</td>
+							<td>
+								{parseFloat(item.amount).toFixed(2)}
 							</td>
 							<td>
 								<Status status={item.status} />
@@ -136,10 +148,11 @@
 					maxNumerals={1}
 					on:amount={(event) => {
 						perPage = event.detail;
+						currentPage = 1;
 						loadItems();
 					}}
 					on:page={(event) => {
-						currentPage = event.detail;
+						currentPage = event.detail + 1;
 						loadItems();
 					}}
 				/>

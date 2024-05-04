@@ -42,7 +42,6 @@
 			}
 		})
 			.then((response) => {
-				console.log(response.data);
 				items = response.data.data;
 				currentPage = response.data.current_page;
 				totalItems = response.data.total;
@@ -53,7 +52,7 @@
 	onMount(() => loadItems());
 
 	$: paginationSettings = {
-		page: currentPage,
+		page: currentPage - 1,
 		limit: perPage,
 		size: totalItems,
 		amounts: [5, 10, 15, 20, 40, 60, 100]
@@ -138,10 +137,11 @@
 					maxNumerals={1}
 					on:amount={(event) => {
 						perPage = event.detail;
+						currentPage = 1;
 						loadItems();
 					}}
 					on:page={(event) => {
-						currentPage = event.detail;
+						currentPage = event.detail + 1;
 						loadItems();
 					}}
 				/>
