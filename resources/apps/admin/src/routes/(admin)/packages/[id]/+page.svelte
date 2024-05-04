@@ -1,7 +1,9 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import { useToast } from '$lib/toast';
+	import { onMount } from 'svelte';
 
 	const toast = useToast();
 
@@ -9,7 +11,7 @@
 		Authorization: getBearerToken()
 	});
 
-	let title = 'Add Package';
+	let title = 'Edit Package';
 
 	let loading = false;
 
@@ -21,11 +23,10 @@
 
 	const onSubmit = () => {
 		loading = true;
-		api.post('/packages', fields)
+		api.put(`/packages/${$page.params.id}`, fields)
 			.then(() => {
-				goto('/packages');
 				toast.trigger({
-					message: 'Successfully created',
+					message: 'Successfully updated',
 					background: 'variant-filled-success'
 				});
 			})
@@ -37,6 +38,31 @@
 			})
 			.finally(() => (loading = false));
 	};
+
+	const loadItem = () => {
+		loading = true;
+		api.get(`/packages/${$page.params.id}`)
+			.then((response) => {
+				const value = response.data;
+				fields = {
+					name: value.name,
+					status: value.status,
+					description: value.description
+				};
+			})
+			.catch((error) => {
+				toast.trigger({
+					message: getErrorMessage(error),
+					background: 'variant-filled-error'
+				});
+				goto('/packages');
+			})
+			.finally(() => (loading = false));
+	};
+
+	onMount(() => {
+		loadItem();
+	});
 </script>
 
 <svelte:head>
