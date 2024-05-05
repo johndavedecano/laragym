@@ -19,5 +19,7 @@ class Subscription extends Model
         'user_id',
         'interval',
         'expires_at',
+        'suspended_at',
+        'status'
     ];
 }

@@ -33,4 +33,4 @@
 	};
 </script>
 
-<Select {loadOptions} searchable multiple itemId="id" label="name" bind:value {...$$props} />
+<Select {loadOptions} searchable itemId="id" label="name" bind:value {...$$props} />

@@ -5,6 +5,7 @@
 	import { getBearerToken, useApi } from '$lib/api';
 	import { onMount } from 'svelte';
 
+	import moment from 'moment';
 	import Status from '$lib/components/Status.svelte';
 	import EditIcon from 'svelte-icons/fa/FaEdit.svelte';
 	import DeleteIcon from 'svelte-icons/fa/FaTrash.svelte';
@@ -19,23 +20,23 @@
 	let totalItems = 0;
 	let perPage = 15;
 
-	let title = 'Manage Packages';
+	let title = 'Manage Subscriptions';
 
 	const onDelete = (id) => {
 		const confirm = window.confirm('are you sure you wanna delete this item?');
 		if (confirm) {
 			items = items.filter((v) => v.id != id);
 			totalItems = totalItems - 1;
-			api.delete(`/packages/${id}`);
+			api.delete(`/subscriptions/${id}`);
 		}
 	};
 
-	const onEdit = (id) => goto(`/packages/${id}`);
+	const onEdit = (id) => goto(`/subscriptions/${id}`);
 
 	const loadItems = () => {
 		if (loading) return;
 		loading = true;
-		api.get('/packages', {
+		api.get('/subscriptions', {
 			params: {
 				page: currentPage,
 				per_page: perPage
@@ -72,7 +73,7 @@
 			<button
 				type="submit"
 				class="btn variant-filled-primary text-white"
-				on:click={() => goto('/packages/new')}
+				on:click={() => goto('/subscriptions/new')}
 			>
 				Add Item
 			</button>
@@ -85,9 +86,10 @@
 					<tr>
 						<th>ID</th>
 						<th>Name</th>
+						<th>Expires At</th>
 						<th>Billing Cycle</th>
 						<th>Services</th>
-						<th>Price</th>
+						<th>Amount Paid</th>
 						<th>Status</th>
 						<th>Action</th>
 					</tr>
@@ -97,16 +99,21 @@
 						<tr>
 							<td>{item.id}</td>
 							<td>
-								<a href={`/packages/${item.id}`} class="font-bold">{item.name}</a>
+								<a href={`/subscriptions/${item.id}`} class="font-bold"
+									>{item.user.name}</a
+								>
 							</td>
 							<td>
-								{item.cycle.name}
+								{moment(item.expires_at).format('LL')}
 							</td>
 							<td>
-								{item.services.length}
+								{item.package.cycle.name}
 							</td>
 							<td>
-								{parseFloat(item.amount).toFixed(2)}
+								{item.package.services.length}
+							</td>
+							<td>
+								{parseFloat(item.package.amount).toFixed(2)}
 							</td>
 							<td>
 								<Status status={item.status} />

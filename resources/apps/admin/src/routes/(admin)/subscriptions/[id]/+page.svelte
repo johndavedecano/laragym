@@ -5,7 +5,9 @@
 	import { page } from '$app/stores';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import CycleSelect from '$lib/components/CycleSelect.svelte';
+	import PackageSelect from '$lib/components/PackageSelect.svelte';
 	import ServiceSelect from '$lib/components/ServiceSelect.svelte';
+	import UserSelect from '$lib/components/UserSelect.svelte';
 	import { useToast } from '$lib/toast';
 	import { onMount } from 'svelte';
 
@@ -15,26 +17,24 @@
 		Authorization: getBearerToken()
 	});
 
-	let title = 'Edit Package';
+	let title = 'Edit Subscription';
 
 	let loading = false;
 
 	let fields = {
-		name: '',
-		status: 'active',
-		amount: '',
-		cycle: null,
-		services: []
+		package: '',
+		user: null,
+		interval: '',
+		status: 'active'
 	};
 
 	const onSubmit = () => {
 		loading = true;
-		api.put(`/packages/${$page.params.id}`, {
-			name: fields.name,
+		api.put(`/subscriptions/${$page.params.id}`, {
+			package_id: fields.package.id,
+			user_id: fields.user.id,
 			status: fields.status,
-			amount: fields.amount,
-			cycle_id: fields.cycle ? fields.cycle.id : null,
-			services: fields.services.map((v) => v.id)
+			interval: fields.interval
 		})
 			.then(() => {
 				toast.trigger({
@@ -53,15 +53,14 @@
 
 	const loadItem = () => {
 		loading = true;
-		api.get(`/packages/${$page.params.id}`)
+		api.get(`/subscriptions/${$page.params.id}`)
 			.then((response) => {
 				const value = response.data;
 				fields = {
-					name: value.name,
-					status: value.status,
-					amount: value.amount,
-					cycle: value.cycle,
-					services: value.services
+					package: value.package,
+					user: value.user,
+					interval: value.interval,
+					status: value.status
 				};
 			})
 			.catch((error) => {
@@ -69,7 +68,7 @@
 					message: getErrorMessage(error),
 					background: 'variant-filled-error'
 				});
-				goto('/packages');
+				goto('/subscriptions');
 			})
 			.finally(() => (loading = false));
 	};
@@ -94,26 +93,28 @@
 		<!-- Responsive Container (recommended) -->
 		<form action="" on:submit|preventDefault={onSubmit}>
 			<div class="mb-4">
+				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label class="label">
-					<span>Name</span>
-					<input
-						class="input"
-						bind:value={fields.name}
-						name="name"
-						type="text"
-						required
-						disabled={loading}
-					/>
+					<span>User</span>
+					<UserSelect bind:value={fields.user} />
+				</label>
+			</div>
+
+			<div class="mb-4">
+				<!-- svelte-ignore a11y-label-has-associated-control -->
+				<label class="label">
+					<span>Package</span>
+					<PackageSelect bind:value={fields.package} />
 				</label>
 			</div>
 
 			<div class="mb-4">
 				<label class="label">
-					<span>Amount</span>
+					<span>Interval</span>
 					<input
 						class="input"
-						bind:value={fields.amount}
-						name="amount"
+						bind:value={fields.interval}
+						name="interval"
 						type="number"
 						required
 						disabled={loading}
@@ -134,30 +135,15 @@
 						<option value=""></option>
 						<option value="active">Active</option>
 						<option value="inactive">In-Active</option>
+						<option value="suspended">Suspended</option>
 					</select>
-				</label>
-			</div>
-
-			<div class="mb-4">
-				<!-- svelte-ignore a11y-label-has-associated-control -->
-				<label class="label flex flex-col gap-1">
-					<span>Billing Cycle</span>
-					<CycleSelect bind:value={fields.cycle} />
-				</label>
-			</div>
-
-			<div class="mb-4">
-				<!-- svelte-ignore a11y-label-has-associated-control -->
-				<label class="label flex flex-col gap-1">
-					<span>Services</span>
-					<ServiceSelect bind:value={fields.services} />
 				</label>
 			</div>
 
 			<div class="flex">
 				<button
 					type="button"
-					on:click={() => goto('/packages')}
+					on:click={() => goto('/subscriptions')}
 					class="btn variant-filled-error text-white"
 					disabled={loading}>Cancel</button
 				>

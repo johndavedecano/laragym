@@ -27,6 +27,10 @@ class SubscriptionController extends Controller
                 AllowedFilter::exact('user_id'),
                 AllowedFilter::exact('status'),
             )
+            ->with('user')
+            ->with('package')
+            ->with('package.cycle')
+            ->with('package.services')
             ->paginate(request()->get('per_page', 15))
             ->appends(request()->query());
 
@@ -63,6 +67,8 @@ class SubscriptionController extends Controller
      */
     public function show(Subscription $subscription)
     {
+        $subscription->load('user')->load('package');
+
         return response()->json($subscription);
     }
 
@@ -76,8 +82,25 @@ class SubscriptionController extends Controller
     public function update(UpdateSubscriptionRequest $request, Subscription $subscription)
     {
         $params = $request->only([
-            'status'
+            'status',
+            'expires_at',
         ]);
+
+        if ($request->has('package_id') && $request->package_id != $subscription->package_id) {
+            $package = Package::findOrFail($request->package_id);
+
+            $interval = $request->has('interval') ? $request->interval : $subscription->interval;
+
+            $params['expires_at'] = Carbon::now()->addDays($package->cycle->num_days * $interval);
+        }
+
+        if ($request->has('status') && $request->status === 'suspended') {
+            $params['suspended_at'] = Carbon::now();
+        }
+
+        if ($request->has('user_id')) {
+            $params['user_id'] = $request->user_id;
+        }
 
         $subscription->update($params);
 
