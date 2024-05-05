@@ -1,4 +1,6 @@
 <script>
+	// @ts-nocheck
+
 	import Dashboard from 'svelte-icons/fa/FaHome.svelte';
 	import Activities from 'svelte-icons/fa/FaUserClock.svelte';
 	import Attendance from 'svelte-icons/fa/FaCalendar.svelte';
@@ -10,71 +12,102 @@
 	import Settings from 'svelte-icons/fa/FaCog.svelte';
 	import Account from 'svelte-icons/fa/FaUserCog.svelte';
 	import Logout from 'svelte-icons/fa/FaSignOutAlt.svelte';
+	import Branches from 'svelte-icons/fa/FaBuilding.svelte';
 
 	import { getDrawerStore } from '@skeletonlabs/skeleton';
+	import { page } from '$app/stores';
 
 	const drawerStore = getDrawerStore();
 
-	const drawerClose = () => drawerStore.close();
+	let active = $page.url.pathname;
+
+	const drawerClose = (path) => {
+		active = path;
+		drawerStore.close();
+	};
+
+	const isActive = (value, current) => {
+		if (current === '/' && value === current) return 'active';
+		if (current && current.startsWith(value) && value !== '/') return 'active';
+	};
+
+	$: items = [
+		{
+			path: '/',
+			name: 'Dashboard',
+			icon: Dashboard
+		},
+		{
+			path: '/activities',
+			name: 'Activities',
+			icon: Activities
+		},
+		{
+			path: '/attendance',
+			name: 'Attendance',
+			icon: Attendance
+		},
+		{
+			path: '/members',
+			name: 'Members',
+			icon: Members
+		},
+		{
+			path: '/branches',
+			name: 'Branches',
+			icon: Branches
+		},
+		{
+			path: '/subscriptions',
+			name: 'Subscriptions',
+			icon: Subscriptions
+		},
+		{
+			path: '/packages',
+			name: 'Packages',
+			icon: Packages
+		},
+		{
+			path: '/services',
+			name: 'Services',
+			icon: Services
+		},
+		{
+			path: '/cycles',
+			name: 'Cycles',
+			icon: Cycles
+		},
+		{
+			path: '/account',
+			name: 'Account',
+			icon: Account
+		},
+		{
+			path: '/settings',
+			name: 'Settings',
+			icon: Settings
+		},
+		{
+			path: '/logout',
+			name: 'Logout',
+			icon: Logout
+		}
+	].map((v) => {
+		return { ...v, active: isActive(v.path, active) };
+	});
 </script>
 
 <nav class="list-nav w-72 p-4">
 	<ul>
-		<li>
-			<a href="/" on:click={drawerClose}
-				><span class="menu-icon"><Dashboard /></span>Dashboard</a
-			>
-		</li>
-		<li>
-			<a href="/activities" on:click={drawerClose}
-				><span class="menu-icon"><Activities /></span>Activities</a
-			>
-		</li>
-		<li>
-			<a href="/attendance" on:click={drawerClose}
-				><span class="menu-icon"><Attendance /></span>Attendance</a
-			>
-		</li>
-		<li>
-			<a href="/members" on:click={drawerClose}
-				><span class="menu-icon"><Members /></span>Members</a
-			>
-		</li>
-		<li>
-			<a href="/subscriptions" on:click={drawerClose}
-				><span class="menu-icon"><Subscriptions /></span>Subscriptions</a
-			>
-		</li>
-		<li>
-			<a href="/packages" on:click={drawerClose}
-				><span class="menu-icon"><Packages /></span>Packages</a
-			>
-		</li>
-		<li>
-			<a href="/services" on:click={drawerClose}
-				><span class="menu-icon"><Services /></span>Services</a
-			>
-		</li>
-		<li>
-			<a href="/cycles" on:click={drawerClose}
-				><span class="menu-icon"><Cycles /></span>Cycles</a
-			>
-		</li>
-		<li>
-			<a href="/account" on:click={drawerClose}
-				><span class="menu-icon"><Account /></span>Account</a
-			>
-		</li>
-		<li>
-			<a href="/settings" on:click={drawerClose}
-				><span class="menu-icon"><Settings /></span>Settings</a
-			>
-		</li>
-		<li>
-			<a href="/logout" on:click={drawerClose}
-				><span class="menu-icon"><Logout /></span>Logout</a
-			>
-		</li>
+		{#each items as item}
+			<li>
+				<a href={item.path} class={item.active} on:click={() => drawerClose(item.path)}
+					><span class="menu-icon">
+						<svelte:component this={item.icon} />
+					</span>{item.name}</a
+				>
+			</li>
+		{/each}
 	</ul>
 </nav>
 
@@ -82,6 +115,15 @@
 	a {
 		@apply inline-flex w-full gap-4 text-sm;
 	}
+
+	a.active {
+		@apply bg-blue-900;
+	}
+
+	a:focus {
+		@apply bg-none text-white;
+	}
+
 	.menu-icon {
 		@apply text-white;
 		height: 16px;

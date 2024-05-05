@@ -2,7 +2,6 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
-	import Navigation from '$lib/components/Navigation.svelte';
 	import { useToast } from '$lib/toast';
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
@@ -16,6 +15,8 @@
 	let title = 'Member Settings';
 
 	let loading = false;
+
+	let active = 'profile';
 
 	let fields = {
 		name: '',
