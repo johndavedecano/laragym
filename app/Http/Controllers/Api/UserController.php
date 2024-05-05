@@ -100,6 +100,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if ($user->is_admin) {
+            return response()->json(['message' => 'you are not allowed to do this to yourself'], 401);
+        }
+
         $user->delete();
 
         return response()->json(null, 204);

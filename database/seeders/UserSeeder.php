@@ -20,7 +20,8 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@admin.com',
             'is_admin' => true,
-            'password' => bcrypt('password')
+            'password' => bcrypt('password'),
+            'account_number' => fake()->randomDigit()
         ]);
 
 

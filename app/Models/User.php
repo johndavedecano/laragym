@@ -23,7 +23,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'is_admin'
+        'is_admin',
+        'status',
+        'account_number',
+        'avatar'
     ];
 
     /**
@@ -45,6 +48,23 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'is_admin' => 'boolean',
     ];
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::created(function (User $user) {
+            $user->account_number = User::generateAccountNumber($user->id);
+            $user->avatar = env('APP_URL') . '/avatar.png';
+            $user->save();
+        });
+    }
+
+    public static function generateAccountNumber(int $input): string
+    {
+        return str_pad($input, 12, "0", STR_PAD_LEFT);
+    }
 
     public function getPersonalAccessToken()
     {
