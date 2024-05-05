@@ -10,7 +10,7 @@ export const POST = async ({ request, cookies }) => {
 		const body = await request.json();
 
 		const response = await api
-			.post('/api/auth/login', body)
+			.post('/auth/login', body)
 			.then((response) => response.data)
 			.catch((error) => error.response.data);
 

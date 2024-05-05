@@ -10,7 +10,7 @@ export const POST = async ({ request }) => {
 		const body = await request.json();
 
 		const response = await api
-			.post('/api/auth/forgot', body)
+			.post('/auth/forgot', body)
 			.then((response) => response.data)
 			.catch((error) => error.response.data);
 
