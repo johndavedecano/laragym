@@ -5,6 +5,7 @@
 	import { useToast } from '$lib/toast';
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
+	import Profile from './(components)/profile.svelte';
 
 	const toast = useToast();
 
@@ -101,7 +102,7 @@
 		</div>
 		<div class="flex-1">
 			<div class="px-6 py-6">
-				<h3 class="h3">Edit Profile</h3>
+				<Profile />
 			</div>
 		</div>
 	</div>
