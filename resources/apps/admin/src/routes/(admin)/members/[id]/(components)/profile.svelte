@@ -36,9 +36,8 @@
 			country: fields.country && fields.country.code ? fields.country.code : fields.country
 		})
 			.then(() => {
-				goto('/members');
 				toast.trigger({
-					message: 'Successfully created',
+					message: 'Successfully updated',
 					background: 'variant-filled-success'
 				});
 			})
@@ -50,8 +49,6 @@
 			})
 			.finally(() => (loading = false));
 	};
-
-	$: console.log(fields);
 </script>
 
 <h3 class="h3 mb-4">Edit Profile</h3>

@@ -8,6 +8,7 @@
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import Profile from './(components)/profile.svelte';
+	import Security from './(components)/security.svelte';
 
 	const toast = useToast();
 
@@ -20,6 +21,8 @@
 	let loading = false;
 
 	let user = {};
+
+	let active = 'profile';
 
 	const loadUser = () => {
 		loading = true;
@@ -57,16 +60,32 @@
 			<nav class="list-nav user-nav pt-6">
 				<ul>
 					<li>
-						<a class="text-black" href="/">Profile</a>
+						<a
+							class={active === 'profile' ? 'active' : ''}
+							on:click|preventDefault={() => (active = 'profile')}
+							href="/">Profile</a
+						>
 					</li>
 					<li>
-						<a class="text-black" href="/">Subscription</a>
+						<a
+							class={active === 'subscription' ? 'active' : ''}
+							on:click|preventDefault={() => (active = 'subscription')}
+							href="/">Subscription</a
+						>
 					</li>
 					<li>
-						<a class="text-black" href="/">Activities</a>
+						<a
+							class={active === 'activities' ? 'active' : ''}
+							on:click|preventDefault={() => (active = 'activities')}
+							href="/">Activities</a
+						>
 					</li>
 					<li>
-						<a class="text-black" href="/">Security and Privacy</a>
+						<a
+							class={active === 'security' ? 'active' : ''}
+							on:click|preventDefault={() => (active = 'security')}
+							href="/">Security and Privacy</a
+						>
 					</li>
 				</ul>
 			</nav>
@@ -74,7 +93,12 @@
 		<div class="flex-1">
 			<div class="px-6 py-6">
 				{#if user && user.profile}
-					<Profile {user} />
+					{#if active === 'profile'}
+						<Profile {user} />
+					{/if}
+					{#if active === 'security'}
+						<Security {user} />
+					{/if}
 				{/if}
 			</div>
 		</div>
@@ -88,6 +112,10 @@
 
 	.user-nav a {
 		@apply text-gray-800;
+	}
+
+	.user-nav a.active {
+		@apply bg-blue-950 text-white;
 	}
 
 	.user-nav a:hover {
