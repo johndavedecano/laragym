@@ -17,5 +17,7 @@ class Profile extends Model
         'state',
         'country',
         'postcode',
+        'newsletter'
     ];
+
 }

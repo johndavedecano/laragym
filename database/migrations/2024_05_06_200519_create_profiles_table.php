@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->string('state')->nullable();
             $table->string('country')->nullable();
             $table->string('postcode')->nullable();
+            $table->boolean('newsletter')->default(false);
             $table->foreign('user_id')->references('id')->on('users');
             $table->softDeletes();
             $table->timestamps();

@@ -1,4 +1,6 @@
 <script>
+	// @ts-nocheck
+
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
@@ -17,43 +19,12 @@
 
 	let loading = false;
 
-	let active = 'profile';
+	let user = {};
 
-	let fields = {
-		name: '',
-		status: 'active',
-		description: ''
-	};
-
-	const onSubmit = () => {
-		loading = true;
-		api.put(`/users/${$page.params.id}`, fields)
-			.then(() => {
-				toast.trigger({
-					message: 'Successfully updated',
-					background: 'variant-filled-success'
-				});
-			})
-			.catch((error) => {
-				toast.trigger({
-					message: getErrorMessage(error),
-					background: 'variant-filled-error'
-				});
-			})
-			.finally(() => (loading = false));
-	};
-
-	const loadItem = () => {
+	const loadUser = () => {
 		loading = true;
 		api.get(`/users/${$page.params.id}`)
-			.then((response) => {
-				const value = response.data;
-				fields = {
-					name: value.name,
-					status: value.status,
-					description: value.description
-				};
-			})
+			.then((response) => (user = response.data))
 			.catch((error) => {
 				toast.trigger({
 					message: getErrorMessage(error),
@@ -65,7 +36,7 @@
 	};
 
 	onMount(() => {
-		loadItem();
+		loadUser();
 	});
 </script>
 
@@ -102,7 +73,9 @@
 		</div>
 		<div class="flex-1">
 			<div class="px-6 py-6">
-				<Profile />
+				{#if user && user.profile}
+					<Profile {user} />
+				{/if}
 			</div>
 		</div>
 	</div>

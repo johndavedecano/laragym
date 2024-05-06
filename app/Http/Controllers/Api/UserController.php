@@ -74,8 +74,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        if ($request->has('email')) {
-            $exists = User::where('email', '=', $request->email)->whereNot('id', $user->id)->exists();
+        if ($request->has('email') && $user->email != $request->email) {
+            $exists = User::where('email', '=', $request->email)->exists();
             if ($exists) {
                 return response()->json(['message' => 'email must be unique'], 400);
             }
@@ -86,8 +86,33 @@ class UserController extends Controller
             $user->password = bcrypt($request->password);
         }
 
-        if ($request->has('name'))
+        if ($request->has('name')) {
             $user->name = $request->name;
+        }
+
+        $profile = [
+            'contact_number',
+            'address',
+            'city',
+            'state',
+            'country',
+            'postcode',
+            'newsletter'
+        ];
+
+        if (
+            $request->hasAny($profile)
+        ) {
+            $user->profile()->update($request->only([
+                'contact_number',
+                'address',
+                'city',
+                'state',
+                'country',
+                'postcode',
+                'newsletter'
+            ]));
+        }
 
         $user->save();
 

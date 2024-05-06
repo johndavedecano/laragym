@@ -1,10 +1,11 @@
 <script>
+	// @ts-nocheck
+
 	import { goto } from '$app/navigation';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
-	import CountrySelect from '$lib/components/CountrySelect.svelte';
 	import { useToast } from '$lib/toast';
-
 	import { SlideToggle } from '@skeletonlabs/skeleton';
+	import CountrySelect from '$lib/components/CountrySelect.svelte';
 
 	const toast = useToast();
 
@@ -12,23 +13,28 @@
 		Authorization: getBearerToken()
 	});
 
+	export let user = { profile: {} };
+
 	let loading = false;
 
 	let fields = {
-		name: '',
-		contact_number: '',
-		address: '',
-		city: '',
-		state: '',
-		country: 'US',
-		postcode: '',
-		email: '',
-		newsletter: false
+		name: user.name,
+		contact_number: user.profile.contact_number,
+		address: user.profile.address,
+		city: user.profile.city,
+		state: user.profile.state,
+		country: user.profile.country,
+		postcode: user.profile.postcode,
+		email: user.email,
+		newsletter: user.profile.newsletter
 	};
 
 	const onSubmit = () => {
 		loading = true;
-		api.post('/users', fields)
+		api.put(`/users/${user.id}`, {
+			...fields,
+			country: fields.country && fields.country.code ? fields.country.code : fields.country
+		})
 			.then(() => {
 				goto('/members');
 				toast.trigger({
@@ -44,6 +50,8 @@
 			})
 			.finally(() => (loading = false));
 	};
+
+	$: console.log(fields);
 </script>
 
 <h3 class="h3 mb-4">Edit Profile</h3>
@@ -73,6 +81,7 @@
 				name="email"
 				type="email"
 				required
+				readonly
 				disabled={loading}
 			/>
 		</label>
