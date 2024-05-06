@@ -58,6 +58,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $user->load('profile');
+
+        $user->load('branches');
+
         return response()->json($user);
     }
 

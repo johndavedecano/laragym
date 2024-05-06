@@ -49,6 +49,16 @@ class User extends Authenticatable implements MustVerifyEmail
         'is_admin' => 'boolean',
     ];
 
+    public function branches()
+    {
+        return $this->belongsToMany(Branch::class, 'user_branch');
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
     /**
      * The "booted" method of the model.
      */
@@ -57,6 +67,7 @@ class User extends Authenticatable implements MustVerifyEmail
         static::created(function (User $user) {
             $user->account_number = User::generateAccountNumber($user->id);
             $user->avatar = env('APP_URL') . '/avatar.png';
+            $user->profile()->save(new Profile());
             $user->save();
         });
     }
