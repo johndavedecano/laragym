@@ -4,7 +4,6 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -69,7 +68,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         static::created(function (User $user) {
             $user->account_number = User::generateAccountNumber($user->id);
-            $user->avatar = env('APP_URL') . '/avatar.png';
             $user->profile()->save(new Profile());
             $user->save();
         });

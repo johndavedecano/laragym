@@ -21,7 +21,8 @@ class UserSeeder extends Seeder
             'email' => 'admin@admin.com',
             'is_admin' => true,
             'password' => bcrypt('password'),
-            'account_number' => fake()->randomDigit()
+            'account_number' => fake()->randomDigit(),
+            'avatar' => fake()->imageUrl(50, 50, 'people')
         ]);
 
 

@@ -97,7 +97,7 @@
 								<div class="flex items-center gap-4">
 									<Avatar
 										src={item.avatar}
-										initials={item.initial}
+										initials={item.avatar ? undefined : item.initial}
 										width="w-16"
 										rounded="rounded-full"
 									/>
