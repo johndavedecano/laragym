@@ -1,6 +1,6 @@
 <script>
 	// @ts-nocheck
-	import { Paginator } from '@skeletonlabs/skeleton';
+	import { Avatar, Paginator } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import { getBearerToken, useApi } from '$lib/api';
 	import { onMount } from 'svelte';
@@ -92,9 +92,22 @@
 				<tbody>
 					{#each items as item}
 						<tr>
-							<td>{item.id}</td>
+							<td style="width: 100px;">{item.id}</td>
 							<td>
-								<a href={`/members/${item.id}`} class="font-bold">{item.name}</a>
+								<div class="flex items-center gap-4">
+									<Avatar
+										src={item.avatar}
+										initials={item.initial}
+										width="w-16"
+										rounded="rounded-full"
+									/>
+									<div class="flex flex-col">
+										<a href={`/members/${item.id}`} class="font-bold"
+											>{item.name}</a
+										>
+										<a href="mailto:{item.email}">{item.email}</a>
+									</div>
+								</div>
 							</td>
 							<td>
 								<Status status={item.status} />
@@ -139,7 +152,7 @@
 						loadItems();
 					}}
 					on:page={(event) => {
-						currentPage = event.detail;
+						currentPage = event.detail + 1;
 						loadItems();
 					}}
 				/>

@@ -1,11 +1,7 @@
 <script>
 	// @ts-nocheck
-
-	import { goto } from '$app/navigation';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import { useToast } from '$lib/toast';
-	import { SlideToggle } from '@skeletonlabs/skeleton';
-	import CountrySelect from '$lib/components/CountrySelect.svelte';
 
 	const toast = useToast();
 
@@ -53,7 +49,6 @@
 				bind:value={fields.password}
 				name="password"
 				type="password"
-				required
 				disabled={loading}
 			/>
 		</label>
@@ -67,7 +62,6 @@
 				bind:value={fields.password_confirmation}
 				name="password_confirmation"
 				type="password"
-				required
 				disabled={loading}
 			/>
 		</label>

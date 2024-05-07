@@ -50,14 +50,14 @@
 <div class="px-6 py-6">
 	<div class="card flex min-h-screen flex-row items-stretch rounded-lg bg-white shadow-md">
 		<div class="user-sidebar">
-			<div class="flex items-center justify-center bg-gray-200 py-16">
+			<div class="justify-cente flex items-center justify-center py-8">
 				<Avatar
 					src="https://images.unsplash.com/photo-1617296538902-887900d9b592?ixid=M3w0Njc5ODF8MHwxfGFsbHx8fHx8fHx8fDE2ODc5NzExMDB8&ixlib=rb-4.0.3&w=128&h=128&auto=format&fit=crop"
 					width="w-32"
 					rounded="rounded-full"
 				/>
 			</div>
-			<nav class="list-nav user-nav pt-6">
+			<nav class="list-nav user-nav">
 				<ul>
 					<li>
 						<a
@@ -107,7 +107,7 @@
 
 <style>
 	.user-sidebar {
-		@apply min-h-full w-72 border-r bg-slate-100;
+		@apply min-h-full w-72 border-r;
 	}
 
 	.user-nav a {

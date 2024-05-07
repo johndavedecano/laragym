@@ -1,10 +1,8 @@
 <script>
 	// @ts-nocheck
-
-	import { goto } from '$app/navigation';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import { useToast } from '$lib/toast';
-	import { SlideToggle } from '@skeletonlabs/skeleton';
+	import { Avatar, FileButton, SlideToggle } from '@skeletonlabs/skeleton';
 	import CountrySelect from '$lib/components/CountrySelect.svelte';
 
 	const toast = useToast();
@@ -26,7 +24,8 @@
 		country: user.profile.country,
 		postcode: user.profile.postcode,
 		email: user.email,
-		newsletter: user.profile.newsletter
+		newsletter: user.profile.newsletter,
+		status: user.status
 	};
 
 	const onSubmit = () => {
@@ -55,6 +54,15 @@
 
 <!-- Responsive Container (recommended) -->
 <form action="" on:submit|preventDefault={onSubmit}>
+	<div class="mb-6 flex items-center gap-4 pt-4">
+		<Avatar
+			src="https://images.unsplash.com/photo-1617296538902-887900d9b592?ixid=M3w0Njc5ODF8MHwxfGFsbHx8fHx8fHx8fDE2ODc5NzExMDB8&ixlib=rb-4.0.3&w=128&h=128&auto=format&fit=crop"
+			width="w-24"
+			rounded="rounded-full"
+		/>
+		<FileButton name="files" button="btn btn-sm variant-soft-primary">Change Avatar</FileButton>
+	</div>
+
 	<div class="mb-4">
 		<label class="label">
 			<span>Name</span>
@@ -69,8 +77,8 @@
 		</label>
 	</div>
 
-	<div class="mb-4">
-		<label class="label">
+	<div class="mb-4 flex flex-row gap-4">
+		<label class="label flex-1">
 			<span>Email</span>
 			<input
 				class="input"
@@ -81,6 +89,15 @@
 				readonly
 				disabled={loading}
 			/>
+		</label>
+		<label class="label flex-1">
+			<span>Status</span>
+			<select class="select" bind:value={fields.status} name="status" disabled={loading}>
+				<option value=""></option>
+				<option value="active">Active</option>
+				<option value="inactive">In-Active</option>
+				<option value="suspended">Suspended</option>
+			</select>
 		</label>
 	</div>
 

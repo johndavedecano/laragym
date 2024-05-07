@@ -25,6 +25,6 @@ class UserSeeder extends Seeder
         ]);
 
 
-        User::factory()->create(['is_admin' => false]);
+        User::factory(24)->create(['is_admin' => false]);
     }
 }

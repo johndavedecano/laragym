@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,6 +14,8 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+
+    protected $appends = ['initial'];
 
     /**
      * The attributes that are mass assignable.
@@ -84,5 +87,15 @@ class User extends Authenticatable implements MustVerifyEmail
         $token = $tokenResult->plainTextToken;
 
         return $token;
+    }
+
+    public function getInitialAttribute()
+    {
+        $words = explode(' ', $this->name);
+        return mb_strtoupper(
+            mb_substr($words[0], 0, 1, 'UTF-8') .
+            mb_substr(end($words), 0, 1, 'UTF-8'),
+            'UTF-8'
+        );
     }
 }
