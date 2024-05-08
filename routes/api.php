@@ -36,5 +36,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/stats/services', 'StatisticsController@services');
         Route::get('/stats/members', 'StatisticsController@members');
         Route::get('/stats/packages', 'StatisticsController@packages');
+        Route::post('/users/{user}/avatar', 'UserAvatarController@store');
     });
 });
