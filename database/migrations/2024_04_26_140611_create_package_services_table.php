@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('service_id');
             $table->foreign('package_id')->references('id')->on('packages');
             $table->foreign('service_id')->references('id')->on('services');
+            $table->unique(['package_id', 'service_id']);
         });
     }
 

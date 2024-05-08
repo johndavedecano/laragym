@@ -4,10 +4,13 @@
 	import { useToast } from '$lib/toast';
 	import { Avatar, FileButton, SlideToggle } from '@skeletonlabs/skeleton';
 	import { getAvatarUrl } from '$lib/avatar';
+	import { createEventDispatcher } from 'svelte';
 
 	import CountrySelect from '$lib/components/CountrySelect.svelte';
 
 	const toast = useToast();
+
+	const dispatch = createEventDispatcher();
 
 	const api = useApi({
 		Authorization: getBearerToken()
@@ -53,7 +56,23 @@
 	};
 
 	const onChangeFile = (event) => {
-		console.log(event.detail);
+		if (event.target.files && event.target.files.length) {
+			const file = event.target.files[0];
+			const form = new FormData();
+			form.append('avatar', file);
+			api.post(`/users/${user.id}/avatar`, form)
+				.then((response) => {
+					user.avatar = response.data.path;
+					dispatch('avatar', user.avatar);
+				})
+				.catch((error) => {
+					toast.trigger({
+						message: getErrorMessage(error),
+						background: 'variant-filled-error'
+					});
+				})
+				.finally(() => (loading = false));
+		}
 	};
 </script>
 

@@ -33,7 +33,7 @@
 </script>
 
 <div class="mb-6">
-	<h2 class="h2">Admin Login</h2>
+	<h3 class="h3">Forgot Password</h3>
 	<p>Please login to get started</p>
 </div>
 
@@ -65,6 +65,8 @@
 			/>
 		</label>
 	</div>
-	<button type="submit" class="btn variant-filled-primary w-full">Login</button>
+	<button type="submit" class="btn variant-filled-primary w-full font-bold text-white"
+		>Login</button
+	>
 	<a href="/forgot" class="block pt-2 text-center">Forgot password </a>
 </form>

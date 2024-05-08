@@ -99,7 +99,7 @@
 			<div class="px-6 py-6">
 				{#if user && user.profile}
 					{#if active === 'profile'}
-						<Profile {user} />
+						<Profile {user} on:avatar={(event) => (user.avatar = event.detail)} />
 					{/if}
 					{#if active === 'security'}
 						<Security {user} />

@@ -20,7 +20,7 @@
 </script>
 
 <div class="mb-6">
-	<h2 class="h2">Forgot Password</h2>
+	<h3 class="h3">Forgot Password</h3>
 	<p>Please provide your email to reset your password.</p>
 </div>
 
@@ -38,6 +38,8 @@
 			/>
 		</label>
 	</div>
-	<button type="submit" class="btn variant-filled-primary w-full">Submit</button>
+	<button type="submit" class="btn variant-filled-primary w-full font-bold text-white"
+		>Submit</button
+	>
 	<a href="/login" class="block pt-2 text-center">Back to login </a>
 </form>

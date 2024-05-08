@@ -4,7 +4,7 @@
 </script>
 
 <Wrapper>
-	<div class="login">
+	<div class="login from-blue-800 to-indigo-900 lg:bg-gradient-to-r">
 		<div class="login-card">
 			<div class="mx-auto mb-8 flex justify-center">
 				<Logo />
@@ -16,11 +16,11 @@
 
 <style>
 	.login {
-		@apply fixed bottom-0 left-0 right-0 top-0 flex h-full w-full justify-center overflow-y-auto bg-white lg:items-center lg:bg-slate-100;
+		@apply fixed bottom-0 left-0 right-0 top-0 flex h-full w-full items-center justify-center overflow-y-auto bg-white;
 	}
 
 	.login-card {
-		@apply mx-4 my-32 min-h-80 rounded-xl bg-white p-8 shadow-none lg:my-8 lg:shadow-lg;
+		@apply mx-4 rounded-xl bg-white p-8 shadow-none lg:my-8 lg:shadow-lg;
 		width: 500px;
 		max-width: 100%;
 	}
