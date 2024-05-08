@@ -7,6 +7,8 @@
 	import { useToast } from '$lib/toast';
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
+	import { getAvatarUrl } from '$lib/avatar';
+
 	import Profile from './(components)/profile.svelte';
 	import Security from './(components)/security.svelte';
 
@@ -41,6 +43,8 @@
 	onMount(() => {
 		loadUser();
 	});
+
+	$: console.log(getAvatarUrl(user.avatar));
 </script>
 
 <svelte:head>
@@ -52,7 +56,8 @@
 		<div class="user-sidebar">
 			<div class="justify-cente flex items-center justify-center py-8">
 				<Avatar
-					src="https://images.unsplash.com/photo-1617296538902-887900d9b592?ixid=M3w0Njc5ODF8MHwxfGFsbHx8fHx8fHx8fDE2ODc5NzExMDB8&ixlib=rb-4.0.3&w=128&h=128&auto=format&fit=crop"
+					src={getAvatarUrl(user.avatar)}
+					initials={user.initial}
 					width="w-32"
 					rounded="rounded-full"
 				/>

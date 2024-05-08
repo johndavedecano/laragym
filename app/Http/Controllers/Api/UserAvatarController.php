@@ -3,24 +3,43 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserAvatarRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Illuminate\Http\Request;
 
 class UserAvatarController extends Controller
 {
-    public function store(UserAvatarRequest $request, User $user)
+    public function store(Request $request, User $user)
     {
-        $path = $request->file('avatar')->storePubliclyAs(
-            'avatars',
-            $user->id
-        );
+        $request->validate([
+            'avatar' => 'required|file|mimes:jpeg,png,jpg|max:10000'
+        ]);
 
-        $user->avatar = $path;
+        $manager = new ImageManager(['driver' => 'gd']);
+
+        $img = $manager->make($request->file('avatar'));
+
+        if ($img->height() > $img->width()) {
+            $img->resize(100, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+        } else {
+            $img->resize(null, 100, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+        }
+
+        $file = $request->file('avatar')->hashName();
+
+        Storage::put('public/' . $file, $img->encode());
+
+        $url = Storage::url($file);
+
+        $user->avatar = $url;
 
         $user->save();
 
-        $user->refresh();
-
-        return response()->json($user);
+        return response()->json(['message' => 'successfully uploaded', 'path' => $url]);
     }
 }

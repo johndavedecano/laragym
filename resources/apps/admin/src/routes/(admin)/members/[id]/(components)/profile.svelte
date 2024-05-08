@@ -3,6 +3,8 @@
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import { useToast } from '$lib/toast';
 	import { Avatar, FileButton, SlideToggle } from '@skeletonlabs/skeleton';
+	import { getAvatarUrl } from '$lib/avatar';
+
 	import CountrySelect from '$lib/components/CountrySelect.svelte';
 
 	const toast = useToast();
@@ -25,7 +27,8 @@
 		postcode: user.profile.postcode,
 		email: user.email,
 		newsletter: user.profile.newsletter,
-		status: user.status
+		status: user.status,
+		avatar: user.avatar
 	};
 
 	const onSubmit = () => {
@@ -48,6 +51,10 @@
 			})
 			.finally(() => (loading = false));
 	};
+
+	const onChangeFile = (event) => {
+		console.log(event.detail);
+	};
 </script>
 
 <h3 class="h3 mb-4">Edit Profile</h3>
@@ -56,11 +63,17 @@
 <form action="" on:submit|preventDefault={onSubmit}>
 	<div class="mb-6 flex items-center gap-4 pt-4">
 		<Avatar
-			src="https://images.unsplash.com/photo-1617296538902-887900d9b592?ixid=M3w0Njc5ODF8MHwxfGFsbHx8fHx8fHx8fDE2ODc5NzExMDB8&ixlib=rb-4.0.3&w=128&h=128&auto=format&fit=crop"
+			src={getAvatarUrl(user.avatar)}
 			width="w-24"
+			initials={user.initial}
 			rounded="rounded-full"
 		/>
-		<FileButton name="files" button="btn btn-sm variant-soft-primary">Change Avatar</FileButton>
+		<FileButton
+			name="files"
+			button="btn btn-sm variant-soft-primary"
+			accept="image/*"
+			on:change={onChangeFile}>Change Avatar</FileButton
+		>
 	</div>
 
 	<div class="mb-4">

@@ -8,6 +8,7 @@
 	import Status from '$lib/components/Status.svelte';
 	import EditIcon from 'svelte-icons/fa/FaEdit.svelte';
 	import DeleteIcon from 'svelte-icons/fa/FaTrash.svelte';
+	import { getAvatarUrl } from '$lib/avatar';
 
 	const api = useApi({
 		Authorization: getBearerToken()
@@ -96,7 +97,7 @@
 							<td>
 								<div class="flex items-center gap-4">
 									<Avatar
-										src={item.avatar}
+										src={item.avatar ? getAvatarUrl(item.avatar) : undefined}
 										initials={item.avatar ? undefined : item.initial}
 										width="w-16"
 										rounded="rounded-full"
