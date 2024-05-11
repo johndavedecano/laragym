@@ -9,8 +9,8 @@
 	import Packages from 'svelte-icons/fa/FaBox.svelte';
 	import Services from 'svelte-icons/fa/FaServer.svelte';
 	import Cycles from 'svelte-icons/fa/FaCalendarPlus.svelte';
-	import Settings from 'svelte-icons/fa/FaCog.svelte';
-	import Account from 'svelte-icons/fa/FaUserCog.svelte';
+	// import Settings from 'svelte-icons/fa/FaCog.svelte';
+	// import Account from 'svelte-icons/fa/FaUserCog.svelte';
 	import Logout from 'svelte-icons/fa/FaSignOutAlt.svelte';
 	import Branches from 'svelte-icons/fa/FaBuilding.svelte';
 
@@ -77,16 +77,16 @@
 			name: 'Cycles',
 			icon: Cycles
 		},
-		{
-			path: '/account',
-			name: 'Account',
-			icon: Account
-		},
-		{
-			path: '/settings',
-			name: 'Settings',
-			icon: Settings
-		},
+		// {
+		// 	path: '/account',
+		// 	name: 'Account',
+		// 	icon: Account
+		// },
+		// {
+		// 	path: '/settings',
+		// 	name: 'Settings',
+		// 	icon: Settings
+		// },
 		{
 			path: '/logout',
 			name: 'Logout',

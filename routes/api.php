@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::apiResource('packages', 'PackageController');
         Route::apiResource('subscriptions', 'SubscriptionController');
         Route::apiResource('users', 'UserController');
+        Route::apiResource('users.branches', 'UserBranchController')->except(['show', 'update', 'destroy']);
         Route::apiResource('activities', 'ActivityController');
         Route::get('/stats/subscriptions', 'StatisticsController@subscriptions');
         Route::get('/stats/services', 'StatisticsController@services');
