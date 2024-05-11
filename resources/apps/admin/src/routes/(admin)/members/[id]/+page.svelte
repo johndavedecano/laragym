@@ -11,6 +11,9 @@
 
 	import Profile from './(components)/profile.svelte';
 	import Security from './(components)/security.svelte';
+	import Activities from './(components)/activities.svelte';
+	import Branches from './(components)/branches.svelte';
+	import Subscriptions from './(components)/subscriptions.svelte';
 
 	const toast = useToast();
 
@@ -43,8 +46,6 @@
 	onMount(() => {
 		loadUser();
 	});
-
-	$: console.log(getAvatarUrl(user.avatar));
 </script>
 
 <svelte:head>
@@ -73,9 +74,16 @@
 					</li>
 					<li>
 						<a
-							class={active === 'subscription' ? 'active' : ''}
-							on:click|preventDefault={() => (active = 'subscription')}
-							href="/">Subscription</a
+							class={active === 'subscriptions' ? 'active' : ''}
+							on:click|preventDefault={() => (active = 'subscriptions')}
+							href="/">Subscriptions</a
+						>
+					</li>
+					<li>
+						<a
+							class={active === 'branches' ? 'active' : ''}
+							on:click|preventDefault={() => (active = 'branches')}
+							href="/">Branches</a
 						>
 					</li>
 					<li>
@@ -100,6 +108,15 @@
 				{#if user && user.profile}
 					{#if active === 'profile'}
 						<Profile {user} on:avatar={(event) => (user.avatar = event.detail)} />
+					{/if}
+					{#if active === 'activities'}
+						<Activities {user} />
+					{/if}
+					{#if active === 'subscriptions'}
+						<Subscriptions {user} />
+					{/if}
+					{#if active === 'branches'}
+						<Branches {user} />
 					{/if}
 					{#if active === 'security'}
 						<Security {user} />

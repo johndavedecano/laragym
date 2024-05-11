@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSubscriptionRequest;
 use App\Http\Requests\UpdateSubscriptionRequest;
-use App\Models\Cycle;
 use App\Models\Package;
 use App\Models\Subscription;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -19,8 +19,18 @@ class SubscriptionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('user_id')) {
+            return response()->json(
+                Subscription::where('user_id', $request->get('user_id'))
+                    ->with('user')
+                    ->with('package')
+                    ->with('package.cycle')
+                    ->with('package.services')->get()
+            );
+        }
+
         $results = QueryBuilder::for(Subscription::class)
             ->allowedFilters(
                 AllowedFilter::exact('package_id'),

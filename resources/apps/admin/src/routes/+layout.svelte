@@ -1,11 +1,14 @@
 <script>
+	// @ts-nocheck
+
 	import './../app.pcss';
 
-	import { initializeStores, Toast } from '@skeletonlabs/skeleton';
+	import { initializeStores, Toast, Modal } from '@skeletonlabs/skeleton';
 
 	initializeStores();
 </script>
 
 <Toast />
+<Modal />
 
 <slot></slot>

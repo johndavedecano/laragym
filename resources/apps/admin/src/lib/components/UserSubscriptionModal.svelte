@@ -1,11 +1,21 @@
 <script>
 	// @ts-nocheck
 
+	import { getModalStore } from '@skeletonlabs/skeleton';
+	import ModalClose from './ModalClose.svelte';
+	import ModalHeader from './ModalHeader.svelte';
+	import ModalBody from './ModalBody.svelte';
+	import Modal from './Modal.svelte';
+
 	import { goto } from '$app/navigation';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import PackageSelect from '$lib/components/PackageSelect.svelte';
-	import UserSelect from '$lib/components/UserSelect.svelte';
+
 	import { useToast } from '$lib/toast';
+	import ModalFooter from './ModalFooter.svelte';
+	import { page } from '$app/stores';
+
+	export let user_id;
 
 	const toast = useToast();
 
@@ -13,29 +23,29 @@
 		Authorization: getBearerToken()
 	});
 
-	let title = 'New Subscription';
-
-	let loading = false;
+	const modalStore = getModalStore();
 
 	let fields = {
 		package: '',
-		user: null,
 		interval: ''
 	};
+
+	let loading = false;
 
 	const onSubmit = () => {
 		loading = true;
 		api.post(`/subscriptions`, {
 			package_id: fields.package.id,
-			user_id: fields.user.id,
-			interval: fields.interval
+			interval: fields.interval,
+			user_id: Number(user_id || $page.params.id)
 		})
 			.then(() => {
-				goto('/subscriptions');
 				toast.trigger({
 					message: 'Successfully created',
 					background: 'variant-filled-success'
 				});
+				window.dispatchEvent(new CustomEvent('user_subscription'));
+				modalStore.close();
 			})
 			.catch((error) => {
 				toast.trigger({
@@ -45,30 +55,16 @@
 			})
 			.finally(() => (loading = false));
 	};
-
-	$: console.log(fields);
 </script>
 
-<svelte:head>
-	<title>{title}</title>
-</svelte:head>
-
-<div class="lg:max-w-1200 p-4 lg:p-6">
-	<div class="card bg-white p-4 lg:p-6">
-		<header class="card-header mb-6 flex items-center">
-			<h3 class="h3">{title}</h3>
-			<div class="flex-1"></div>
-		</header>
-		<!-- Responsive Container (recommended) -->
-		<form action="" on:submit|preventDefault={onSubmit}>
-			<div class="mb-4">
-				<!-- svelte-ignore a11y-label-has-associated-control -->
-				<label class="label">
-					<span>User</span>
-					<UserSelect bind:value={fields.user} />
-				</label>
-			</div>
-
+<Modal>
+	<!-- Responsive Container (recommended) -->
+	<form action="" on:submit|preventDefault={onSubmit} class="flex flex-1 flex-col">
+		<ModalHeader>
+			<div class="flex-1 font-bold">Member Subscription</div>
+			<ModalClose on:close={() => modalStore.close()} />
+		</ModalHeader>
+		<ModalBody>
 			<div class="mb-4">
 				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label class="label">
@@ -91,11 +87,12 @@
 					/>
 				</label>
 			</div>
-
-			<div class="flex">
+		</ModalBody>
+		<ModalFooter>
+			<div class="flex w-full">
 				<button
 					type="button"
-					on:click={() => goto('/subscriptions')}
+					on:click={() => modalStore.close()}
 					class="btn variant-filled-error text-white"
 					disabled={loading}>Cancel</button
 				>
@@ -106,6 +103,6 @@
 					disabled={loading}>Submit</button
 				>
 			</div>
-		</form>
-	</div>
-</div>
+		</ModalFooter>
+	</form>
+</Modal>

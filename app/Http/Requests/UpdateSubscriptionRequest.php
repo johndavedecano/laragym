@@ -24,7 +24,7 @@ class UpdateSubscriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            'status' => 'in:active,inactive,expired,suspended'
+            'status' => 'in:active,inactive,expired,suspended,cancelled'
         ];
     }
 }

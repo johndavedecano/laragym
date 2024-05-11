@@ -76,7 +76,7 @@
 	};
 </script>
 
-<h3 class="h3 mb-4">Edit Profile</h3>
+<h3 class="h3 mb-4">Member Profile</h3>
 
 <!-- Responsive Container (recommended) -->
 <form action="" on:submit|preventDefault={onSubmit}>
