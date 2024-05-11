@@ -14,7 +14,14 @@ Finally a gym management system build with laravel and reactjs. Comes with power
 6. subscription management
 7. branches
 
-For professional support please email me at johndavedecano@gmail.com
+## Open to Work
+
+If you have specific requires and would like to work with, please contact me via email at johnadvedecano@gmail.com
+
+## Screenshots
+
+![My Image](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/main/profile.png)
+![My Image](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/main/package.png)
 
 ## Installation
 
