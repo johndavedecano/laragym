@@ -2,7 +2,7 @@
 
 Finally a gym management system build with laravel and reactjs. Comes with powerful features that will allow you to scale and easily manage your gym or fitness centers.
 
-![My Image](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/master/screenshot.png)
+![My Image](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/main/screenshot.png)
 
 ## Features
 
