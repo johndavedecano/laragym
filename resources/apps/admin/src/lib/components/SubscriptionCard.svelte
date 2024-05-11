@@ -9,6 +9,7 @@
 	import moment from 'moment';
 
 	export let item = {};
+	export let action = true;
 
 	const dispatch = createEventDispatcher();
 </script>
@@ -47,20 +48,22 @@
 			</div>
 		{/if}
 	</section>
-	<footer class="card-footer flex items-center border-t py-1.5">
-		<button type="button" class="btn-icon p-0" on:click={() => dispatch('edit', item)}>
-			<span class="text-black-500 h-4 w-4">
-				<FaCog />
-			</span>
-		</button>
-		<div class="flex-1"></div>
+	{#if action}
+		<footer class="card-footer flex items-center border-t py-1.5">
+			<button type="button" class="btn-icon p-0" on:click={() => dispatch('edit', item)}>
+				<span class="text-black-500 h-4 w-4">
+					<FaCog />
+				</span>
+			</button>
+			<div class="flex-1"></div>
 
-		<button type="button" class="btn-icon p-0" on:click={() => dispatch('delete', item)}>
-			<span class="h-4 w-4 text-red-500">
-				<FaTrash />
-			</span>
-		</button>
-	</footer>
+			<button type="button" class="btn-icon p-0" on:click={() => dispatch('delete', item)}>
+				<span class="h-4 w-4 text-red-500">
+					<FaTrash />
+				</span>
+			</button>
+		</footer>
+	{/if}
 </div>
 
 <style>

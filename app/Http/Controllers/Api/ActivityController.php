@@ -18,11 +18,15 @@ class ActivityController extends Controller
      */
     public function index()
     {
+        $allowed = [
+            AllowedFilter::exact('entity_id'),
+            AllowedFilter::exact('type'),
+            AllowedFilter::scope('entity'),
+        ];
+
         $results = QueryBuilder::for(Activity::class)
-            ->allowedFilters(
-                AllowedFilter::exact('entity_id'),
-                AllowedFilter::exact('type')
-            )
+            ->allowedFilters($allowed)
+            ->orderBy('activities.created_at', 'DESC')
             ->paginate(request()->get('per_page', 15))
             ->appends(request()->query());
 
