@@ -15,10 +15,10 @@
 			.post('/login', fields)
 			.then(() => {
 				toast.trigger({
-					message: 'You have successfully logged in',
+					message: 'You have successfully logged in. Redirecting...',
 					background: 'variant-filled-success'
 				});
-				goto('/');
+				setTimeout(() => (window.location.href = '/'), 3000);
 			})
 			.catch((error) => {
 				toast.trigger({

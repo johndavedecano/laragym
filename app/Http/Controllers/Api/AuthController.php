@@ -8,6 +8,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\ResendRequest;
 use App\Http\Requests\Auth\ResetRequest;
+use App\Models\User;
 use App\Services\UserAuthService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
@@ -35,10 +36,13 @@ class AuthController extends Controller
         try {
             $token = $this->userAuthService->login($request->email, $request->password);
 
+            $user = User::where('email', $request->email)->firstOrFail();
+
             return response()->json([
                 'success' => true,
                 'token_type' => 'Bearer',
                 'access_token' => $token,
+                'user' => $user
             ]);
         } catch (AuthenticationException $ex) {
             return response()->json([
