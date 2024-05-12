@@ -1,5 +1,4 @@
 <script>
-	import { goto } from '$app/navigation';
 	import { useToast } from '$lib/toast';
 
 	import axios from 'axios';
