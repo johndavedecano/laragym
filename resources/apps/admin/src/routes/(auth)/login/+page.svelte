@@ -33,7 +33,7 @@
 </script>
 
 <div class="mb-6">
-	<h3 class="h3">Forgot Password</h3>
+	<h3 class="h3">Account Login</h3>
 	<p>Please login to get started</p>
 </div>
 
