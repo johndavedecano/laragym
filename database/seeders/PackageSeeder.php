@@ -3,6 +3,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Package;
+use DB;
 
 class PackageSeeder extends Seeder
 {
@@ -13,7 +14,7 @@ class PackageSeeder extends Seeder
      */
     public function run()
     {
-        Package::truncate();
+        DB::table('package_service')->truncate();
 
         for ($i = 1; $i < 4; $i++) {
             Package::create([
