@@ -42,7 +42,7 @@ $ php artisan serve
 2. SveletKit Frontend Setup
 
 ```base
-$ cd project/resources/apps/admin
+$ cd resources/apps/admin
 $ cp .env.example .env # edit this file accordingly
 $ npm install
 $ npm run dev
