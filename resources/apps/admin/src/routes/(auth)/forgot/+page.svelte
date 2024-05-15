@@ -35,11 +35,14 @@
 				type="email"
 				placeholder="john@doe.com"
 				required
+				disabled={loading}
 			/>
 		</label>
 	</div>
-	<button type="submit" class="btn variant-filled-primary w-full font-bold text-white"
-		>Submit</button
+	<button
+		type="submit"
+		disabled={loading}
+		class="btn variant-filled-primary w-full font-bold text-white">Submit</button
 	>
 	<a href="/login" class="block pt-2 text-center">Back to login </a>
 </form>

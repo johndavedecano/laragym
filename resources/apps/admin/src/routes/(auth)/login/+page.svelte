@@ -45,6 +45,7 @@
 				bind:value={fields.email}
 				name="email"
 				type="email"
+				disabled={loading}
 				placeholder="john@doe.com"
 				required
 			/>
@@ -60,12 +61,15 @@
 				name="password"
 				type="password"
 				placeholder=""
+				disabled={loading}
 				required
 			/>
 		</label>
 	</div>
-	<button type="submit" class="btn variant-filled-primary w-full font-bold text-white"
-		>Login</button
+	<button
+		type="submit"
+		disabled={loading}
+		class="btn variant-filled-primary w-full font-bold text-white">Login</button
 	>
 	<a href="/forgot" class="block pt-2 text-center">Forgot password </a>
 </form>
