@@ -11,6 +11,7 @@
 	const toast = useToast();
 
 	const onSubmit = () => {
+		if (loading) return;
 		axios
 			.post('/forgot', fields)
 			.then(() => {

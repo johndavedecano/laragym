@@ -10,6 +10,7 @@
 	let loading = false;
 
 	const onSubmit = () => {
+		if (loading) return;
 		axios
 			.post('/login', fields)
 			.then(() => {

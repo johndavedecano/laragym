@@ -13,6 +13,7 @@
 	let loading = false;
 
 	const onSubmit = () => {
+		if (loading) return;
 		api.post('/auth/reset', {
 			email: data.email,
 			token: data.token,
