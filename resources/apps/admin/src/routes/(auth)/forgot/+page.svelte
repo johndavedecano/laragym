@@ -1,5 +1,6 @@
 <script>
-	import { goto } from '$app/navigation';
+	import { getErrorMessage } from '$lib/api';
+	import { useToast } from '$lib/toast';
 
 	import axios from 'axios';
 
@@ -7,11 +8,23 @@
 
 	let loading = false;
 
+	const toast = useToast();
+
 	const onSubmit = () => {
 		axios
 			.post('/forgot', fields)
-			.then((response) => {
-				goto('/login');
+			.then(() => {
+				toast.trigger({
+					message: 'Password reset instruction has been sent. Redirecting...',
+					background: 'variant-filled-success'
+				});
+				setTimeout(() => (window.location.href = '/'), 3000);
+			})
+			.catch((error) => {
+				toast.trigger({
+					message: getErrorMessage(error),
+					background: 'variant-filled-error'
+				});
 			})
 			.finally(() => {
 				loading = false;
