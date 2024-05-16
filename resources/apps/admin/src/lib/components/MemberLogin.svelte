@@ -137,26 +137,36 @@
 				</div>
 				<div class="mb-4 flex-1 font-bold">Member Subscriptions</div>
 				<div class="grid grid-cols-1 gap-2">
-					{#each subscriptions as item}
-						<SubscriptionCard {item} action={false} />
-					{:else}
-						<div class="text-xs text-gray-500">
-							This member does not have any subscriptions
-						</div>
-					{/each}
-				</div>
-				<div class="mb-4 mt-6 flex-1 font-bold">Member Branches</div>
-				<div class="card mb-6 w-full bg-white shadow-lg">
-					<div class="card-body p-4">
-						<ul class="branches">
-							{#each branches as item}
-								<li>{item.name}</li>
-							{:else}
-								<li class="text-xs text-gray-500">
-									This member does not have any branches
-								</li>
+					{#if subscriptions.length}
+						<div class="mb-4">
+							{#each subscriptions as item}
+								<SubscriptionCard {item} action={false} />
 							{/each}
-						</ul>
+						</div>
+					{:else}
+						<div class="card mb-4 w-full bg-white shadow-lg">
+							<div class="card-body p-4">
+								<div class="text-center text-xs text-gray-500">
+									This member does not have any subscriptions
+								</div>
+							</div>
+						</div>
+					{/if}
+				</div>
+				<div class="mb-4 flex-1 font-bold">Member Branches</div>
+				<div class="card w-full bg-white shadow-lg">
+					<div class="card-body p-4">
+						{#if branches.length}
+							<ul class="branches">
+								{#each branches as item}
+									<li>{item.name}</li>
+								{/each}
+							</ul>
+						{:else}
+							<div class="text-center text-xs text-gray-500">
+								This member does not have any branches
+							</div>
+						{/if}
 					</div>
 				</div>
 			</div>
