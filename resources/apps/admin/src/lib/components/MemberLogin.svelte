@@ -109,23 +109,34 @@
 		{#if user}
 			<div class="pt-4">
 				<div class="mb-4 mt-6 flex-1 font-bold">Member Information</div>
-				<div class="mb-6 flex items-center gap-4">
-					<Avatar
-						src={user.avatar ? getAvatarUrl(user.avatar) : undefined}
-						initials={user.avatar ? undefined : user.initial}
-						width="w-16"
-						rounded="rounded-full"
-					/>
-					<div>
-						<div class="flex flex-row gap-4">
-							<a href={`/members/${user.id}`} class="font-bold">{user.name}</a>
-							<Status status={user.status} />
+				<div class="card mb-6 w-full bg-white shadow-lg">
+					<div class="card-body p-4">
+						<div class="flex items-center gap-4">
+							<Avatar
+								src={user.avatar ? getAvatarUrl(user.avatar) : undefined}
+								initials={user.avatar ? undefined : user.initial}
+								width="w-16"
+								rounded="rounded-full"
+							/>
+							<div>
+								<div class="flex flex-row gap-4">
+									<a href={`/members/${user.id}`} class="font-bold">{user.name}</a
+									>
+									<Status status={user.status} />
+								</div>
+								<a href="mailto:{user.email}" class="text-sm text-gray-500"
+									>{user.email}</a
+								>
+							</div>
+							<div class="flex-1"></div>
+							<a href={`/members/${user.id}`} class="btn btn-sm variant-filled">
+								View Profile
+							</a>
 						</div>
-						<a href="mailto:{user.email}" class="text-sm text-gray-500">{user.email}</a>
 					</div>
 				</div>
 				<div class="mb-4 flex-1 font-bold">Member Subscriptions</div>
-				<SubscriptionList>
+				<div class="grid grid-cols-1 gap-2">
 					{#each subscriptions as item}
 						<SubscriptionCard {item} action={false} />
 					{:else}
@@ -133,25 +144,27 @@
 							This member does not have any subscriptions
 						</div>
 					{/each}
-				</SubscriptionList>
+				</div>
 				<div class="mb-4 mt-6 flex-1 font-bold">Member Branches</div>
-				<ul class="branches">
-					{#each branches as item}
-						<li>{item.name}</li>
-					{:else}
-						<li class="text-xs text-gray-500">
-							This member does not have any branches
-						</li>
-					{/each}
-				</ul>
+				<div class="card mb-6 w-full bg-white shadow-lg">
+					<div class="card-body p-4">
+						<ul class="branches">
+							{#each branches as item}
+								<li>{item.name}</li>
+							{:else}
+								<li class="text-xs text-gray-500">
+									This member does not have any branches
+								</li>
+							{/each}
+						</ul>
+					</div>
+				</div>
 			</div>
 		{/if}
 	</div>
 	{#if user}
 		<div class="flex items-center border-t p-4">
-			<a href={`/members/${user.id}`} class="btn variant-filled"> View Profile </a>
-			<div class="flex-1"></div>
-			<form class="flex items-center gap-4" on:submit={onLogActivity}>
+			<form class="flex flex-1 items-center gap-4" on:submit={onLogActivity}>
 				<select class="select" bind:value={type} name="type" required>
 					<option value="login">Member Login</option>
 					<option value="logout">Member Logout</option>
@@ -164,6 +177,6 @@
 
 <style>
 	.branches {
-		@apply mb-4 ml-6 list-disc text-sm;
+		@apply ml-6 list-disc text-sm;
 	}
 </style>

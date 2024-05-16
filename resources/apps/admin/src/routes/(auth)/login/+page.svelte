@@ -18,7 +18,7 @@
 					message: 'You have successfully logged in. Redirecting...',
 					background: 'variant-filled-success'
 				});
-				setTimeout(() => (window.location.href = '/'), 3000);
+				setTimeout(() => (window.location.href = '/'), 1000);
 			})
 			.catch((error) => {
 				toast.trigger({
