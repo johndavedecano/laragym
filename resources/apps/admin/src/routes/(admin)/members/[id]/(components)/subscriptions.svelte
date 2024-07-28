@@ -1,6 +1,6 @@
 <script>
 	// @ts-nocheck
-
+	import { _ } from 'svelte-i18n';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import { useToast } from '$lib/toast';
 	import { onDestroy, onMount } from 'svelte';
@@ -107,10 +107,10 @@
 
 <div class="flex flex-col">
 	<div class="mb-4 flex items-center">
-		<h3 class="h3 mb-4">Member Subscriptions</h3>
+		<h3 class="h3 mb-4">{$_('msuscrips')}</h3>
 		<div class="flex-1"></div>
 		<a href="/" on:click|preventDefault={onAddSubscription} class="btn variant-filled">
-			Add Subscription
+			{$_('adsubs')}
 		</a>
 	</div>
 

@@ -1,5 +1,6 @@
 <script>
 	// @ts-nocheck
+	import { _ } from 'svelte-i18n';
 	import { Paginator } from '@skeletonlabs/skeleton';
 	import { getBearerToken, useApi } from '$lib/api';
 	import { onMount } from 'svelte';
@@ -16,7 +17,7 @@
 	let totalItems = 0;
 	let perPage = 15;
 
-	let title = 'System Activities';
+	let title = $_('tisacts');
 
 	const loadItems = () => {
 		if (loading) return;
@@ -64,8 +65,8 @@
 				<thead>
 					<tr>
 						<th>ID</th>
-						<th>Description</th>
-						<th>Date</th>
+						<th>{$_('desc')}</th>
+						<th>{$_('date')}</th>
 					</tr>
 				</thead>
 				<tbody>

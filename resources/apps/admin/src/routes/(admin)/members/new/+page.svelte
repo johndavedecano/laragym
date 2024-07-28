@@ -1,4 +1,5 @@
 <script>
+	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import { useToast } from '$lib/toast';
@@ -9,7 +10,7 @@
 		Authorization: getBearerToken()
 	});
 
-	let title = 'Add Member';
+	let title = $_('tiadmem');
 
 	let loading = false;
 
@@ -54,7 +55,7 @@
 		<form action="" on:submit|preventDefault={onSubmit}>
 			<div class="mb-4">
 				<label class="label">
-					<span>Name</span>
+					<span>{$_('nsu')}</span>
 					<input
 						class="input"
 						bind:value={fields.name}
@@ -82,7 +83,7 @@
 
 			<div class="mb-4">
 				<label class="label">
-					<span>Password</span>
+					<span>{$_('psw')}</span>
 					<input
 						class="input"
 						bind:value={fields.password}
@@ -96,7 +97,7 @@
 
 			<div class="mb-4">
 				<label class="label">
-					<span>Password Confirmation</span>
+					<span>{$_('pswc')}</span>
 					<input
 						class="input"
 						bind:value={fields.password_confirmation}
@@ -113,13 +114,13 @@
 					type="button"
 					on:click={() => goto('/members')}
 					class="btn variant-filled-error text-white"
-					disabled={loading}>Cancel</button
+					disabled={loading}>{$_('canc')}</button
 				>
 				<div class="flex-1"></div>
 				<button
 					type="submit"
 					class="btn variant-filled-primary mr-2 text-white"
-					disabled={loading}>Submit</button
+					disabled={loading}>{$_('sub')}</button
 				>
 			</div>
 		</form>

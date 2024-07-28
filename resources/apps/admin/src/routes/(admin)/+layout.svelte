@@ -1,6 +1,9 @@
 <script>
 	import AppLayout from '$lib/components/AppLayout.svelte';
 
+	import './../../i18n';
+
+
 	export let data = { token: '' };
 </script>
 

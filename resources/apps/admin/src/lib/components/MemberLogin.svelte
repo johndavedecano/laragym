@@ -1,5 +1,6 @@
 <script>
 	// @ts-nocheck
+	import { _ } from 'svelte-i18n';
 	import { createEventDispatcher } from 'svelte';
 
 	import UserSelect from './UserSelect.svelte';
@@ -95,10 +96,10 @@
 
 <div class="card flex-1 flex-col bg-white shadow-lg lg:flex-row">
 	<div class="card-header border-b p-4">
-		<div class="flex-1 font-bold">Member Login</div>
+		<div class="flex-1 font-bold">{$_('memberlogin')}</div>
 	</div>
 	<div class="card-body p-4">
-		<p class="mb-2 block">Please search for a member to get started.</p>
+		<p class="mb-2 block">{$_('memsearch')}</p>
 		<UserSelect
 			searchable
 			clearable
@@ -108,7 +109,7 @@
 		/>
 		{#if user}
 			<div class="pt-4">
-				<div class="mb-4 mt-6 flex-1 font-bold">Member Information</div>
+				<div class="mb-4 mt-6 flex-1 font-bold">{$_('meminfo')}</div>
 				<div class="card mb-6 w-full bg-white shadow-lg">
 					<div class="card-body p-4">
 						<div class="flex items-center gap-4">
@@ -130,12 +131,12 @@
 							</div>
 							<div class="flex-1"></div>
 							<a href={`/members/${user.id}`} class="btn btn-sm variant-filled">
-								View Profile
+								{$_('viweprofile')}
 							</a>
 						</div>
 					</div>
 				</div>
-				<div class="mb-4 flex-1 font-bold">Member Subscriptions</div>
+				<div class="mb-4 flex-1 font-bold">{$_('memsus')}</div>
 				<div class="grid grid-cols-1 gap-2">
 					{#if subscriptions.length}
 						<div class="mb-4">
@@ -147,13 +148,13 @@
 						<div class="card mb-4 w-full bg-white shadow-lg">
 							<div class="card-body p-4">
 								<div class="text-center text-xs text-gray-500">
-									This member does not have any subscriptions
+									{$_('nomemsus')}
 								</div>
 							</div>
 						</div>
 					{/if}
 				</div>
-				<div class="mb-4 flex-1 font-bold">Member Branches</div>
+				<div class="mb-4 flex-1 font-bold">{$_('membran')}</div>
 				<div class="card w-full bg-white shadow-lg">
 					<div class="card-body p-4">
 						{#if branches.length}
@@ -164,7 +165,7 @@
 							</ul>
 						{:else}
 							<div class="text-center text-xs text-gray-500">
-								This member does not have any branches
+								{$_('nomembran')}
 							</div>
 						{/if}
 					</div>
@@ -176,10 +177,10 @@
 		<div class="flex items-center border-t p-4">
 			<form class="flex flex-1 items-center gap-4" on:submit={onLogActivity}>
 				<select class="select" bind:value={type} name="type" required>
-					<option value="login">Member Login</option>
-					<option value="logout">Member Logout</option>
+					<option value="login">{$_('memberloginr')}</option>
+					<option value="logout">{$_('memberlogoutr')}</option>
 				</select>
-				<button class="btn variant-filled"> Log Status </button>
+				<button class="btn variant-filled"> {$_('logstat')} </button>
 			</form>
 		</div>
 	{/if}

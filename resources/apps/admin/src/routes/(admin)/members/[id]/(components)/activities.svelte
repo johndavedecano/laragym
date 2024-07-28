@@ -1,5 +1,6 @@
 <script>
 	// @ts-nocheck
+	import { _ } from 'svelte-i18n';
 	import { Paginator } from '@skeletonlabs/skeleton';
 	import { getBearerToken, useApi } from '$lib/api';
 	import { onMount } from 'svelte';
@@ -47,7 +48,7 @@
 
 <div class="flex flex-col">
 	<div class="mb-4 flex items-center">
-		<h3 class="h3 mb-4">Member Activities</h3>
+		<h3 class="h3 mb-4">{$_('mactivities')}</h3>
 		<div class="flex-1"></div>
 	</div>
 
@@ -58,8 +59,8 @@
 			<thead>
 				<tr>
 					<th>ID</th>
-					<th>Description</th>
-					<th>Date</th>
+					<th>{$_('desc')}</th>
+					<th>{$_('date')}</th>
 				</tr>
 			</thead>
 			<tbody>

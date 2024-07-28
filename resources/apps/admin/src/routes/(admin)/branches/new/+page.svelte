@@ -1,4 +1,5 @@
 <script>
+	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import { useToast } from '$lib/toast';
@@ -9,7 +10,7 @@
 		Authorization: getBearerToken()
 	});
 
-	let title = 'Add Branch';
+	let title = $_('tiadbra');
 
 	let loading = false;
 
@@ -53,7 +54,7 @@
 		<form action="" on:submit|preventDefault={onSubmit}>
 			<div class="mb-4">
 				<label class="label">
-					<span>Name</span>
+					<span>{$_('nsu')}</span>
 					<input
 						class="input"
 						bind:value={fields.name}
@@ -67,7 +68,7 @@
 
 			<div class="mb-4">
 				<label class="label">
-					<span>Status</span>
+					<span>{$_('ssu')}</span>
 					<select
 						class="select"
 						bind:value={fields.status}
@@ -76,15 +77,15 @@
 						disabled={loading}
 					>
 						<option value=""></option>
-						<option value="active">Active</option>
-						<option value="inactive">In-Active</option>
+						<option value="active">{$_('active')}</option>
+						<option value="inactive">{$_('inactive')}</option>
 					</select>
 				</label>
 			</div>
 
 			<div class="mb-4">
 				<label class="label">
-					<span>Description</span>
+					<span>{$_('desc')}</span>
 					<textarea
 						class="textarea"
 						rows="4"
@@ -101,13 +102,13 @@
 					type="button"
 					on:click={() => goto('/branches')}
 					class="btn variant-filled-error text-white"
-					disabled={loading}>Cancel</button
+					disabled={loading}>{$_('canc')}</button
 				>
 				<div class="flex-1"></div>
 				<button
 					type="submit"
 					class="btn variant-filled-primary mr-2 text-white"
-					disabled={loading}>Submit</button
+					disabled={loading}>{$_('sub')}</button
 				>
 			</div>
 		</form>

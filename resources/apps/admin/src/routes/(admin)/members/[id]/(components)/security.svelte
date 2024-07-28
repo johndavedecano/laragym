@@ -1,5 +1,6 @@
 <script>
 	// @ts-nocheck
+	import { _ } from 'svelte-i18n';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import { useToast } from '$lib/toast';
 
@@ -37,13 +38,13 @@
 	};
 </script>
 
-<h3 class="h3 mb-4">Security and Privacy</h3>
+<h3 class="h3 mb-4">{$_('sandp')}</h3>
 
 <!-- Responsive Container (recommended) -->
 <form action="" on:submit|preventDefault={onSubmit}>
 	<div class="mb-4">
 		<label class="label">
-			<span>Password</span>
+			<span>{$_('psw')}</span>
 			<input
 				class="input"
 				bind:value={fields.password}
@@ -56,7 +57,7 @@
 
 	<div class="mb-4">
 		<label class="label">
-			<span>Password Confirmation</span>
+			<span>{$_('pswc')}</span>
 			<input
 				class="input"
 				bind:value={fields.password_confirmation}
@@ -70,7 +71,7 @@
 	<div class="flex pt-8">
 		<div class="flex-1"></div>
 		<button type="submit" class="btn variant-filled-primary mr-2 text-white" disabled={loading}
-			>Submit</button
+			>{$_('sub')}</button
 		>
 	</div>
 </form>

@@ -1,5 +1,6 @@
 <script>
 	// @ts-nocheck
+	import { _ } from 'svelte-i18n';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import { useToast } from '$lib/toast';
 	import { Avatar, FileButton, SlideToggle } from '@skeletonlabs/skeleton';
@@ -76,7 +77,7 @@
 	};
 </script>
 
-<h3 class="h3 mb-4">Member Profile</h3>
+<h3 class="h3 mb-4">{$_('memprof')}</h3>
 
 <!-- Responsive Container (recommended) -->
 <form action="" on:submit|preventDefault={onSubmit}>
@@ -97,7 +98,7 @@
 
 	<div class="mb-4">
 		<label class="label">
-			<span>Name</span>
+			<span>{$_('nsu')}</span>
 			<input
 				class="input"
 				bind:value={fields.name}
@@ -123,19 +124,19 @@
 			/>
 		</label>
 		<label class="label flex-1">
-			<span>Status</span>
+			<span>{$_('ssu')}</span>
 			<select class="select" bind:value={fields.status} name="status" disabled={loading}>
 				<option value=""></option>
-				<option value="active">Active</option>
-				<option value="inactive">In-Active</option>
-				<option value="suspended">Suspended</option>
+				<option value="active">{$_('active')}</option>
+				<option value="inactive">{$_('inactive')}</option>
+				<option value="suspended">{$_('suspended')}</option>
 			</select>
 		</label>
 	</div>
 
 	<div class="mb-4">
 		<label class="label">
-			<span>Contact Number</span>
+			<span>{$_('conum')}</span>
 			<input
 				class="input"
 				bind:value={fields.contact_number}
@@ -149,7 +150,7 @@
 
 	<div class="mb-4">
 		<label class="label">
-			<span>Address</span>
+			<span>{$_('address')}</span>
 			<input
 				class="input"
 				bind:value={fields.address}
@@ -163,7 +164,7 @@
 
 	<div class="mb-4 flex flex-row gap-4">
 		<label class="label flex-1">
-			<span>City</span>
+			<span>{$_('city')}</span>
 			<input
 				class="input"
 				bind:value={fields.city}
@@ -174,7 +175,7 @@
 			/>
 		</label>
 		<label class="label flex-1">
-			<span>State</span>
+			<span>{$_('pstate')}</span>
 			<input
 				class="input"
 				bind:value={fields.state}
@@ -189,11 +190,11 @@
 	<div class="mb-4 flex flex-row gap-4">
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label class="label flex-1">
-			<span>Country</span>
+			<span>{$_('country')}</span>
 			<CountrySelect bind:value={fields.country} />
 		</label>
 		<label class="label flex-1">
-			<span>Postcode</span>
+			<span>{$_('postcode')}</span>
 			<input
 				class="input"
 				bind:value={fields.postcode}
@@ -206,16 +207,16 @@
 	</div>
 
 	<SlideToggle name="slider-label" bind:checked={fields.newsletter}
-		>Subscribe to Newsletter</SlideToggle
+		>{$_('suscribe')}</SlideToggle
 	>
 
 	<div class="flex pt-8">
 		<button type="reset" class="btn variant-filled-error text-white" disabled={loading}
-			>Reset</button
+			>{$_('reset')}</button
 		>
 		<div class="flex-1"></div>
 		<button type="submit" class="btn variant-filled-primary mr-2 text-white" disabled={loading}
-			>Submit</button
+			>{$_('sub')}</button
 		>
 	</div>
 </form>

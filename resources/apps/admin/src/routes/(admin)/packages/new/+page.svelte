@@ -1,6 +1,6 @@
 <script>
 	// @ts-nocheck
-
+	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import CycleSelect from '$lib/components/CycleSelect.svelte';
@@ -13,7 +13,7 @@
 		Authorization: getBearerToken()
 	});
 
-	let title = 'New Package';
+	let title = $_('tinpac');
 
 	let loading = false;
 
@@ -37,7 +37,7 @@
 			.then(() => {
 				goto('/packages');
 				toast.trigger({
-					message: 'Successfully created',
+					message: $_('createdmessage'),
 					background: 'variant-filled-success'
 				});
 			})
@@ -67,7 +67,7 @@
 		<form action="" on:submit|preventDefault={onSubmit}>
 			<div class="mb-4">
 				<label class="label">
-					<span>Name</span>
+					<span>{$_('nsu')}</span>
 					<input
 						class="input"
 						bind:value={fields.name}
@@ -81,7 +81,7 @@
 
 			<div class="mb-4">
 				<label class="label">
-					<span>Amount</span>
+					<span>{$_('amount')}</span>
 					<input
 						class="input"
 						bind:value={fields.amount}
@@ -95,7 +95,7 @@
 
 			<div class="mb-4">
 				<label class="label">
-					<span>Status</span>
+					<span>{$_('ssu')}</span>
 					<select
 						class="select"
 						bind:value={fields.status}
@@ -113,7 +113,7 @@
 			<div class="mb-4">
 				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label class="label flex flex-col gap-1">
-					<span>Billing Cycle</span>
+					<span>{$_('bilcyc')}</span>
 					<CycleSelect bind:value={fields.cycle} />
 				</label>
 			</div>
@@ -121,7 +121,7 @@
 			<div class="mb-4">
 				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label class="label flex flex-col gap-1">
-					<span>Services</span>
+					<span>{$_('sesu')}</span>
 					<ServiceSelect bind:value={fields.services} />
 				</label>
 			</div>
@@ -131,13 +131,13 @@
 					type="button"
 					on:click={() => goto('/packages')}
 					class="btn variant-filled-error text-white"
-					disabled={loading}>Cancel</button
+					disabled={loading}>{$_('canc')}</button
 				>
 				<div class="flex-1"></div>
 				<button
 					type="submit"
 					class="btn variant-filled-primary mr-2 text-white"
-					disabled={loading}>Submit</button
+					disabled={loading}>{$_('sub')}</button
 				>
 			</div>
 		</form>

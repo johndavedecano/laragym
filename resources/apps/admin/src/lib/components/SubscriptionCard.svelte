@@ -1,5 +1,6 @@
 <script>
 	// @ts-nocheck
+	import { _ } from 'svelte-i18n';
 	import { createEventDispatcher } from 'svelte';
 
 	import FaClock from 'svelte-icons/fa/FaClock.svelte';
@@ -25,7 +26,7 @@
 				{#each item.package.services as item}
 					<li>{item.name}</li>
 				{:else}
-					<li>No service attached to this package.</li>
+					<li>{$_('noservsttatchd')}</li>
 				{/each}
 			{/if}
 		</ul>
@@ -34,7 +35,7 @@
 				<FaClock />
 			</span>
 			<div class="flex-1">
-				Valid Until: {moment(item.expires_at).format('LL')}
+				{$_('validuntil')} {moment(item.expires_at).format('LL')}
 			</div>
 		</div>
 		{#if item.status === 'suspended'}
@@ -43,7 +44,7 @@
 					<FaClock />
 				</span>
 				<div class="flex-1">
-					Suspended At: {moment(item.suspended_at).format('LL')}
+					{$_('suspendedat')} {moment(item.suspended_at).format('LL')}
 				</div>
 			</div>
 		{/if}

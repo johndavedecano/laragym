@@ -1,5 +1,6 @@
 <script>
 	// @ts-nocheck
+	import { _ } from 'svelte-i18n';
 	import { Avatar, Paginator } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import { getBearerToken, useApi } from '$lib/api';
@@ -20,7 +21,7 @@
 	let totalItems = 0;
 	let perPage = 15;
 
-	let title = 'Manage Members';
+	let title = $_('timame');
 
 	const onDelete = (id) => {
 		const confirm = window.confirm('are you sure you wanna delete this item?');
@@ -75,7 +76,7 @@
 				class="btn variant-filled-primary text-white"
 				on:click={() => goto('/members/new')}
 			>
-				Add Item
+				{$_('aditem')}
 			</button>
 		</header>
 		<!-- Responsive Container (recommended) -->
@@ -85,9 +86,9 @@
 				<thead>
 					<tr>
 						<th>ID</th>
-						<th>Name</th>
-						<th>Status</th>
-						<th>Action</th>
+						<th>{$_('nsu')}</th>
+						<th>{$_('ssu')}</th>
+						<th>{$_('asu')}</th>
 					</tr>
 				</thead>
 				<tbody>
