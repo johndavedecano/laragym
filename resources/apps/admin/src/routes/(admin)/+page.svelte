@@ -1,6 +1,6 @@
 <script>
 	// @ts-nocheck
-
+	import { _ } from 'svelte-i18n';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 
 	import StatisticsCard from '$lib/components/StatisticsCard.svelte';
@@ -72,25 +72,25 @@
 			href="/subscriptions"
 			icon={SubscriptionIcon}
 			value={stats.subscriptions}
-			title="Total Subscription"
+			title={$_('ts')}
 		/>
 		<StatisticsCard
 			href="/services"
 			icon={ServicesIcon}
 			value={stats.services}
-			title="Total Services"
+			title={$_('tse')}
 		/>
 		<StatisticsCard
 			href="/packages"
 			icon={PackagesIcon}
 			value={stats.packages}
-			title="Total Packages"
+			title={$_('tp')}
 		/>
 		<StatisticsCard
 			href="/members"
 			icon={MembersIcon}
 			value={stats.members}
-			title="Total Members"
+			title={$_('tme')}
 		/>
 	</div>
 	<div class="flex flex-col gap-6 lg:flex-row">

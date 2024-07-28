@@ -1,5 +1,6 @@
 <script>
 	// @ts-nocheck
+	import { _ } from 'svelte-i18n';
 	import { Paginator } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import { getBearerToken, useApi } from '$lib/api';
@@ -19,7 +20,7 @@
 	let totalItems = 0;
 	let perPage = 15;
 
-	let title = 'Manage Packages';
+	let title = $_('timanpack');
 
 	const onDelete = (id) => {
 		const confirm = window.confirm('are you sure you wanna delete this item?');
@@ -74,7 +75,7 @@
 				class="btn variant-filled-primary text-white"
 				on:click={() => goto('/packages/new')}
 			>
-				Add Item
+				{$_('aditem')}
 			</button>
 		</header>
 		<!-- Responsive Container (recommended) -->
@@ -84,11 +85,11 @@
 				<thead>
 					<tr>
 						<th>ID</th>
-						<th>Name</th>
-						<th>Billing Cycle</th>
-						<th>Services</th>
-						<th>Price</th>
-						<th>Status</th>
+						<th>{$_('nsu')}</th>
+						<th>{$_('bilcyc')}</th>
+						<th>{$_('sesu')}</th>
+						<th>{$_('price')}</th>
+						<th>{$_('ssu')}</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -136,7 +137,7 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<th colspan="3" class="bg-white">Results Found {totalItems}</th>
+						<th colspan="3" class="bg-white">{$_('filen')} {totalItems}</th>
 						<td class="bg-white"></td>
 					</tr>
 				</tfoot>

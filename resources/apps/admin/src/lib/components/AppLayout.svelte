@@ -6,6 +6,9 @@
 	import Navigation from '$lib/components/Navigation.svelte';
 
 	import Header from './Header.svelte';
+
+
+	import { _ } from 'svelte-i18n';
 </script>
 
 <Drawer bgDrawer="bg-gray-800" rounded="rounded-none" width="300px">

@@ -1,6 +1,6 @@
 <script>
 	// @ts-nocheck
-
+	import { _ } from 'svelte-i18n';
 	import Dashboard from 'svelte-icons/fa/FaHome.svelte';
 	import Activities from 'svelte-icons/fa/FaUserClock.svelte';
 	import Attendance from 'svelte-icons/fa/FaCalendar.svelte';
@@ -34,47 +34,47 @@
 	$: items = [
 		{
 			path: '/',
-			name: 'Dashboard',
+			name: $_('ndash'),
 			icon: Dashboard
 		},
 		{
 			path: '/activities',
-			name: 'Activities',
+			name: $_('nact'),
 			icon: Activities
 		},
 		{
 			path: '/attendance',
-			name: 'Attendance',
+			name: $_('natt'),
 			icon: Attendance
 		},
 		{
 			path: '/members',
-			name: 'Members',
+			name: $_('nmem'),
 			icon: Members
 		},
 		{
 			path: '/branches',
-			name: 'Branches',
+			name: $_('nbran'),
 			icon: Branches
 		},
 		{
 			path: '/subscriptions',
-			name: 'Subscriptions',
+			name: $_('nsubs'),
 			icon: Subscriptions
 		},
 		{
 			path: '/packages',
-			name: 'Packages',
+			name: $_('npack'),
 			icon: Packages
 		},
 		{
 			path: '/services',
-			name: 'Services',
+			name: $_('nservs'),
 			icon: Services
 		},
 		{
 			path: '/cycles',
-			name: 'Cycles',
+			name: $_('ncycles'),
 			icon: Cycles
 		},
 		// {
@@ -89,7 +89,7 @@
 		// },
 		{
 			path: '/logout',
-			name: 'Logout',
+			name: $_('nlogout'),
 			icon: Logout
 		}
 	].map((v) => {

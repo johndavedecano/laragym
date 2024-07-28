@@ -1,6 +1,6 @@
 <script>
 	// @ts-nocheck
-
+	import { _ } from 'svelte-i18n';
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import ModalClose from './ModalClose.svelte';
 	import ModalHeader from './ModalHeader.svelte';
@@ -44,7 +44,7 @@
 		})
 			.then(() => {
 				toast.trigger({
-					message: 'Successfully updated',
+					message: $_('updmessage'),
 					background: 'variant-filled-success'
 				});
 				window.dispatchEvent(new CustomEvent('user_subscription'));
@@ -77,14 +77,14 @@
 			<div class="mb-4">
 				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label class="label">
-					<span>Package</span>
+					<span>{$_('package')}</span>
 					<PackageSelect bind:value={fields.package} />
 				</label>
 			</div>
 
 			<div class="mb-4">
 				<label class="label">
-					<span>Status</span>
+					<span>{$_('ssu')}</span>
 					<select
 						class="select"
 						bind:value={fields.status}
@@ -103,7 +103,7 @@
 
 			<div class="mb-4">
 				<label class="label">
-					<span>Interval</span>
+					<span>{$_('interval')}</span>
 					<input
 						class="input"
 						bind:value={fields.interval}
@@ -122,13 +122,13 @@
 					type="button"
 					on:click={() => modalStore.close()}
 					class="btn variant-filled-error text-white"
-					disabled={loading}>Cancel</button
+					disabled={loading}>{$_('canc')}</button
 				>
 				<div class="flex-1"></div>
 				<button
 					type="submit"
 					class="btn variant-filled-primary mr-2 text-white"
-					disabled={loading}>Submit</button
+					disabled={loading}>{$_('sub')}</button
 				>
 			</div>
 		</ModalFooter>

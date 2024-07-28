@@ -1,5 +1,6 @@
 <script>
 	// @ts-nocheck
+	import { _ } from 'svelte-i18n';
 	import { Avatar, Paginator } from '@skeletonlabs/skeleton';
 	import { getBearerToken, useApi } from '$lib/api';
 	import { onMount } from 'svelte';
@@ -17,7 +18,7 @@
 	let totalItems = 0;
 	let perPage = 15;
 
-	let title = 'Member Attedance';
+	let title = $_('tiatt');
 
 	const loadItems = () => {
 		if (loading) return;
@@ -66,9 +67,9 @@
 				<thead>
 					<tr>
 						<th>ID</th>
-						<th>Member</th>
-						<th>Description</th>
-						<th>Date</th>
+						<th>{$_('member')}</th>
+						<th>{$_('desc')}</th>
+						<th>{$_('date')}</th>
 					</tr>
 				</thead>
 				<tbody>

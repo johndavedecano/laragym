@@ -1,6 +1,6 @@
 <script>
 	// @ts-nocheck
-
+	import { _ } from 'svelte-i18n';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import BranchSelect from '$lib/components/BranchSelect.svelte';
 	import { useToast } from '$lib/toast';
@@ -58,7 +58,7 @@
 
 <div class="flex flex-col">
 	<div class="mb-4 flex items-center">
-		<h3 class="h3 mb-4">Member Branches</h3>
+		<h3 class="h3 mb-4">{$_('mbranches')}</h3>
 		<div class="flex-1"></div>
 	</div>
 
@@ -67,7 +67,7 @@
 		<div class="mb-4">
 			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label class="label">
-				<span class="mb-4 block">Select Branches</span>
+				<span class="mb-4 block">{$_('sbranches')}</span>
 				<BranchSelect bind:value={fields.branches} multiple />
 			</label>
 		</div>
@@ -77,7 +77,7 @@
 			<button
 				type="submit"
 				class="btn variant-filled-primary mr-2 text-white"
-				disabled={loading}>Submit</button
+				disabled={loading}>{$_('sub')}</button
 			>
 		</div>
 	</form>

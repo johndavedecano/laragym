@@ -1,5 +1,6 @@
 <script>
 	import { getErrorMessage } from '$lib/api';
+	import { _ } from 'svelte-i18n';
 	import { useToast } from '$lib/toast';
 
 	import axios from 'axios';
@@ -34,8 +35,8 @@
 </script>
 
 <div class="mb-6">
-	<h3 class="h3">Forgot Password</h3>
-	<p>Please provide your email to reset your password.</p>
+	<h3 class="h3">{$_('fp')}</h3>
+	<p>{$_('re')}</p>
 </div>
 
 <form action="" on:submit|preventDefault={onSubmit}>
@@ -56,7 +57,7 @@
 	<button
 		type="submit"
 		disabled={loading}
-		class="btn variant-filled-primary w-full font-bold text-white">Submit</button
+		class="btn variant-filled-primary w-full font-bold text-white">{$_('sub')}</button
 	>
-	<a href="/login" class="block pt-2 text-center">Back to login </a>
+	<a href="/login" class="block pt-2 text-center">{$_('rl')} </a>
 </form>

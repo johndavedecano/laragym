@@ -1,6 +1,6 @@
 <script>
 	// @ts-nocheck
-
+	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
@@ -21,7 +21,7 @@
 		Authorization: getBearerToken()
 	});
 
-	let title = 'Member Settings';
+	let title = $_('memset');
 
 	let loading = false;
 
@@ -69,35 +69,35 @@
 						<a
 							class={active === 'profile' ? 'active' : ''}
 							on:click|preventDefault={() => (active = 'profile')}
-							href="/">Profile</a
+							href="/">{$_('profile')}</a
 						>
 					</li>
 					<li>
 						<a
 							class={active === 'subscriptions' ? 'active' : ''}
 							on:click|preventDefault={() => (active = 'subscriptions')}
-							href="/">Subscriptions</a
+							href="/">{$_('subscs')}</a
 						>
 					</li>
 					<li>
 						<a
 							class={active === 'branches' ? 'active' : ''}
 							on:click|preventDefault={() => (active = 'branches')}
-							href="/">Branches</a
+							href="/">{$_('branches')}</a
 						>
 					</li>
 					<li>
 						<a
 							class={active === 'activities' ? 'active' : ''}
 							on:click|preventDefault={() => (active = 'activities')}
-							href="/">Activities</a
+							href="/">{$_('activities')}</a
 						>
 					</li>
 					<li>
 						<a
 							class={active === 'security' ? 'active' : ''}
 							on:click|preventDefault={() => (active = 'security')}
-							href="/">Security and Privacy</a
+							href="/">{$_('sandp')}</a
 						>
 					</li>
 				</ul>

@@ -1,5 +1,6 @@
 <script>
 	// @ts-nocheck
+	import { _ } from 'svelte-i18n';
 	import { Paginator } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import { getBearerToken, useApi } from '$lib/api';
@@ -19,10 +20,10 @@
 	let totalItems = 0;
 	let perPage = 15;
 
-	let title = 'Manage Services';
+	let title = $_('timanser');
 
 	const onDelete = (id) => {
-		const confirm = window.confirm('are you sure you wanna delete this item?');
+		const confirm = window.confirm($_('delmessage'));
 		if (confirm) {
 			items = items.filter((v) => v.id != id);
 			totalItems = totalItems - 1;
@@ -74,7 +75,7 @@
 				class="btn variant-filled-primary text-white"
 				on:click={() => goto('/services/new')}
 			>
-				Add Item
+				{$_('aditem')}
 			</button>
 		</header>
 		<!-- Responsive Container (recommended) -->
@@ -84,9 +85,9 @@
 				<thead>
 					<tr>
 						<th>ID</th>
-						<th>Name</th>
-						<th>Status</th>
-						<th>Action</th>
+						<th>{$_('nsu')}</th>
+						<th>{$_('ssu')}</th>
+						<th>{$_('asu')}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -124,7 +125,7 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<th colspan="3" class="bg-white">Results Found {totalItems}</th>
+						<th colspan="3" class="bg-white">{$_('filen')} {totalItems}</th>
 						<td class="bg-white"></td>
 					</tr>
 				</tfoot>
