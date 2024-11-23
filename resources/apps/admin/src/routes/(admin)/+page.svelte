@@ -13,8 +13,10 @@
 	import LatestActivities from '$lib/components/LatestActivities.svelte';
 	import LatestAttendance from '$lib/components/LatestAttendance.svelte';
 	import MemberLogin from '$lib/components/MemberLogin.svelte';
+	import { getDashboardStoreContext } from '$lib/stores/dashboard.store.svelte';
 
-	let loading = false;
+	const { loadInitialData, loading, statistics } = getDashboardStoreContext();
+
 	let attendance;
 
 	const api = useApi({
@@ -23,34 +25,10 @@
 
 	const toast = useToast();
 
-	let stats = {
-		subscriptions: 0,
-		services: 0,
-		packages: 0,
-		members: 0
-	};
-
 	const loadItems = async () => {
 		try {
-			loading = true;
-
-			const [subscriptions, services, packages, members] = await Promise.all([
-				api.get('/stats/subscriptions'),
-				api.get('/stats/services'),
-				api.get('/stats/packages'),
-				api.get('/stats/members')
-			]);
-
-			stats = {
-				subscriptions: subscriptions.data,
-				services: services.data,
-				packages: packages.data,
-				members: members.data
-			};
-
-			loading = false;
+			await loadInitialData();
 		} catch (error) {
-			loading = false;
 			toast.trigger({
 				// @ts-ignore
 				message: getErrorMessage(error),
@@ -71,25 +49,25 @@
 		<StatisticsCard
 			href="/subscriptions"
 			icon={SubscriptionIcon}
-			value={stats.subscriptions}
+			value={statistics.subscriptions}
 			title="Total Subscription"
 		/>
 		<StatisticsCard
 			href="/services"
 			icon={ServicesIcon}
-			value={stats.services}
+			value={statistics.services}
 			title="Total Services"
 		/>
 		<StatisticsCard
 			href="/packages"
 			icon={PackagesIcon}
-			value={stats.packages}
+			value={statistics.packages}
 			title="Total Packages"
 		/>
 		<StatisticsCard
 			href="/members"
 			icon={MembersIcon}
-			value={stats.members}
+			value={statistics.members}
 			title="Total Members"
 		/>
 	</div>
