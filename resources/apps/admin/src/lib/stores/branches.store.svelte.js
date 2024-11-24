@@ -29,7 +29,9 @@ class BranchStore {
 		return response.data;
 	};
 
-	createBranch = async () => {};
+	createBranch = (params) => {
+		return this.api.post('/branches', params);
+	};
 
 	deleteBranch = async (id) => {
 		this.items = this.items.filter((item) => item.id !== id);
