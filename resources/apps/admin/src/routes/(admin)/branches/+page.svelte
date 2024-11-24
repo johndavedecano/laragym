@@ -8,56 +8,42 @@
 	import Status from '$lib/components/Status.svelte';
 	import EditIcon from 'svelte-icons/fa/FaEdit.svelte';
 	import DeleteIcon from 'svelte-icons/fa/FaTrash.svelte';
+	import { getBranchStoreContext } from '$lib/stores/branches.store.svelte';
+
+	const store = getBranchStoreContext();
 
 	const api = useApi({
 		Authorization: getBearerToken()
 	});
 
-	let items = [];
-	let currentPage = 1;
-	let loading = false;
-	let totalItems = 0;
-	let perPage = 15;
-
-	let title = 'Manage Branchs';
+	let title = 'Manage Branches';
 
 	const onDelete = (id) => {
 		const confirm = window.confirm('are you sure you wanna delete this item?');
-		if (confirm) {
-			items = items.filter((v) => v.id != id);
-			totalItems = totalItems - 1;
-			api.delete(`/branches/${id}`);
-		}
+		if (confirm) store.deleteBranch(id);
 	};
 
 	const onEdit = (id) => goto(`/branches/${id}`);
 
-	const loadItems = () => {
-		if (loading) return;
-		loading = true;
-		api.get('/branches', {
-			params: {
-				page: currentPage,
-				per_page: perPage
-			}
-		})
-			.then((response) => {
-				console.log(response.data);
-				items = response.data.data;
-				currentPage = response.data.current_page;
-				totalItems = response.data.total;
-			})
-			.finally(() => (loading = false));
+	const onAmountChanged = (event) => {
+		store.perPage = event.detail;
+		store.currentPage = 1;
+		store.loadBranches();
 	};
 
-	onMount(() => loadItems());
+	const onPageChanged = (event) => {
+		store.currentPage = event.detail + 1;
+		store.loadBranches();
+	};
 
 	$: paginationSettings = {
-		page: currentPage - 1,
-		limit: perPage,
-		size: totalItems,
+		page: store.currentPage - 1,
+		limit: store.perPage,
+		size: store.totalItems,
 		amounts: [5, 10, 15, 20, 40, 60, 100]
 	};
+
+	onMount(() => store.loadBranches());
 </script>
 
 <svelte:head>
@@ -71,7 +57,7 @@
 			<div class="flex-1"></div>
 			<button
 				type="submit"
-				class="btn variant-filled-primary text-white"
+				class="variant-filled-primary btn text-white"
 				on:click={() => goto('/branches/new')}
 			>
 				Add Item
@@ -80,7 +66,7 @@
 		<!-- Responsive Container (recommended) -->
 		<div class="table-container">
 			<!-- Native Table Element -->
-			<table class="table-hover table bg-white">
+			<table class="table table-hover bg-white">
 				<thead>
 					<tr>
 						<th>ID</th>
@@ -90,7 +76,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each items as item}
+					{#each store.items as item}
 						<tr>
 							<td>{item.id}</td>
 							<td>
@@ -102,7 +88,7 @@
 							<td>
 								<button
 									type="button"
-									class="btn-icon variant-filled-primary"
+									class="variant-filled-primary btn-icon"
 									on:click={() => onEdit(item.id)}
 								>
 									<span class="h-4 w-4 text-white">
@@ -111,7 +97,7 @@
 								</button>
 								<button
 									type="button"
-									class="btn-icon variant-filled-error"
+									class="variant-filled-error btn-icon"
 									on:click={() => onDelete(item.id)}
 								>
 									<span class="h-4 w-4 text-white">
@@ -124,7 +110,7 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<th colspan="3" class="bg-white">Results Found {totalItems}</th>
+						<th colspan="3" class="bg-white">Results Found {store.totalItems}</th>
 						<td class="bg-white"></td>
 					</tr>
 				</tfoot>
@@ -134,14 +120,8 @@
 					bind:settings={paginationSettings}
 					showNumerals
 					maxNumerals={1}
-					on:amount={(event) => {
-						perPage = event.detail;
-						loadItems();
-					}}
-					on:page={(event) => {
-						currentPage = event.detail;
-						loadItems();
-					}}
+					on:amount={onAmountChanged}
+					on:page={onPageChanged}
 				/>
 			</div>
 		</div>
