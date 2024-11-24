@@ -1,41 +1,16 @@
 <script>
 	// @ts-nocheck
 	import { Paginator } from '@skeletonlabs/skeleton';
-	import { getBearerToken, useApi } from '$lib/api';
 	import { onMount } from 'svelte';
 
 	import moment from 'moment';
 
-	const api = useApi({
-		Authorization: getBearerToken()
-	});
+	import { getActivitiesStoreContext } from '$lib/stores/activities.store.svelte';
 
-	let items = [];
-	let currentPage = 1;
-	let loading = false;
-	let totalItems = 0;
-	let perPage = 15;
+	let { items, loading, currentPage, totalItems, perPage, loadItems } =
+		getActivitiesStoreContext();
 
 	let title = 'System Activities';
-
-	const loadItems = () => {
-		if (loading) return;
-		loading = true;
-		api.get('/activities', {
-			params: {
-				page: currentPage,
-				per_page: perPage,
-				'filter[type]': 'system'
-			}
-		})
-			.then((response) => {
-				console.log(response.data);
-				items = response.data.data;
-				currentPage = response.data.current_page;
-				totalItems = response.data.total;
-			})
-			.finally(() => (loading = false));
-	};
 
 	onMount(() => loadItems());
 
@@ -60,7 +35,7 @@
 		<!-- Responsive Container (recommended) -->
 		<div class="table-container">
 			<!-- Native Table Element -->
-			<table class="table-hover table bg-white">
+			<table class="table table-hover bg-white">
 				<thead>
 					<tr>
 						<th>ID</th>
