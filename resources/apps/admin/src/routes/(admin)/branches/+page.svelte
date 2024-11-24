@@ -12,11 +12,7 @@
 
 	const store = getBranchStoreContext();
 
-	const api = useApi({
-		Authorization: getBearerToken()
-	});
-
-	let title = 'Manage Branches';
+	const title = 'Manage Branches';
 
 	const onDelete = (id) => {
 		const confirm = window.confirm('are you sure you wanna delete this item?');
@@ -36,12 +32,18 @@
 		store.loadBranches();
 	};
 
-	$: paginationSettings = {
-		page: store.currentPage - 1,
-		limit: store.perPage,
-		size: store.totalItems,
+	let paginationSettings = $state({
+		page: 1,
+		limit: 15,
+		size: 0,
 		amounts: [5, 10, 15, 20, 40, 60, 100]
-	};
+	});
+
+	$effect(() => {
+		paginationSettings.currentPage = store.currentPage - 1;
+		paginationSettings.perPage = store.perPage;
+		paginationSettings.size = store.totalItems;
+	});
 
 	onMount(() => store.loadBranches());
 </script>

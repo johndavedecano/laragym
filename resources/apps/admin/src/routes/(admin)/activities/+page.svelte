@@ -9,7 +9,7 @@
 
 	const store = getActivitiesStoreContext();
 
-	let title = 'System Activities';
+	const title = 'System Activities';
 
 	const onAmountChanged = (event) => {
 		store.perPage = event.detail;
@@ -22,12 +22,18 @@
 		store.loadItems();
 	};
 
-	$: paginationSettings = {
-		page: store.currentPage - 1,
-		limit: store.perPage,
-		size: store.totalItems,
+	let paginationSettings = $state({
+		page: 1,
+		limit: 15,
+		size: 0,
 		amounts: [5, 10, 15, 20, 40, 60, 100]
-	};
+	});
+
+	$effect(() => {
+		paginationSettings.currentPage = store.currentPage - 1;
+		paginationSettings.perPage = store.perPage;
+		paginationSettings.size = store.totalItems;
+	});
 
 	onMount(() => store.loadItems());
 </script>

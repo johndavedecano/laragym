@@ -1,9 +1,9 @@
 <script>
 	// @ts-nocheck
+	import moment from 'moment';
+
 	import { Avatar, Paginator } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
-
-	import moment from 'moment';
 	import { getAvatarUrl } from '$lib/avatar';
 	import { getAttendanceStoreContext } from '$lib/stores/attendance.store.svelte';
 
@@ -22,12 +22,18 @@
 		store.loadItems();
 	};
 
-	$: paginationSettings = {
-		page: store.currentPage - 1,
-		limit: store.perPage,
-		size: store.totalItems,
+	let paginationSettings = $state({
+		page: 1,
+		limit: 15,
+		size: 0,
 		amounts: [5, 10, 15, 20, 40, 60, 100]
-	};
+	});
+
+	$effect(() => {
+		paginationSettings.currentPage = store.currentPage - 1;
+		paginationSettings.perPage = store.perPage;
+		paginationSettings.size = store.totalItems;
+	});
 
 	onMount(() => store.loadItems());
 </script>
