@@ -1,52 +1,35 @@
 <script>
 	// @ts-nocheck
 	import { Avatar, Paginator } from '@skeletonlabs/skeleton';
-	import { getBearerToken, useApi } from '$lib/api';
 	import { onMount } from 'svelte';
 
 	import moment from 'moment';
 	import { getAvatarUrl } from '$lib/avatar';
+	import { getAttendanceStoreContext } from '$lib/stores/attendance.store.svelte';
 
-	const api = useApi({
-		Authorization: getBearerToken()
-	});
-
-	let items = [];
-	let currentPage = 1;
-	let loading = false;
-	let totalItems = 0;
-	let perPage = 15;
+	const store = getAttendanceStoreContext();
 
 	let title = 'Member Attedance';
 
-	const loadItems = () => {
-		if (loading) return;
-		loading = true;
-		api.get('/activities', {
-			params: {
-				page: currentPage,
-				per_page: perPage,
-				'filter[type]': 'attendance',
-				'filter[entity]': 'user'
-			}
-		})
-			.then((response) => {
-				console.log(response.data);
-				items = response.data.data;
-				currentPage = response.data.current_page;
-				totalItems = response.data.total;
-			})
-			.finally(() => (loading = false));
+	const onAmountChanged = (event) => {
+		store.perPage = event.detail;
+		store.currentPage = 1;
+		store.loadItems();
 	};
 
-	onMount(() => loadItems());
+	const onPageChanged = (event) => {
+		store.currentPage = event.detail + 1;
+		store.loadItems();
+	};
 
 	$: paginationSettings = {
-		page: currentPage - 1,
-		limit: perPage,
-		size: totalItems,
+		page: store.currentPage - 1,
+		limit: store.perPage,
+		size: store.totalItems,
 		amounts: [5, 10, 15, 20, 40, 60, 100]
 	};
+
+	onMount(() => store.loadItems());
 </script>
 
 <svelte:head>
@@ -62,7 +45,7 @@
 		<!-- Responsive Container (recommended) -->
 		<div class="table-container">
 			<!-- Native Table Element -->
-			<table class="table-hover table bg-white">
+			<table class="table table-hover bg-white">
 				<thead>
 					<tr>
 						<th>ID</th>
@@ -72,7 +55,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each items as item}
+					{#each store.items as item}
 						<tr>
 							<td>{item.id}</td>
 							<td>
@@ -108,15 +91,8 @@
 					bind:settings={paginationSettings}
 					showNumerals
 					maxNumerals={1}
-					on:amount={(event) => {
-						perPage = event.detail;
-						currentPage = 1;
-						loadItems();
-					}}
-					on:page={(event) => {
-						currentPage = event.detail + 1;
-						loadItems();
-					}}
+					on:amount={onAmountChanged}
+					on:page={onPageChanged}
 				/>
 			</div>
 		</div>

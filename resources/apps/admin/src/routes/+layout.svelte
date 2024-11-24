@@ -1,5 +1,6 @@
 <script>
 	import { createActivitiesStoreContext } from '$lib/stores/activities.store.svelte';
+	import { createAttendanceStoreContext } from '$lib/stores/attendance.store.svelte';
 	import { createDashboardStoreContext } from '$lib/stores/dashboard.store.svelte';
 
 	// @ts-nocheck
@@ -12,6 +13,7 @@
 
 	createDashboardStoreContext();
 	createActivitiesStoreContext();
+	createAttendanceStoreContext();
 </script>
 
 <Toast />

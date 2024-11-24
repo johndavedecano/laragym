@@ -1,25 +1,35 @@
 <script>
 	// @ts-nocheck
-	import { Paginator } from '@skeletonlabs/skeleton';
+	import { Avatar, Paginator } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 
 	import moment from 'moment';
-
+	import { getAvatarUrl } from '$lib/avatar';
 	import { getActivitiesStoreContext } from '$lib/stores/activities.store.svelte';
 
-	let { items, loading, currentPage, totalItems, perPage, loadItems } =
-		getActivitiesStoreContext();
+	const store = getActivitiesStoreContext();
 
 	let title = 'System Activities';
 
-	onMount(() => loadItems());
+	const onAmountChanged = (event) => {
+		store.perPage = event.detail;
+		store.currentPage = 1;
+		store.loadItems();
+	};
+
+	const onPageChanged = (event) => {
+		store.currentPage = event.detail + 1;
+		store.loadItems();
+	};
 
 	$: paginationSettings = {
-		page: currentPage - 1,
-		limit: perPage,
-		size: totalItems,
+		page: store.currentPage - 1,
+		limit: store.perPage,
+		size: store.totalItems,
 		amounts: [5, 10, 15, 20, 40, 60, 100]
 	};
+
+	onMount(() => store.loadItems());
 </script>
 
 <svelte:head>
@@ -39,14 +49,33 @@
 				<thead>
 					<tr>
 						<th>ID</th>
+						<th>Member</th>
 						<th>Description</th>
 						<th>Date</th>
 					</tr>
 				</thead>
 				<tbody>
-					{#each items as item}
+					{#each store.items as item}
 						<tr>
 							<td>{item.id}</td>
+							<td>
+								<div class="flex items-center gap-4">
+									<Avatar
+										src={item.user.avatar
+											? getAvatarUrl(item.user.avatar)
+											: undefined}
+										initials={item.user.avatar ? undefined : item.user.initial}
+										width="w-10"
+										rounded="rounded-full"
+									/>
+									<div class="flex flex-col">
+										<a href={`/members/${item.user.id}`} class="font-bold"
+											>{item.user.name}</a
+										>
+										<a href="mailto:{item.user.email}">{item.user.email}</a>
+									</div>
+								</div>
+							</td>
 							<td>
 								{item.description}
 							</td>
@@ -62,15 +91,8 @@
 					bind:settings={paginationSettings}
 					showNumerals
 					maxNumerals={1}
-					on:amount={(event) => {
-						perPage = event.detail;
-						currentPage = 1;
-						loadItems();
-					}}
-					on:page={(event) => {
-						currentPage = event.detail + 1;
-						loadItems();
-					}}
+					on:amount={onAmountChanged}
+					on:page={onPageChanged}
 				/>
 			</div>
 		</div>

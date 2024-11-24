@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { getBearerToken, useApi } from '$lib/api';
+import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 import { ApiException } from '$lib/exceptions';
 import { getContext, setContext } from 'svelte';
 
@@ -43,7 +43,7 @@ class DashboardStore {
 			this.loading = false;
 		} catch (error) {
 			this.loading = false;
-			throw new ApiException(error.message);
+			throw error
 		}
 	};
 }

@@ -1,8 +1,5 @@
 <script>
 	// @ts-nocheck
-
-	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
-
 	import StatisticsCard from '$lib/components/StatisticsCard.svelte';
 	import SubscriptionIcon from 'svelte-icons/fa/FaCreditCard.svelte';
 	import ServicesIcon from 'svelte-icons/fa/FaServer.svelte';
@@ -14,14 +11,11 @@
 	import LatestAttendance from '$lib/components/LatestAttendance.svelte';
 	import MemberLogin from '$lib/components/MemberLogin.svelte';
 	import { getDashboardStoreContext } from '$lib/stores/dashboard.store.svelte';
+	import { getErrorMessage } from '$lib/api';
 
 	const { loadInitialData, loading, statistics } = getDashboardStoreContext();
 
 	let attendance;
-
-	const api = useApi({
-		Authorization: getBearerToken()
-	});
 
 	const toast = useToast();
 
