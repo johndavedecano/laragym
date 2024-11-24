@@ -24,14 +24,24 @@ class BranchStore {
 		});
 	}
 
+	loadBranch = async (id) => {
+		const response = await this.api.get(`/branches/${id}`);
+		return response.data;
+	};
+
 	createBranch = async () => {};
 
 	deleteBranch = async (id) => {
 		this.items = this.items.filter((item) => item.id !== id);
+
+		this.totalItems = this.totalItems - 1;
+
 		await this.api.delete(`/branches/${id}`);
 	};
 
-	updateBranch = async () => {};
+	updateBranch = (id, params) => {
+		return this.api.put(`/branches/${id}`, params);
+	};
 
 	loadBranches = async () => {
 		try {

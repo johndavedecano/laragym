@@ -1,29 +1,33 @@
 <script>
+	// @ts-nocheck
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
+	import { getBranchStoreContext } from '$lib/stores/branches.store.svelte';
 	import { useToast } from '$lib/toast';
 	import { onMount } from 'svelte';
 
 	const toast = useToast();
 
-	const api = useApi({
-		Authorization: getBearerToken()
-	});
+	const store = getBranchStoreContext();
 
-	let title = 'Edit Branch';
+	const title = 'Edit Branch';
 
-	let loading = false;
+	let loading = $state(false);
 
-	let fields = {
+	let fields = $state({
 		name: '',
 		status: 'active',
 		description: ''
-	};
+	});
 
-	const onSubmit = () => {
+	const onSubmit = (event) => {
+		event.preventDefault();
+
 		loading = true;
-		api.put(`/branches/${$page.params.id}`, fields)
+
+		store
+			.updateBranch($page.params.id, fields)
 			.then(() => {
 				toast.trigger({
 					message: 'Successfully updated',
@@ -41,9 +45,10 @@
 
 	const loadItem = () => {
 		loading = true;
-		api.get(`/branches/${$page.params.id}`)
-			.then((response) => {
-				const value = response.data;
+
+		store
+			.loadBranch($page.params.id)
+			.then((value) => {
 				fields = {
 					name: value.name,
 					status: value.status,
@@ -69,14 +74,14 @@
 	<title>{title}</title>
 </svelte:head>
 
-<div class="lg:max-w-1200 p-4 lg:p-6">
+<div class="p-4 lg:max-w-1200 lg:p-6">
 	<div class="card bg-white p-4 lg:p-6">
 		<header class="card-header mb-6 flex items-center">
 			<h3 class="h3">{title}</h3>
 			<div class="flex-1"></div>
 		</header>
 		<!-- Responsive Container (recommended) -->
-		<form action="" on:submit|preventDefault={onSubmit}>
+		<form action="" onsubmit={onSubmit}>
 			<div class="mb-4">
 				<label class="label">
 					<span>Name</span>
@@ -118,21 +123,21 @@
 						name="description"
 						required
 						disabled={loading}
-					/>
+					></textarea>
 				</label>
 			</div>
 
 			<div class="flex">
 				<button
 					type="button"
-					on:click={() => goto('/branches')}
-					class="btn variant-filled-error text-white"
+					onclick={() => goto('/branches')}
+					class="variant-filled-error btn text-white"
 					disabled={loading}>Cancel</button
 				>
 				<div class="flex-1"></div>
 				<button
 					type="submit"
-					class="btn variant-filled-primary mr-2 text-white"
+					class="variant-filled-primary btn mr-2 text-white"
 					disabled={loading}>Submit</button
 				>
 			</div>
