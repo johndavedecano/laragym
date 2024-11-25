@@ -3,9 +3,10 @@
 	import Select from 'svelte-select';
 
 	import { getBearerToken, useApi } from '$lib/api';
+
 	import { browser } from '$app/environment';
 
-	export let value = [];
+	let { value = $bindable(), ...restProps } = $props();
 
 	const api = useApi({
 		Authorization: getBearerToken()
@@ -27,10 +28,9 @@
 
 			return options;
 		} catch (error) {
-			console.error(error);
 			return [];
 		}
 	};
 </script>
 
-<Select {loadOptions} searchable multiple itemId="id" label="name" bind:value {...$$props} />
+<Select {loadOptions} searchable multiple itemId="id" label="name" bind:value {...restProps} />
