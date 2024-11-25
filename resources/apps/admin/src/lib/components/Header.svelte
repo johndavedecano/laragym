@@ -9,7 +9,11 @@
 <AppBar background="bg-blue-950">
 	<svelte:fragment slot="lead">
 		<div class="flex items-center to-blue-950">
-			<button class="btn btn-sm mr-4 lg:hidden" on:click={drawerOpen}>
+			<button
+				class="btn btn-sm mr-4 lg:hidden"
+				aria-label="Toggle Drawer"
+				onclick={drawerOpen}
+			>
 				<span>
 					<svg viewBox="0 0 100 80" class="h-4 w-4 fill-white">
 						<rect width="100" height="20" />
