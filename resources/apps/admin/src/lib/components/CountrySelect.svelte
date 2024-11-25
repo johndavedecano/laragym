@@ -5,7 +5,7 @@
 
 	import Select from 'svelte-select';
 
-	export let value;
+	let { value = $bindable(), ...restProps } = $props();
 </script>
 
-<Select items={COUNTRY_LIST} searchable itemId="code" label="name" bind:value {...$$props} />
+<Select items={COUNTRY_LIST} searchable itemId="code" label="name" bind:value {...restProps} />
