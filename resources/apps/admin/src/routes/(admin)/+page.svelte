@@ -68,7 +68,7 @@
 	<div class="flex flex-col gap-6 lg:flex-row">
 		<LatestActivities />
 		<div class="flex flex-1 flex-col gap-6">
-			<MemberLogin on:load={onReloadAttenance} />
+			<MemberLogin load={onReloadAttenance} />
 			<LatestAttendance bind:this={attendance} />
 		</div>
 	</div>

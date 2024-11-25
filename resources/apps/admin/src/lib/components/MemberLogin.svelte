@@ -11,17 +11,18 @@
 	import { getAvatarUrl } from '$lib/avatar';
 	import Status from './Status.svelte';
 
-	let user = null;
-	let subscriptions = [];
-	let type = 'login';
-	let loading = false;
-	let branches = [];
+	let props = $props();
+	let user = $state(null);
+	let subscriptions = $state([]);
+	let type = $state('login');
+	let loading = $state(false);
+	let branches = $state([]);
 
 	const toast = useToast();
+
 	const api = useApi({
 		Authorization: getBearerToken()
 	});
-	const dispatch = createEventDispatcher();
 
 	const onChangeUser = (event) => {
 		subscriptions = [];
@@ -55,8 +56,10 @@
 			.finally(() => (loading = false));
 	};
 
-	const onLogActivity = async () => {
+	const onLogActivity = async (event) => {
 		try {
+			event.preventDefault();
+
 			loading = true;
 
 			let description;
@@ -81,7 +84,7 @@
 
 			loading = false;
 
-			dispatch('load');
+			props.load();
 		} catch (error) {
 			loading = false;
 			toast.trigger({
@@ -129,7 +132,7 @@
 								>
 							</div>
 							<div class="flex-1"></div>
-							<a href={`/members/${user.id}`} class="btn btn-sm variant-filled">
+							<a href={`/members/${user.id}`} class="variant-filled btn btn-sm">
 								View Profile
 							</a>
 						</div>
@@ -174,12 +177,12 @@
 	</div>
 	{#if user}
 		<div class="flex items-center border-t p-4">
-			<form class="flex flex-1 items-center gap-4" on:submit={onLogActivity}>
+			<form class="flex flex-1 items-center gap-4" onsubmit={onLogActivity}>
 				<select class="select" bind:value={type} name="type" required>
 					<option value="login">Member Login</option>
 					<option value="logout">Member Logout</option>
 				</select>
-				<button class="btn variant-filled"> Log Status </button>
+				<button class="variant-filled btn"> Log Status </button>
 			</form>
 		</div>
 	{/if}

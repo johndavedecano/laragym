@@ -7,7 +7,7 @@
 
 	import moment from 'moment';
 
-	let loading = false;
+	let loading = $state(false);
 
 	const api = useApi({
 		Authorization: getBearerToken()
@@ -15,8 +15,8 @@
 
 	const toast = useToast();
 
-	let items = [];
-	let total = 0;
+	let items = $state([]);
+	let total = $state(0);
 
 	const loadItems = async () => {
 		try {
@@ -56,7 +56,7 @@
 		{#if total}
 			<div class="table-container">
 				<!-- Native Table Element -->
-				<table class="table-hover table bg-white">
+				<table class="table table-hover bg-white">
 					<thead>
 						<tr>
 							<th>ID</th>
