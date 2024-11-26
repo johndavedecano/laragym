@@ -1,14 +1,14 @@
 <script>
-	export let form = false;
+	let { form, children, ...restProps } = $props();
 </script>
 
 {#if form}
-	<form class="modal-body" {...$$props}>
-		<slot />
+	<form class="modal-body" {...restProps}>
+		{@render children()}
 	</form>
 {:else}
 	<div class="modal-body">
-		<slot />
+		{@render children()}
 	</div>
 {/if}
 

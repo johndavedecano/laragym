@@ -1,5 +1,9 @@
+<script>
+	let { children } = $props();
+</script>
+
 <div class="modal-header">
-	<slot />
+	{@render children()}
 </div>
 
 <style>

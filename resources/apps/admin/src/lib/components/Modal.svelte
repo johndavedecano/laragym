@@ -1,15 +1,9 @@
 <script>
-	export let maxWidth = 700;
-	export let minHeight = 200;
-
-	$: style = `
-        max-width: ${maxWidth}px;
-        min-height: ${minHeight}px;
-    `;
+	let { maxWidth, minHeight, children } = $props();
 </script>
 
-<div class="modal" {style}>
-	<slot />
+<div class="modal" style:maxWidth style:minHeight>
+	{@render children()}
 </div>
 
 <style>
