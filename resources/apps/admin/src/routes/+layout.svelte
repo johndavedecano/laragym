@@ -3,6 +3,7 @@
 	import { createAttendanceStoreContext } from '$lib/stores/attendance.store.svelte';
 	import { createBranchStoreContext } from '$lib/stores/branches.store.svelte';
 	import { createDashboardStoreContext } from '$lib/stores/dashboard.store.svelte';
+	import { createMemberStoreContext } from '$lib/stores/members.store.svelte';
 
 	// @ts-nocheck
 
@@ -16,6 +17,7 @@
 	createActivitiesStoreContext();
 	createAttendanceStoreContext();
 	createBranchStoreContext();
+	createMemberStoreContext();
 </script>
 
 <Toast />
