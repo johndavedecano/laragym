@@ -14,7 +14,7 @@
 	</div>
 </Wrapper>
 
-<style>
+<style lang="postcss">
 	.login {
 		@apply fixed bottom-0 left-0 right-0 top-0 flex h-full w-full items-center justify-center overflow-y-auto bg-white;
 	}

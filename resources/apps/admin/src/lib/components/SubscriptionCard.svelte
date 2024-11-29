@@ -1,21 +1,16 @@
 <script>
 	// @ts-nocheck
-	import { createEventDispatcher } from 'svelte';
-
 	import FaClock from 'svelte-icons/fa/FaClock.svelte';
 	import Status from '$lib/components/Status.svelte';
 	import FaTrash from 'svelte-icons/fa/FaTrash.svelte';
 	import FaCog from 'svelte-icons/fa/FaCog.svelte';
 	import moment from 'moment';
 
-	export let item = {};
-	export let action = true;
-
-	const dispatch = createEventDispatcher();
+	let { item = {}, action = true, onEdit, onDelete } = $props();
 </script>
 
 <div class="card w-full bg-white shadow-lg">
-	<header class="card-header subscription-title">
+	<header class="subscription-title card-header">
 		{item.package.name}<br class="mb-0" />
 		<Status status={item.status} />
 	</header>
@@ -50,14 +45,14 @@
 	</section>
 	{#if action}
 		<footer class="card-footer flex items-center border-t py-1.5">
-			<button type="button" class="btn-icon p-0" on:click={() => dispatch('edit', item)}>
+			<button type="button" class="btn-icon p-0" onclick={() => onEdit(item)}>
 				<span class="text-black-500 h-4 w-4">
 					<FaCog />
 				</span>
 			</button>
 			<div class="flex-1"></div>
 
-			<button type="button" class="btn-icon p-0" on:click={() => dispatch('delete', item)}>
+			<button type="button" class="btn-icon p-0" onclick={() => onDelete(item)}>
 				<span class="h-4 w-4 text-red-500">
 					<FaTrash />
 				</span>
@@ -66,7 +61,7 @@
 	{/if}
 </div>
 
-<style>
+<style lang="postcss">
 	.subscription-title {
 		@apply mb-2 text-lg font-bold;
 	}

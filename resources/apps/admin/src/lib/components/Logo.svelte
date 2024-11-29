@@ -40,7 +40,7 @@ c7.487,0,13.566-6.079,13.566-13.575v-84.783C215.438,92.612,209.359,86.533,201.87
 	</svg>
 </div>
 
-<style>
+<style lang="postcss">
 	.logo {
 		@apply flex h-24 w-24 items-center justify-center;
 	}

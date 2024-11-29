@@ -71,7 +71,7 @@
 	<form action="" on:submit|preventDefault={onSubmit} class="flex flex-1 flex-col">
 		<ModalHeader>
 			<div class="flex-1 font-bold">Member Subscription</div>
-			<ModalClose on:close={() => modalStore.close()} />
+			<ModalClose onClose={() => modalStore.close()} />
 		</ModalHeader>
 		<ModalBody>
 			<div class="mb-4">
@@ -121,13 +121,13 @@
 				<button
 					type="button"
 					on:click={() => modalStore.close()}
-					class="btn variant-filled-error text-white"
+					class="variant-filled-error btn text-white"
 					disabled={loading}>Cancel</button
 				>
 				<div class="flex-1"></div>
 				<button
 					type="submit"
-					class="btn variant-filled-primary mr-2 text-white"
+					class="variant-filled-primary btn mr-2 text-white"
 					disabled={loading}>Submit</button
 				>
 			</div>

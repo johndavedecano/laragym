@@ -4,15 +4,12 @@
 
 	import { getBearerToken, useApi } from '$lib/api';
 	import { browser } from '$app/environment';
-	import { createEventDispatcher } from 'svelte';
 
-	export let value = [];
+	let { value = $bindable([]), onChange, ...restProps } = $props();
 
 	const api = useApi({
 		Authorization: getBearerToken()
 	});
-
-	const dispatch = createEventDispatcher();
 
 	const loadOptions = async (value) => {
 		try {
@@ -41,7 +38,7 @@
 	searchable
 	itemId="id"
 	label="name"
-	on:change={(event) => dispatch('change', event.detail)}
+	on:change={(event) => onChange(event.detail)}
 	bind:value
-	{...$$props}
+	{...restProps}
 />

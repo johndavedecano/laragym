@@ -12,7 +12,7 @@
 	</div>
 {/if}
 
-<style>
+<style lang="postcss">
 	.modal-body {
 		@apply flex-1 p-4 lg:p-6;
 	}

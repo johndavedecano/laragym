@@ -1,8 +1,12 @@
+<script>
+	let { children } = $props();
+</script>
+
 <div class="subscriptions">
-	<slot />
+	{@render children()}
 </div>
 
-<style>
+<style lang="postcss">
 	.subscriptions {
 		@apply grid grid-cols-4 gap-4;
 	}

@@ -15,7 +15,7 @@
 	import ModalFooter from './ModalFooter.svelte';
 	import { page } from '$app/stores';
 
-	export let user_id;
+	let { user_id } = $props();
 
 	const toast = useToast();
 
@@ -25,15 +25,18 @@
 
 	const modalStore = getModalStore();
 
-	let fields = {
+	let fields = $state({
 		package: '',
 		interval: ''
-	};
+	});
 
-	let loading = false;
+	let loading = $state(false);
 
-	const onSubmit = () => {
+	const onSubmit = (event) => {
+		event.preventDefault();
+
 		loading = true;
+
 		api.post(`/subscriptions`, {
 			package_id: fields.package.id,
 			interval: fields.interval,
@@ -59,10 +62,10 @@
 
 <Modal>
 	<!-- Responsive Container (recommended) -->
-	<form action="" on:submit|preventDefault={onSubmit} class="flex flex-1 flex-col">
+	<form action="" onsubmit={onSubmit} class="flex flex-1 flex-col">
 		<ModalHeader>
 			<div class="flex-1 font-bold">Member Subscription</div>
-			<ModalClose on:close={() => modalStore.close()} />
+			<ModalClose onClose={() => modalStore.close()} />
 		</ModalHeader>
 		<ModalBody>
 			<div class="mb-4">
@@ -93,13 +96,13 @@
 				<button
 					type="button"
 					on:click={() => modalStore.close()}
-					class="btn variant-filled-error text-white"
+					class="variant-filled-error btn text-white"
 					disabled={loading}>Cancel</button
 				>
 				<div class="flex-1"></div>
 				<button
 					type="submit"
-					class="btn variant-filled-primary mr-2 text-white"
+					class="variant-filled-primary btn mr-2 text-white"
 					disabled={loading}>Submit</button
 				>
 			</div>

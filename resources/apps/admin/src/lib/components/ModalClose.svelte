@@ -1,17 +1,21 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
+	// @ts-nocheck
+
 	import Close from 'svelte-icons/md/MdClose.svelte';
 
-	const dispatch = createEventDispatcher();
+	let props = $props();
 
-	const onClose = () => dispatch('close');
+	const onClose = (event) => {
+		event.preventDefault();
+		props.onClose();
+	};
 </script>
 
-<a href="/" on:click|preventDefault={onClose} class="modal-close">
+<a href="/" onclick={onClose} class="modal-close">
 	<Close />
 </a>
 
-<style>
+<style lang="postcss">
 	.modal-close {
 		width: 25px;
 		height: 25px;

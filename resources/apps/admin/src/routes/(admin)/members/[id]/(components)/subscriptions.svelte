@@ -109,18 +109,14 @@
 	<div class="mb-4 flex items-center">
 		<h3 class="h3 mb-4">Member Subscriptions</h3>
 		<div class="flex-1"></div>
-		<a href="/" on:click|preventDefault={onAddSubscription} class="btn variant-filled">
+		<a href="/" on:click|preventDefault={onAddSubscription} class="variant-filled btn">
 			Add Subscription
 		</a>
 	</div>
 
 	<SubscriptionList>
 		{#each subscriptions as item}
-			<SubscriptionCard
-				{item}
-				on:delete={() => onDelete(item)}
-				on:edit={() => onEdit(item)}
-			/>
+			<SubscriptionCard {item} {onDelete} {onEdit} />
 		{/each}
 	</SubscriptionList>
 </div>

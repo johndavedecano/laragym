@@ -18,7 +18,7 @@
 					message: 'You have successfully logged in. Redirecting...',
 					background: 'variant-filled-success'
 				});
-				setTimeout(() => (window.location.href = '/'), 1000);
+				setTimeout(() => (window.location.href = '/'), 1500);
 			})
 			.catch((error) => {
 				toast.trigger({
@@ -70,7 +70,7 @@
 	<button
 		type="submit"
 		disabled={loading}
-		class="btn variant-filled-primary w-full font-bold text-white">Login</button
+		class="variant-filled-primary btn w-full font-bold text-white">Login</button
 	>
 	<a href="/forgot" class="block pt-2 text-center">Forgot password </a>
 </form>

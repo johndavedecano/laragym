@@ -2,7 +2,7 @@
 	<slot />
 </div>
 
-<style>
+<style lang="postcss">
 	.modal-footer {
 		@apply flex items-center border-t px-4 py-4;
 	}

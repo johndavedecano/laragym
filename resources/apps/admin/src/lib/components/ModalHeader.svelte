@@ -6,7 +6,7 @@
 	{@render children()}
 </div>
 
-<style>
+<style lang="postcss">
 	.modal-header {
 		@apply flex items-center border-b px-4 py-4;
 	}

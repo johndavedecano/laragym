@@ -107,7 +107,7 @@
 			clearable
 			bind:value={user}
 			placeholder="Search Member"
-			on:change={onChangeUser}
+			onChange={onChangeUser}
 		/>
 		{#if user}
 			<div class="pt-4">
@@ -188,7 +188,7 @@
 	{/if}
 </div>
 
-<style>
+<style lang="postcss">
 	.branches {
 		@apply ml-6 list-disc text-sm;
 	}

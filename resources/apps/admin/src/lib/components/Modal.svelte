@@ -6,7 +6,7 @@
 	{@render children()}
 </div>
 
-<style>
+<style lang="postcss">
 	.modal {
 		@apply mx-4 flex w-full flex-col rounded bg-white shadow-lg lg:mx-0;
 	}

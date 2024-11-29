@@ -63,7 +63,7 @@
 					rounded="rounded-full"
 				/>
 			</div>
-			<nav class="list-nav user-nav">
+			<nav class="user-nav list-nav">
 				<ul>
 					<li>
 						<a
@@ -127,7 +127,7 @@
 	</div>
 </div>
 
-<style>
+<style lang="postcss">
 	.user-sidebar {
 		@apply min-h-full w-72 border-r;
 	}

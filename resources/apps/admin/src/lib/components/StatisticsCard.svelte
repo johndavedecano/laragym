@@ -1,10 +1,7 @@
 <script>
 	import SubscriptionIcon from 'svelte-icons/fa/FaCreditCard.svelte';
 
-	export let value;
-	export let href;
-	export let title;
-	export let icon = SubscriptionIcon;
+	let { value = $bindable(), href, title, icon = SubscriptionIcon } = $props();
 </script>
 
 <div class="stat-card">
@@ -14,7 +11,10 @@
 			<div class="stat-card-title">{title}</div>
 		</div>
 		<div class="stat-card-icon">
-			<svelte:component this={icon} />
+			{#if icon}
+				{@const IconComponent = icon}
+				<IconComponent></IconComponent>
+			{/if}
 		</div>
 	</div>
 	<div class="stat-card-footer">
@@ -22,7 +22,7 @@
 	</div>
 </div>
 
-<style>
+<style lang="postcss">
 	.stat-card {
 		@apply flex w-full flex-col rounded-xl border shadow-xl;
 	}
