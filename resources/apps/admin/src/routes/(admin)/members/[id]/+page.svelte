@@ -8,6 +8,7 @@
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { getAvatarUrl } from '$lib/avatar';
+	import { getMemberStoreContext } from '$lib/stores/members.store.svelte';
 
 	import Profile from './(components)/profile.svelte';
 	import Security from './(components)/security.svelte';
@@ -15,24 +16,23 @@
 	import Branches from './(components)/branches.svelte';
 	import Subscriptions from './(components)/subscriptions.svelte';
 
+	const store = getMemberStoreContext();
+
 	const toast = useToast();
 
-	const api = useApi({
-		Authorization: getBearerToken()
-	});
+	const title = 'Member Settings';
 
-	let title = 'Member Settings';
+	let loading = $state(false);
 
-	let loading = false;
+	let user = $state({});
 
-	let user = {};
-
-	let active = 'profile';
+	let active = $state('profile');
 
 	const loadUser = () => {
 		loading = true;
-		api.get(`/users/${$page.params.id}`)
-			.then((response) => (user = response.data))
+		store
+			.loadMember($page.params.id)
+			.then((response) => (user = response))
 			.catch((error) => {
 				toast.trigger({
 					message: getErrorMessage(error),
@@ -41,6 +41,11 @@
 				goto('/members');
 			})
 			.finally(() => (loading = false));
+	};
+
+	const onNavItemClicked = (next) => (event) => {
+		event.preventDefault();
+		active = next;
 	};
 
 	onMount(() => {
@@ -68,35 +73,35 @@
 					<li>
 						<a
 							class={active === 'profile' ? 'active' : ''}
-							on:click|preventDefault={() => (active = 'profile')}
+							onclick={onNavItemClicked('profile')}
 							href="/">Profile</a
 						>
 					</li>
 					<li>
 						<a
 							class={active === 'subscriptions' ? 'active' : ''}
-							on:click|preventDefault={() => (active = 'subscriptions')}
+							onclick={onNavItemClicked('subscriptions')}
 							href="/">Subscriptions</a
 						>
 					</li>
 					<li>
 						<a
 							class={active === 'branches' ? 'active' : ''}
-							on:click|preventDefault={() => (active = 'branches')}
+							onclick={onNavItemClicked('branches')}
 							href="/">Branches</a
 						>
 					</li>
 					<li>
 						<a
 							class={active === 'activities' ? 'active' : ''}
-							on:click|preventDefault={() => (active = 'activities')}
+							onclick={onNavItemClicked('activities')}
 							href="/">Activities</a
 						>
 					</li>
 					<li>
 						<a
 							class={active === 'security' ? 'active' : ''}
-							on:click|preventDefault={() => (active = 'security')}
+							onclick={onNavItemClicked('security')}
 							href="/">Security and Privacy</a
 						>
 					</li>

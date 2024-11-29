@@ -1,28 +1,33 @@
 <script>
+	// @ts-nocheck
+
 	import { goto } from '$app/navigation';
-	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
+	import { getErrorMessage } from '$lib/api';
+	import { getMemberStoreContext } from '$lib/stores/members.store.svelte';
 	import { useToast } from '$lib/toast';
 
 	const toast = useToast();
 
-	const api = useApi({
-		Authorization: getBearerToken()
-	});
+	const store = getMemberStoreContext();
 
-	let title = 'Add Member';
+	const title = 'Add Member';
 
-	let loading = false;
+	let loading = $state(false);
 
-	let fields = {
+	let fields = $state({
 		name: '',
 		email: '',
 		password: '',
 		password_confirmation: ''
-	};
+	});
 
-	const onSubmit = () => {
+	const onSubmit = (event) => {
+		event.preventDefault();
+
 		loading = true;
-		api.post('/users', fields)
+
+		store
+			.createMember(fields)
 			.then(() => {
 				goto('/members');
 				toast.trigger({
@@ -44,14 +49,13 @@
 	<title>{title}</title>
 </svelte:head>
 
-<div class="lg:max-w-1200 p-4 lg:p-6">
+<div class="p-4 lg:max-w-1200 lg:p-6">
 	<div class="card bg-white p-4 lg:p-6">
 		<header class="card-header mb-6 flex items-center">
 			<h3 class="h3">{title}</h3>
 			<div class="flex-1"></div>
 		</header>
-		<!-- Responsive Container (recommended) -->
-		<form action="" on:submit|preventDefault={onSubmit}>
+		<form action="" onsubmit={onSubmit}>
 			<div class="mb-4">
 				<label class="label">
 					<span>Name</span>
@@ -111,14 +115,14 @@
 			<div class="flex">
 				<button
 					type="button"
-					on:click={() => goto('/members')}
-					class="btn variant-filled-error text-white"
+					onclick={() => goto('/members')}
+					class="variant-filled-error btn text-white"
 					disabled={loading}>Cancel</button
 				>
 				<div class="flex-1"></div>
 				<button
 					type="submit"
-					class="btn variant-filled-primary mr-2 text-white"
+					class="variant-filled-primary btn mr-2 text-white"
 					disabled={loading}>Submit</button
 				>
 			</div>
