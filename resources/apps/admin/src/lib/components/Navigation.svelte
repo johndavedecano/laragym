@@ -14,6 +14,7 @@
 
 	import { getDrawerStore } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	const drawerStore = getDrawerStore();
 
@@ -97,6 +98,7 @@
 					onclick={(evt) => {
 						evt.preventDefault();
 						drawerClose(item.path);
+						goto(item.path);
 					}}
 					><span class="menu-icon">
 						<item.icon />

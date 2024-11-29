@@ -95,7 +95,7 @@
 			<div class="flex w-full">
 				<button
 					type="button"
-					on:click={() => modalStore.close()}
+					onclick={() => modalStore.close()}
 					class="variant-filled-error btn text-white"
 					disabled={loading}>Cancel</button
 				>
