@@ -9,8 +9,6 @@
 	import Packages from 'svelte-icons/fa/FaBox.svelte';
 	import Services from 'svelte-icons/fa/FaServer.svelte';
 	import Cycles from 'svelte-icons/fa/FaCalendarPlus.svelte';
-	// import Settings from 'svelte-icons/fa/FaCog.svelte';
-	// import Account from 'svelte-icons/fa/FaUserCog.svelte';
 	import Logout from 'svelte-icons/fa/FaSignOutAlt.svelte';
 	import Branches from 'svelte-icons/fa/FaBuilding.svelte';
 
@@ -19,7 +17,7 @@
 
 	const drawerStore = getDrawerStore();
 
-	let active = $page.url.pathname;
+	let active = $state($page.url.pathname);
 
 	const drawerClose = (path) => {
 		active = path;
@@ -31,79 +29,77 @@
 		if (current && current.startsWith(value) && value !== '/') return 'active';
 	};
 
-	$: items = [
-		{
-			path: '/',
-			name: 'Dashboard',
-			icon: Dashboard
-		},
-		{
-			path: '/activities',
-			name: 'Activities',
-			icon: Activities
-		},
-		{
-			path: '/attendance',
-			name: 'Attendance',
-			icon: Attendance
-		},
-		{
-			path: '/members',
-			name: 'Members',
-			icon: Members
-		},
-		{
-			path: '/branches',
-			name: 'Branches',
-			icon: Branches
-		},
-		{
-			path: '/subscriptions',
-			name: 'Subscriptions',
-			icon: Subscriptions
-		},
-		{
-			path: '/packages',
-			name: 'Packages',
-			icon: Packages
-		},
-		{
-			path: '/services',
-			name: 'Services',
-			icon: Services
-		},
-		{
-			path: '/cycles',
-			name: 'Cycles',
-			icon: Cycles
-		},
-		// {
-		// 	path: '/account',
-		// 	name: 'Account',
-		// 	icon: Account
-		// },
-		// {
-		// 	path: '/settings',
-		// 	name: 'Settings',
-		// 	icon: Settings
-		// },
-		{
-			path: '/logout',
-			name: 'Logout',
-			icon: Logout
-		}
-	].map((v) => {
-		return { ...v, active: isActive(v.path, active) };
-	});
+	let items = $derived.by(() =>
+		[
+			{
+				path: '/',
+				name: 'Dashboard',
+				icon: Dashboard
+			},
+			{
+				path: '/activities',
+				name: 'Activities',
+				icon: Activities
+			},
+			{
+				path: '/attendance',
+				name: 'Attendance',
+				icon: Attendance
+			},
+			{
+				path: '/members',
+				name: 'Members',
+				icon: Members
+			},
+			{
+				path: '/branches',
+				name: 'Branches',
+				icon: Branches
+			},
+			{
+				path: '/subscriptions',
+				name: 'Subscriptions',
+				icon: Subscriptions
+			},
+			{
+				path: '/packages',
+				name: 'Packages',
+				icon: Packages
+			},
+			{
+				path: '/services',
+				name: 'Services',
+				icon: Services
+			},
+			{
+				path: '/cycles',
+				name: 'Cycles',
+				icon: Cycles
+			},
+			{
+				path: '/logout',
+				name: 'Logout',
+				icon: Logout
+			}
+		].map((v) => {
+			return { ...v, active: isActive(v.path, active) };
+		})
+	);
 </script>
 
 <nav class="list-nav w-72 p-4">
 	<ul>
 		{#each items as item}
 			<li>
-				<a href={item.path} class={item.active} on:click={() => drawerClose(item.path)}
+				<a
+					href={item.path}
+					class={item.active}
+					onclick={(evt) => {
+						evt.preventDefault();
+						drawerClose(item.path);
+					}}
 					><span class="menu-icon">
-						<svelte:component this={item.icon} />
+						<item.icon />
 					</span>{item.name}</a
 				>
 			</li>
@@ -111,7 +107,7 @@
 	</ul>
 </nav>
 
-<style>
+<style lang="postcss">
 	a {
 		@apply inline-flex w-full gap-4 text-sm;
 	}
