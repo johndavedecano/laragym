@@ -1,15 +1,18 @@
 <script>
+	// @ts-nocheck
+
 	import { useToast } from '$lib/toast';
 
 	import axios from 'axios';
 
 	const toast = useToast();
 
-	let fields = { email: '', password: '' };
+	let fields = $state({ email: '', password: '' });
 
-	let loading = false;
+	let loading = $state(false);
 
-	const onSubmit = () => {
+	const onSubmit = (event) => {
+		event.preventDefault();
 		if (loading) return;
 		axios
 			.post('/login', fields)
@@ -37,7 +40,7 @@
 	<p>Please login to get started</p>
 </div>
 
-<form action="" on:submit|preventDefault={onSubmit}>
+<form action="" onsubmit={onSubmit}>
 	<div class="mb-4">
 		<label class="label">
 			<span>Email</span>

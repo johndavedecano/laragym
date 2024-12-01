@@ -1,6 +1,10 @@
 <script>
+	// @ts-nocheck
+
 	import Logo from '$lib/components/Logo.svelte';
 	import Wrapper from '$lib/components/wrapper.svelte';
+
+	const { children } = $props();
 </script>
 
 <Wrapper>
@@ -9,7 +13,7 @@
 			<div class="mx-auto mb-8 flex justify-center">
 				<Logo />
 			</div>
-			<slot />
+			{@render children()}
 		</div>
 	</div>
 </Wrapper>

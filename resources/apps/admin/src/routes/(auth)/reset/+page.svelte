@@ -6,14 +6,17 @@
 	const api = useApi();
 	const toast = useToast();
 
-	export let data = { email: '', token: '' };
+	const { data = { email: '', token: '' } } = $props();
 
-	let fields = { password: '', password_confirmation: '' };
+	let fields = $state({ password: '', password_confirmation: '' });
 
-	let loading = false;
+	let loading = $state(false);
 
-	const onSubmit = () => {
+	const onSubmit = (event) => {
+		event.preventDefault();
+
 		if (loading) return;
+
 		api.post('/auth/reset', {
 			email: data.email,
 			token: data.token,
@@ -44,7 +47,7 @@
 	<p>Use the form below to reset your password</p>
 </div>
 
-<form action="" on:submit|preventDefault={onSubmit}>
+<form action="" onsubmit={onSubmit}>
 	<div class="mb-6">
 		<label class="label">
 			<span>Password</span>
@@ -76,7 +79,7 @@
 	<button
 		type="submit"
 		disabled={loading}
-		class="btn variant-filled-primary w-full font-bold text-white">Reset Password</button
+		class="variant-filled-primary btn w-full font-bold text-white">Reset Password</button
 	>
 	<a href="/login" class="block pt-2 text-center">Back to login </a>
 </form>

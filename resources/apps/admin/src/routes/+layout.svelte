@@ -18,9 +18,11 @@
 	createAttendanceStoreContext();
 	createBranchStoreContext();
 	createMemberStoreContext();
+
+	const { children } = $props();
 </script>
 
 <Toast />
 <Modal />
 
-<slot></slot>
+{@render children()}

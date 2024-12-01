@@ -1,16 +1,19 @@
 <script>
+	// @ts-nocheck
+
 	import { getErrorMessage } from '$lib/api';
 	import { useToast } from '$lib/toast';
 
 	import axios from 'axios';
 
-	let fields = { email: '', password: '' };
+	let fields = $state({ email: '', password: '' });
 
-	let loading = false;
+	let loading = $state(false);
 
 	const toast = useToast();
 
-	const onSubmit = () => {
+	const onSubmit = (event) => {
+		event.preventDefault();
 		if (loading) return;
 		axios
 			.post('/forgot', fields)
@@ -38,7 +41,7 @@
 	<p>Please provide your email to reset your password.</p>
 </div>
 
-<form action="" on:submit|preventDefault={onSubmit}>
+<form action="" onsubmit={onSubmit}>
 	<div class="mb-4">
 		<label class="label">
 			<span>Email</span>
@@ -56,7 +59,7 @@
 	<button
 		type="submit"
 		disabled={loading}
-		class="btn variant-filled-primary w-full font-bold text-white">Submit</button
+		class="variant-filled-primary btn w-full font-bold text-white">Submit</button
 	>
 	<a href="/login" class="block pt-2 text-center">Back to login </a>
 </form>
