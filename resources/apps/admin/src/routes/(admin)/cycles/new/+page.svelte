@@ -108,7 +108,7 @@
 						name="description"
 						required
 						disabled={loading}
-					/>
+					></textarea>
 				</label>
 			</div>
 
