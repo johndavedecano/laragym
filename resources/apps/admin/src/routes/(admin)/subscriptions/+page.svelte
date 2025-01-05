@@ -14,13 +14,13 @@
 		Authorization: getBearerToken()
 	});
 
-	let items = [];
-	let currentPage = 1;
-	let loading = false;
-	let totalItems = 0;
-	let perPage = 15;
+	const title = 'Manage Subscriptions';
 
-	let title = 'Manage Subscriptions';
+	let items = $state([]);
+	let currentPage = $state(1);
+	let loading = $state(false);
+	let totalItems = $state(0);
+	let perPage = $state(10);
 
 	const onDelete = (id) => {
 		const confirm = window.confirm('are you sure you wanna delete this item?');
