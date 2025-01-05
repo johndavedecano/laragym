@@ -14,15 +14,15 @@
 		Authorization: getBearerToken()
 	});
 
-	let title = 'New Subscription';
+	const title = 'New Subscription';
 
-	let loading = false;
+	let loading = $state(false);
 
-	let fields = {
+	let fields = $state({
 		package: '',
 		user: null,
 		interval: ''
-	};
+	});
 
 	const onSubmit = () => {
 		loading = true;
