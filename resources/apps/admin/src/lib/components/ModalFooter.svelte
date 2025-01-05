@@ -1,5 +1,9 @@
+<script>
+	let { children } = $props();
+</script>
+
 <div class="modal-footer">
-	<slot />
+	{@render children()}
 </div>
 
 <style lang="postcss">
