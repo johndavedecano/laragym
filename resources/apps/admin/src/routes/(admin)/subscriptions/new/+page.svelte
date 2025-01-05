@@ -96,7 +96,7 @@
 			<div class="flex">
 				<button
 					type="button"
-					on:click={() => goto('/subscriptions')}
+					onclick={() => goto('/subscriptions')}
 					class="btn variant-filled-error text-white"
 					disabled={loading}>Cancel</button
 				>

@@ -1,15 +1,16 @@
 <script>
 	// @ts-nocheck
 
-	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
-	import { useToast } from '$lib/toast';
-	import { onDestroy, onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { getModalStore } from '@skeletonlabs/skeleton';
-	import UserSubscriptionModal from '$lib/components/UserSubscriptionModal.svelte';
+	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import SubscriptionCard from '$lib/components/SubscriptionCard.svelte';
 	import SubscriptionList from '$lib/components/SubscriptionList.svelte';
+	import UserSubscriptionModal from '$lib/components/UserSubscriptionModal.svelte';
 	import UserSubscriptionUpdateModal from '$lib/components/UserSubscriptionUpdateModal.svelte';
+	import { prevent } from '$lib/prevent';
+	import { useToast } from '$lib/toast';
+	import { getModalStore } from '@skeletonlabs/skeleton';
+	import { onDestroy, onMount } from 'svelte';
 
 	let subscriptions = [];
 	let loading = false;
@@ -109,7 +110,7 @@
 	<div class="mb-4 flex items-center">
 		<h3 class="h3 mb-4">Member Subscriptions</h3>
 		<div class="flex-1"></div>
-		<a href="/" on:click|preventDefault={onAddSubscription} class="variant-filled btn">
+		<a href="/" onclick={prevent(onAddSubscription)} class="variant-filled btn">
 			Add Subscription
 		</a>
 	</div>

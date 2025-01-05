@@ -158,7 +158,7 @@
 			<div class="flex">
 				<button
 					type="button"
-					on:click={() => goto('/packages')}
+					onclick={() => goto('/packages')}
 					class="btn variant-filled-error text-white"
 					disabled={loading}>Cancel</button
 				>

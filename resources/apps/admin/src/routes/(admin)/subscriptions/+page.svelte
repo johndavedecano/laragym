@@ -1,12 +1,12 @@
 <script>
 	// @ts-nocheck
-	import { Paginator } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import { getBearerToken, useApi } from '$lib/api';
+	import { Paginator } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 
-	import moment from 'moment';
 	import Status from '$lib/components/Status.svelte';
+	import moment from 'moment';
 	import EditIcon from 'svelte-icons/fa/FaEdit.svelte';
 	import DeleteIcon from 'svelte-icons/fa/FaTrash.svelte';
 
@@ -73,7 +73,7 @@
 			<button
 				type="submit"
 				class="btn variant-filled-primary text-white"
-				on:click={() => goto('/subscriptions/new')}
+				onclick={() => goto('/subscriptions/new')}
 			>
 				Add Item
 			</button>
@@ -122,7 +122,7 @@
 								<button
 									type="button"
 									class="btn-icon variant-filled-primary"
-									on:click={() => onEdit(item.id)}
+									onclick={() => onEdit(item.id)}
 								>
 									<span class="h-4 w-4 text-white">
 										<EditIcon />
@@ -131,7 +131,7 @@
 								<button
 									type="button"
 									class="btn-icon variant-filled-error"
-									on:click={() => onDelete(item.id)}
+									onclick={() => onDelete(item.id)}
 								>
 									<span class="h-4 w-4 text-white">
 										<DeleteIcon />
