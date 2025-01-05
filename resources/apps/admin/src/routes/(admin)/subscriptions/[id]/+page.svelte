@@ -16,16 +16,16 @@
 		Authorization: getBearerToken()
 	});
 
-	let title = 'Edit Subscription';
+	const title = 'Edit Subscription';
 
-	let loading = false;
+	let loading = $state(false);
 
-	let fields = {
+	let fields = $state({
 		package: '',
 		user: null,
 		interval: '',
 		status: 'active'
-	};
+	});
 
 	const onSubmit = () => {
 		loading = true;
