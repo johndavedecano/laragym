@@ -10,15 +10,15 @@
 		Authorization: getBearerToken()
 	});
 
-	let title = 'Add Service';
+	const title = 'Add Service';
 
-	let loading = false;
+	let loading = $state(false);
 
-	let fields = {
+	let fields = $state({
 		name: '',
 		status: 'active',
 		description: ''
-	};
+	});
 
 	const onSubmit = () => {
 		loading = true;
