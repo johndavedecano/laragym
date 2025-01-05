@@ -5,6 +5,7 @@
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import PackageSelect from '$lib/components/PackageSelect.svelte';
 	import UserSelect from '$lib/components/UserSelect.svelte';
+	import { prevent } from '$lib/prevent';
 	import { useToast } from '$lib/toast';
 
 	const toast = useToast();
@@ -60,7 +61,7 @@
 			<div class="flex-1"></div>
 		</header>
 		<!-- Responsive Container (recommended) -->
-		<form action="" on:submit|preventDefault={onSubmit}>
+		<form action="" onsubmit={prevent(onSubmit)}>
 			<div class="mb-4">
 				<!-- svelte-ignore a11y-label-has-associated-control -->
 				<label class="label">

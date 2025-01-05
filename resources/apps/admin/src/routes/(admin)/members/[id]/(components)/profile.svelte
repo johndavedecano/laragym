@@ -1,12 +1,13 @@
 <script>
 	// @ts-nocheck
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
+	import { getAvatarUrl } from '$lib/avatar';
 	import { useToast } from '$lib/toast';
 	import { Avatar, FileButton, SlideToggle } from '@skeletonlabs/skeleton';
-	import { getAvatarUrl } from '$lib/avatar';
 	import { createEventDispatcher } from 'svelte';
 
 	import CountrySelect from '$lib/components/CountrySelect.svelte';
+	import { prevent } from '$lib/prevent';
 
 	const toast = useToast();
 
@@ -79,7 +80,7 @@
 <h3 class="h3 mb-4">Member Profile</h3>
 
 <!-- Responsive Container (recommended) -->
-<form action="" on:submit|preventDefault={onSubmit}>
+<form action="" onsubmit={prevent(onSubmit)}>
 	<div class="mb-6 flex items-center gap-4 pt-4">
 		<Avatar
 			src={getAvatarUrl(user.avatar)}

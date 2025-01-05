@@ -1,6 +1,7 @@
 <script>
 	// @ts-nocheck
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
+	import { prevent } from '$lib/prevent';
 	import { useToast } from '$lib/toast';
 
 	const toast = useToast();
@@ -40,7 +41,7 @@
 <h3 class="h3 mb-4">Security and Privacy</h3>
 
 <!-- Responsive Container (recommended) -->
-<form action="" on:submit|preventDefault={onSubmit}>
+<form action="" onsubmit={prevent(onSubmit)}>
 	<div class="mb-4">
 		<label class="label">
 			<span>Password</span>

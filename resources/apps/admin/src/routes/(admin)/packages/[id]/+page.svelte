@@ -6,6 +6,7 @@
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import CycleSelect from '$lib/components/CycleSelect.svelte';
 	import ServiceSelect from '$lib/components/ServiceSelect.svelte';
+	import { prevent } from '$lib/prevent';
 	import { useToast } from '$lib/toast';
 	import { onMount } from 'svelte';
 
@@ -92,7 +93,7 @@
 			<div class="flex-1"></div>
 		</header>
 		<!-- Responsive Container (recommended) -->
-		<form action="" on:submit|preventDefault={onSubmit}>
+		<form action="" onsubmit={prevent(onSubmit)}>
 			<div class="mb-4">
 				<label class="label">
 					<span>Name</span>

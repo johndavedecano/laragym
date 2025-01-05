@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
+	import { prevent } from '$lib/prevent';
 	import { useToast } from '$lib/toast';
 	import { onMount } from 'svelte';
 
@@ -78,7 +79,7 @@
 			<div class="flex-1"></div>
 		</header>
 		<!-- Responsive Container (recommended) -->
-		<form action="" on:submit|preventDefault={onSubmit}>
+		<form action="" onsubmit={prevent(onSubmit)}>
 			<div class="mb-4">
 				<label class="label">
 					<span>Name</span>
