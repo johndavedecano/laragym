@@ -1,15 +1,13 @@
 <script>
 	// @ts-nocheck
-	import { createEventDispatcher } from 'svelte';
 
-	import UserSelect from './UserSelect.svelte';
-	import SubscriptionList from './SubscriptionList.svelte';
-	import SubscriptionCard from './SubscriptionCard.svelte';
-	import { useToast } from '$lib/toast';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
-	import { Avatar } from '@skeletonlabs/skeleton';
 	import { getAvatarUrl } from '$lib/avatar';
+	import { useToast } from '$lib/toast';
+	import { Avatar } from '@skeletonlabs/skeleton';
 	import Status from './Status.svelte';
+	import SubscriptionCard from './SubscriptionCard.svelte';
+	import UserSelect from './UserSelect.svelte';
 
 	let props = $props();
 	let user = $state(null);

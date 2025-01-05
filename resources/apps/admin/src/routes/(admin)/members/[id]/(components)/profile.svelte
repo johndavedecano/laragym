@@ -4,24 +4,21 @@
 	import { getAvatarUrl } from '$lib/avatar';
 	import { useToast } from '$lib/toast';
 	import { Avatar, FileButton, SlideToggle } from '@skeletonlabs/skeleton';
-	import { createEventDispatcher } from 'svelte';
 
 	import CountrySelect from '$lib/components/CountrySelect.svelte';
 	import { prevent } from '$lib/prevent';
 
 	const toast = useToast();
 
-	const dispatch = createEventDispatcher();
-
 	const api = useApi({
 		Authorization: getBearerToken()
 	});
 
-	export let user = { profile: {} };
+	let { user, onchange } = $props();
 
-	let loading = false;
+	let loading = $state(false);
 
-	let fields = {
+	let fields = $state({
 		name: user.name,
 		contact_number: user.profile.contact_number,
 		address: user.profile.address,
@@ -33,7 +30,7 @@
 		newsletter: user.profile.newsletter,
 		status: user.status,
 		avatar: user.avatar
-	};
+	});
 
 	const onSubmit = () => {
 		loading = true;
@@ -64,7 +61,7 @@
 			api.post(`/users/${user.id}/avatar`, form)
 				.then((response) => {
 					user.avatar = response.data.path;
-					dispatch('avatar', user.avatar);
+					onChangeAvatar(user.avatar);
 				})
 				.catch((error) => {
 					toast.trigger({
@@ -92,7 +89,7 @@
 			name="files"
 			button="btn btn-sm variant-soft-primary"
 			accept="image/*"
-			on:change={onChangeFile}>Change Avatar</FileButton
+			onchange={onChangeFile}>Change Avatar</FileButton
 		>
 	</div>
 
@@ -188,7 +185,7 @@
 	</div>
 
 	<div class="mb-4 flex flex-row gap-4">
-		<!-- svelte-ignore a11y-label-has-associated-control -->
+		<!-- svelte-ignore a11y_label_has_associated_control -->
 		<label class="label flex-1">
 			<span>Country</span>
 			<CountrySelect bind:value={fields.country} />

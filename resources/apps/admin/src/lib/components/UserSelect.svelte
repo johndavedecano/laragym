@@ -2,8 +2,8 @@
 	// @ts-nocheck
 	import Select from 'svelte-select';
 
-	import { getBearerToken, useApi } from '$lib/api';
 	import { browser } from '$app/environment';
+	import { getBearerToken, useApi } from '$lib/api';
 
 	let { value = $bindable([]), onChange, ...restProps } = $props();
 
@@ -38,7 +38,7 @@
 	searchable
 	itemId="id"
 	label="name"
-	on:change={(event) => onChange(event.detail)}
+	onchange={(event) => onChange(event.detail)}
 	bind:value
 	{...restProps}
 />

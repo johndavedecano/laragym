@@ -3,17 +3,17 @@
 
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
+	import { getErrorMessage } from '$lib/api';
+	import { getAvatarUrl } from '$lib/avatar';
+	import { getMemberStoreContext } from '$lib/stores/members.store.svelte';
 	import { useToast } from '$lib/toast';
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
-	import { getAvatarUrl } from '$lib/avatar';
-	import { getMemberStoreContext } from '$lib/stores/members.store.svelte';
 
-	import Profile from './(components)/profile.svelte';
-	import Security from './(components)/security.svelte';
 	import Activities from './(components)/activities.svelte';
 	import Branches from './(components)/branches.svelte';
+	import Profile from './(components)/profile.svelte';
+	import Security from './(components)/security.svelte';
 	import Subscriptions from './(components)/subscriptions.svelte';
 
 	const store = getMemberStoreContext();
@@ -112,7 +112,7 @@
 			<div class="px-6 py-6">
 				{#if user && user.profile}
 					{#if active === 'profile'}
-						<Profile {user} on:avatar={(event) => (user.avatar = event.detail)} />
+						<Profile {user} onChangeAvatar={(event) => (user.avatar = event.detail)} />
 					{/if}
 					{#if active === 'activities'}
 						<Activities {user} />
