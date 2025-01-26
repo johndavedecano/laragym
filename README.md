@@ -1,6 +1,6 @@
 ## LaraGym - A Laravel gym management system
 
-Finally a gym management system build with laravel and SvelteKit. Comes with powerful features that will allow you to scale and easily manage your gym or fitness centers.
+Finally, a gym management system built with laravel and SvelteKit. Comes with powerful features that will allow you to scale and easily manage your gym or fitness centers.
 
 ![My Image](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/main/screenshot.png)
 
@@ -16,7 +16,7 @@ Finally a gym management system build with laravel and SvelteKit. Comes with pow
 
 ## Open to Work
 
-If you have specific requires and would like to work with, please contact me via email at johndavedecano@gmail.com
+If you have specific requirements and would like to work with me, please contact me via email at johndavedecano@gmail.com
 
 ## Screenshots
 
