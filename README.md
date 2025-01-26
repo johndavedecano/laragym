@@ -16,7 +16,7 @@ Finally a gym management system build with laravel and reactjs. Comes with power
 
 ## Open to Work
 
-If you have specific requires and would like to work with, please contact me via email at johnadvedecano@gmail.com
+If you have specific requires and would like to work with, please contact me via email at johndavedecano@gmail.com
 
 ## Screenshots
 
