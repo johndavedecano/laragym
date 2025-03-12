@@ -16,8 +16,7 @@ Finally, a gym management system built with laravel and SvelteKit. Comes with po
 
 ## Open to Work
 
-If you have specific requirements and would like to work with me, please contact me via email at johndavedecano@gmail.com
-
+If you have specific requirements and would like to work with me, please contact me
 ## Screenshots
 
 ![My Image](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/main/profile.png)
