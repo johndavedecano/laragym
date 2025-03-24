@@ -1,0 +1,5 @@
+[phases.setup]
+nixPkgs = ['...', 'php82', 'composer']
+
+[start]
+cmd = 'php artisan serve --host 0.0.0.0 --port $PORT'
