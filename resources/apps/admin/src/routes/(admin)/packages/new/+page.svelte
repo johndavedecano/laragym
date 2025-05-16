@@ -50,8 +50,6 @@
 			})
 			.finally(() => (loading = false));
 	};
-
-	$: console.log(fields);
 </script>
 
 <svelte:head>

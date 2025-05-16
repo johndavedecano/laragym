@@ -78,8 +78,6 @@
 	onMount(() => {
 		loadItem();
 	});
-
-	$: console.log(fields);
 </script>
 
 <svelte:head>
