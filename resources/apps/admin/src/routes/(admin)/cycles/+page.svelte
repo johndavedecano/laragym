@@ -4,7 +4,6 @@
 	import { getBearerToken, useApi } from '$lib/api';
 	import { Paginator } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
-
 	import Status from '$lib/components/Status.svelte';
 	import EditIcon from 'svelte-icons/fa/FaEdit.svelte';
 	import DeleteIcon from 'svelte-icons/fa/FaTrash.svelte';
@@ -13,11 +12,15 @@
 		Authorization: getBearerToken()
 	});
 
-	let items = [];
-	let currentPage = 1;
-	let loading = false;
-	let totalItems = 0;
-	let perPage = 15;
+	let items = $state([]);
+	let loading = $state(false);
+
+	let paginationSettings = $state({
+		page: 0,
+		limit: 15,
+		size: 0,
+		amounts: [5, 10, 15, 20, 40, 60, 100]
+	});
 
 	let title = 'Manage Billing Cycles';
 
@@ -25,7 +28,7 @@
 		const confirm = window.confirm('are you sure you wanna delete this item?');
 		if (confirm) {
 			items = items.filter((v) => v.id != id);
-			totalItems = totalItems - 1;
+			paginationSettings.size = paginationSettings.size - 1;
 			api.delete(`/cycles/${id}`);
 		}
 	};
@@ -37,26 +40,19 @@
 		loading = true;
 		api.get('/cycles', {
 			params: {
-				page: currentPage,
-				per_page: perPage
+				page: paginationSettings.page + 1,
+				per_page: paginationSettings.limit
 			}
 		})
 			.then((response) => {
 				items = response.data.data;
-				currentPage = response.data.current_page;
-				totalItems = response.data.total;
+				paginationSettings.page = response.data.current_page - 1;
+				paginationSettings.size = response.data.total;
 			})
 			.finally(() => (loading = false));
 	};
 
 	onMount(() => loadItems());
-
-	$: paginationSettings = {
-		page: currentPage - 1,
-		limit: perPage,
-		size: totalItems,
-		amounts: [5, 10, 15, 20, 40, 60, 100]
-	};
 </script>
 
 <svelte:head>
@@ -125,7 +121,8 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<th colspan="3" class="bg-white">Results Found {totalItems}</th>
+						<th colspan="3" class="bg-white">Results Found {paginationSettings.size}</th
+						>
 						<td class="bg-white"></td>
 					</tr>
 				</tfoot>
@@ -136,12 +133,12 @@
 					showNumerals
 					maxNumerals={1}
 					on:amount={(event) => {
-						perPage = event.detail;
-						currentPage = 1;
+						paginationSettings.limit = event.detail;
+						paginationSettings.page = 1;
 						loadItems();
 					}}
 					on:page={(event) => {
-						currentPage = event.detail + 1;
+						paginationSettings.page = event.detail + 1;
 						loadItems();
 					}}
 				/>

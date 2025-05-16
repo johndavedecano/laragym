@@ -17,16 +17,20 @@
 	const title = 'Manage Subscriptions';
 
 	let items = $state([]);
-	let currentPage = $state(1);
 	let loading = $state(false);
-	let totalItems = $state(0);
-	let perPage = $state(10);
+
+	let paginationSettings = $state({
+		page: 1,
+		limit: 15,
+		size: 0,
+		amounts: [5, 10, 15, 20, 40, 60, 100]
+	});
 
 	const onDelete = (id) => {
 		const confirm = window.confirm('are you sure you wanna delete this item?');
 		if (confirm) {
 			items = items.filter((v) => v.id != id);
-			totalItems = totalItems - 1;
+			paginationSettings.size = paginationSettings.size - 1;
 			api.delete(`/subscriptions/${id}`);
 		}
 	};
@@ -38,27 +42,19 @@
 		loading = true;
 		api.get('/subscriptions', {
 			params: {
-				page: currentPage,
-				per_page: perPage
+				page: paginationSettings.page + 1,
+				per_page: paginationSettings.limit
 			}
 		})
 			.then((response) => {
-				console.log(response.data);
 				items = response.data.data;
-				currentPage = response.data.current_page;
-				totalItems = response.data.total;
+				paginationSettings.page = response.data.current_page - 1;
+				paginationSettings.size = response.data.total;
 			})
 			.finally(() => (loading = false));
 	};
 
 	onMount(() => loadItems());
-
-	$: paginationSettings = {
-		page: currentPage - 1,
-		limit: perPage,
-		size: totalItems,
-		amounts: [5, 10, 15, 20, 40, 60, 100]
-	};
 </script>
 
 <svelte:head>
@@ -143,7 +139,8 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<th colspan="3" class="bg-white">Results Found {totalItems}</th>
+						<th colspan="3" class="bg-white">Results Found {paginationSettings.size}</th
+						>
 						<td class="bg-white"></td>
 					</tr>
 				</tfoot>
@@ -154,12 +151,12 @@
 					showNumerals
 					maxNumerals={1}
 					on:amount={(event) => {
-						perPage = event.detail;
-						currentPage = 1;
+						paginationSettings.limit = event.detail;
+						paginationSettings.page = 1;
 						loadItems();
 					}}
 					on:page={(event) => {
-						currentPage = event.detail + 1;
+						paginationSettings.page = event.detail + 1;
 						loadItems();
 					}}
 				/>

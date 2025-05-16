@@ -11,38 +11,34 @@
 		Authorization: getBearerToken()
 	});
 
-	let items = [];
-	let currentPage = 1;
-	let loading = false;
-	let totalItems = 0;
-	let perPage = 15;
+	let items = $state([]);
+	let loading = $state(false);
+
+	let paginationSettings = $state({
+		page: 1,
+		limit: 15,
+		size: 0,
+		amounts: [5, 10, 15, 20, 40, 60, 100]
+	});
 
 	const loadItems = () => {
 		if (loading) return;
 		loading = true;
 		api.get(`/activities?filter[entity_id]=${$page.params.id}`, {
 			params: {
-				page: currentPage,
-				per_page: perPage
+				page: paginationSettings.page + 1,
+				per_page: paginationSettings.limit
 			}
 		})
 			.then((response) => {
-				console.log(response.data);
 				items = response.data.data;
-				currentPage = response.data.current_page;
-				totalItems = response.data.total;
+				paginationSettings.page = response.data.current_page - 1;
+				paginationSettings.size = response.data.total;
 			})
 			.finally(() => (loading = false));
 	};
 
 	onMount(() => loadItems());
-
-	$: paginationSettings = {
-		page: currentPage - 1,
-		limit: perPage,
-		size: totalItems,
-		amounts: [5, 10, 15, 20, 40, 60, 100]
-	};
 </script>
 
 <div class="flex flex-col">
@@ -80,12 +76,12 @@
 				showNumerals
 				maxNumerals={1}
 				on:amount={(event) => {
-					perPage = event.detail;
-					currentPage = 1;
+					paginationSettings.limit = event.detail;
+					paginationSettings.page = 1;
 					loadItems();
 				}}
 				on:page={(event) => {
-					currentPage = event.detail + 1;
+					paginationSettings.page = event.detail + 1;
 					loadItems();
 				}}
 			/>
