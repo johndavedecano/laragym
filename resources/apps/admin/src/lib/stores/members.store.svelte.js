@@ -35,7 +35,6 @@ class BranchStore {
 
 	deleteMember = async (id) => {
 		this.items = this.items.filter((item) => item.id !== id);
-
 		this.totalItems = this.totalItems - 1;
 
 		await this.api.delete(`/users/${id}`);
@@ -55,7 +54,6 @@ class BranchStore {
 				}
 			});
 			this.items = response.data.data;
-			this.currentPage = response.data.current_page;
 			this.totalItems = response.data.total;
 			this.loaded = false;
 		} catch (error) {

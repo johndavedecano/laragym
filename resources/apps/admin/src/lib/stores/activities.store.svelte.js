@@ -40,11 +40,8 @@ class ActivitiesStore {
 
 			this.items = [...response.data.data];
 			this.totalItems = response.data.total;
-
 			this.loading = false;
 			this.loaded = true;
-
-			console.log(this.loading);
 		} catch (error) {
 			this.loading = false;
 			throw new ApiException(error.message);

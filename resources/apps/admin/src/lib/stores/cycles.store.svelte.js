@@ -3,9 +3,9 @@ import { getBearerToken, useApi } from '$lib/api';
 import { ApiException } from '$lib/exceptions';
 import { getContext, setContext } from 'svelte';
 
-export const BRANCH_STORE = 'branch_store';
+export const CYCLE_STORE = 'CYCLE_STORE';
 
-class BranchStore {
+class CycleStore {
 	items = $state([]);
 
 	currentPage = $state(0);
@@ -24,30 +24,30 @@ class BranchStore {
 		});
 	}
 
-	loadBranch = async (id) => {
-		const response = await this.api.get(`/branches/${id}`);
+	loadCycle = async (id) => {
+		const response = await this.api.get(`/cycles/${id}`);
 		return response.data;
 	};
 
-	createBranch = (params) => {
-		return this.api.post('/branches', params);
+	createCycle = (params) => {
+		return this.api.post('/cycles', params);
 	};
 
-	deleteBranch = async (id) => {
+	deleteCycle = async (id) => {
 		this.items = this.items.filter((item) => item.id !== id);
 		this.totalItems = this.totalItems - 1;
 
-		await this.api.delete(`/branches/${id}`);
+		await this.api.delete(`/cycles/${id}`);
 	};
 
-	updateBranch = (id, params) => {
-		return this.api.put(`/branches/${id}`, params);
+	updateCycle = (id, params) => {
+		return this.api.put(`/cycles/${id}`, params);
 	};
 
-	loadBranches = async () => {
+	loadCycles = async () => {
 		try {
 			this.loading = true;
-			const response = await this.api.get('/branches', {
+			const response = await this.api.get('/cycles', {
 				params: {
 					page: this.currentPage + 1,
 					per_page: this.perPage
@@ -63,10 +63,10 @@ class BranchStore {
 	};
 }
 
-export const createBranchStoreContext = () => {
-	return setContext(BRANCH_STORE, new BranchStore());
+export const createCycleStoreContext = () => {
+	return setContext(CYCLE_STORE, new CycleStore());
 };
 
-export const getBranchStoreContext = () => {
-	return getContext(BRANCH_STORE);
+export const getCycleStoreContext = () => {
+	return getContext(CYCLE_STORE);
 };

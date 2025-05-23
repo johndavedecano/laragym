@@ -38,12 +38,11 @@ class DashboardStore {
 			this.statistics.services = services.data;
 			this.statistics.packages = packages.data;
 			this.statistics.members = members.data;
-
 			this.loaded = true;
 			this.loading = false;
 		} catch (error) {
 			this.loading = false;
-			throw error
+			throw error;
 		}
 	};
 }
