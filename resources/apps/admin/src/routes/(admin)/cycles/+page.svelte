@@ -46,7 +46,6 @@
 		})
 			.then((response) => {
 				items = response.data.data;
-				paginationSettings.page = response.data.current_page - 1;
 				paginationSettings.size = response.data.total;
 			})
 			.finally(() => (loading = false));
@@ -134,11 +133,10 @@
 					maxNumerals={1}
 					on:amount={(event) => {
 						paginationSettings.limit = event.detail;
-						paginationSettings.page = 1;
 						loadItems();
 					}}
 					on:page={(event) => {
-						paginationSettings.page = event.detail + 1;
+						paginationSettings.page = event.detail;
 						loadItems();
 					}}
 				/>

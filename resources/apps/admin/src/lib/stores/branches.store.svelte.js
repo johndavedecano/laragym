@@ -8,7 +8,7 @@ export const BRANCH_STORE = 'branch_store';
 class BranchStore {
 	items = $state([]);
 
-	currentPage = $state(1);
+	currentPage = $state(0);
 
 	loading = $state(false);
 
@@ -50,12 +50,11 @@ class BranchStore {
 			this.loading = true;
 			const response = await this.api.get('/branches', {
 				params: {
-					page: this.currentPage,
+					page: this.currentPage + 1,
 					per_page: this.perPage
 				}
 			});
 			this.items = response.data.data;
-			this.currentPage = response.data.current_page;
 			this.totalItems = response.data.total;
 			this.loaded = false;
 		} catch (error) {

@@ -8,11 +8,11 @@ export const ATTENDANCE_STORE = 'attendance_store';
 class AttendanceStore {
 	items = $state([]);
 
-	currentPage = $state(1);
+	currentPage = $state(0);
 
 	loading = $state(false);
 
-    loaded = $state(false);
+	loaded = $state(false);
 
 	totalItems = $state(0);
 
@@ -25,24 +25,21 @@ class AttendanceStore {
 	}
 
 	loadItems = async () => {
-        this.loading = true
+		this.loading = true;
 
-        const response = await this.api.get('/activities', {
-            params: {
-                page: this.currentPage,
-                per_page: this.perPage,
-                'filter[type]': 'attendance',
-                'filter[entity]': 'user'
-            }
-        });
+		const response = await this.api.get('/activities', {
+			params: {
+				page: this.currentPage + 1,
+				per_page: this.perPage,
+				'filter[type]': 'attendance',
+				'filter[entity]': 'user'
+			}
+		});
 
-        this.items = response.data.data;
-        this.currentPage = response.data.current_page;
-        this.totalItems = response.data.total;
-
-        this.loading = false;
-
-        this.loaded = true;
+		this.items = response.data.data;
+		this.totalItems = response.data.total;
+		this.loading = false;
+		this.loaded = true;
 	};
 }
 

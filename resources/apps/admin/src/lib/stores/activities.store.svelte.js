@@ -8,11 +8,11 @@ export const ACTIVITIES_STORE = 'activities_store';
 class ActivitiesStore {
 	items = $state([]);
 
-	currentPage = $state(1);
+	currentPage = $state(0);
 
 	loading = $state(false);
 
-    loaded = $state(false);
+	loaded = $state(false);
 
 	totalItems = $state(0);
 
@@ -32,20 +32,19 @@ class ActivitiesStore {
 
 			const response = await this.api.get('/activities', {
 				params: {
-					page: this.currentPage,
+					page: this.currentPage + 1,
 					per_page: this.perPage,
 					'filter[type]': 'system'
 				}
 			});
 
 			this.items = [...response.data.data];
-			this.currentPage = response.data.current_page;
 			this.totalItems = response.data.total;
 
 			this.loading = false;
 			this.loaded = true;
 
-            console.log(this.loading)
+			console.log(this.loading);
 		} catch (error) {
 			this.loading = false;
 			throw new ApiException(error.message);

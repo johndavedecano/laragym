@@ -22,17 +22,16 @@
 
 	const onAmountChanged = (event) => {
 		store.perPage = event.detail;
-		store.currentPage = 1;
 		store.loadBranches();
 	};
 
 	const onPageChanged = (event) => {
-		store.currentPage = event.detail + 1;
+		store.currentPage = event.detail;
 		store.loadBranches();
 	};
 
 	let paginationSettings = $state({
-		page: 1,
+		page: 0,
 		limit: 15,
 		size: 0,
 		amounts: [5, 10, 15, 20, 40, 60, 100]

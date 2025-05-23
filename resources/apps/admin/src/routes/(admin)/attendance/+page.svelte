@@ -13,17 +13,16 @@
 
 	const onAmountChanged = (event) => {
 		store.perPage = event.detail;
-		store.currentPage = 1;
 		store.loadItems();
 	};
 
 	const onPageChanged = (event) => {
-		store.currentPage = event.detail + 1;
+		store.currentPage = event.detail;
 		store.loadItems();
 	};
 
 	let paginationSettings = $state({
-		page: 1,
+		page: 0,
 		limit: 15,
 		size: 0,
 		amounts: [5, 10, 15, 20, 40, 60, 100]
@@ -51,7 +50,7 @@
 		<!-- Responsive Container (recommended) -->
 		<div class="table-container">
 			<!-- Native Table Element -->
-			<table class="table table-hover bg-white">
+			<table class="table-hover table bg-white">
 				<thead>
 					<tr>
 						<th>ID</th>
