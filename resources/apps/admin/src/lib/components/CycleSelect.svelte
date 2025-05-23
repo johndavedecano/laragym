@@ -1,9 +1,7 @@
 <script>
 	// @ts-nocheck
 	import Select from 'svelte-select';
-
 	import { getBearerToken, useApi } from '$lib/api';
-
 	import { browser } from '$app/environment';
 
 	let { value = $bindable(), ...restProps } = $props();

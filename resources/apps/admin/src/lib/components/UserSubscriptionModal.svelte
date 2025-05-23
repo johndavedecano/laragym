@@ -1,16 +1,13 @@
 <script>
 	// @ts-nocheck
-
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import ModalClose from './ModalClose.svelte';
 	import ModalHeader from './ModalHeader.svelte';
 	import ModalBody from './ModalBody.svelte';
 	import Modal from './Modal.svelte';
-
 	import { goto } from '$app/navigation';
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import PackageSelect from '$lib/components/PackageSelect.svelte';
-
 	import { useToast } from '$lib/toast';
 	import ModalFooter from './ModalFooter.svelte';
 	import { page } from '$app/stores';

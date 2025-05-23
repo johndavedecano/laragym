@@ -1,7 +1,7 @@
 <script>
-	import SubscriptionIcon from 'svelte-icons/fa/FaCreditCard.svelte';
+	import FaCreditCard from 'svelte-icons/fa/FaCreditCard.svelte';
 
-	let { value = $bindable(), href, title, icon = SubscriptionIcon } = $props();
+	let { value = $bindable(), href, title, icon = FaCreditCard } = $props();
 </script>
 
 <div class="stat-card">

@@ -1,8 +1,6 @@
 <script>
 	// @ts-nocheck
-
 	import { COUNTRY_LIST } from '$lib/countries';
-
 	import Select from 'svelte-select';
 
 	let { value = $bindable(), ...restProps } = $props();

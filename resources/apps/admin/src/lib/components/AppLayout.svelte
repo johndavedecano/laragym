@@ -1,10 +1,7 @@
 <script>
 	import { AppShell } from '@skeletonlabs/skeleton';
-
 	import { Drawer } from '@skeletonlabs/skeleton';
-
 	import Navigation from '$lib/components/Navigation.svelte';
-
 	import Header from './Header.svelte';
 
 	let { children } = $props();

@@ -1,6 +1,5 @@
 <script>
 	// @ts-nocheck
-
 	import Dashboard from 'svelte-icons/fa/FaHome.svelte';
 	import Activities from 'svelte-icons/fa/FaUserClock.svelte';
 	import Attendance from 'svelte-icons/fa/FaCalendar.svelte';
@@ -11,7 +10,6 @@
 	import Cycles from 'svelte-icons/fa/FaCalendarPlus.svelte';
 	import Logout from 'svelte-icons/fa/FaSignOutAlt.svelte';
 	import Branches from 'svelte-icons/fa/FaBuilding.svelte';
-
 	import { getDrawerStore } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';

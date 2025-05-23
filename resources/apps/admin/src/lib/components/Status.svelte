@@ -1,6 +1,5 @@
 <script>
 	// @ts-nocheck
-
 	let { status } = $props();
 
 	let badgeStyle = $derived.by(() => {

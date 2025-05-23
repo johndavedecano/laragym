@@ -4,7 +4,6 @@
 	import { getBearerToken, getErrorMessage, useApi } from '$lib/api';
 	import { useToast } from '$lib/toast';
 	import { onMount } from 'svelte';
-
 	import moment from 'moment';
 
 	let loading = $state(false);
@@ -56,7 +55,7 @@
 		{#if total}
 			<div class="table-container">
 				<!-- Native Table Element -->
-				<table class="table table-hover bg-white">
+				<table class="table-hover table bg-white">
 					<thead>
 						<tr>
 							<th>ID</th>

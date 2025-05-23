@@ -1,6 +1,5 @@
 <script>
 	// @ts-nocheck
-
 	import Close from 'svelte-icons/md/MdClose.svelte';
 
 	let props = $props();

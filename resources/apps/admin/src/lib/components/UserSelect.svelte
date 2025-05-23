@@ -1,7 +1,6 @@
 <script>
 	// @ts-nocheck
 	import Select from 'svelte-select';
-
 	import { browser } from '$app/environment';
 	import { getBearerToken, useApi } from '$lib/api';
 
