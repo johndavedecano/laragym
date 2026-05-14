@@ -24,10 +24,18 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    // Member routes
+    Route::get('/me', 'MeController@show');
+    Route::put('/me', 'MeController@update');
+    Route::put('/me/password', 'MeController@updatePassword');
+    Route::get('/me/subscriptions', 'MeController@subscriptions');
+    Route::get('/me/attendance', 'MeController@attendance');
+    Route::get('/branches', 'BranchController@index');
+
     Route::group(['middleware' => ['admin']], function () {
         Route::apiResource('cycles', 'CycleController');
         Route::apiResource('services', 'ServiceController');
-        Route::apiResource('branches', 'BranchController');
+        Route::apiResource('branches', 'BranchController')->except(['index']);
         Route::apiResource('packages', 'PackageController');
         Route::apiResource('subscriptions', 'SubscriptionController');
         Route::apiResource('users', 'UserController');

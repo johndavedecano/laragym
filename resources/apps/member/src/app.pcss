@@ -1,0 +1,19 @@
+/* Write your global styles here, in PostCSS syntax */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+	@apply h-full;
+}
+
+/* Safe area support for modern mobile browsers */
+.safe-bottom {
+	padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Bottom nav clearance */
+.with-bottom-nav {
+	padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+}

@@ -1,3 +1,4 @@
+# Laravel
 /node_modules
 /public/build
 /public/hot
@@ -14,6 +15,31 @@ Homestead.yaml
 auth.json
 npm-debug.log
 yarn-error.log
+
+# IDEs
 /.fleet
 /.idea
 /.vscode
+
+# Admin SvelteKit app (resources/apps/admin)
+resources/apps/admin/node_modules
+resources/apps/admin/build
+resources/apps/admin/.svelte-kit
+resources/apps/admin/.env
+resources/apps/admin/.env.*
+!resources/apps/admin/.env.example
+resources/apps/admin/vite.config.js.timestamp-*
+resources/apps/admin/vite.config.ts.timestamp-*
+
+# Member SvelteKit PWA (resources/apps/member)
+resources/apps/member/node_modules
+resources/apps/member/build
+resources/apps/member/.svelte-kit
+resources/apps/member/.env
+resources/apps/member/.env.*
+!resources/apps/member/.env.example
+resources/apps/member/vite.config.js.timestamp-*
+
+# OS
+.DS_Store
+Thumbs.db

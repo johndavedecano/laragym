@@ -1,76 +1,97 @@
-## LaraGym - A Laravel gym management system
+# LaraGym
 
-Finally a gym management system build with laravel and reactjs. Comes with powerful features that will allow you to scale and easily manage your gym or fitness centers.
+A gym management system built with Laravel, SvelteKit, and a mobile-friendly member PWA.
 
-![My Image](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/main/screenshot.png)
+![Screenshot](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/main/screenshot.png)
 
 ## Features
 
-1. packages - create custom packages.
-2. members - user management system.
-3. services and billing cycles - annually, weekly, daily, fixed etc.
-4. attendance - tracks who is currently on the gym.
-5. activities or system logs
-6. subscription management
-7. branches
+- **Packages** — create and manage membership packages with billing cycles
+- **Members** — user management with profiles and account numbers
+- **Services & billing cycles** — annually, weekly, daily, fixed, and more
+- **Attendance** — track member check-ins per branch
+- **Subscriptions** — manage member subscriptions with status tracking
+- **Branches** — multi-branch support
+- **Activity logs** — system-wide audit trail
+- **Admin panel** — SvelteKit dashboard for staff (port 5173)
+- **Member PWA** — installable progressive web app for gym members (port 5174)
 
-## Open to Work
+## Project Structure
 
-If you have specific requires and would like to work with, please contact me via email at johnadvedecano@gmail.com
-
-## Screenshots
-
-![My Image](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/main/profile.png)
-![My Image](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/main/package.png)
+```
+laragym/
+├── app/                        # Laravel application
+├── routes/api.php              # REST API routes
+├── resources/apps/
+│   ├── admin/                  # Admin panel (SvelteKit)
+│   └── member/                 # Member PWA (SvelteKit + vite-plugin-pwa)
+└── database/migrations/
+```
 
 ## Installation
 
-1. API Setup
+### 1. Laravel API
 
 ```bash
-$ git clone git@github.com:johndavedecano/laragym.git project
-$ cd project
-$ composer install
-$ cp .env.example .env # THEN EDIT YOUR ENV FILE ACCORDING TO YOUR OWN SETTINGS.
-$ php artisan key:generate
-$ php artisan storage:link
-$ php artisan migrate
-$ php artisan db:seed
-$ php artisan serve
+git clone git@github.com:johndavedecano/laragym.git project
+cd project
+composer install
+cp .env.example .env        # edit with your DB credentials
+php artisan key:generate
+php artisan storage:link
+php artisan migrate
+php artisan db:seed
+php artisan serve           # http://localhost:8000
 ```
 
-2. SveletKit Frontend Setup
+### 2. Admin Panel
 
-```base
-$ cd resources/apps/admin
-$ cp .env.example .env # edit this file accordingly
-$ npm install
-$ npm run dev
+```bash
+cd resources/apps/admin
+cp .env.example .env        # set PUBLIC_API_URL=http://localhost:8000
+npm install
+npm run dev                 # http://localhost:5173
 ```
+
+### 3. Member PWA
+
+```bash
+cd resources/apps/member
+cp .env.example .env        # VITE_API_BASE_URL can stay empty in dev (proxy handles it)
+npm install
+npm run dev                 # http://localhost:5174
+```
+
+> In development the member app proxies all `/api` requests to `http://localhost:8000` automatically. For production set `VITE_API_BASE_URL` to your API's public URL.
+
+## API
+
+The REST API is served at `http://localhost:8000/api`.
+
+| Group | Endpoints |
+|---|---|
+| Auth | `POST /api/auth/login`, `register`, `logout`, `forgot`, `reset` |
+| Member (auth) | `GET/PUT /api/me`, `PUT /api/me/password`, `GET /api/me/subscriptions`, `GET /api/me/attendance` |
+| Admin only | `cycles`, `services`, `branches`, `packages`, `subscriptions`, `users`, `activities`, `stats` |
 
 ## Tests
 
-If you want to contribute to this project, feel free to do it and open a PR. However, make sure you have tests for what you implement.
+```bash
+# create a `homestead_test` database first, then:
+./vendor/bin/phpunit
+```
 
-In order to run tests:
+To use a different test database name, update `phpunit.xml`.
 
-- create a `homestead_test` database on your machine;
-- run `./vendor/bin/phpunit`;
+## Screenshots
 
-If you want to specify a different name for the test database, don't forget to change the value in the `phpunix.xml` file.
+![Profile](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/main/profile.png)
+![Package](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/main/package.png)
 
-## Routes
+## Contact
 
-![My Image](https://raw.github.com/johndavedecano/PHPLaravelGymManagementSystem/main/routes.png)
-
-## Feedback
-
-I currently made this project for personal purposes. I decided to share it here to help anyone with the same needs. If you have any feedback to improve it, feel free to make a suggestion, or open a PR!
+Open to work — reach out at johndavedecano@gmail.com
 
 ## License
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+MIT — free to use, modify, and distribute with attribution.
