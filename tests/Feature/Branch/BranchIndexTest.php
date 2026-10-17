@@ -19,7 +19,7 @@ class BranchIndexTest extends TestCase
         $response->assertStatus(401);
     }
 
-    public function test_not_admin()
+    public function test_member_can_list_branches()
     {
         $bearer = $this->getUserAuth();
 
@@ -28,7 +28,7 @@ class BranchIndexTest extends TestCase
             'Authorization' => $bearer
         ]);
 
-        $response->assertStatus(403);
+        $response->assertStatus(200);
     }
 
     public function test_fetch_success()
