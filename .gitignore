@@ -48,3 +48,5 @@ composer.v10.json
 *.log
 storage/upgrade-report.*
 *.bak
+.phpunit.cache/
+composer.v*-final.json
