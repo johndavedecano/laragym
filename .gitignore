@@ -43,3 +43,7 @@ resources/apps/member/vite.config.js.timestamp-*
 # OS
 .DS_Store
 Thumbs.db
+composer.json.bak
+composer.v10.json
+*.log
+storage/upgrade-report.*
